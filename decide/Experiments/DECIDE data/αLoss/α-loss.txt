@@ -1,0 +1,9 @@
+1-α	Energy excess [%]	Measurements excess [%]
+
+0.90	18.26			12.54
+
+0.95	18.30			12.58
+
+0.99	20.62			9.97
+
+Note that the measurement excess with 1-α=0.99 confidence interval is lower than the other confidence intervals because the selection algorithm choses a different configuration. This occurs because the selected configuration for 0.90 and 0.95 confidence intervals does not satisfy system-level requirement R1 for 0.99 confidence interval. 

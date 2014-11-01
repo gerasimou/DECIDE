@@ -1,0 +1,1046 @@
+0.828719	FIRST TIME ITERATE
+25.933239	   first time RQV (decide)
+25.933505	   first time find best config:	[4,3.600000]
+25.936693	   first time assemble CS
+25.936913	   first time notify peers
+30.961546	ESTABLISH CLA
+30.964286	   CLA = 97.322230
+30.964372	   select best config:	[4,2.000000]
+30.965688	SATISFY CLA
+39.606711	   RQV (normal)
+39.608731	   find config normal:	[4,3.600000]
+39.609397	   select best config:	[4,3.600000]
+41.126113	SATISFY CLA
+48.697566	   RQV (normal)
+48.697610	   find config normal:	[4,3.600000]
+48.697624	   select best config:	[4,3.600000]
+51.210773	SATISFY CLA
+57.307891	   RQV (normal)
+57.307935	   find config normal:	[4,3.600000]
+57.307947	   select best config:	[4,3.600000]
+61.334756	SATISFY CLA
+68.073378	   RQV (normal)
+68.073438	   find config normal:	[4,3.600000]
+68.073458	   select best config:	[4,3.600000]
+71.347866	SATISFY CLA
+76.640574	   RQV (normal)
+76.640635	   find config normal:	[4,3.600000]
+76.640653	   select best config:	[4,3.600000]
+81.419572	SATISFY CLA
+87.070838	   RQV (normal)
+87.070887	   find config normal:	[4,3.600000]
+87.070899	   select best config:	[4,3.600000]
+91.593730	SATISFY CLA
+97.729918	   RQV (normal)
+97.729978	   find config normal:	[4,3.600000]
+97.729996	   select best config:	[4,3.600000]
+101.752964	SATISFY CLA
+106.354929	   RQV (normal)
+106.355028	   find config normal:	[4,3.600000]
+106.355055	   select best config:	[4,3.600000]
+111.887802	SATISFY CLA
+116.210515	   RQV (normal)
+116.210591	   find config normal:	[4,3.600000]
+116.210611	   select best config:	[4,3.600000]
+122.001967	SATISFY CLA
+127.099608	   RQV (normal)
+127.099678	   find config normal:	[4,3.600000]
+127.099694	   select best config:	[4,3.600000]
+132.133270	SATISFY CLA
+136.978377	   RQV (normal)
+136.978439	   find config normal:	[4,3.600000]
+136.978457	   select best config:	[4,3.600000]
+142.263733	SATISFY CLA
+146.860519	   RQV (normal)
+146.860627	   find config normal:	[4,3.600000]
+146.860653	   select best config:	[4,3.600000]
+152.393383	SATISFY CLA
+157.026654	   RQV (normal)
+157.026698	   find config normal:	[4,3.600000]
+157.026710	   select best config:	[4,3.600000]
+162.558810	SATISFY CLA
+166.695103	   RQV (normal)
+166.695249	   find config normal:	[4,3.600000]
+166.695299	   select best config:	[4,3.600000]
+176.755331	ESTABLISH CLA
+176.756612	   CLA = 295.372104
+176.756635	   select best config:	[6,3.600000]
+176.757990	SATISFY CLA
+180.564489	   RQV (normal)
+180.564575	   find config normal:	[6,3.600000]
+180.564601	   select best config:	[6,3.600000]
+186.854694	SATISFY CLA
+191.065491	   RQV (normal)
+191.065599	   find config normal:	[6,3.600000]
+191.065633	   select best config:	[6,3.600000]
+197.105641	SATISFY CLA
+201.119385	   RQV (normal)
+201.119511	   find config normal:	[6,3.600000]
+201.119547	   select best config:	[6,3.600000]
+207.153442	SATISFY CLA
+211.622105	   RQV (normal)
+211.622151	   find config normal:	[6,3.600000]
+211.622167	   select best config:	[6,3.600000]
+220.170786	ESTABLISH CLA
+220.173544	   CLA = 97.322230
+220.173610	   select best config:	[4,4.000000]
+220.174685	SATISFY CLA
+223.822613	   RQV (normal)
+223.822672	   find config normal:	[4,3.600000]
+223.822689	   select best config:	[4,3.600000]
+230.355158	SATISFY CLA
+234.010517	   RQV (normal)
+234.010623	   find config normal:	[4,3.600000]
+234.010651	   select best config:	[4,3.600000]
+240.553444	SATISFY CLA
+244.369683	   RQV (normal)
+244.369749	   find config normal:	[4,3.600000]
+244.369767	   select best config:	[4,3.600000]
+250.648889	SATISFY CLA
+254.309495	   RQV (normal)
+254.309537	   find config normal:	[4,3.600000]
+254.309549	   select best config:	[4,3.600000]
+260.842792	SATISFY CLA
+265.299572	   RQV (normal)
+265.299629	   find config normal:	[4,3.600000]
+265.299649	VIOLATE CLA
+269.088443	   RQV (decide)
+269.088501	   find config decide:	[4,3.600000]
+269.090873	   assemble CS
+269.091043	   notify peers
+274.117611	ESTABLISH CLA
+274.121902	   CLA = -1.000000
+274.121961	   select best config:	[0,0.100000]
+274.122945	SATISFY CLA
+278.265960	   RQV (normal)
+278.266037	   find config normal:	[1,4.000000]
+278.266056	   select best config:	[0,0.100000]
+284.297071	SATISFY CLA
+287.988308	   RQV (normal)
+287.988410	   find config normal:	[1,4.000000]
+287.988435	   select best config:	[0,0.100000]
+294.527794	SATISFY CLA
+298.298953	   RQV (normal)
+298.299002	   find config normal:	[1,4.000000]
+298.299016	   select best config:	[0,0.100000]
+304.584614	SATISFY CLA
+307.998712	   RQV (normal)
+307.998774	   find config normal:	[4,3.600000]
+307.998790	RECOVER CLA
+311.987995	   RQV (decide)
+311.988065	   find config decide:	[4,3.600000]
+311.990387	   assemble CS
+311.990607	   notify peers
+317.025560	ESTABLISH CLA
+317.028052	   CLA = 294.485886
+317.028074	   select best config:	[6,2.000000]
+317.028692	SATISFY CLA
+320.676243	   RQV (normal)
+320.676297	   find config normal:	[2,3.900000]
+320.676313	   select best config:	[2,3.900000]
+329.971093	ESTABLISH CLA
+329.972369	   CLA = 89.439991
+329.972401	   select best config:	[4,4.000000]
+329.973649	SATISFY CLA
+333.654082	   RQV (normal)
+333.654138	   find config normal:	[4,3.600000]
+333.654154	   select best config:	[4,3.600000]
+340.192071	SATISFY CLA
+343.925937	   RQV (normal)
+343.926021	   find config normal:	[4,3.600000]
+343.926047	   select best config:	[4,3.600000]
+350.209115	SATISFY CLA
+354.073115	   RQV (normal)
+354.073253	   find config normal:	[4,3.600000]
+354.073277	   select best config:	[4,3.600000]
+360.360471	SATISFY CLA
+364.665783	   RQV (normal)
+364.665865	   find config normal:	[4,3.600000]
+364.665890	   select best config:	[4,3.600000]
+370.454764	SATISFY CLA
+374.305243	   RQV (normal)
+374.305342	   find config normal:	[4,3.600000]
+374.305371	   select best config:	[4,3.600000]
+380.594872	SATISFY CLA
+384.674325	   RQV (normal)
+384.674405	   find config normal:	[4,3.600000]
+384.674422	   select best config:	[4,3.600000]
+390.714647	SATISFY CLA
+395.064879	   RQV (normal)
+395.064997	   find config normal:	[4,3.600000]
+395.065021	   select best config:	[4,3.600000]
+400.855130	SATISFY CLA
+405.121252	   RQV (normal)
+405.121408	   find config normal:	[4,3.600000]
+405.121442	   select best config:	[4,3.600000]
+410.901328	SATISFY CLA
+415.002877	   RQV (normal)
+415.002987	   find config normal:	[4,3.600000]
+415.003011	   select best config:	[4,3.600000]
+421.033693	SATISFY CLA
+425.008378	   RQV (normal)
+425.008420	   find config normal:	[4,3.600000]
+425.008430	   select best config:	[4,3.600000]
+431.043227	SATISFY CLA
+435.165162	   RQV (normal)
+435.165278	   find config normal:	[4,3.600000]
+435.165866	   select best config:	[4,3.600000]
+441.198993	SATISFY CLA
+445.488077	   RQV (normal)
+445.488189	   find config normal:	[4,3.600000]
+445.488219	   select best config:	[4,3.600000]
+451.264307	SATISFY CLA
+455.283149	   RQV (normal)
+455.283353	   find config normal:	[4,3.600000]
+455.283381	   select best config:	[4,3.600000]
+461.320668	SATISFY CLA
+465.631442	   RQV (normal)
+465.631520	   find config normal:	[4,3.600000]
+465.631546	   select best config:	[4,3.600000]
+471.414826	SATISFY CLA
+475.259473	   RQV (normal)
+475.259587	   find config normal:	[4,3.600000]
+475.259617	   select best config:	[4,3.600000]
+481.554155	SATISFY CLA
+485.761526	   RQV (normal)
+485.761608	   find config normal:	[4,3.600000]
+485.761630	   select best config:	[4,3.600000]
+491.791243	SATISFY CLA
+495.504899	   RQV (normal)
+495.504939	   find config normal:	[4,3.600000]
+495.504949	   select best config:	[4,3.600000]
+502.040487	SATISFY CLA
+505.726421	   RQV (normal)
+505.726460	   find config normal:	[4,3.600000]
+505.726470	   select best config:	[4,3.600000]
+512.262050	SATISFY CLA
+515.787782	   RQV (normal)
+515.787844	   find config normal:	[4,3.600000]
+515.787858	   select best config:	[4,3.600000]
+522.323491	SATISFY CLA
+525.759535	   RQV (normal)
+525.759593	   find config normal:	[4,3.600000]
+525.759614	   select best config:	[4,3.600000]
+532.549067	SATISFY CLA
+536.048377	   RQV (normal)
+536.048414	   find config normal:	[4,3.600000]
+536.048427	   select best config:	[4,3.600000]
+542.588203	SATISFY CLA
+546.003859	   RQV (normal)
+546.003951	   find config normal:	[4,3.600000]
+546.003981	   select best config:	[4,3.600000]
+552.791962	SATISFY CLA
+556.245219	   RQV (normal)
+556.245273	   find config normal:	[4,3.600000]
+556.245289	   select best config:	[4,3.600000]
+563.037825	SATISFY CLA
+566.208592	   RQV (normal)
+566.208628	   find config normal:	[4,3.600000]
+566.208638	   select best config:	[4,3.600000]
+573.250467	SATISFY CLA
+575.663371	   RQV (normal)
+575.663403	   find config normal:	[4,3.600000]
+575.663413	   select best config:	[4,3.600000]
+583.458699	SATISFY CLA
+585.620861	   RQV (normal)
+585.620891	   find config normal:	[4,3.600000]
+585.620901	   select best config:	[4,3.600000]
+593.670525	SATISFY CLA
+595.812683	   RQV (normal)
+595.812728	   find config normal:	[2,3.900000]
+595.812742	   select best config:	[2,3.900000]
+603.861392	SATISFY CLA
+605.873103	   RQV (normal)
+605.873158	   find config normal:	[4,3.600000]
+605.873173	   select best config:	[4,3.600000]
+613.911397	SATISFY CLA
+615.627969	   RQV (normal)
+615.628019	   find config normal:	[4,3.600000]
+615.628036	   select best config:	[4,3.600000]
+623.926359	SATISFY CLA
+625.761656	   RQV (normal)
+625.761696	   find config normal:	[4,3.600000]
+625.761708	   select best config:	[4,3.600000]
+634.053498	SATISFY CLA
+636.115869	   RQV (normal)
+636.115923	   find config normal:	[4,3.600000]
+636.115939	   select best config:	[4,3.600000]
+644.164879	SATISFY CLA
+646.277041	   RQV (normal)
+646.277081	   find config normal:	[4,3.600000]
+646.277093	   select best config:	[4,3.600000]
+654.319142	SATISFY CLA
+656.367361	   RQV (normal)
+656.367393	   find config normal:	[4,3.600000]
+656.367403	   select best config:	[4,3.600000]
+664.408327	SATISFY CLA
+666.993672	   RQV (normal)
+666.993711	   find config normal:	[4,3.600000]
+666.993721	   select best config:	[4,3.600000]
+674.540867	SATISFY CLA
+676.426020	   RQV (normal)
+676.426068	   find config normal:	[4,3.600000]
+676.426085	   select best config:	[4,3.600000]
+684.726664	SATISFY CLA
+688.555440	   RQV (normal)
+688.557134	   find config normal:	[4,3.600000]
+688.557206	   select best config:	[4,3.600000]
+694.846380	SATISFY CLA
+697.836004	   RQV (normal)
+697.836120	   find config normal:	[4,3.600000]
+697.836138	   select best config:	[4,3.600000]
+704.874457	SATISFY CLA
+707.657468	   RQV (normal)
+707.657508	   find config normal:	[4,3.600000]
+707.657520	   select best config:	[4,3.600000]
+714.953897	SATISFY CLA
+717.660474	   RQV (normal)
+717.660581	   find config normal:	[4,3.600000]
+717.660606	   select best config:	[4,3.600000]
+724.956668	SATISFY CLA
+728.688673	   RQV (normal)
+728.688745	   find config normal:	[4,3.600000]
+728.688756	   select best config:	[4,3.600000]
+734.974021	SATISFY CLA
+737.596853	   RQV (normal)
+737.596911	   find config normal:	[4,3.600000]
+737.596927	   select best config:	[4,3.600000]
+745.136792	SATISFY CLA
+747.554034	   RQV (normal)
+747.554068	   find config normal:	[4,3.600000]
+747.554078	   select best config:	[4,3.600000]
+755.350906	SATISFY CLA
+757.694837	   RQV (normal)
+757.694869	   find config normal:	[4,3.600000]
+757.694877	   select best config:	[4,3.600000]
+765.488867	SATISFY CLA
+767.958187	   RQV (normal)
+767.958222	   find config normal:	[4,3.600000]
+767.958232	   select best config:	[4,3.600000]
+775.500589	SATISFY CLA
+777.908730	   RQV (normal)
+777.908800	   find config normal:	[4,3.600000]
+777.908815	   select best config:	[4,3.600000]
+785.699739	SATISFY CLA
+789.144269	   RQV (normal)
+789.144310	   find config normal:	[4,3.600000]
+789.144326	   select best config:	[4,3.600000]
+795.931237	SATISFY CLA
+798.746409	   RQV (normal)
+798.746458	   find config normal:	[4,3.600000]
+798.746471	   select best config:	[4,3.600000]
+806.038473	SATISFY CLA
+809.292134	   RQV (normal)
+809.292172	   find config normal:	[4,3.600000]
+809.292190	   select best config:	[4,3.600000]
+816.085136	SATISFY CLA
+818.283263	   RQV (normal)
+818.283313	   find config normal:	[4,3.600000]
+818.283327	   select best config:	[4,3.600000]
+826.327914	SATISFY CLA
+828.755287	   RQV (normal)
+828.755321	   find config normal:	[4,3.600000]
+828.755331	   select best config:	[4,3.600000]
+836.545382	SATISFY CLA
+838.875526	   RQV (normal)
+838.875650	   find config normal:	[4,3.600000]
+838.875675	   select best config:	[4,3.600000]
+846.668736	SATISFY CLA
+849.300234	   RQV (normal)
+849.300284	   find config normal:	[4,3.600000]
+849.300300	   select best config:	[4,3.600000]
+856.840631	SATISFY CLA
+859.059793	   RQV (normal)
+859.059854	   find config normal:	[4,3.600000]
+859.059867	   select best config:	[4,3.600000]
+866.851482	SATISFY CLA
+869.132277	   RQV (normal)
+869.132413	   find config normal:	[4,3.600000]
+869.132439	   select best config:	[4,3.600000]
+876.925774	SATISFY CLA
+879.558296	   RQV (normal)
+879.558332	   find config normal:	[4,3.600000]
+879.558344	   select best config:	[4,3.600000]
+887.108932	SATISFY CLA
+889.394769	   RQV (normal)
+889.394801	   find config normal:	[4,3.600000]
+889.394811	   select best config:	[4,3.600000]
+897.198704	SATISFY CLA
+899.515883	   RQV (normal)
+899.515937	   find config normal:	[4,3.600000]
+899.515952	   select best config:	[4,3.600000]
+907.303389	SATISFY CLA
+909.573559	   RQV (normal)
+909.573595	   find config normal:	[4,3.600000]
+909.573605	   select best config:	[4,3.600000]
+917.368947	SATISFY CLA
+920.193938	   RQV (normal)
+920.194004	   find config normal:	[4,3.600000]
+920.194022	   select best config:	[4,3.600000]
+927.482977	SATISFY CLA
+930.125468	   RQV (normal)
+930.125558	   find config normal:	[4,3.600000]
+930.125587	   select best config:	[4,3.600000]
+937.674547	SATISFY CLA
+940.196017	   RQV (normal)
+940.196097	   find config normal:	[4,3.600000]
+940.196119	   select best config:	[4,3.600000]
+947.734305	SATISFY CLA
+950.168014	   RQV (normal)
+950.168070	   find config normal:	[4,3.600000]
+950.168087	   select best config:	[4,3.600000]
+957.962361	SATISFY CLA
+960.492988	   RQV (normal)
+960.493022	   find config normal:	[4,3.600000]
+960.493032	   select best config:	[4,3.600000]
+968.032708	SATISFY CLA
+970.283508	   RQV (normal)
+970.283568	   find config normal:	[4,3.600000]
+970.283750	   select best config:	[4,3.600000]
+978.082505	SATISFY CLA
+980.694681	   RQV (normal)
+980.694735	   find config normal:	[4,3.600000]
+980.694745	   select best config:	[4,3.600000]
+988.238360	SATISFY CLA
+990.546033	   RQV (normal)
+990.546067	   find config normal:	[4,3.600000]
+990.546077	   select best config:	[4,3.600000]
+998.341256	SATISFY CLA
+1000.765093	   RQV (normal)
+1000.765179	   find config normal:	[4,3.600000]
+1000.765201	   select best config:	[4,3.600000]
+1008.566327	SATISFY CLA
+1011.349722	   RQV (normal)
+1011.349756	   find config normal:	[4,3.600000]
+1011.349766	   select best config:	[4,3.600000]
+1018.637655	SATISFY CLA
+1021.377870	   RQV (normal)
+1021.377926	   find config normal:	[4,3.600000]
+1021.377940	   select best config:	[4,3.600000]
+1028.675750	SATISFY CLA
+1031.973306	   RQV (normal)
+1031.973386	   find config normal:	[4,3.600000]
+1031.973406	   select best config:	[4,3.600000]
+1038.764883	SATISFY CLA
+1041.369204	   RQV (normal)
+1041.369254	   find config normal:	[4,3.600000]
+1041.369268	   select best config:	[4,3.600000]
+1048.912104	SATISFY CLA
+1051.499706	   RQV (normal)
+1051.499752	   find config normal:	[4,3.600000]
+1051.499766	   select best config:	[4,3.600000]
+1059.048141	SATISFY CLA
+1062.330689	   RQV (normal)
+1062.330771	   find config normal:	[4,3.600000]
+1062.330793	   select best config:	[4,3.600000]
+1069.122800	SATISFY CLA
+1071.840703	   RQV (normal)
+1071.840755	   find config normal:	[4,3.600000]
+1071.840767	   select best config:	[4,3.600000]
+1079.133122	SATISFY CLA
+1081.715354	   RQV (normal)
+1081.715403	   find config normal:	[4,3.600000]
+1081.715415	   select best config:	[4,3.600000]
+1089.264616	SATISFY CLA
+1092.333387	   RQV (normal)
+1092.333437	   find config normal:	[4,3.600000]
+1092.333457	   select best config:	[4,3.600000]
+1099.377501	SATISFY CLA
+1101.979577	   RQV (normal)
+1101.979653	   find config normal:	[4,3.600000]
+1101.979679	   select best config:	[4,3.600000]
+1109.522387	SATISFY CLA
+1113.727421	   RQV (normal)
+1113.727475	   find config normal:	[4,3.600000]
+1113.727493	   select best config:	[4,3.600000]
+1119.762700	SATISFY CLA
+1122.776879	   RQV (normal)
+1122.776912	   find config normal:	[4,3.600000]
+1122.776922	   select best config:	[4,3.600000]
+1129.820199	SATISFY CLA
+1132.846907	   RQV (normal)
+1132.846962	   find config normal:	[4,3.600000]
+1132.846979	   select best config:	[4,3.600000]
+1139.915092	SATISFY CLA
+1142.340092	   RQV (normal)
+1142.340154	   find config normal:	[4,3.600000]
+1142.340170	   select best config:	[4,3.600000]
+1150.124324	SATISFY CLA
+1152.906470	   RQV (normal)
+1152.906566	   find config normal:	[4,3.600000]
+1152.906588	   select best config:	[4,3.600000]
+1160.198141	SATISFY CLA
+1162.693907	   RQV (normal)
+1162.693959	   find config normal:	[4,3.600000]
+1162.693977	   select best config:	[4,3.600000]
+1170.234081	SATISFY CLA
+1172.837223	   RQV (normal)
+1172.837275	   find config normal:	[4,3.600000]
+1172.837291	   select best config:	[4,3.600000]
+1180.380159	SATISFY CLA
+1182.999072	   RQV (normal)
+1182.999102	   find config normal:	[4,3.600000]
+1182.999112	   select best config:	[4,3.600000]
+1190.541164	SATISFY CLA
+1193.624856	   RQV (normal)
+1193.624918	   find config normal:	[4,3.600000]
+1193.624937	   select best config:	[4,3.600000]
+1200.666293	SATISFY CLA
+1203.329278	   RQV (normal)
+1203.329323	   find config normal:	[4,3.600000]
+1203.329337	   select best config:	[4,3.600000]
+1210.871376	SATISFY CLA
+1213.678913	   RQV (normal)
+1213.678946	   find config normal:	[4,3.600000]
+1213.678957	   select best config:	[4,3.600000]
+1220.970112	SATISFY CLA
+1223.662676	   RQV (normal)
+1223.662726	   find config normal:	[4,3.600000]
+1223.662738	   select best config:	[4,3.600000]
+1231.208891	SATISFY CLA
+1233.884920	   RQV (normal)
+1233.884955	   find config normal:	[4,3.600000]
+1233.884965	   select best config:	[4,3.600000]
+1241.431339	SATISFY CLA
+1244.615604	   RQV (normal)
+1244.615718	   find config normal:	[4,3.600000]
+1244.615744	   select best config:	[4,3.600000]
+1251.659417	SATISFY CLA
+1254.223182	   RQV (normal)
+1254.223278	   find config normal:	[4,3.600000]
+1254.223312	   select best config:	[4,3.600000]
+1261.764022	SATISFY CLA
+1264.214006	   RQV (normal)
+1264.214038	   find config normal:	[4,3.600000]
+1264.214048	   select best config:	[4,3.600000]
+1272.008835	SATISFY CLA
+1274.716592	   RQV (normal)
+1274.716638	   find config normal:	[4,3.600000]
+1274.716650	   select best config:	[4,3.600000]
+1282.011063	SATISFY CLA
+1284.874025	   RQV (normal)
+1284.874081	   find config normal:	[4,3.600000]
+1284.874097	   select best config:	[4,3.600000]
+1292.161805	SATISFY CLA
+1294.511656	   RQV (normal)
+1294.511726	   find config normal:	[4,3.600000]
+1294.511744	   select best config:	[4,3.600000]
+1302.307043	SATISFY CLA
+1304.961215	   RQV (normal)
+1304.961246	   find config normal:	[4,3.600000]
+1304.961257	   select best config:	[4,3.600000]
+1312.499871	SATISFY CLA
+1314.995341	   RQV (normal)
+1314.995371	   find config normal:	[4,3.600000]
+1314.995381	   select best config:	[4,3.600000]
+1322.536678	SATISFY CLA
+1325.028846	   RQV (normal)
+1325.028882	   find config normal:	[4,3.600000]
+1325.028892	RECOVER CLA
+1327.041200	   RQV (decide)
+1327.041235	   find config decide:	[4,3.600000]
+1327.043928	   assemble CS
+1327.044025	   notify peers
+1332.074148	ESTABLISH CLA
+1332.075510	   CLA = 138.492053
+1332.075530	   select best config:	[4,2.000000]
+1332.578146	SATISFY CLA
+1335.338569	   RQV (normal)
+1335.338623	   find config normal:	[4,3.600000]
+1335.338639	   select best config:	[4,3.600000]
+1342.636110	SATISFY CLA
+1345.555190	   RQV (normal)
+1345.555242	   find config normal:	[2,3.900000]
+1345.555258	   select best config:	[2,3.900000]
+1352.849495	SATISFY CLA
+1356.000978	   RQV (normal)
+1356.001072	   find config normal:	[2,3.900000]
+1356.001102	   select best config:	[2,3.900000]
+1363.045592	SATISFY CLA
+1365.577542	   RQV (normal)
+1365.577590	   find config normal:	[2,3.900000]
+1365.577605	   select best config:	[2,3.900000]
+1373.116916	SATISFY CLA
+1375.530506	   RQV (normal)
+1375.530602	   find config normal:	[2,3.900000]
+1375.530626	   select best config:	[2,3.900000]
+1383.323385	SATISFY CLA
+1385.961427	   RQV (normal)
+1385.961471	   find config normal:	[2,3.900000]
+1385.961485	   select best config:	[2,3.900000]
+1393.507150	SATISFY CLA
+1396.676360	   RQV (normal)
+1396.676407	   find config normal:	[2,3.900000]
+1396.676424	   select best config:	[2,3.900000]
+1403.718375	SATISFY CLA
+1406.438809	   RQV (normal)
+1406.438855	   find config normal:	[2,3.900000]
+1406.438869	   select best config:	[2,3.900000]
+1413.731134	SATISFY CLA
+1416.792024	   RQV (normal)
+1416.792120	   find config normal:	[2,3.900000]
+1416.792156	   select best config:	[2,3.900000]
+1423.832661	SATISFY CLA
+1426.265528	   RQV (normal)
+1426.265622	   find config normal:	[2,3.900000]
+1426.265650	   select best config:	[2,3.900000]
+1434.062239	SATISFY CLA
+1436.580844	   RQV (normal)
+1436.580982	   find config normal:	[2,3.900000]
+1436.581012	   select best config:	[2,3.900000]
+1444.126245	SATISFY CLA
+1446.506166	   RQV (normal)
+1446.506258	   find config normal:	[2,3.900000]
+1446.506294	   select best config:	[2,3.900000]
+1454.300581	SATISFY CLA
+1456.783152	   RQV (normal)
+1456.783288	   find config normal:	[2,3.900000]
+1456.783322	   select best config:	[2,3.900000]
+1464.328849	SATISFY CLA
+1466.754737	   RQV (normal)
+1466.754821	   find config normal:	[2,3.900000]
+1466.754841	   select best config:	[2,3.900000]
+1474.552012	SATISFY CLA
+1478.161486	   RQV (normal)
+1478.161590	   find config normal:	[2,3.900000]
+1478.161620	   select best config:	[2,3.900000]
+1484.709253	SATISFY CLA
+1488.436634	   RQV (normal)
+1488.436768	   find config normal:	[2,3.900000]
+1488.436808	   select best config:	[2,3.900000]
+1494.732756	SATISFY CLA
+1497.261885	   RQV (normal)
+1497.261933	   find config normal:	[2,3.900000]
+1497.261947	   select best config:	[2,3.900000]
+1504.801438	SATISFY CLA
+1507.225013	   RQV (normal)
+1507.225060	   find config normal:	[2,3.900000]
+1507.225077	   select best config:	[2,3.900000]
+1515.016332	SATISFY CLA
+1517.762510	   RQV (normal)
+1517.762552	   find config normal:	[2,3.900000]
+1517.762566	   select best config:	[2,3.900000]
+1525.055098	SATISFY CLA
+1528.052407	   RQV (normal)
+1528.052509	   find config normal:	[2,3.900000]
+1528.052535	   select best config:	[2,3.900000]
+1535.101150	SATISFY CLA
+1537.730145	   RQV (normal)
+1537.730179	   find config normal:	[2,3.900000]
+1537.730189	   select best config:	[2,3.900000]
+1545.274293	SATISFY CLA
+1547.914799	   RQV (normal)
+1547.914899	   find config normal:	[2,3.900000]
+1547.914927	   select best config:	[2,3.900000]
+1555.464334	SATISFY CLA
+1558.576529	   RQV (normal)
+1558.576579	   find config normal:	[2,3.900000]
+1558.576595	   select best config:	[2,3.900000]
+1565.619579	SATISFY CLA
+1567.910332	   RQV (normal)
+1567.910444	   find config normal:	[2,3.900000]
+1567.910480	   select best config:	[2,3.900000]
+1575.719617	SATISFY CLA
+1578.168995	   RQV (normal)
+1578.169041	   find config normal:	[2,3.900000]
+1578.169053	   select best config:	[2,3.900000]
+1585.720732	SATISFY CLA
+1588.183343	   RQV (normal)
+1588.183395	   find config normal:	[2,3.900000]
+1588.183411	   select best config:	[2,3.900000]
+1595.732725	SATISFY CLA
+1598.261000	   RQV (normal)
+1598.261052	   find config normal:	[2,3.900000]
+1598.261076	   select best config:	[2,3.900000]
+1605.811733	SATISFY CLA
+1608.275757	   RQV (normal)
+1608.275791	   find config normal:	[2,3.900000]
+1608.275803	   select best config:	[2,3.900000]
+1615.812685	SATISFY CLA
+1618.307559	   RQV (normal)
+1618.307605	   find config normal:	[2,3.900000]
+1618.307621	   select best config:	[2,3.900000]
+1625.854357	SATISFY CLA
+1628.916234	   RQV (normal)
+1628.916360	   find config normal:	[2,3.900000]
+1628.916398	   select best config:	[2,3.900000]
+1635.961195	SATISFY CLA
+1638.327188	   RQV (normal)
+1638.327236	   find config normal:	[2,3.900000]
+1638.327252	   select best config:	[2,3.900000]
+1646.125938	SATISFY CLA
+1648.368417	   RQV (normal)
+1648.368504	   find config normal:	[2,3.900000]
+1648.368531	   select best config:	[2,3.900000]
+1656.170152	SATISFY CLA
+1658.591804	   RQV (normal)
+1658.591856	   find config normal:	[2,3.900000]
+1658.591874	   select best config:	[2,3.900000]
+1666.387980	SATISFY CLA
+1668.654490	   RQV (normal)
+1668.654592	   find config normal:	[2,3.900000]
+1668.654617	   select best config:	[2,3.900000]
+1676.451135	SATISFY CLA
+1678.753126	   RQV (normal)
+1678.753176	   find config normal:	[2,3.900000]
+1678.753194	   select best config:	[2,3.900000]
+1686.555388	SATISFY CLA
+1690.864440	   RQV (normal)
+1690.864570	   find config normal:	[2,3.900000]
+1690.864598	   select best config:	[2,3.900000]
+1696.644529	SATISFY CLA
+1698.830503	   RQV (normal)
+1698.830611	   find config normal:	[2,3.900000]
+1698.830638	   select best config:	[2,3.900000]
+1706.870486	SATISFY CLA
+1709.112808	   RQV (normal)
+1709.112920	   find config normal:	[2,3.900000]
+1709.112954	   select best config:	[2,3.900000]
+1716.918303	SATISFY CLA
+1719.099720	   RQV (normal)
+1719.099770	   find config normal:	[2,3.900000]
+1719.099784	   select best config:	[2,3.900000]
+1727.151058	SATISFY CLA
+1730.059592	   RQV (normal)
+1730.060022	   find config normal:	[2,3.900000]
+1730.060064	   select best config:	[2,3.900000]
+1737.346805	SATISFY CLA
+1740.052841	   RQV (normal)
+1740.052918	   find config normal:	[2,3.900000]
+1740.052942	   select best config:	[2,3.900000]
+1747.592355	SATISFY CLA
+1750.394131	   RQV (normal)
+1750.394240	   find config normal:	[2,3.900000]
+1750.394270	   select best config:	[2,3.900000]
+1757.686698	SATISFY CLA
+1761.532281	   RQV (normal)
+1761.532361	   find config normal:	[2,3.900000]
+1761.532387	   select best config:	[2,3.900000]
+1767.822400	SATISFY CLA
+1771.111990	   RQV (normal)
+1771.112130	   find config normal:	[2,3.900000]
+1771.112168	   select best config:	[2,3.900000]
+1777.900815	SATISFY CLA
+1780.554844	   RQV (normal)
+1780.554890	   find config normal:	[2,3.900000]
+1780.554904	   select best config:	[2,3.900000]
+1788.107055	SATISFY CLA
+1790.633257	   RQV (normal)
+1790.633303	   find config normal:	[2,3.900000]
+1790.633315	   select best config:	[2,3.900000]
+1798.178150	SATISFY CLA
+1801.349212	   RQV (normal)
+1801.349342	   find config normal:	[2,3.900000]
+1801.349364	   select best config:	[2,3.900000]
+1808.389219	SATISFY CLA
+1811.558995	   RQV (normal)
+1811.559085	   find config normal:	[2,3.900000]
+1811.559115	   select best config:	[2,3.900000]
+1818.598433	SATISFY CLA
+1821.377281	   RQV (normal)
+1821.377329	   find config normal:	[2,3.900000]
+1821.377343	   select best config:	[2,3.900000]
+1828.669662	SATISFY CLA
+1831.333430	   RQV (normal)
+1831.333526	   find config normal:	[2,3.900000]
+1831.333556	   select best config:	[2,3.900000]
+1838.881169	SATISFY CLA
+1841.664031	   RQV (normal)
+1841.664083	   find config normal:	[2,3.900000]
+1841.664099	   select best config:	[2,3.900000]
+1848.951407	SATISFY CLA
+1852.438678	   RQV (normal)
+1852.438724	   find config normal:	[2,3.900000]
+1852.438740	   select best config:	[2,3.900000]
+1858.976980	SATISFY CLA
+1861.744975	   RQV (normal)
+1861.745057	   find config normal:	[2,3.900000]
+1861.745081	   select best config:	[2,3.900000]
+1869.044786	SATISFY CLA
+1871.381242	   RQV (normal)
+1871.381330	   find config normal:	[2,3.900000]
+1871.381356	   select best config:	[2,3.900000]
+1879.178412	SATISFY CLA
+1881.926454	   RQV (normal)
+1881.926556	   find config normal:	[2,3.900000]
+1881.926668	   select best config:	[2,3.900000]
+1889.246593	SATISFY CLA
+1893.107850	   RQV (normal)
+1893.107896	   find config normal:	[2,3.900000]
+1893.107910	   select best config:	[2,3.900000]
+1899.399113	SATISFY CLA
+1902.745591	   RQV (normal)
+1902.745679	   find config normal:	[2,3.900000]
+1902.745713	   select best config:	[2,3.900000]
+1909.538875	SATISFY CLA
+1912.929035	   RQV (normal)
+1912.929085	   find config normal:	[2,3.900000]
+1912.929101	   select best config:	[2,3.900000]
+1919.751199	SATISFY CLA
+1922.317869	   RQV (normal)
+1922.318067	   find config normal:	[2,3.900000]
+1922.318107	   select best config:	[2,3.900000]
+1929.859692	SATISFY CLA
+1932.866460	   RQV (normal)
+1932.866495	   find config normal:	[2,3.900000]
+1932.866505	   select best config:	[2,3.900000]
+1939.964484	SATISFY CLA
+1943.477013	   RQV (normal)
+1943.477131	   find config normal:	[2,3.900000]
+1943.477165	   select best config:	[2,3.900000]
+1950.026361	SATISFY CLA
+1952.760507	   RQV (normal)
+1952.760647	   find config normal:	[4,3.000000]
+1952.760676	   select best config:	[4,3.000000]
+1960.074849	SATISFY CLA
+1963.083791	   RQV (normal)
+1963.083883	   find config normal:	[2,3.900000]
+1963.083930	   select best config:	[2,3.900000]
+1970.152171	SATISFY CLA
+1972.394282	   RQV (normal)
+1972.394332	   find config normal:	[2,3.900000]
+1972.394348	   select best config:	[2,3.900000]
+1980.189144	SATISFY CLA
+1982.473187	   RQV (normal)
+1982.473265	   find config normal:	[2,3.900000]
+1982.473293	   select best config:	[2,3.900000]
+1990.266209	SATISFY CLA
+1992.441040	   RQV (normal)
+1992.441088	   find config normal:	[2,3.900000]
+1992.441104	   select best config:	[2,3.900000]
+2000.488969	SATISFY CLA
+2002.791452	   RQV (normal)
+2002.791523	   find config normal:	[2,3.900000]
+2002.791541	   select best config:	[2,3.900000]
+2010.586049	SATISFY CLA
+2013.416020	   RQV (normal)
+2013.416084	   find config normal:	[2,3.900000]
+2013.416104	   select best config:	[2,3.900000]
+2020.736011	SATISFY CLA
+2023.325089	   RQV (normal)
+2023.325175	   find config normal:	[2,3.900000]
+2023.325195	   select best config:	[2,3.900000]
+2030.879692	SATISFY CLA
+2033.317833	   RQV (normal)
+2033.317881	   find config normal:	[2,3.900000]
+2033.317895	   select best config:	[2,3.900000]
+2041.114307	SATISFY CLA
+2043.715215	   RQV (normal)
+2043.715361	   find config normal:	[2,3.900000]
+2043.715401	   select best config:	[2,3.900000]
+2051.268806	SATISFY CLA
+2053.993965	   RQV (normal)
+2053.993997	   find config normal:	[2,3.900000]
+2053.994007	   select best config:	[2,3.900000]
+2061.286535	SATISFY CLA
+2063.514567	   RQV (normal)
+2063.514683	   find config normal:	[2,3.900000]
+2063.514709	   select best config:	[2,3.900000]
+2071.307104	SATISFY CLA
+2073.520715	   RQV (normal)
+2073.520845	   find config normal:	[2,3.900000]
+2073.520875	   select best config:	[2,3.900000]
+2081.326781	SATISFY CLA
+2083.386646	   RQV (normal)
+2083.386826	   find config normal:	[2,3.900000]
+2083.386872	   select best config:	[2,3.900000]
+2091.436941	SATISFY CLA
+2093.623713	   RQV (normal)
+2093.623791	   find config normal:	[2,3.900000]
+2093.623817	   select best config:	[2,3.900000]
+2101.670957	SATISFY CLA
+2103.834912	   RQV (normal)
+2103.834960	   find config normal:	[2,3.900000]
+2103.834974	   select best config:	[2,3.900000]
+2111.877198	SATISFY CLA
+2114.270568	   RQV (normal)
+2114.270664	   find config normal:	[2,3.900000]
+2114.270686	   select best config:	[2,3.900000]
+2122.071225	SATISFY CLA
+2124.805336	   RQV (normal)
+2124.805439	   find config normal:	[2,3.900000]
+2124.805471	   select best config:	[2,3.900000]
+2132.100002	SATISFY CLA
+2134.820642	   RQV (normal)
+2134.820760	   find config normal:	[2,3.900000]
+2134.820792	   select best config:	[2,3.900000]
+2142.108618	SATISFY CLA
+2144.619556	   RQV (normal)
+2144.619642	   find config normal:	[2,3.900000]
+2144.619668	   select best config:	[2,3.900000]
+2152.162613	SATISFY CLA
+2154.588264	   RQV (normal)
+2154.588362	   find config normal:	[2,3.900000]
+2154.588391	   select best config:	[2,3.900000]
+2162.386191	SATISFY CLA
+2164.662445	   RQV (normal)
+2164.662529	   find config normal:	[2,3.900000]
+2164.662637	   select best config:	[2,3.900000]
+2172.454394	SATISFY CLA
+2175.034085	   RQV (normal)
+2175.034187	   find config normal:	[2,3.900000]
+2175.034223	   select best config:	[2,3.900000]
+2182.580317	SATISFY CLA
+2185.069606	   RQV (normal)
+2185.069702	   find config normal:	[2,3.900000]
+2185.069738	   select best config:	[2,3.900000]
+2192.614264	SATISFY CLA
+2195.234063	   RQV (normal)
+2195.234111	   find config normal:	[2,3.900000]
+2195.234125	   select best config:	[2,3.900000]
+2202.783158	SATISFY CLA
+2204.836909	   RQV (normal)
+2204.836997	   find config normal:	[2,3.900000]
+2204.837019	   select best config:	[2,3.900000]
+2212.885100	SATISFY CLA
+2215.612809	   RQV (normal)
+2215.612853	   find config normal:	[2,3.900000]
+2215.612866	   select best config:	[2,3.900000]
+2222.903827	SATISFY CLA
+2225.060778	   RQV (normal)
+2225.060860	   find config normal:	[2,3.900000]
+2225.060886	   select best config:	[2,3.900000]
+2233.109713	SATISFY CLA
+2235.447400	   RQV (normal)
+2235.447447	   find config normal:	[2,3.900000]
+2235.447464	   select best config:	[2,3.900000]
+2243.252808	SATISFY CLA
+2245.428256	   RQV (normal)
+2245.428299	   find config normal:	[2,3.900000]
+2245.428314	   select best config:	[2,3.900000]
+2253.471963	SATISFY CLA
+2255.577028	   RQV (normal)
+2255.577140	   find config normal:	[2,3.900000]
+2255.577172	   select best config:	[2,3.900000]
+2263.632985	SATISFY CLA
+2266.065661	   RQV (normal)
+2266.065707	   find config normal:	[2,3.900000]
+2266.065723	   select best config:	[2,3.900000]
+2273.876448	SATISFY CLA
+2276.219357	   RQV (normal)
+2276.219433	   find config normal:	[2,3.900000]
+2276.219455	   select best config:	[2,3.900000]
+2284.018257	SATISFY CLA
+2286.209025	   RQV (normal)
+2286.209075	   find config normal:	[2,3.900000]
+2286.209090	   select best config:	[2,3.900000]
+2294.253584	SATISFY CLA
+2296.660199	   RQV (normal)
+2296.660287	   find config normal:	[2,3.900000]
+2296.660315	   select best config:	[2,3.900000]
+2304.458581	SATISFY CLA
+2307.330616	   RQV (normal)
+2307.330742	   find config normal:	[2,3.900000]
+2307.330774	   select best config:	[2,3.900000]
+2314.626243	SATISFY CLA
+2317.365826	   RQV (normal)
+2317.365914	   find config normal:	[2,3.900000]
+2317.365942	   select best config:	[2,3.900000]
+2324.648280	SATISFY CLA
+2326.904791	   RQV (normal)
+2326.904841	   find config normal:	[2,3.900000]
+2326.904861	   select best config:	[2,3.900000]
+2334.699148	SATISFY CLA
+2337.132300	   RQV (normal)
+2337.132366	   find config normal:	[2,3.900000]
+2337.132386	   select best config:	[2,3.900000]
+2344.936575	SATISFY CLA
+2347.445198	   RQV (normal)
+2347.445244	   find config normal:	[2,3.900000]
+2347.445260	   select best config:	[2,3.900000]
+2354.995855	SATISFY CLA
+2357.691236	   RQV (normal)
+2357.691328	   find config normal:	[2,3.900000]
+2357.691358	   select best config:	[2,3.900000]
+2365.236444	SATISFY CLA
+2367.586204	   RQV (normal)
+2367.586299	   find config normal:	[2,3.900000]
+2367.586331	   select best config:	[2,3.900000]
+2375.390401	SATISFY CLA
+2378.074753	   RQV (normal)
+2378.074889	   find config normal:	[2,3.900000]
+2378.074921	   select best config:	[2,3.900000]
+2385.627506	SATISFY CLA
+2388.473791	   RQV (normal)
+2388.473881	   find config normal:	[2,3.900000]
+2388.473907	   select best config:	[2,3.900000]
+2395.763608	SATISFY CLA
+2398.439543	   RQV (normal)
+2398.439647	   find config normal:	[2,3.900000]
+2398.439671	   select best config:	[2,3.900000]
+2405.984236	SATISFY CLA
+2408.418590	   RQV (normal)
+2408.418640	   find config normal:	[2,3.900000]
+2408.418656	   select best config:	[2,3.900000]
+2416.208228	SATISFY CLA
+2418.733280	   RQV (normal)
+2418.733334	   find config normal:	[2,3.900000]
+2418.733350	   select best config:	[2,3.900000]
+2426.276824	SATISFY CLA
+2429.329111	   RQV (normal)
+2429.329168	   find config normal:	[2,3.900000]
+2429.329183	   select best config:	[2,3.900000]
+2436.385012	SATISFY CLA
+2438.759621	   RQV (normal)
+2438.759703	   find config normal:	[2,3.900000]
+2438.759727	   select best config:	[2,3.900000]
+2446.553340	SATISFY CLA
+2448.979465	   RQV (normal)
+2448.979511	   find config normal:	[2,3.900000]
+2448.979525	   select best config:	[2,3.900000]
+2456.777334	SATISFY CLA
+2459.942501	   RQV (normal)
+2459.942533	   find config normal:	[2,3.900000]
+2459.942543	   select best config:	[2,3.900000]
+2466.981640	SATISFY CLA
+2469.371585	   RQV (normal)
+2469.371839	   find config normal:	[2,3.900000]
+2469.371859	   select best config:	[2,3.900000]
+2477.166752	SATISFY CLA
+2480.394578	   RQV (normal)
+2480.394701	   find config normal:	[2,3.900000]
+2480.394738	   select best config:	[2,3.900000]
+2487.205457	SATISFY CLA
+2489.995763	   RQV (normal)
+2489.995887	   find config normal:	[2,3.900000]
+2489.995923	   select best config:	[2,3.900000]
+2497.291838	SATISFY CLA
+2500.202868	   RQV (normal)
+2500.202944	   find config normal:	[2,3.900000]
+2500.202960	   select best config:	[2,3.900000]
+2507.511493	SATISFY CLA
+2510.747426	   RQV (normal)
+2510.747521	   find config normal:	[2,3.900000]
+2510.747553	   select best config:	[2,3.900000]
+2517.553115	SATISFY CLA
+2521.690821	   RQV (normal)
+2521.690913	   find config normal:	[2,3.900000]
+2521.690931	   select best config:	[2,3.900000]
+2527.791582	SATISFY CLA
+2531.296393	   RQV (normal)
+2531.296501	   find config normal:	[2,3.900000]
+2531.296533	   select best config:	[2,3.900000]
+2537.833561	SATISFY CLA
+2544.165456	   RQV (normal)
+2544.165504	   find config normal:	[2,3.900000]
+2544.165518	   select best config:	[2,3.900000]
+2547.937293	SATISFY CLA
+2552.828598	   RQV (normal)
+2552.828670	   find config normal:	[2,3.900000]
+2552.828684	   select best config:	[2,3.900000]
+2558.108095	SATISFY CLA
+2562.039437	   RQV (normal)
+2562.039493	   find config normal:	[2,3.900000]
+2562.039511	   select best config:	[2,3.900000]
+2568.320548	SATISFY CLA
+2572.022434	   RQV (normal)
+2572.022506	   find config normal:	[2,3.900000]
+2572.022521	   select best config:	[2,3.900000]
+2578.564843	SATISFY CLA
+2582.284496	   RQV (normal)
+2582.284548	   find config normal:	[2,3.900000]
+2582.284564	   select best config:	[2,3.900000]
+2588.569173	SATISFY CLA
+2592.819477	   RQV (normal)
+2592.819533	   find config normal:	[2,3.900000]
+2592.819549	   select best config:	[2,3.900000]

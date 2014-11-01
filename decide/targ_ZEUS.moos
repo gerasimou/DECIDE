@@ -1,0 +1,382 @@
+ServerHost 	= localhost
+ServerPort 	= 9003
+//Simulator = true
+
+// Community name IS the vehicle name
+Community   = ZEUS
+
+MOOSTimeWarp = 1
+LatOrigin  = 43.825300 
+LongOrigin = -70.330400 
+
+//-----------------------------------------------------
+ProcessConfig = ANTLER
+{
+	MSBetweenLaunches = 100
+
+	Run = MOOSDB		 	@ NewConsole = false
+	Run = uProcessWatch	 	@ NewConsole = false
+	Run = uSimMarine	 	@ NewConsole = false
+	Run = pNodeReporter	 	@ NewConsole = false
+	Run = pMarinePID	 	@ NewConsole = false
+	Run = pHelmIvP		 	@ NewConsole = false
+  	Run = pLogger        	@ NewConsole = false
+
+  	Run = pHostInfo		 	@ NewConsole = false
+  	Run = pShare		 	@ NewConsole = false
+  	Run = uFldNodeBroker 	@ NewConsole = false
+
+  	Run = sSonarSensor 		@ NewConsole = false ~ SONAR1
+  	Run = sSonarSensor 		@ NewConsole = false ~ SONAR2
+  	Run = sSonarSensor 		@ NewConsole = false ~ SONAR3
+  	Run = sRQVMOOS_DECIDE	@ NewConsole = false
+
+  	Run = uFldMessageHandler @ NewConsole = false
+}
+
+//--------------------------------------------------------
+// uProcessWatch Configuration Block (Created from Plugin)
+
+ProcessConfig = uProcessWatch
+{
+  AppTick   = 2
+  CommsTick = 2
+
+  ALLOW_RETRACTIONS = true
+  
+  WATCH_ALL = true      // default is true
+
+  WATCH  = uSimMarine
+  WATCH  = pNodeReporter
+  WATCH  = pMarinePID
+  WATCH  = pHelmIvP
+ //WATCH  = pShare
+ 
+  NOWATCH = uXMS*
+  NOWATCH = uPokeDB*
+
+  SUMMARY_WAIT = 12
+}
+//------------------------------------------------------
+// uSimMarine Configuration Block  (Created from plugin)
+
+ProcessConfig = uSimMarine
+{
+  AppTick   = 2
+  CommsTick = 2
+
+  START_POS = -0,5, 180, 0
+  PREFIX    = NAV
+
+   buoyancy_rate        = 0.15
+   max_depth_rate       = 5
+   max_depth_rate_speed = 2.0
+   default_water_depth  = 400
+
+  //rotate_speed = 0.012
+  //drift_x      = 0.0045
+
+  //thrust_map = -100:-2, 0:0, 20:1, 40:2, 60:3, 80:5, 100:5
+  //thrust_map = -100:-2, 0:0, 20:1, 40:2, 60:3, 80:5, 100:5
+}
+
+
+//--------------------------------------------------------
+// pNodeReporter Configuration Block (Created from Plugin)
+
+ProcessConfig = pNodeReporter
+{
+  AppTick     = 2
+  CommsTick   = 2
+  
+  VESSEL_TYPE = UUV
+}
+
+//-----------------------------------------------------
+// pMarinePID Configuration Block (created from plugin)
+
+ProcessConfig = pMarinePID
+{
+  AppTick    = 2
+  CommsTick  = 2
+  
+  VERBOSE       = true
+  DEPTH_CONTROL = true
+  ACTIVE_START  = true
+  
+  // Yaw PID controller
+  YAW_PID_KP             = 0.4
+  YAW_PID_KD             = 0.1
+  YAW_PID_KI             = 0.0
+  YAW_PID_INTEGRAL_LIMIT = 0.07
+  
+  // Speed PID controller
+  SPEED_PID_KP           = 1.0
+  SPEED_PID_KD           = 0.0
+  SPEED_PID_KI           = 0.0
+  SPEED_PID_INTEGRAL_LIMIT = 0.07
+  
+  // Maximums
+  MAXRUDDER  = 100
+  MAXTHRUST  = 100
+  
+  // A non-zero SPEED_FACTOR overrides use of SPEED_PID
+  // Will set DESIRED_THRUST = DESIRED_SPEED * SPEED_FACTOR
+  SPEED_FACTOR = 20
+
+
+//For depth
+    //Pitch PID controller
+   pitch_pid_kp                   = 1.5
+   pitch_pid_kd                   = 0.3
+   pitch_pid_ki                   = 0.004
+   pitch_pid_integral_limit       = 0
+
+   //ZPID controller
+   z_to_pitch_pid_kp              = 0.12
+   z_to_pitch_pid_kd              = 0.1
+   z_to_pitch_pid_ki              = 0.004
+   z_to_pitch_pid_integral_limit  = 0.05
+
+   maxpitch     = 15
+   maxelevator  = 13
+}
+
+//----------------------------------------------------
+// pHelmIvP Configuration Block  (Created from Plugin)
+
+ProcessConfig = pHelmIvP
+{
+  AppTick    = 2
+  CommsTick  = 2
+  
+  Behaviors    = targ_ZEUS.bhv  
+  Verbose      = false
+  Domain       = course:0:359:360
+  Domain       = speed:0:5:26
+  Domain       = depth:0:100:101
+
+}
+
+//--------------------------------------------------
+// pLogger Configuration Block (Created from Plugin)
+
+ProcessConfig = pLogger
+{
+  AppTick 	= 2
+  CommsTick = 2
+  
+  File		= LOG_ZEUS
+  PATH		= ./
+  AsyncLog 	= true
+  FileTimeStamp = true
+
+  // Log it all!!!!!
+  LogAuxSrc = true
+  WildCardLogging = true 
+
+    DoublePrecision = 4 		//Precision of floating point data
+//  Log = SENSOR_ACCURACY @ 0.2
+//  Log = NAV_SPEED @ 0.2
+  	Log = DESIRED_SENSOR_CONFIGURATION @ 0.2
+  	Log = DESIRED_UUV_SPEED @ 0.2
+  	Log = DESIRED_CONFIGURATION_COST @ 0.2
+
+}
+
+
+ProcessConfig = sRQVMOOS_DECIDE
+{
+	AppTick 	= 4
+	CommsTick	= 4
+	
+	SPEED_THRESHOLD 			= 3.8
+	SPEED_MAXIMUM				= 4.0
+	//MODEL_FILENAME			= input/moosV7.sm
+	//PROPERTIES_FILENAME		= input/moosV7.csl
+	MIN_SUCC_READINGS			= -1
+	MAX_POWER_CONSUMPTION		= 1000
+	MIN_SUCC_READINGS_COMMUNITY	= 1000
+
+	COOLING_OFF_PERIOD			= 10
+	CAPABILITY_SUMMARY_WINDOW	= 5
+
+	CONFIDENCE_VALUE_INDEX		= 1
+	STANDARD_DEVIATION			= 0.3
+
+	PORT_NUMBER					= 9203
+	LOITER_X					= 75
+	LOITER_Y					= -25
+	VEHICLE_NAME				= ZEUS
+
+	SENSOR1_RATE				= 5
+	SENSOR2_RATE				= 4.5
+	SENSOR3_RATE				= 5
+
+	VEHICLES_NUMBER				= 3
+}
+
+//--------------------------------------------------
+// pHostInfo configuration block from plugin
+
+ProcessConfig = pHostInfo
+{
+  AppTick 	= 1
+  CommsTick 	= 1
+
+  DEFAULT_HOSTIP = localhost
+}
+
+
+//---------------------------------------------------------
+// pShare Config Block  (Created from Plugin)
+
+ProcessConfig = pShare
+{
+  AppTick    = 2
+  CommsTick  = 2
+
+  input = route =  localhost:9103
+
+  // =======================================================
+  // Usage Info below
+  // =======================================================
+
+  // Simple forward of X to A on channel 8
+  // output = src_name = X,dest_name=A, route=multicast_8
+ 
+  // Simple forward of Y to B on a udp address
+  // output = src_name=Y, dest_name=B, route=localhost:9300
+ 
+  // Simple forward of Z to Z on a named address (no renaming)
+  // output = src_name = Z, route = oceanai.mit.edu:9020
+ 
+  // Setting up an input
+  // input = route = multicast_9
+  
+  //input = route = localhost:9103 & multicast_9
+
+ 
+  // Setting up lots of inputs at once
+  // input = route = "localhost:9069 & multicast_19 & multicast_65"
+}
+
+
+//--------------------------------------------------
+// uFldNodeBroker configuration block from plugin
+
+ProcessConfig = uFldNodeBroker
+{
+  AppTick   = 1
+  CommsTick = 1
+
+  TRY_SHORE_HOST = pshare_route=localhost:9500
+
+  BRIDGE = src=VIEW_POLYGON
+  BRIDGE = src=VIEW_CIRCLE
+  BRIDGE = src=VIEW_MARKER
+  BRIDGE = src=VIEW_SEGLIST
+  BRIDGE = src=APPCAST
+  BRIDGE = src=NODE_REPORT_LOCAL,  alias=NODE_REPORT
+
+  BRIDGE = src=NODE_MESSAGE_LOCAL, alias=NODE_MESSAGE
+
+  BRIDGE = src=CAPABILITY_SUMMARY, alias=CAPABILITY_SUMMARY
+}
+
+
+//----------------------------------------------
+ProcessConfig = uFldMessageHandler
+{
+  AppTick   = 2
+  CommsTick = 2
+
+  strict_addressing = false
+}
+
+ProcessConfig = SONAR1
+{
+	AppTick 					= 5
+	CommsTick					= 5
+	NAME						= SONAR_SENSOR_SONAR1
+	FAIL_PATTERN 				= 
+	DEGRADATION_VALUE			= 1
+	DEGRADATION_VALUE_PATTERN	= 
+
+//	AppTick 	= 5
+//	CommsTick	= 5	
+//	NAME			= SONAR_SENSOR_SONAR1
+//	//FAIL_PATTERN  = 50:80
+//	//DEGRADATION_VALUE =
+}
+ProcessConfig = SONAR2
+{
+	AppTick 					= 4.5
+	CommsTick					= 4.5
+	NAME						= SONAR_SENSOR_SONAR2
+	FAIL_PATTERN 				= 
+	DEGRADATION_VALUE			= 1
+	DEGRADATION_VALUE_PATTERN	= 0.2
+
+//	AppTick 		= 4
+//	CommsTick		= 4	
+//	NAME			= SONAR_SENSOR_SONAR2
+//	//FAIL_PATTERN	= 190:230
+}
+ProcessConfig = SONAR3
+{
+	AppTick 					= 5
+	CommsTick					= 5
+	NAME						= SONAR_SENSOR_SONAR3
+	FAIL_PATTERN 				= 
+	DEGRADATION_VALUE			= 1
+	DEGRADATION_VALUE_PATTERN	= 0.8,0.65,0.85
+
+//	AppTick 	= 4
+//	CommsTick	= 4	
+//	NAME			= SONAR_SENSOR_SONAR3
+//	//FAIL_PATTERN	= 300:330
+}
+
+
+//ProcessConfig = SONAR11
+//{
+//	AppTick 	= 5
+//	CommsTick	= 5
+	
+//	NAME			= SONAR_SENSOR_SONAR1
+//	//FAIL_PATTERN  = 50:80
+//	//DEGRADATION_VALUE =
+//}
+
+//ProcessConfig = SONAR2
+//{
+//	AppTick 		= 4
+//	CommsTick		= 4
+	
+//	NAME			= SONAR_SENSOR_SONAR2
+//	//FAIL_PATTERN	= 190:230
+//}
+
+//ProcessConfig = SONAR3
+//{
+//	AppTick 	= 4
+//	CommsTick	= 4
+//	
+//	NAME			= SONAR_SENSOR_SONAR3
+//	//FAIL_PATTERN	= 300:330
+//}
+
+//ProcessConfig = SONAR2
+//{
+//	AppTick 		= 4
+//	CommsTick		= 4
+	
+//	NAME			= SONAR_SENSOR_SONAR2
+//	//FAIL_PATTERN	= 190:230
+//}
+
+ProcessConfig = uTimerScript
+{
+	
+}
