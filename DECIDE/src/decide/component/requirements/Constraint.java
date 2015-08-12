@@ -1,6 +1,6 @@
 package decide.component.requirements;
 
-public class Constraint extends Requirement {
+public abstract class Constraint extends Requirement {
 	
 
 	/** threshold*/
@@ -12,10 +12,5 @@ public class Constraint extends Requirement {
 	public Constraint(String id, boolean maximisation) {
 		super(id, maximisation);
 	}
-
 	
-	@Override
-	public void evaluate() {
-		
-	}
 }

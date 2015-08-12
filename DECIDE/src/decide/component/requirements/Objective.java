@@ -1,6 +1,6 @@
 package decide.component.requirements;
 
-public class Objective extends Requirement{
+public abstract class Objective extends Requirement{
 	
 	
 	
