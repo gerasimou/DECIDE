@@ -2,13 +2,13 @@ package decide.lca;
 
 public class LocalCapabilityAnalysisHandler implements LocalCapabilityAnalysis {
 
-	public LocalCapabilityAnalysisHandler (){
-		
+	public LocalCapabilityAnalysisHandler (){		
+		System.out.println(this.getClass().getName());
 	}
 	
 	@Override
 	public void execute() {
-		System.out.println(this.getClass().getName());
+		System.out.println(this.getClass().getName()+".execute()");
 	}
 	
 	public void test(){

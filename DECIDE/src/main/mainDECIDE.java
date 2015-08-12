@@ -18,11 +18,15 @@ public class mainDECIDE {
 		SelectionHandler		selectionHandler	= new SelectionHandler();
 		LocalControlHandler		localControlHandler	= new LocalControlHandler();
 		
-		DECIDE decide = new DECIDE(lcaHandler, receiptHandler, localControlHandler, selectionHandler);
+		DECIDE decide = new DECIDE(lcaHandler, receiptHandler, selectionHandler, localControlHandler);
 		decide.run();
 	}
 	
 
+	
+	
+	
+	
 	
 	private static void runMe(String parameter){
 //		if(logger.isDebugEnabled()){

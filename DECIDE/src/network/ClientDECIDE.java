@@ -45,7 +45,7 @@ public class ClientDECIDE implements Runnable {
 	public void run() {
 		try {
 			outToServer.println("From Client " + num++);
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 			outToServer.flush();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
