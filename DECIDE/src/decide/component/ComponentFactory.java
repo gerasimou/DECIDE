@@ -17,7 +17,7 @@ public class ComponentFactory {
 		//Get the properties set
 		Set<Entry<Object,Object>> propertiesSet = Utility.getPropertiesEntrySet();
 
-		List<Component> componentsList = new ArrayList<Component>();		
+		List<Component> componentsList = new ArrayList<Component>();
 		
 		//Get the iterator
 		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
@@ -27,12 +27,12 @@ public class ComponentFactory {
 			String key					= entry.getKey().toString();
 			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
 			
+//			COMPONENT = 1, SERVER:9991, CLIENT:127.0.0.1:9992, CLIENT:127.0.0.1:9993
 			System.out.println(key +"\t"+ value);
 			
 			Component newComponent = new Component(value);
 			componentsList.add(newComponent);
 			
-//			COMPONENT = 1, SERVER:9991, CLIENT:127.0.0.1:9992, CLIENT:127.0.0.1:9993
 		}
 		return componentsList;
 	}

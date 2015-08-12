@@ -40,7 +40,7 @@ public class ServerDECIDE implements Runnable{
 			
 			while (true){
 				Socket server  = serverSocket.accept();
-				new Server(server).start();;
+				new Server(server).start();
 			}			
 
 		}

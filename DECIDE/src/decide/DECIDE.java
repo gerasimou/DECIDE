@@ -1,5 +1,11 @@
 package decide;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import decide.cla.Selection;
 import decide.cla.SelectionHandler;
 import decide.lca.LocalCapabilityAnalysis;
@@ -9,7 +15,7 @@ import decide.lcl.LocalControlHandler;
 import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
 
-public class DECIDE {
+public class DECIDE implements Cloneable, Serializable{
 	
 	/** DECIDE stages interfaces*/
 	private LocalCapabilityAnalysis lca;
@@ -106,4 +112,44 @@ public class DECIDE {
 		selection.execute();
 		localControl.execute();
 	}
+	
+	
+	public DECIDE clone(){
+		try {
+			return (DECIDE) super.clone();
+		}
+		catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		System.exit(-1);
+		return null;
+	}
+	
+	
+	/**
+	 * Clone the current object using serialisation
+	 * @param object current DECIDE object
+	 * @return new DECIDE object
+	 */
+	public DECIDE deepClone(Object object){
+		try {
+		      ByteArrayOutputStream baos	= new ByteArrayOutputStream();
+		      ObjectOutputStream oos 		= new ObjectOutputStream(baos);
+		      oos.writeObject(object);
+		      ByteArrayInputStream bais 	= new ByteArrayInputStream(baos.toByteArray());
+		      ObjectInputStream ois 		= new ObjectInputStream(bais);
+		      return (DECIDE) ois.readObject();    
+		}
+	    catch (Exception e) {
+	      e.printStackTrace();
+	      return null;
+	    }
+	}
+	
+
+	public String toString(){
+		return this.hashCode() +","+ lca +","+ claReceipt +","+ selection +","+ localControl;
+	}
+
+	
 }

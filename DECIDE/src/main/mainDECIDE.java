@@ -1,25 +1,40 @@
 package main;
 
+import java.util.List;
+
 import decide.DECIDE;
-import decide.cla.SelectionHandler;
-import decide.lca.LocalCapabilityAnalysis;
-import decide.lca.LocalCapabilityAnalysisHandler;
-import decide.lcl.LocalControlHandler;
-import decide.receipt.CLAReceiptHandler;
+import decide.component.Component;
+import decide.component.ComponentFactory;
 
 public class mainDECIDE {
 
 	
 	public static void main(String[] args) {
 		
-		System.out.println("Starting DECIDE");
-		LocalCapabilityAnalysis lcaHandler 			= new LocalCapabilityAnalysisHandler();
-		CLAReceiptHandler       receiptHandler		= new CLAReceiptHandler();
-		SelectionHandler		selectionHandler	= new SelectionHandler();
-		LocalControlHandler		localControlHandler	= new LocalControlHandler();
+		System.out.println("Starting DECIDE simulation");
+				
+		//init system components based on the features described in config.properties
+		List<Component> componentsList = ComponentFactory.createComponents();
+
+		DECIDE decide = new DECIDE();
+
+		//init DECIDE for each component
+		for (Component component : componentsList){
+			component.configure(decide);
+			System.out.println(component.getID() +"\t"+ component.getDECIDE());
+		}
+
 		
-		DECIDE decide = new DECIDE(lcaHandler, receiptHandler, selectionHandler, localControlHandler);
-		decide.run();
+		for (Component component : componentsList){						
+			String componentID	= component.getID();
+//			new Thread(component, componentID).start();
+		}
+
+		
+//		LocalCapabilityAnalysis lcaHandler 			= new LocalCapabilityAnalysisHandler();
+//		CLAReceiptHandler       receiptHandler		= new CLAReceiptHandler();
+//		SelectionHandler		selectionHandler	= new SelectionHandler();
+//		LocalControlHandler		localControlHandler	= new LocalControlHandler();
 	}
 	
 
