@@ -23,13 +23,33 @@ public class ClientDECIDE implements Runnable {
 	
 	/** writer */
 	private PrintWriter outToServer;
+
+	/** server address*/
+	private String serverAddress;
+	
+	/** server port */
+	private int serverPort;
 	
 	static int num = 0;
 	
-	public ClientDECIDE(String serverAddress, int port) {
 	
+	/**
+	 * Constructor: create a new client DECIDE instance
+	 * @param serverAddress
+	 * @param port
+	 */
+	public ClientDECIDE(String serverAddress, int port) {
+		this.serverAddress	= serverAddress;
+		this.serverPort		= port;
+	}
+
+	
+	/**
+	 * Initialises this instance
+	 */
+	public void init(){
 		try {
-			this.socket 	= new Socket(serverAddress, port);
+			this.socket 	= new Socket(serverAddress, serverPort);
 			
 			inFromServer 	= new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
@@ -37,7 +57,7 @@ public class ClientDECIDE implements Runnable {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-			logger.error("Exception", e);
+//			logger.error("Exception", e);
 		}
 	}
 	

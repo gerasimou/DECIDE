@@ -5,6 +5,8 @@ import java.util.List;
 
 import decide.DECIDE;
 import decide.component.requirements.Requirement;
+import network.ClientDECIDE;
+import network.ServerDECIDE;
 
 public class Component implements Runnable{
 
@@ -20,10 +22,18 @@ public class Component implements Runnable{
 	/** Component ID*/
 	private String id;
 	
+	/** Server handler */
+	private ServerDECIDE server;
+	
+	/** Peers list*/
+	private List<ClientDECIDE> peersList;
+	
+	
+	
 	/**
 	 * Default constructor
 	 */
-	public Component(String id) {
+	public Component(String id, String listeningPort, List<String[]> peersDetailsList) {
 		//init component's id
 		this.id = id;
 		
@@ -31,6 +41,16 @@ public class Component implements Runnable{
 		this.requirementsGlobalList = new ArrayList<Requirement>();
 		this.requirementsLocalList	= new ArrayList<Requirement>();
 		
+		//Server handler
+		this.server = new ServerDECIDE(Integer.parseInt(listeningPort));
+		
+		//initialise peers list
+		this.peersList = new ArrayList<ClientDECIDE>();
+		for (String[] peerArray : peersDetailsList){
+			this.peersList.add(new ClientDECIDE(peerArray[0], Integer.parseInt(peerArray[1])));
+		}
+		
+		//DECIDE handler
 		this.decide = null;
 	}
 
