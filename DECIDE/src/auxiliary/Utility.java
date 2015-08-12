@@ -7,7 +7,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -22,7 +25,6 @@ public class Utility {
 	/** Setup Utility class*/
 	public static void setup(){
 		loadPropertiesInstance();	
-		getProperty("");
 	}
 	
 	
@@ -109,7 +111,29 @@ public class Utility {
 		logger.warn("This is warn : " + parameter);
 		logger.error("This is error : " + parameter);
 		logger.fatal("This is fatal : " + parameter);
+	}
+	
+	
+	public static Set<Entry<Object, Object>> getPropertiesEntrySet(){
+		return properties.entrySet();
+	}
+	
+	
+	private static  void parseConfiguration(){
+		//Get the properties set
+		Set<Entry<Object,Object>> propertiesSet = properties.entrySet();
 		
-
+		//Get the iterator
+		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
+				
+		while (iterator.hasNext()){
+			Entry<Object, Object> entry = iterator.next();
+			String key					= entry.getKey().toString();
+			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
+			
+			System.out.println(key +"\t"+ value);
+			
+//			COMPONENT = 1, SERVER:9991, CLIENT:127.0.0.1:9992, CLIENT:127.0.0.1:9993
+		}
 	}
 }
