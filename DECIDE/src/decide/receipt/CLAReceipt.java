@@ -1,7 +1,9 @@
 
 package decide.receipt;
 
-public interface CLAReceipt {
-	public void execute();
+import java.io.Serializable;
+
+public abstract class CLAReceipt implements Serializable{
+	public abstract void execute();
 
 }

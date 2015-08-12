@@ -1,5 +1,7 @@
 package decide.lcl;
 
-public interface LocalControl {
-	public void execute();
+import java.io.Serializable;
+
+public abstract class LocalControl implements Serializable{
+	public abstract void execute();
 }

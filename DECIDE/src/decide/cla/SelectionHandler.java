@@ -1,9 +1,9 @@
 package decide.cla;
 
-public class SelectionHandler implements Selection{
+public class SelectionHandler extends Selection{
 
 	public SelectionHandler() {
-		System.out.println(this.getClass().getName());
+//		System.out.println(this.getClass().getName());
 	}
 	
 	@Override

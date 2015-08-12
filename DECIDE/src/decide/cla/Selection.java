@@ -1,5 +1,7 @@
 package decide.cla;
 
-public interface Selection {
-	public void execute();
+import java.io.Serializable;
+
+public abstract class Selection implements Serializable{
+	public abstract void execute();
 }

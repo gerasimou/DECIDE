@@ -1,9 +1,9 @@
 package decide.receipt;
 
-public class CLAReceiptHandler implements CLAReceipt{
+public class CLAReceiptHandler extends CLAReceipt{
 	
 	public CLAReceiptHandler() {
-		System.out.println(this.getClass().getName());
+//		System.out.println(this.getClass().getName());
 	}
 
 	@Override

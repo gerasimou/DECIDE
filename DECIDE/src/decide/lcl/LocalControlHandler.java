@@ -1,9 +1,9 @@
 package decide.lcl;
 
-public class LocalControlHandler implements LocalControl{
+public class LocalControlHandler extends LocalControl{
 
 	public LocalControlHandler() {
-		System.out.println(this.getClass().getName());		
+//		System.out.println(this.getClass().getName());		
 	}
 	
 	@Override

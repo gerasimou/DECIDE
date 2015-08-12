@@ -1,6 +1,7 @@
 package decide.lca;
 
-public interface LocalCapabilityAnalysis {
-	public void execute();
+import java.io.Serializable;
 
+public abstract class LocalCapabilityAnalysis implements Serializable{
+	public abstract void execute();
 }
