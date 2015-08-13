@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
-public class ClientDECIDE implements Runnable {
+public class ClientDECIDE implements Runnable, Serializable {
 
 	/** Class logger*/
 	private final static Logger logger = Logger.getLogger(ClientDECIDE.class);
@@ -61,14 +62,20 @@ public class ClientDECIDE implements Runnable {
 		}
 	}
 	
+		
 	@Override
 	public void run() {
 		try {
 			outToServer.println("From Client " + num++);
-			Thread.sleep(5000);
 			outToServer.flush();
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+		finally{
+			outToServer.println("Final message" + num++);
+			outToServer.flush();
+			outToServer.close();
 		}
 	}
 

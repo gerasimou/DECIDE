@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
-public class ServerDECIDE implements Runnable{
+public class ServerDECIDE implements Runnable, Serializable{
 	
 	/** Class logger*/
 	private final static Logger logger = Logger.getLogger(ServerDECIDE.class);
@@ -31,7 +32,7 @@ public class ServerDECIDE implements Runnable{
 			logger.error("Exception", e);
 		}
 	}
-
+	
 	
 	public void run() {			
 		try {
