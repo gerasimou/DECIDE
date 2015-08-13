@@ -11,30 +11,25 @@ public class mainDECIDE {
 	
 	public static void main(String[] args) {
 		
-		System.out.println("Starting DECIDE simulation");
+		System.err.println("Starting DECIDE simulation");
 				
-		//init system components based on the features described in config.properties
-		List<Component> componentsList = ComponentFactory.createComponents();
-
+		//TODO how the extended DECIDE stages can be realised with minimum effort by the DECIDE framework?
 		DECIDE decide = new DECIDE();
+
+		//init system components based on the features described in config.properties
+		List<Component> componentsList = ComponentFactory.createComponents(decide);
 
 		//init DECIDE for each component
 		for (Component component : componentsList){
-			component.configure(decide);
+			component.run();
 			System.out.println(component.getID() +"\t"+ component.getDECIDE());
 		}
 
 		
-		for (Component component : componentsList){						
-			String componentID	= component.getID();
+//		for (Component component : componentsList){						
+//			String componentID	= component.getID();
 //			new Thread(component, componentID).start();
-		}
-
-		
-//		LocalCapabilityAnalysis lcaHandler 			= new LocalCapabilityAnalysisHandler();
-//		CLAReceiptHandler       receiptHandler		= new CLAReceiptHandler();
-//		SelectionHandler		selectionHandler	= new SelectionHandler();
-//		LocalControlHandler		localControlHandler	= new LocalControlHandler();
+//		}		
 	}
 	
 
