@@ -1,11 +1,15 @@
 package auxiliary;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -13,6 +17,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+
+import decide.DECIDE;
 
 public class Utility {
 
@@ -116,6 +122,28 @@ public class Utility {
 	
 	public static Set<Entry<Object, Object>> getPropertiesEntrySet(){
 		return properties.entrySet();
+	}
+	
+	
+	/**
+	 * Clone the current  object using serialisation.
+	 * It cannot be applied to classes that do not support serialisation.
+	 * @param object current object
+	 * @return new Object
+	 */
+	public static Object deepCopy(Object object){
+		try {
+		      ByteArrayOutputStream baos	= new ByteArrayOutputStream();
+		      ObjectOutputStream oos 		= new ObjectOutputStream(baos);
+		      oos.writeObject(object);
+		      ByteArrayInputStream bais 	= new ByteArrayInputStream(baos.toByteArray());
+		      ObjectInputStream ois 		= new ObjectInputStream(bais);
+		      return ois.readObject();    
+		}
+	    catch (Exception e) {
+	      e.printStackTrace();
+	      return null;
+	    }
 	}
 	
 	
