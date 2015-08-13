@@ -11,4 +11,10 @@ public class CLAReceiptHandler extends CLAReceipt{
 		System.out.println(this.getClass().getName()+".execute()");
 	}
 
+	@Override
+	public CLAReceipt deepClone() {
+		CLAReceiptHandler newHandler = new CLAReceiptHandler();
+		return newHandler;
+	}
+
 }
