@@ -33,7 +33,7 @@ public class Component implements Runnable{
 	/**
 	 * Default constructor
 	 */
-	public Component(String id, String listeningPort, List<String[]> peersDetailsList) {
+	public Component(String id, DECIDE decide) {
 		//init component's id
 		this.id = id;
 		
@@ -41,17 +41,17 @@ public class Component implements Runnable{
 		this.requirementsGlobalList = new ArrayList<Requirement>();
 		this.requirementsLocalList	= new ArrayList<Requirement>();
 		
-		//Server handler
-		this.server = new ServerDECIDE(Integer.parseInt(listeningPort));
-		
-		//initialise peers list
-		this.peersList = new ArrayList<ClientDECIDE>();
-		for (String[] peerArray : peersDetailsList){
-			this.peersList.add(new ClientDECIDE(peerArray[0], Integer.parseInt(peerArray[1])));
-		}
+//		//Server handler
+//		this.server = new ServerDECIDE(Integer.parseInt(listeningPort));
+//		
+//		//initialise peers list
+//		this.peersList = new ArrayList<ClientDECIDE>();
+//		for (String[] peerArray : peersDetailsList){
+//			this.peersList.add(new ClientDECIDE(peerArray[0], Integer.parseInt(peerArray[1])));
+//		}
 		
 		//DECIDE handler
-		this.decide = null;
+		this.decide = decide;
 	}
 
 
@@ -80,14 +80,7 @@ public class Component implements Runnable{
 	public DECIDE getDECIDE(){
 		return this.decide;
 	}
-	
-	
-	
-	public void configure (DECIDE decide){
-//		this.decide = decide.clone();
-		this.decide = decide.deepClone(decide);
-	}
-	
+		
 	
 	public void run(){
 		System.out.println(id);
