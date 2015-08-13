@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-public class MulticastClient implements Runnable{
+public class MulticastReceiver implements Runnable{
 	
 	/** server address*/
 	private String serverAddress;
@@ -14,14 +14,14 @@ public class MulticastClient implements Runnable{
 	private int serverPort;
 	
 	/** Multicast socket */
-	private MulticastSocket clientSocket;
+	private MulticastSocket receiverSocket;
 	
 	/** Buffer containing the data received */
 	byte[] buf;
 	private final int BUFFER_SIZE = 256;
 
 	
-	public MulticastClient (String serverAddress, int port) {
+	public MulticastReceiver (String serverAddress, int port) {
 		this.serverAddress	= serverAddress;
 		this.serverPort		= port;
 
@@ -35,10 +35,10 @@ public class MulticastClient implements Runnable{
 	        buf = new byte[BUFFER_SIZE];		
 	    
 	        // Create a new Multicast socket (that will allow other sockets/programs to join it as well.
-	        clientSocket = new MulticastSocket(serverPort);
+	        receiverSocket = new MulticastSocket(serverPort);
 	        
 	        //Joint the Multicast group.
-            clientSocket.joinGroup(address);            
+            receiverSocket.joinGroup(address);            
         }
         catch (IOException e) {
 			e.printStackTrace();
@@ -61,10 +61,10 @@ public class MulticastClient implements Runnable{
 	        while (true) {
 	            // Receive the information and print it.
 	            DatagramPacket msgPacket = new DatagramPacket(buf, buf.length);
-	            clientSocket.receive(msgPacket);
+	            receiverSocket.receive(msgPacket);
 	
 	            String msg = new String(buf, 0, buf.length);
-	            System.out.println(clientSocket.getLocalPort() + " received: " + msg);
+	            System.out.println(receiverSocket.getLocalPort() + " received: " + msg);
 	        }		
 	    }
 	    catch (IOException e) {

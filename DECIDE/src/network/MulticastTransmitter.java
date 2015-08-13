@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class MulticastServer implements Runnable{
+public class MulticastTransmitter implements Runnable{
 	/** server address*/
 	private String serverAddress;
 	
@@ -23,7 +23,7 @@ public class MulticastServer implements Runnable{
 	private String msg;
 	
 	
-	public MulticastServer(String serverAddress, int port) {
+	public MulticastTransmitter(String serverAddress, int port) {
 		this.serverAddress	= serverAddress;
 		this.serverPort		= port;
 
@@ -48,7 +48,7 @@ public class MulticastServer implements Runnable{
             
             datagramSocket.send(msgPacket);
             
-            System.out.println("Server sent packet with msg: " + msg);
+            System.out.println("Transmitter sent packet with msg: " + msg);
             Thread.sleep(500);
 		} 
 		catch (Exception e) {
