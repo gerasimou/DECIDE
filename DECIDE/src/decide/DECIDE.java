@@ -1,11 +1,9 @@
 package decide;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
 
+import auxiliary.Utility;
 import decide.cla.Selection;
 import decide.cla.SelectionHandler;
 import decide.lca.LocalCapabilityAnalysis;
@@ -14,6 +12,10 @@ import decide.lcl.LocalControl;
 import decide.lcl.LocalControlHandler;
 import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
+import network.ClientDECIDE;
+import network.MulticastReceiver;
+import network.MulticastTransmitter;
+import network.ServerDECIDE;
 
 public class DECIDE implements Cloneable, Serializable{
 	
@@ -22,6 +24,8 @@ public class DECIDE implements Cloneable, Serializable{
 	private CLAReceipt				claReceipt;
 	private LocalControl 			localControl;
 	private Selection				selection;
+	private MulticastTransmitter	transmitter;
+	private List<MulticastReceiver>	receiversList;
 	
 	
 	/**
@@ -107,11 +111,43 @@ public class DECIDE implements Cloneable, Serializable{
 	 * Run <b>DECIDE</b> protocol
 	 */
 	public void run(){
-		localControl.execute();
-		claReceipt.execute();
-		selection.execute();
-		localControl.execute();
+		for (MulticastReceiver receiver : receiversList){
+			new Thread(receiver, receiver.toString()).start();;
+		}
+//		new Thread(transmitter, transmitter.toString()).start();
+//		claReceipt.execute();
+//		selection.execute();
+//		localControl.execute();
 	}
+	
+
+	public void transmit(){
+		new Thread(transmitter, transmitter.toString()).start();
+	}
+	
+	public void setTransmitter(MulticastTransmitter transmitter){
+		this.transmitter = transmitter;
+		lca.setTransmitter(transmitter);
+	}
+	
+	
+	public void setReceivers(List<MulticastReceiver> peersList){
+		this.receiversList = peersList;
+		claReceipt.setPeersList(peersList);
+	}
+	
+	
+	@Deprecated
+	public void setPeersList(List<ClientDECIDE> peersList){
+		lca.setPeersList( peersList);
+	}
+	
+	
+	@Deprecated
+	public void setServer(ServerDECIDE server){
+		claReceipt.setServerDECIDE(server);
+	}
+	
 	
 	
 	public DECIDE clone(){
@@ -126,24 +162,16 @@ public class DECIDE implements Cloneable, Serializable{
 	}
 	
 	
-	/**
-	 * Clone the current object using serialisation
-	 * @param object current DECIDE object
-	 * @return new DECIDE object
-	 */
-	public DECIDE deepClone(Object object){
-		try {
-		      ByteArrayOutputStream baos	= new ByteArrayOutputStream();
-		      ObjectOutputStream oos 		= new ObjectOutputStream(baos);
-		      oos.writeObject(object);
-		      ByteArrayInputStream bais 	= new ByteArrayInputStream(baos.toByteArray());
-		      ObjectInputStream ois 		= new ObjectInputStream(bais);
-		      return (DECIDE) ois.readObject();    
-		}
-	    catch (Exception e) {
-	      e.printStackTrace();
-	      return null;
-	    }
+	public DECIDE deepClone(){ 
+		return new DECIDE(this);
+	}
+	
+	
+	private DECIDE (DECIDE decide){
+		this.lca 			= (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
+		this.claReceipt		= decide.claReceipt.deepClone();
+		this.selection		= (Selection)Utility.deepCopy(decide.selection);
+		this.localControl	= (LocalControl)Utility.deepCopy(decide.localControl);
 	}
 	
 

@@ -25,7 +25,7 @@ public class mainDECIDE {
 			System.out.println(component.getID() +"\t"+ component.getDECIDE());
 		}
 
-		
+//		componentsList.get(0).transmit();
 //		for (Component component : componentsList){						
 //			String componentID	= component.getID();
 //			new Thread(component, componentID).start();

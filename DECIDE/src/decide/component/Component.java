@@ -88,5 +88,10 @@ public class Component implements Runnable{
 	}
 	
 	
+	public void transmit(){
+		decide.transmit();
+	}
+	
+	
 	
 }

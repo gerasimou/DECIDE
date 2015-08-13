@@ -9,6 +9,8 @@ import java.util.Set;
 import auxiliary.Utility;
 import decide.DECIDE;
 import network.ClientDECIDE;
+import network.MulticastReceiver;
+import network.MulticastTransmitter;
 import network.ServerDECIDE;
 
 public class ComponentFactory {
@@ -18,7 +20,7 @@ public class ComponentFactory {
 		
 		//Get the properties set
 		Set<Entry<Object,Object>> propertiesSet = Utility.getPropertiesEntrySet();
-
+		
 		List<Component> componentsList = new ArrayList<Component>();
 		
 		//Get the iterator
@@ -31,7 +33,7 @@ public class ComponentFactory {
 			
 			//create the components list
 			if (key.contains("COMPONENT")){
-				componentsList.add(makeNewComponent(key, value, decide));
+				componentsList.add(makeNewComponentMulticast(key, value, decide));
 			}//if			
 		}//while
 		
@@ -39,6 +41,57 @@ public class ComponentFactory {
 		return componentsList;
 	}
 	
+	
+	
+	private static Component makeNewComponentMulticast(String id, String features, DECIDE decide){
+		//get all component features
+		String[] featuresList	= features.split(",");
+		
+		
+		String componentID = null;
+		//new DECIDE transmitter
+		MulticastTransmitter transmitter = null;
+		//create a list of peers
+		List<MulticastReceiver> peersList = new ArrayList<MulticastReceiver>();
+
+		for (String feature : featuresList){
+
+			//get component's ID
+			if (feature.contains("ID")){
+				//get its ID
+				componentID = feature.split(":")[1];				
+			}
+			
+			//get component's transmitting address
+			if (feature.contains("TRANSMITTING")){
+				String transmittingAddress	= feature.split(":")[1];
+				int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
+				//create a new DECIDE transmitter
+				transmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort);
+			}
+			
+			//find the information of its peers
+			if (feature.contains("RECEIVING")){
+				String peerAddress	= feature.split(":")[1];
+				int peerPort 		= Integer.parseInt(feature.split(":")[2]);
+				peersList.add(new MulticastReceiver(peerAddress, peerPort));
+			}			
+		}
+		
+		//clone the DECIDE instance given by the user
+		DECIDE newDECIDE = decide.deepClone();
+		
+		//set the DECIDE transmitter and receivers
+		newDECIDE.setTransmitter(transmitter);
+		newDECIDE.setReceivers(peersList);
+		
+		//set the DECIDE server and peers
+//		newDECIDE.setServer(server);
+//		newDECIDE.setPeersList(peersList);
+		
+		Component component = new Component(componentID, newDECIDE);
+		return component;
+	}
 	
 	
 	private static Component makeNewComponent(String id, String features, DECIDE decide){

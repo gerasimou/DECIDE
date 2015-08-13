@@ -20,7 +20,7 @@ public class MulticastTransmitter implements Runnable{
 	
 	
 	/** Message to be sent*/
-	private String msg;
+	private String msg = "message";
 	
 	
 	public MulticastTransmitter(String serverAddress, int port) {
@@ -32,7 +32,7 @@ public class MulticastTransmitter implements Runnable{
 			address = InetAddress.getByName(this.serverAddress);
 			
 			// Open a new DatagramSocket, which will be used to send the data.
-			datagramSocket = new DatagramSocket(this.serverPort);
+			datagramSocket = new DatagramSocket();
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -49,7 +49,7 @@ public class MulticastTransmitter implements Runnable{
             datagramSocket.send(msgPacket);
             
             System.out.println("Transmitter sent packet with msg: " + msg);
-            Thread.sleep(500);
+            Thread.sleep(5000);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -58,6 +58,6 @@ public class MulticastTransmitter implements Runnable{
 	
 	 
 	 public static void main(String[] args){
-
+		 new Thread(new MulticastTransmitter("224.224.224.221", 8881)).start();
 	 }
 }

@@ -64,7 +64,7 @@ public class MulticastReceiver implements Runnable{
 	            receiverSocket.receive(msgPacket);
 	
 	            String msg = new String(buf, 0, buf.length);
-	            System.out.println(receiverSocket.getLocalPort() + " received: " + msg);
+	            System.out.println(serverAddress +":"+ receiverSocket.getLocalPort() + "<--" + msg);
 	        }		
 	    }
 	    catch (IOException e) {
