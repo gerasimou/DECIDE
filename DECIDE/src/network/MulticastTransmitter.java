@@ -48,10 +48,25 @@ public class MulticastTransmitter implements Runnable{
             
             datagramSocket.send(msgPacket);
             
-            System.out.println("Transmitter sent packet with msg: " + msg);
-            Thread.sleep(5000);
+            System.out.println("Transmitter sent packet with msg: " + msg +"("+serverPort+")");
+            Thread.sleep(3000);
 		} 
 		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void transmit (String message){
+		try{
+            // Create a packet that will contain the data (in the form of bytes) and send it.
+            DatagramPacket msgPacket = new DatagramPacket(message.getBytes(), message.getBytes().length, address, this.serverPort);
+            
+            datagramSocket.send(msgPacket);
+            
+            System.out.println("Transmitter sent packet with msg: " + message +"("+serverPort+")");
+		}
+		catch (IOException e){
 			e.printStackTrace();
 		}
 	}

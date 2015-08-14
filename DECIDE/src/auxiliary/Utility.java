@@ -30,7 +30,8 @@ public class Utility {
 	
 	/** Setup Utility class*/
 	public static void setup(){
-		loadPropertiesInstance();	
+		loadPropertiesInstance();
+		System.setProperty("java.net.preferIPv4Stack" , "true");
 	}
 	
 	

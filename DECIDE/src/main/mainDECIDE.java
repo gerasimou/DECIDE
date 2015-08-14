@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import decide.DECIDE;
@@ -20,11 +21,25 @@ public class mainDECIDE {
 		List<Component> componentsList = ComponentFactory.createComponents(decide);
 
 		//init DECIDE for each component
+		List<Thread> threadList = new ArrayList<Thread>();
 		for (Component component : componentsList){
-			component.run();
+			Thread t = new Thread(component, component.getID());
+			t.start();
+			threadList.add(t);
+//			component.run();
 			System.out.println(component.getID() +"\t"+ component.getDECIDE());
 		}
+		
+		for (Thread thread : threadList){
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
+		System.err.println("END");
 //		componentsList.get(0).transmit();
 //		for (Component component : componentsList){						
 //			String componentID	= component.getID();

@@ -114,6 +114,7 @@ public class DECIDE implements Cloneable, Serializable{
 		for (MulticastReceiver receiver : receiversList){
 			new Thread(receiver, receiver.toString()).start();;
 		}
+		transmitter.transmit(this.hashCode()+"");
 //		new Thread(transmitter, transmitter.toString()).start();
 //		claReceipt.execute();
 //		selection.execute();
