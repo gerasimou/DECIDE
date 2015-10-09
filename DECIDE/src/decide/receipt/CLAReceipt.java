@@ -6,13 +6,12 @@ import java.util.List;
 
 import network.MulticastReceiver;
 import network.ServerDECIDE;
+import network.ServerSocketDECIDE;
 
 public abstract class CLAReceipt implements Serializable{
 	
-	/** server DECIDE handler */
-//	private ServerDECIDE server;
-	
-//	private List<MulticastReceiver> peersList;
+	/** peers list */	
+	protected List<ServerDECIDE> peersList;
 
 	
 	public CLAReceipt() {
@@ -20,29 +19,15 @@ public abstract class CLAReceipt implements Serializable{
 	}
 
 	
-	@Deprecated
-	public void setPeersList(List<MulticastReceiver> peersList){
-//		this.peersList = peersList;
+	public void setPeersList(List<ServerDECIDE> peersList){
+		this.peersList = peersList;
+		//start the receivers
+		for (ServerDECIDE receiver : this. peersList){
+			new Thread(receiver, receiver.toString()).start();
+		}
 	}
 	
-
-	/**
-	 * Set the DECIDE server
-	 * @param server
-	 */
-	@Deprecated
-	public void setServerDECIDE(ServerDECIDE server){
-//		this.server = server;
-	}
-	
-
-	/** Start server */
-	@Deprecated
-	public void startServer(){
-//		new Thread(server, this.getClass().getSimpleName()).start();
-	}
-
-	public abstract void execute();
+	public abstract void execute(Object...args);
 
 	public abstract CLAReceipt deepClone();
 }

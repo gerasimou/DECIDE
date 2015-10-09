@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class MulticastTransmitter implements Runnable{
+public class MulticastTransmitter extends ClientDECIDE{
 	/** server address*/
 	private String serverAddress;
 	
@@ -40,21 +40,21 @@ public class MulticastTransmitter implements Runnable{
 	}
 	
 	
-	@Override
-	public void run() {
-		try{
-            // Create a packet that will contain the data (in the form of bytes) and send it.
-            DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(), msg.getBytes().length, address, this.serverPort);
-            
-            datagramSocket.send(msgPacket);
-            
-            System.out.println("Transmitter sent packet with msg: " + msg +"("+serverPort+")");
-            Thread.sleep(3000);
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@Override
+//	public void run() {
+//		try{
+//            // Create a packet that will contain the data (in the form of bytes) and send it.
+//            DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(), msg.getBytes().length, address, this.serverPort);
+//            
+//            datagramSocket.send(msgPacket);
+//            
+//            System.out.println("Transmitter sent packet with msg: " + msg +"("+serverPort+")");
+//            Thread.sleep(3000);
+//		} 
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	
 	public void transmit (String message){
@@ -72,7 +72,7 @@ public class MulticastTransmitter implements Runnable{
 	}
 	
 	 
-	 public static void main(String[] args){
-		 new Thread(new MulticastTransmitter("224.224.224.221", 8881)).start();
-	 }
+//	 public static void main(String[] args){
+//		 new Thread(new MulticastTransmitter("224.224.224.221", 8881)).start();
+//	 }
 }

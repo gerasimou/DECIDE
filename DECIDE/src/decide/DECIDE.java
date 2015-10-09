@@ -13,8 +13,6 @@ import decide.lcl.LocalControlHandler;
 import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
 import network.ClientDECIDE;
-import network.MulticastReceiver;
-import network.MulticastTransmitter;
 import network.ServerDECIDE;
 
 public class DECIDE implements Cloneable, Serializable{
@@ -24,15 +22,15 @@ public class DECIDE implements Cloneable, Serializable{
 	private CLAReceipt				claReceipt;
 	private LocalControl 			localControl;
 	private Selection				selection;
-	private MulticastTransmitter	transmitter;
-	private List<MulticastReceiver>	receiversList;
-	
+
+	private String					ID;
 	
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(){
+	public DECIDE(String ID){
 		this(null, null, null, null);
+		this.ID  = ID;
 	}
 	
 	
@@ -110,43 +108,36 @@ public class DECIDE implements Cloneable, Serializable{
 	/**
 	 * Run <b>DECIDE</b> protocol
 	 */
-	public void run(){
-		for (MulticastReceiver receiver : receiversList){
-			new Thread(receiver, receiver.toString()).start();;
+	public void run(){		
+		try{
+			while (true){
+				lca.execute(this.ID);
+				try{
+					Thread.sleep(3000);
+				}
+				catch (InterruptedException ie){
+					ie.printStackTrace();
+				}
+//				claReceipt.execute();
+//				selection.execute();
+//				localControl.execute();
+			}
 		}
-		transmitter.transmit(this.hashCode()+"");
-//		new Thread(transmitter, transmitter.toString()).start();
-//		claReceipt.execute();
-//		selection.execute();
-//		localControl.execute();
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
-
-	public void transmit(){
-		new Thread(transmitter, transmitter.toString()).start();
-	}
 	
-	public void setTransmitter(MulticastTransmitter transmitter){
-		this.transmitter = transmitter;
+	public void setTransmitter(ClientDECIDE transmitter){
+//		this.transmitter = transmitter;
 		lca.setTransmitter(transmitter);
 	}
 	
 	
-	public void setReceivers(List<MulticastReceiver> peersList){
-		this.receiversList = peersList;
+	public void setReceivers(List<ServerDECIDE> peersList){
+//		this.receiversList = peersList;
 		claReceipt.setPeersList(peersList);
-	}
-	
-	
-	@Deprecated
-	public void setPeersList(List<ClientDECIDE> peersList){
-		lca.setPeersList( peersList);
-	}
-	
-	
-	@Deprecated
-	public void setServer(ServerDECIDE server){
-		claReceipt.setServerDECIDE(server);
 	}
 	
 	
@@ -173,6 +164,7 @@ public class DECIDE implements Cloneable, Serializable{
 		this.claReceipt		= decide.claReceipt.deepClone();
 		this.selection		= (Selection)Utility.deepCopy(decide.selection);
 		this.localControl	= (LocalControl)Utility.deepCopy(decide.localControl);
+		this.ID				= decide.ID;
 	}
 	
 

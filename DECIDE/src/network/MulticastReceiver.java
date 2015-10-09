@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-public class MulticastReceiver implements Runnable{
+public class MulticastReceiver extends ServerDECIDE{
 	
 	/** server address*/
 	private String serverAddress;
@@ -46,14 +46,6 @@ public class MulticastReceiver implements Runnable{
 	}
 
 	
-	
-	
-	
-	public static void main(String[] args) {
-
-       		
-	}
-
 
 	@Override
 	public void run() {

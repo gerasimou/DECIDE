@@ -5,8 +5,8 @@ import java.util.List;
 
 import decide.DECIDE;
 import decide.component.requirements.Requirement;
-import network.ClientDECIDE;
-import network.ServerDECIDE;
+import network.ClientSocketDECIDE;
+import network.ServerSocketDECIDE;
 
 public class Component implements Runnable{
 
@@ -23,17 +23,17 @@ public class Component implements Runnable{
 	private String id;
 	
 	/** Server handler */
-	private ServerDECIDE server;
+	private ServerSocketDECIDE server;
 	
 	/** Peers list*/
-	private List<ClientDECIDE> peersList;
+	private List<ClientSocketDECIDE> peersList;
 	
 	
 	
 	/**
 	 * Default constructor
 	 */
-	public Component(String id, DECIDE decide) {
+	protected Component(String id, DECIDE decide) {
 		//init component's id
 		this.id = id;
 		
@@ -83,15 +83,8 @@ public class Component implements Runnable{
 		
 	
 	public void run(){
-		System.out.println(id);
 		decide.run();
-	}
-	
-	
-	public void transmit(){
-		decide.transmit();
-	}
-	
+	}	
 	
 	
 }

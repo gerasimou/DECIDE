@@ -9,12 +9,19 @@ import java.util.Set;
 import auxiliary.Utility;
 import decide.DECIDE;
 import network.ClientDECIDE;
+import network.ClientSocketDECIDE;
 import network.MulticastReceiver;
 import network.MulticastTransmitter;
 import network.ServerDECIDE;
+import network.ServerSocketDECIDE;
 
 public class ComponentFactory {
 
+	/**
+	 * Create a list of components based on the information set in the configuration file
+	 * @param decide
+	 * @return
+	 */
 	public static List<Component> createComponents(DECIDE decide){
 		Utility.setup();
 		
@@ -42,17 +49,25 @@ public class ComponentFactory {
 	}
 	
 	
-	
-	private static Component makeNewComponentMulticast(String id, String features, DECIDE decide){
+	/**
+	 * Create a new component instance using multicast as the communication mechanism
+	 * @param id
+	 * @param features
+	 * @param decide
+	 * @return
+	 */
+	public static Component makeNewComponentMulticast(String id, String features, DECIDE decide){
+		Utility.setup();
+
 		//get all component features
 		String[] featuresList	= features.split(",");
 		
 		
 		String componentID = null;
 		//new DECIDE transmitter
-		MulticastTransmitter transmitter = null;
+		ClientDECIDE transmitter = null;
 		//create a list of peers
-		List<MulticastReceiver> peersList = new ArrayList<MulticastReceiver>();
+		List<ServerDECIDE> peersList = new ArrayList<ServerDECIDE>();
 
 		for (String feature : featuresList){
 
@@ -84,16 +99,21 @@ public class ComponentFactory {
 		//set the DECIDE transmitter and receivers
 		newDECIDE.setTransmitter(transmitter);
 		newDECIDE.setReceivers(peersList);
-		
-		//set the DECIDE server and peers
-//		newDECIDE.setServer(server);
-//		newDECIDE.setPeersList(peersList);
-		
+				
 		Component component = new Component(componentID, newDECIDE);
 		return component;
 	}
 	
 	
+	
+	/**
+	 * Create a new component that uses sockets for its communication mechanism 
+	 * <b>(not fully supported yet)</b>
+	 * @param id
+	 * @param features
+	 * @param decide
+	 * @return
+	 */
 	private static Component makeNewComponent(String id, String features, DECIDE decide){
 		//get all component features
 		String[] featuresList	= features.split(",");
@@ -105,12 +125,12 @@ public class ComponentFactory {
 		int listeningPort 		= Integer.parseInt(featuresList[1].split(":")[1]);
 		
 		//create a new DECIDE server
-		ServerDECIDE server = new ServerDECIDE(listeningPort);
+		ServerSocketDECIDE server = new ServerSocketDECIDE(listeningPort);
 		
 //		List<String[]> peersListData = new ArrayList<String[]>();
 		
 		//create a list of peers
-		List<ClientDECIDE> peersList = new ArrayList<ClientDECIDE>();
+		List<ClientSocketDECIDE> peersList = new ArrayList<ClientSocketDECIDE>();
 		
 		//find the information of its peers
 		for (String feature : featuresList){
@@ -121,7 +141,7 @@ public class ComponentFactory {
 				
 				//create a new CLientDECIDE
 //				peersListData.add(new String[]{serverAddress, port});
-				peersList.add(new ClientDECIDE(serverAddress, port));
+				peersList.add(new ClientSocketDECIDE(serverAddress, port));
 			}				
 		}
 		
@@ -129,8 +149,8 @@ public class ComponentFactory {
 		DECIDE newDECIDE = decide.deepClone();
 		
 		//set the DECIDE server and peers
-		newDECIDE.setServer(server);
-		newDECIDE.setPeersList(peersList);
+//		newDECIDE.setTransmitter(transmitter);
+//		newDECIDE.setReceivers(peersList);
 		
 		Component component = new Component(componentID, newDECIDE);
 		return component;
