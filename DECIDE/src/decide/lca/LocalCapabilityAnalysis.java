@@ -11,15 +11,15 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 
 	/** DECIDE peers */
 	
-	protected ClientDECIDE transmitter;
+	protected ClientDECIDE client;
 	
 	public LocalCapabilityAnalysis() {
 		
 	}
 
 
-	public void setTransmitter(ClientDECIDE transmitter){
-		this.transmitter = transmitter;
+	public void client(ClientDECIDE client){
+		this.client = client;
 	}
 	
 	

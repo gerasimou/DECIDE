@@ -11,7 +11,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	public void execute(Object... args) {
 //		System.out.println(this.getClass().getName()+".execute()");
 		
-		transmitter.transmit((String)args[0]);
+		client.send((String)args[0]);
 	}
 
 }

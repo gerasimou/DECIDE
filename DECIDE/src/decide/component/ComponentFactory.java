@@ -97,8 +97,8 @@ public class ComponentFactory {
 		DECIDE newDECIDE = decide.deepClone();
 		
 		//set the DECIDE transmitter and receivers
-		newDECIDE.setTransmitter(transmitter);
-		newDECIDE.setReceivers(peersList);
+		newDECIDE.setClient(transmitter);
+		newDECIDE.setServersList(peersList);
 				
 		Component component = new Component(componentID, newDECIDE);
 		return component;

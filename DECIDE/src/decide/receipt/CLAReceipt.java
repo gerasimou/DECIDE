@@ -11,7 +11,7 @@ import network.ServerSocketDECIDE;
 public abstract class CLAReceipt implements Serializable{
 	
 	/** peers list */	
-	protected List<ServerDECIDE> peersList;
+	protected List<ServerDECIDE> serversList;
 
 	
 	public CLAReceipt() {
@@ -19,11 +19,11 @@ public abstract class CLAReceipt implements Serializable{
 	}
 
 	
-	public void setPeersList(List<ServerDECIDE> peersList){
-		this.peersList = peersList;
+	public void setServersList(List<ServerDECIDE> serverList){
+		this.serversList = serverList;
 		//start the receivers
-		for (ServerDECIDE receiver : this. peersList){
-			new Thread(receiver, receiver.toString()).start();
+		for (ServerDECIDE server : this. serversList){
+			new Thread(server, server.toString()).start();
 		}
 	}
 	

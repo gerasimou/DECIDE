@@ -129,15 +129,13 @@ public class DECIDE implements Cloneable, Serializable{
 	}
 	
 	
-	public void setTransmitter(ClientDECIDE transmitter){
-//		this.transmitter = transmitter;
-		lca.setTransmitter(transmitter);
+	public void setClient(ClientDECIDE client){
+		lca.client(client);
 	}
 	
 	
-	public void setReceivers(List<ServerDECIDE> peersList){
-//		this.receiversList = peersList;
-		claReceipt.setPeersList(peersList);
+	public void setServersList(List<ServerDECIDE> serverList){
+		claReceipt.setServersList(serverList);
 	}
 	
 	

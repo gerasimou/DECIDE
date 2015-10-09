@@ -57,7 +57,7 @@ public class MulticastTransmitter extends ClientDECIDE{
 //	}
 	
 	
-	public void transmit (String message){
+	public void send (String message){
 		try{
             // Create a packet that will contain the data (in the form of bytes) and send it.
             DatagramPacket msgPacket = new DatagramPacket(message.getBytes(), message.getBytes().length, address, this.serverPort);
