@@ -1,7 +1,7 @@
 package main;
 
-import network.ClientDECIDE;
-import network.ServerDECIDE;
+import network.ClientSocketDECIDE;
+import network.ServerSocketDECIDE;
 
 public class mainClient {
 
@@ -12,7 +12,7 @@ public class mainClient {
 		
 		for (int i=0; i<5; i++){
 			System.out.println(i);
-			new Thread(new ClientDECIDE("127.0.0.1", 9990)).start();
+			new Thread(new ClientSocketDECIDE("127.0.0.1", 9990)).start();
 		}
 	}
 	

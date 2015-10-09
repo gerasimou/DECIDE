@@ -1,0 +1,22 @@
+2015-08-13 13:09:35 ERROR ServerDECIDE:32 - Exception
+java.net.BindException: Address already in use
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:382)
+	at java.net.ServerSocket.bind(ServerSocket.java:375)
+	at java.net.ServerSocket.<init>(ServerSocket.java:237)
+	at java.net.ServerSocket.<init>(ServerSocket.java:128)
+	at network.ServerDECIDE.<init>(ServerDECIDE.java:30)
+	at decide.component.ComponentFactory.makeNewComponent(ComponentFactory.java:55)
+	at decide.component.ComponentFactory.createComponents(ComponentFactory.java:34)
+	at main.mainDECIDE.main(mainDECIDE.java:20)
+2015-08-13 13:09:35 ERROR ServerDECIDE:32 - Exception
+java.net.BindException: Address already in use
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:382)
+	at java.net.ServerSocket.bind(ServerSocket.java:375)
+	at java.net.ServerSocket.<init>(ServerSocket.java:237)
+	at java.net.ServerSocket.<init>(ServerSocket.java:128)
+	at network.ServerDECIDE.<init>(ServerDECIDE.java:30)
+	at decide.component.ComponentFactory.makeNewComponent(ComponentFactory.java:55)
+	at decide.component.ComponentFactory.createComponents(ComponentFactory.java:34)
+	at main.mainDECIDE.main(mainDECIDE.java:20)

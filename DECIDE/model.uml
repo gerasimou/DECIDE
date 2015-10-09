@@ -2,18 +2,6 @@
 <uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_9-u6IEAVEeWES-1PzVIWdw" name="RootElement">
   <packagedElement xmi:type="uml:Class" xmi:id="__QhSIEAVEeWES-1PzVIWdw" name="Main"/>
   <packagedElement xmi:type="uml:Class" xmi:id="_FVwyEEAWEeWES-1PzVIWdw" name="DECIDE"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_qo31sEA2EeWES-1PzVIWdw" name="ServerDECIDE">
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_ybhSoEA2EeWES-1PzVIWdw" name="Operation1"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_yw_MUEA2EeWES-1PzVIWdw" name="Operation2"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_y5XFMEA2EeWES-1PzVIWdw" name="Operation3"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_y_rIkEA2EeWES-1PzVIWdw" name="Operation4"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_zBaN8EA2EeWES-1PzVIWdw" name="Operation5"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_zZk2UEA2EeWES-1PzVIWdw" name="Operation6"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_7z_d4EA2EeWES-1PzVIWdw" name="Operation7"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_8A54gEA2EeWES-1PzVIWdw" name="Operation8"/>
-    <ownedReception xmi:type="uml:Reception" xmi:id="_8UuzcEA2EeWES-1PzVIWdw" name="Reception1"/>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_r9F2oEA2EeWES-1PzVIWdw" name="ClientDECIDE"/>
   <packagedElement xmi:type="uml:Component" xmi:id="_shq7YEDbEeWES-1PzVIWdw" name="Component1">
     <ownedOperation xmi:type="uml:Operation" xmi:id="_zsfjUEDbEeWES-1PzVIWdw" name="Operation1"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_z5gEkEDbEeWES-1PzVIWdw" name="Operation2"/>
