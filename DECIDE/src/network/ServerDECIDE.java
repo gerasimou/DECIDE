@@ -1,5 +1,5 @@
 package network;
 
-public abstract class ServerDECIDE implements Runnable {
+public interface ServerDECIDE extends Runnable {
 
 }

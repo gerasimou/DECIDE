@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class MulticastTransmitter extends ClientDECIDE{
+public class MulticastTransmitter implements ClientDECIDE{
 	/** server address*/
 	private String serverAddress;
 	

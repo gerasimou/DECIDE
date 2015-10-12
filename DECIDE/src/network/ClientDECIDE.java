@@ -1,7 +1,7 @@
 package network;
 
-public abstract class ClientDECIDE {
+public interface ClientDECIDE {
 	
-	public abstract void send (String message);
+	public void send (String message);
 	
 }
