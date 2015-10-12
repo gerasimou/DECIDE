@@ -22,6 +22,8 @@ public class DECIDE implements Cloneable, Serializable{
 	private CLAReceipt				claReceipt;
 	private LocalControl 			localControl;
 	private Selection				selection;
+	
+	/**
 
 	private String					ID;
 	

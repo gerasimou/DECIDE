@@ -8,6 +8,8 @@ import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
 import decide.localControl.LocalControlHandler;
+import decide.qv.prism.PrismAPI;
+import decide.qv.prism.QV;
 import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
 import decide.selection.Selection;
@@ -23,8 +25,10 @@ public class DECIDE implements Cloneable, Serializable{
 	private LocalControl 			localControl;
 	private Selection				selection;
 	
-	/** 
+	/** QV handler */
+	private QV qv;
 
+	/** this DECIDE ID */
 	private String					ID;
 	
 	/**
@@ -32,7 +36,7 @@ public class DECIDE implements Cloneable, Serializable{
 	 */
 	public DECIDE(String ID){
 		this(null, null, null, null);
-		this.ID  = ID;
+		this.ID  	= ID;
 	}
 	
 	
@@ -45,9 +49,18 @@ public class DECIDE implements Cloneable, Serializable{
 	 * @param localControl
 	 */
 	public DECIDE(LocalCapabilityAnalysis lca, CLAReceipt claReceipt, Selection selection, LocalControl localControl){
+		
+		if (lca!=null)
+			this.qv = lca.getQV();
+		else if (localControl!=null)
+			this.qv = localControl.getQV();
+		else
+			this.qv	= new PrismAPI();
+		
+		
 		//if CLAReceipt is null -> instantiate the default handler
 		if (lca == null)
-			this.lca = new LocalCapabilityAnalysisHandler();
+			this.lca = new LocalCapabilityAnalysisHandler(qv);
 		else
 			this.lca = lca;
 
@@ -65,7 +78,7 @@ public class DECIDE implements Cloneable, Serializable{
 		
 		//if LocalControl is null -> instantiate the default handler
 		if (localControl == null)
-			this.localControl = new LocalControlHandler();
+			this.localControl = new LocalControlHandler(qv);
 		else
 			this.localControl = localControl;
 	}
@@ -131,17 +144,27 @@ public class DECIDE implements Cloneable, Serializable{
 	}
 	
 	
+	/**
+	 * Set the DECIDE client, i.e., where DECIDE can transmit
+	 * @param client
+	 */
 	public void setClient(ClientDECIDE client){
 		lca.client(client);
 	}
 	
 	
+	/** 
+	 * Set the DECIDE servers, i.e., where DECIDE can receive messages
+	 * @param serverList
+	 */
 	public void setServersList(List<ServerDECIDE> serverList){
 		claReceipt.setServersList(serverList);
 	}
 	
 	
-	
+	/**
+	 * Clone <b>this</b> DECIDE object 
+	 */
 	public DECIDE clone(){
 		try {
 			return (DECIDE) super.clone();
@@ -154,11 +177,19 @@ public class DECIDE implements Cloneable, Serializable{
 	}
 	
 	
+	/**
+	 * <b>Deep clone</b> of this DECIDE object
+	 * @return
+	 */
 	public DECIDE deepClone(){ 
 		return new DECIDE(this);
 	}
 	
 	
+	/**
+	 * Copy constructor
+	 * @param decide
+	 */
 	private DECIDE (DECIDE decide){
 		this.lca 			= (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
 		this.claReceipt		= decide.claReceipt.deepClone();
@@ -166,8 +197,12 @@ public class DECIDE implements Cloneable, Serializable{
 		this.localControl	= (LocalControl)Utility.deepCopy(decide.localControl);
 		this.ID				= decide.ID;
 	}
-	
 
+	
+	/**
+	 * Overloaded toString  method
+	 */
+	@Override
 	public String toString(){
 		return this.hashCode() +","+ lca +","+ claReceipt +","+ selection +","+ localControl;
 	}

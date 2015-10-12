@@ -1,9 +1,11 @@
 package decide.localControl;
 
+import decide.qv.prism.QV;
+
 public class LocalControlHandler extends LocalControl{
 
-	public LocalControlHandler() {
-		super();
+	public LocalControlHandler(QV qvInstance) {
+		super(qvInstance);
 //		System.out.println(this.getClass().getName());		
 	}
 	
