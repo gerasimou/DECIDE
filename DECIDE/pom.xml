@@ -6,6 +6,7 @@
   	<artifactId>DECIDE</artifactId>
   	<version>0.0.1-SNAPSHOT</version>  	
   	<name>DECIDE</name>
+  	<packaging>jar</packaging>
   	<url>http://maven.apache.org</url>
   
   
@@ -14,6 +15,15 @@
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+
+  	<!-- Repositories -->
+	<repositories>
+		<repository>
+	   		<id>localRepository</id>
+	   		<url>file://${basedir}/repo</url>
+	 	</repository>
+	</repositories>
 	
 	
 	<!-- Dependencies -->
@@ -33,7 +43,14 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-	
+
+		<!--  PRISM model checker -->
+		<dependency>
+			<groupId>org.modelChecker.prism</groupId>
+			<artifactId>prism</artifactId>
+			<version>4.2.1</version>
+			<type>jar</type>
+		</dependency> 	
 		
 	</dependencies>
 	
@@ -41,10 +58,9 @@
 	<!--  Build -->  
     <build>
  		<finalName>DECIDE</finalName>
-    	<sourceDirectory>src</sourceDirectory>
+    	
 		
-		<!--  Plugins -->
- 		<plugins>
+  		<plugins>
 			<!-- download source code in Eclipse, best practice -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -55,7 +71,7 @@
 					<downloadJavadocs>false</downloadJavadocs>
 				</configuration>
 			</plugin>
-
+			
 			<!-- Set a compiler level -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -66,7 +82,7 @@
 					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
-
+			
 			<!-- Maven Assembly Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -80,9 +96,10 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 					  <manifest>
-						<mainClass>main.mainDECIDE</mainClass>
+						<mainClass>main.ENTRUST</mainClass>
 					  </manifest>
-					</archive> 
+					</archive>
+ 
 				</configuration>
 				<executions>
 				  <execution>
@@ -96,6 +113,33 @@
 				</executions>
 			</plugin>
 
+
+			<!-- Resources managing plugin -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+		        	<version>2.7</version>
+		        	<executions>
+		          		<execution>
+		            		<id>copy-resources</id>
+		            		<!-- here the phase you need -->
+				            <phase>package</phase>
+				            <goals>
+				              <goal>copy-resources</goal>
+				            </goals>
+				            <configuration>
+				              <outputDirectory>${basedir}/target/</outputDirectory>
+				              <resources>          
+				                <resource>
+				                  <directory>models/</directory>
+				                  <filtering>false</filtering>
+				                </resource>
+				              </resources>              
+				            </configuration>
+		          		</execution>
+		        	</executions>
+		      </plugin>
+
+  			
 			<!-- Clean plugin  -->
 			<plugin>
 			    <artifactId>maven-clean-plugin</artifactId>
@@ -114,11 +158,9 @@
 				      </filesets>
 			    </configuration>
 		  </plugin>
-			
-		</plugins>
-		
-
-  </build>
+  			
+  		</plugins>
+	</build>  
 
 
 </project>
