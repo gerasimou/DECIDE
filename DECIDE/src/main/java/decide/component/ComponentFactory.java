@@ -8,7 +8,7 @@ import java.util.Set;
 
 import auxiliary.Utility;
 import decide.DECIDE;
-import decide.qv.prism.ModelChecker;
+import decide.qv.ModelChecker;
 import decide.qv.prism.PrismAPI;
 import network.ClientDECIDE;
 import network.ClientSocketDECIDE;

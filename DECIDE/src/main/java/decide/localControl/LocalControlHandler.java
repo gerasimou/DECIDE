@@ -1,6 +1,6 @@
 package decide.localControl;
 
-import decide.qv.prism.QV;
+import decide.qv.QV;
 
 public class LocalControlHandler extends LocalControl{
 

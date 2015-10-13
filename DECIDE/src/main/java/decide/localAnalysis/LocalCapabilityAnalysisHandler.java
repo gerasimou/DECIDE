@@ -1,6 +1,6 @@
 package decide.localAnalysis;
 
-import decide.qv.prism.QV;
+import decide.qv.QV;
 
 public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 

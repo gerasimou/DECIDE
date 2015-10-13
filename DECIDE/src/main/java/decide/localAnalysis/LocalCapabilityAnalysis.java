@@ -1,13 +1,9 @@
 package decide.localAnalysis;
 
 import java.io.Serializable;
-import java.util.List;
 
-import decide.qv.prism.QV;
-import decide.receipt.CLAReceipt;
+import decide.qv.QV;
 import network.ClientDECIDE;
-import network.ClientSocketDECIDE;
-import network.MulticastTransmitter;
 
 public abstract class LocalCapabilityAnalysis implements Serializable{
 

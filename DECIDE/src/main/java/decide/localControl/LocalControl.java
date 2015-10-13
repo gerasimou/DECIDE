@@ -2,7 +2,7 @@ package decide.localControl;
 
 import java.io.Serializable;
 
-import decide.qv.prism.QV;
+import decide.qv.QV;
 
 public abstract class LocalControl implements Serializable{
 	

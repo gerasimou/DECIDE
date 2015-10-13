@@ -1,4 +1,4 @@
-package decide.qv.prism;
+package decide.qv;
 
 import java.util.List;
 
