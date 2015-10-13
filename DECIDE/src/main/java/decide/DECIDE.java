@@ -9,7 +9,7 @@ import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
 import decide.localControl.LocalControlHandler;
 import decide.qv.QV;
-import decide.qv.prism.PrismAPI;
+import decide.qv.prism.PrismQV;
 import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
 import decide.selection.Selection;
@@ -57,7 +57,7 @@ public class DECIDE implements Cloneable, Serializable{
 		else if (localControl!=null)
 			this.qv = localControl.getQV();
 		else
-			this.qv	= new PrismAPI();
+			this.qv	= new PrismQV();
 		
 		
 		//if CLAReceipt is null -> instantiate the default handler

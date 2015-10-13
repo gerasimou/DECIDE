@@ -15,7 +15,7 @@ public class ModelChecker extends QV {
 	}
 
 	@Override
-	public void closeDown() {
+	public void close() {
 		// TODO Auto-generated method stub
 
 	}
@@ -25,12 +25,4 @@ public class ModelChecker extends QV {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	@Override
-	public void loadModel(String modelString) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

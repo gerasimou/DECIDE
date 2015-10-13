@@ -12,7 +12,7 @@ import prism.PrismFileLog;
 import prism.PrismLog;
 import prism.Result;
 
-public class PrismAPI extends QV{
+public class PrismAPI{
 	
 	/** Prism handler */
 	private Prism prism;
@@ -37,7 +37,7 @@ public class PrismAPI extends QV{
 	/**
 	 * Class constructor
 	 */
-	public PrismAPI(){
+	public PrismAPI(final String RQV_OUTPUT_FILENAME, final String PROPERTIES_FILENAME){
 		super();
 		try {
 			// initialise PRISM
@@ -59,8 +59,8 @@ public class PrismAPI extends QV{
 	 * Class <b>copy</b> constructor
 	 * @param instance
 	 */
-	private PrismAPI (PrismAPI instance){
-		this();
+	protected PrismAPI (PrismAPI instance){
+//		this();
 	}
 	
 
@@ -121,23 +121,13 @@ public class PrismAPI extends QV{
 	/**
 	 * Cleanup
 	 */
-	public void closeDown(){
+	public void close(){
 		if (mainLog!=null)
 			mainLog.close();
 		modulesFile = null;
 		propertiesFile = null;
 		propertyFile = null;
 		prism = null;
-	}
-
-
-	/**
-	 * Clone the QV handler
-	 */
-	@Override
-	public QV deepClone() {
-		QV newHandler = new PrismAPI(this);
-		return newHandler;
 	}
 	
 	
