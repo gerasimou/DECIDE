@@ -2,7 +2,18 @@ package decide.receipt;
 
 public class CLAReceiptHandler extends CLAReceipt{
 	
+	/**
+	 * Class constructor
+	 */
 	public CLAReceiptHandler() {
+		super();
+	}
+	
+	
+	/**
+	 * Class <b>copy</b> constructor
+	 */
+	private CLAReceiptHandler(CLAReceiptHandler instance) {
 		super();
 	}
 
@@ -21,7 +32,7 @@ public class CLAReceiptHandler extends CLAReceipt{
 	 */
 	@Override
 	public CLAReceipt deepClone() {
-		CLAReceiptHandler newHandler = new CLAReceiptHandler();
+		CLAReceipt newHandler = new CLAReceiptHandler(this);
 		return newHandler;
 	}
 

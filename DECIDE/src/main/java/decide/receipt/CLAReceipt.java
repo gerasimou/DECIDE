@@ -3,10 +3,7 @@ package decide.receipt;
 
 import java.io.Serializable;
 import java.util.List;
-
-import network.MulticastReceiver;
 import network.ServerDECIDE;
-import network.ServerSocketDECIDE;
 
 public abstract class CLAReceipt implements Serializable{
 	
@@ -14,7 +11,7 @@ public abstract class CLAReceipt implements Serializable{
 	protected List<ServerDECIDE> serversList;
 
 	
-	public CLAReceipt() {
+	protected CLAReceipt() {
 		
 	}
 

@@ -7,15 +7,14 @@ import decide.qv.prism.QV;
 public abstract class LocalControl implements Serializable{
 	
 	/** QV handler */
-	private QV qv;
+	protected QV qv;
 	
 	
 	/**
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	public LocalControl(QV qvInstance){
-		this.qv = qvInstance;
+	public LocalControl(){
 	}
 	
 	
@@ -33,4 +32,8 @@ public abstract class LocalControl implements Serializable{
 	 * @param args
 	*/
 	public abstract void execute(Object...args);
+	
+	
+	public abstract LocalControl deepClone();
+
 }

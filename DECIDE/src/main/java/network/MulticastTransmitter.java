@@ -40,6 +40,28 @@ public class MulticastTransmitter implements ClientDECIDE{
 	}
 	
 	
+	
+	/**
+	 * Class <b>copy</b> constructor
+	 * @param instance
+	 */
+	private MulticastTransmitter (MulticastTransmitter instance){
+		this.serverAddress 	= instance.serverAddress;
+		this.serverPort		= instance.serverPort;
+		
+		try{
+			// Get the address that we are going to connect to.
+			address = InetAddress.getByName(this.serverAddress);
+			
+			// Open a new DatagramSocket, which will be used to send the data.
+			datagramSocket = new DatagramSocket();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 //	@Override
 //	public void run() {
 //		try{
@@ -75,4 +97,10 @@ public class MulticastTransmitter implements ClientDECIDE{
 //	 public static void main(String[] args){
 //		 new Thread(new MulticastTransmitter("224.224.224.221", 8881)).start();
 //	 }
+	
+	
+	public ClientDECIDE deepClone(){
+		ClientDECIDE newHandler = new MulticastTransmitter(this);
+		return newHandler;
+	}
 }

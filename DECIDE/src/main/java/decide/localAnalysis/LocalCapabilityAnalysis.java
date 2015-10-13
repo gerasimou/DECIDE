@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import decide.qv.prism.QV;
+import decide.receipt.CLAReceipt;
 import network.ClientDECIDE;
 import network.ClientSocketDECIDE;
 import network.MulticastTransmitter;
@@ -14,15 +15,14 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	protected ClientDECIDE client;
 	
 	/** QV handler */
-	private QV qv;
+	protected QV qv;
 	
 	
 	/**
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	public LocalCapabilityAnalysis(QV qvInstance) {
-		this.qv = qvInstance;
+	protected LocalCapabilityAnalysis() {
 	}
 
 
@@ -30,7 +30,7 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	 * Assign this DECIDE instance client, i.e., where it can transmit
 	 * @param client
 	 */
-	public void client(ClientDECIDE client){
+	public void assignClient(ClientDECIDE client){
 		this.client = client;
 	}
 
@@ -49,4 +49,7 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	 * @param args
 	 */
 	public abstract void execute(Object...args);
+	
+	public abstract LocalCapabilityAnalysis deepClone();
+
 }

@@ -67,6 +67,15 @@ public class PrismAPI implements QV{
 	}
 	
 	
+	/**
+	 * Class <b>copy</b> constructor
+	 * @param instance
+	 */
+	private PrismAPI (PrismAPI instance){
+		this();
+	}
+	
+	
 	
 	/**
 	 * Assign the properties filename
@@ -142,7 +151,20 @@ public class PrismAPI implements QV{
 		propertiesFile = null;
 		propertyFile = null;
 		prism = null;
-	}	
+	}
+
+
+	/**
+	 * Clone the QV handler
+	 */
+	@Override
+	public PrismAPI deepClone() {
+		PrismAPI newHandler = new PrismAPI(this);
+		return newHandler;
+	}
+	
+	
+
 	
 
 }
