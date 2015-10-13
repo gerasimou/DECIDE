@@ -11,56 +11,43 @@ import prism.PrismFileLog;
 import prism.PrismLog;
 import prism.Result;
 
-public class PrismAPI implements QV{
-
-	private String PROPERTIESFILENAME;
-	private final String PRISMOUTPUTFILENAME = "output_Prism.txt";
-	private PrismLog mainLog;
+public class PrismAPI extends QV{
+	
+	/** Prism handler */
 	private Prism prism;
+
+	/** PrismLog (required by Prism) */
+	private PrismLog mainLog;
+	
+	/** Modules file */
 	private ModulesFile modulesFile;
+	
+	/** Properties file */
 	private PropertiesFile propertiesFile;
+
+	/** Model string */
 	private String modelString;
+
+	/** Property file*/
 	private File propertyFile;
 
-
-	/**
-	 * Class constructor
-	 * 
-	 * @param modelFile
-	 *            - the Markov model file to be provided as input to PRISM
-	 * @param propertiesFile
-	 *            - the temporal logic file to be provided as input to PRISM
-	 */
-	public PrismAPI(String propertiesFilename) {
-		try {
-			this.PROPERTIESFILENAME = propertiesFilename;
-			this.propertyFile = new File(PROPERTIESFILENAME);
-
-			// initialise PRISM
-			mainLog = new PrismFileLog(PRISMOUTPUTFILENAME, false);
-			prism = new Prism(mainLog, mainLog);
-			prism.initialise();
-			prism.setLinEqMethod(1);
-			prism.setMaxIters(100000);
-
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		} 
-	}
 	
 	
 	/**
 	 * Class constructor
 	 */
 	public PrismAPI(){
+		super();
 		try {
 			// initialise PRISM
-			mainLog = new PrismFileLog(PRISMOUTPUTFILENAME, false);
+			mainLog = new PrismFileLog(RQV_OUTPUT_FILENAME, false);
 			prism = new Prism(mainLog, mainLog);
 			prism.initialise();
-			prism.setLinEqMethod(1);
-			prism.setMaxIters(100000);
-
+//			prism.setLinEqMethod(1);
+//			prism.setMaxIters(100000);
+			
+			this.propertyFile = new File(PROPERTIES_FILENAME);
+			
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		} 
@@ -75,17 +62,6 @@ public class PrismAPI implements QV{
 		this();
 	}
 	
-	
-	
-	/**
-	 * Assign the properties filename
-	 * @param propertiesFilename
-	 */
-	public void setPropertiesFile(String propertiesFilename){
-		this.PROPERTIESFILENAME = propertiesFilename;
-		this.propertyFile = new File(PROPERTIESFILENAME);
-	}
-
 
 	/**
 	 * Load the model given as a String
@@ -158,13 +134,11 @@ public class PrismAPI implements QV{
 	 * Clone the QV handler
 	 */
 	@Override
-	public PrismAPI deepClone() {
-		PrismAPI newHandler = new PrismAPI(this);
+	public QV deepClone() {
+		QV newHandler = new PrismAPI(this);
 		return newHandler;
 	}
 	
-	
-
 	
 
 }
