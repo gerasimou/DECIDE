@@ -86,7 +86,7 @@ public class MulticastTransmitter implements ClientDECIDE{
             
             datagramSocket.send(msgPacket);
             
-            System.out.println("Transmitter sent packet with msg: " + message +"("+serverPort+")");
+            System.out.println("Sent to ["+ serverAddress +":"+ serverPort +"] --> " + message);
 		}
 		catch (IOException e){
 			e.printStackTrace();

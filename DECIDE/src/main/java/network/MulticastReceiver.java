@@ -56,7 +56,7 @@ public class MulticastReceiver implements ServerDECIDE{
 	            receiverSocket.receive(msgPacket);
 	
 	            String msg = new String(buf, 0, buf.length);
-	            System.out.println(serverAddress +":"+ receiverSocket.getLocalPort() + "<--" + msg);
+	            System.out.println("Received from ["+ serverAddress +":"+ receiverSocket.getLocalPort() + "] <-- " + msg);
 	        }		
 	    }
 	    catch (IOException e) {
