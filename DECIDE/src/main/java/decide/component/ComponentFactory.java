@@ -8,6 +8,8 @@ import java.util.Set;
 
 import auxiliary.Utility;
 import decide.DECIDE;
+import decide.qv.prism.ModelChecker;
+import decide.qv.prism.PrismAPI;
 import network.ClientDECIDE;
 import network.ClientSocketDECIDE;
 import network.MulticastReceiver;
@@ -47,7 +49,7 @@ public class ComponentFactory {
 		
 		return componentsList;
 	}
-	
+		
 	
 	/**
 	 * Create a new component instance using multicast as the communication mechanism
@@ -99,8 +101,11 @@ public class ComponentFactory {
 		//set the DECIDE transmitter and receivers
 		newDECIDE.setClient(transmitter);
 		newDECIDE.setServersList(peersList);
-				
-		Component component = new Component(componentID, newDECIDE);
+		
+		decide.setClient(transmitter);
+		decide.setServersList(peersList);				
+		Component component = new Component(componentID, decide);
+		
 		return component;
 	}
 	
@@ -155,4 +160,30 @@ public class ComponentFactory {
 		Component component = new Component(componentID, newDECIDE);
 		return component;
 	}
+
+
+	
+	public static String[] getComponentDetails(){
+		Utility.setup();
+		
+		//Get the properties set
+		Set<Entry<Object,Object>> propertiesSet = Utility.getPropertiesEntrySet();
+		
+		//Get the iterator
+		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
+				
+		while (iterator.hasNext()){
+			Entry<Object, Object> entry = iterator.next();
+			String key					= entry.getKey().toString();
+			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
+			
+			//create the components list
+			if (key.contains("COMPONENT")){
+				return new String[]{key, value};
+			}//if			
+		}//while
+		
+		return null;
+	}
+
 }

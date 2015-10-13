@@ -1,8 +1,5 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import decide.DECIDE;
 import decide.component.Component;
 import decide.component.ComponentFactory;
@@ -15,13 +12,17 @@ public class mainDECIDE {
 		System.err.println("Starting DECIDE simulation");
 				
 		//create a new component given its ID and transmitting + receiving features
-		String componentID 			= "C1";
-		String componentFeatures 	= "ID:C1,TRANSMITTING:224.224.224.221:8881,RECEIVING:224.224.224.222:8882,RECEIVING:224.224.224.223:8883"; 
-		
-		componentID 			= "C2";
-		componentFeatures		= "ID:C2, TRANSMITTING:224.224.224.222:8882, RECEIVING:224.224.224.221:8881, RECEIVING:224.224.224.223:8883";
+		String[] componentDetails 	= ComponentFactory.getComponentDetails();
+		String 	 componentID		= componentDetails[0];
+		String 	 componentFeatures	= componentDetails[1];
 
-		//TODO how the extended DECIDE stages can be realised with minimum effort by the DECIDE framework?
+//		componentID 			= "C1";
+//		componentFeatures 	= "ID:C1,TRANSMITTING:224.224.224.221:8881,RECEIVING:224.224.224.222:8882,RECEIVING:224.224.224.223:8883"; 
+		
+//		componentID 			= "C2";
+//		componentFeatures		= "ID:C2, TRANSMITTING:224.224.224.222:8882, RECEIVING:224.224.224.221:8881, RECEIVING:224.224.224.223:8883";
+
+		
 		DECIDE decide = new DECIDE(componentID);
 		
 		Component aComponent = ComponentFactory.makeNewComponentMulticast(componentID, componentFeatures, decide);

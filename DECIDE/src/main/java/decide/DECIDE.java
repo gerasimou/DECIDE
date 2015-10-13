@@ -8,6 +8,7 @@ import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
 import decide.localControl.LocalControlHandler;
+import decide.qv.prism.ModelChecker;
 import decide.qv.prism.PrismAPI;
 import decide.qv.prism.QV;
 import decide.receipt.CLAReceipt;
@@ -123,12 +124,13 @@ public class DECIDE implements Cloneable, Serializable{
 	/**
 	 * Run <b>DECIDE</b> protocol
 	 */
-	public void run(){		
+	public void run(){
+		long delay = Long.parseLong(Utility.getProperty("DELAY", "2000"));
 		try{
 			while (true){
 				lca.execute(this.ID);
 				try{
-					Thread.sleep(3000);
+					Thread.sleep(delay);
 				}
 				catch (InterruptedException ie){
 					ie.printStackTrace();
@@ -149,7 +151,7 @@ public class DECIDE implements Cloneable, Serializable{
 	 * @param client
 	 */
 	public void setClient(ClientDECIDE client){
-		lca.client(client);
+		lca.assignClient(client);
 	}
 	
 	
@@ -191,10 +193,11 @@ public class DECIDE implements Cloneable, Serializable{
 	 * @param decide
 	 */
 	private DECIDE (DECIDE decide){
-		this.lca 			= (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
+		this.qv				= decide.qv.deepClone();
+		this.lca 			= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
 		this.claReceipt		= decide.claReceipt.deepClone();
 		this.selection		= (Selection)Utility.deepCopy(decide.selection);
-		this.localControl	= (LocalControl)Utility.deepCopy(decide.localControl);
+		this.localControl	= decide.localControl.deepClone();//(LocalControl)Utility.deepCopy(decide.localControl);
 		this.ID				= decide.ID;
 	}
 
