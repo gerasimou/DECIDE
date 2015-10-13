@@ -1,11 +1,13 @@
 package auxiliary;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -148,21 +150,22 @@ public class Utility {
 	}
 	
 	
-	private static  void parseConfiguration(){
-		//Get the properties set
-		Set<Entry<Object,Object>> propertiesSet = properties.entrySet();
-		
-		//Get the iterator
-		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
-				
-		while (iterator.hasNext()){
-			Entry<Object, Object> entry = iterator.next();
-			String key					= entry.getKey().toString();
-			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
-			
-			System.out.println(key +"\t"+ value);
-			
-//			COMPONENT = 1, SERVER:9991, CLIENT:127.0.0.1:9992, CLIENT:127.0.0.1:9993
+	public static String readFile(String fileName) {
+		StringBuilder model = new StringBuilder(100);
+		BufferedReader bfr = null;
+
+		try {
+			bfr = new BufferedReader(new FileReader(new File(fileName)));
+			String line = null;
+			while ((line = bfr.readLine()) != null) {
+				model.append(line + "\n");
+			}
+			model.delete(model.length() - 1, model.length());
+			return model.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
+		return null;
 	}
 }

@@ -2,7 +2,7 @@ package decide.qv.prism;
 
 import java.util.List;
 
-public class ModelChecker implements QV {
+public class ModelChecker extends QV {
 
 	public ModelChecker() {
 		// TODO Auto-generated constructor stub
@@ -24,6 +24,13 @@ public class ModelChecker implements QV {
 	public QV deepClone() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void loadModel(String modelString) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

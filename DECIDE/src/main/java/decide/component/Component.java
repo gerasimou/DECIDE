@@ -20,14 +20,7 @@ public class Component implements Runnable{
 	private DECIDE decide;
 	
 	/** Component ID*/
-	private String id;
-	
-	/** Server handler */
-	private ServerSocketDECIDE server;
-	
-	/** Peers list*/
-	private List<ClientSocketDECIDE> peersList;
-	
+	private String id;	
 	
 	
 	/**
@@ -40,15 +33,6 @@ public class Component implements Runnable{
 		//init global and local requirement lists
 		this.requirementsGlobalList = new ArrayList<Requirement>();
 		this.requirementsLocalList	= new ArrayList<Requirement>();
-		
-//		//Server handler
-//		this.server = new ServerDECIDE(Integer.parseInt(listeningPort));
-//		
-//		//initialise peers list
-//		this.peersList = new ArrayList<ClientDECIDE>();
-//		for (String[] peerArray : peersDetailsList){
-//			this.peersList.add(new ClientDECIDE(peerArray[0], Integer.parseInt(peerArray[1])));
-//		}
 		
 		//DECIDE handler
 		this.decide = decide;

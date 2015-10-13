@@ -8,7 +8,6 @@ import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
 import decide.localControl.LocalControlHandler;
-import decide.qv.prism.ModelChecker;
 import decide.qv.prism.PrismAPI;
 import decide.qv.prism.QV;
 import decide.receipt.CLAReceipt;
@@ -30,7 +29,9 @@ public class DECIDE implements Cloneable, Serializable{
 	private QV qv;
 
 	/** this DECIDE ID */
-	private String					ID;
+	private String					ID;	
+	
+	
 	
 	/**
 	 * Default constructor: instantiates the default handlers
@@ -122,6 +123,20 @@ public class DECIDE implements Cloneable, Serializable{
 	
 	
 	/**
+	 * Class <b>copy</b> constructor
+	 * @param decide
+	 */
+	private DECIDE (DECIDE decide){
+		this.qv				= decide.qv.deepClone();
+		this.lca 			= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
+		this.claReceipt		= decide.claReceipt.deepClone();
+		this.selection		= (Selection)Utility.deepCopy(decide.selection);
+		this.localControl	= decide.localControl.deepClone();//(LocalControl)Utility.deepCopy(decide.localControl);
+		this.ID				= decide.ID;
+	}
+
+	
+	/**
 	 * Run <b>DECIDE</b> protocol
 	 */
 	public void run(){
@@ -185,20 +200,6 @@ public class DECIDE implements Cloneable, Serializable{
 	 */
 	public DECIDE deepClone(){ 
 		return new DECIDE(this);
-	}
-	
-	
-	/**
-	 * Copy constructor
-	 * @param decide
-	 */
-	private DECIDE (DECIDE decide){
-		this.qv				= decide.qv.deepClone();
-		this.lca 			= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
-		this.claReceipt		= decide.claReceipt.deepClone();
-		this.selection		= (Selection)Utility.deepCopy(decide.selection);
-		this.localControl	= decide.localControl.deepClone();//(LocalControl)Utility.deepCopy(decide.localControl);
-		this.ID				= decide.ID;
 	}
 
 	
