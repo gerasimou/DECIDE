@@ -96,7 +96,7 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 					  <manifest>
-						<mainClass>main.ENTRUST</mainClass>
+						<mainClass>main.mainDECIDE</mainClass>
 					  </manifest>
 					</archive>
  
@@ -127,16 +127,50 @@
 				              <goal>copy-resources</goal>
 				            </goals>
 				            <configuration>
-				              <outputDirectory>${basedir}/target/</outputDirectory>
+				              <outputDirectory>${basedir}/target/resources/</outputDirectory>
 				              <resources>          
 				                <resource>
-				                  <directory>models/</directory>
+				                  <directory>resources</directory>
 				                  <filtering>false</filtering>
 				                </resource>
 				              </resources>              
 				            </configuration>
 		          		</execution>
-		        	</executions>
+		          		<execution>
+		            		<id>copy-models</id>
+		            		<!-- here the phase you need -->
+				            <phase>package</phase>
+				            <goals>
+				              <goal>copy-resources</goal>
+				            </goals>
+				            <configuration>
+				              <outputDirectory>${basedir}/target/models/</outputDirectory>
+				              <resources>          
+				                <resource>
+				                  <directory>models</directory>
+				                  <filtering>false</filtering>
+				                </resource>
+				              </resources>              
+				            </configuration>
+		          		</execution>
+		          		<execution>
+		            		<id>copy-repo</id>
+		            		<!-- here the phase you need -->
+				            <phase>package</phase>
+				            <goals>
+				              <goal>copy-resources</goal>
+				            </goals>
+				            <configuration>
+				              <outputDirectory>${basedir}/target/repo/</outputDirectory>
+				              <resources>          
+				                <resource>
+				                  <directory>repo</directory>
+				                  <filtering>false</filtering>
+				                </resource>
+				              </resources>              
+				            </configuration>
+		          		</execution>		        	
+	          		</executions>
 		      </plugin>
 
   			
@@ -147,13 +181,18 @@
 			    <configuration>
 				      <filesets>
 					        <fileset>
-						          <directory>${basedir}</directory>
-						          <includes>
-						            <include>output_Prism.txt</include>
-						            <include>FUN*</include>
-						            <include>VAR</include>
-						          </includes>
-					          <followSymlinks>false</followSymlinks>
+						        <directory>${basedir}</directory>
+						        <includes>
+						            <include>config.properties</include>
+						        </includes>
+					        	<followSymlinks>false</followSymlinks>
+					        </fileset>
+					        <fileset>
+					        	<directory>${basedir}/target</directory>
+					        	<includes>
+					        		<include>**/config.properties</include>
+					        	</includes>
+					        	<followSymlinks>false</followSymlinks>
 					        </fileset>
 				      </filesets>
 			    </configuration>
