@@ -31,7 +31,7 @@ public class CLAReceiptHandler extends CLAReceipt{
 	 * Clone the CLAReceipt handler
 	 */
 	@Override
-	public CLAReceipt deepClone() {
+	public CLAReceipt deepClone(Object ... args) {
 		CLAReceipt newHandler = new CLAReceiptHandler(this);
 		return newHandler;
 	}

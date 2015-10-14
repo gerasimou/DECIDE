@@ -12,4 +12,11 @@ public class SelectionHandler extends Selection{
 		System.out.println(this.getClass().getName()+".execute()");		
 	}
 
+	
+	@Override
+	public Selection deepClone(Object... args) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

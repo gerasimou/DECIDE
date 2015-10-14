@@ -53,7 +53,7 @@ public class PrismQV extends QV {
 	 * Clone the QV handler
 	 */
 	@Override
-	public QV deepClone() {
+	public QV deepClone(Object ... args) {
 		QV newHandler = new PrismQV(this);
 		return newHandler;
 	}

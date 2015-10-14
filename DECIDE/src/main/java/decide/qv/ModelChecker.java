@@ -21,7 +21,7 @@ public class ModelChecker extends QV {
 	}
 
 	@Override
-	public QV deepClone() {
+	public QV deepClone(Object ... args) {
 		// TODO Auto-generated method stub
 		return null;
 	}

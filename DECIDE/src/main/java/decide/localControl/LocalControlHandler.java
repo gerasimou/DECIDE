@@ -20,7 +20,6 @@ public class LocalControlHandler extends LocalControl{
 	 */
 	private LocalControlHandler (LocalControlHandler instance) {
 		super();
-		this.qv 	= null;//instance.qv.deepClone();
 //		this.client	= instance.client.deepClone();
 	}
 
@@ -32,8 +31,9 @@ public class LocalControlHandler extends LocalControl{
 	
 	
 	
-	public LocalControl deepClone(){
+	public LocalControl deepClone(Object ... args){
 		LocalControl newHandler = new LocalControlHandler(this);
+		newHandler.qv = (QV) args[0];
 		return newHandler;
 	}
 

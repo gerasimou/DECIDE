@@ -20,7 +20,6 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 */
 	private LocalCapabilityAnalysisHandler (LocalCapabilityAnalysisHandler instance) {
 		super();
-		this.qv 	= null;//instance.qv.deepClone();
 //		this.client	= instance.client.deepClone();
 	}
 
@@ -33,8 +32,9 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	}
 
 	
-	public LocalCapabilityAnalysis deepClone(){
+	public LocalCapabilityAnalysis deepClone(Object ... args){
 		LocalCapabilityAnalysis newHandler = new LocalCapabilityAnalysisHandler(this);
+		newHandler.qv = (QV) args[0];
 		return newHandler;
 	}
 

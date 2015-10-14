@@ -29,6 +29,6 @@ public abstract class QV {
 
 	public abstract void close();
 	
-	public abstract QV deepClone();
+	public abstract QV deepClone(Object ... args);
 	
 }

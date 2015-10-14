@@ -46,6 +46,6 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	 */
 	public abstract void execute(Object...args);
 	
-	public abstract LocalCapabilityAnalysis deepClone();
+	public abstract LocalCapabilityAnalysis deepClone(Object ... args);
 
 }

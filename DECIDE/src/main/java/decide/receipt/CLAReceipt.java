@@ -26,5 +26,5 @@ public abstract class CLAReceipt implements Serializable{
 	
 	public abstract void execute(Object...args);
 
-	public abstract CLAReceipt deepClone();
+	public abstract CLAReceipt deepClone(Object ... args);
 }

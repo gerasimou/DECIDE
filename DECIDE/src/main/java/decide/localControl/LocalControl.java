@@ -34,6 +34,6 @@ public abstract class LocalControl implements Serializable{
 	public abstract void execute(Object...args);
 	
 	
-	public abstract LocalControl deepClone();
+	public abstract LocalControl deepClone(Object ... args);
 
 }

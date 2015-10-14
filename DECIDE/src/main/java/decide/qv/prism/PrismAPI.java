@@ -37,17 +37,16 @@ public class PrismAPI{
 	/**
 	 * Class constructor
 	 */
-	public PrismAPI(final String RQV_OUTPUT_FILENAME, final String PROPERTIES_FILENAME){
-		super();
+	public PrismAPI(final String outputFileName, final String propertiesFileName){
 		try {
 			// initialise PRISM
-			mainLog = new PrismFileLog(RQV_OUTPUT_FILENAME, false);
+			mainLog = new PrismFileLog(outputFileName, false);
 			prism = new Prism(mainLog, mainLog);
 			prism.initialise();
 //			prism.setLinEqMethod(1);
 //			prism.setMaxIters(100000);
 			
-			this.propertyFile = new File(PROPERTIES_FILENAME);
+			this.propertyFile = new File(propertiesFileName);
 			
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
