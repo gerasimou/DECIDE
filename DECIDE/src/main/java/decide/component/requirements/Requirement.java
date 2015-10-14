@@ -3,15 +3,10 @@ package decide.component.requirements;
 public abstract class Requirement {
 	
 	/** requirement ID*/
-	protected String id;
-
-	/** maximisation*/
-	boolean maximisation;
+	protected String id;	
 	
-	
-	public Requirement(String id, boolean maximisation) {
+	public Requirement(String id) {
 		this.id 			= id;
-		this.maximisation	= maximisation;
 	}
 	
 	
@@ -24,5 +19,5 @@ public abstract class Requirement {
 	}
 	
 	
-	public abstract void evaluate();
+	public abstract Object evaluate(Object ... args);
 }
