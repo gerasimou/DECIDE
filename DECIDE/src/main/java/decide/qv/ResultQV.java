@@ -86,7 +86,7 @@ public class ResultQV{
 	
 	
 	/**
-	 * Get result for requirement 1
+	 * Get result for requirement 1: accuracy
 	 * @return
 	 */
 	public double getReq1Result(){
@@ -95,7 +95,7 @@ public class ResultQV{
 	
 	
 	/**
-	 * Get result for requirement 2
+	 * Get result for requirement 2: energy consumption
 	 * @return
 	 */
 	public double getReq2Result(){

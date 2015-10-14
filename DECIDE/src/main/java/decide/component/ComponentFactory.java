@@ -42,7 +42,7 @@ public class ComponentFactory {
 			
 			//create the components list
 			if (key.contains("COMPONENT")){
-				componentsList.add(makeNewComponentMulticast(key, value, decide));
+				componentsList.add(null);//makeNewComponentMulticast(key, value, decide));
 			}//if			
 		}//while
 		
@@ -58,55 +58,65 @@ public class ComponentFactory {
 	 * @param decide
 	 * @return
 	 */
-	public static Component makeNewComponentMulticast(String id, String features, DECIDE decide){
+	public static Component makeNewComponentMulticast(Class componentClass, String id, String features, DECIDE decide){
 		Utility.setup();
 
-		//get all component features
-		String[] featuresList	= features.split(",");
-		
-		
-		String componentID = null;
-		//new DECIDE transmitter
-		ClientDECIDE transmitter = null;
-		//create a list of peers
-		List<ServerDECIDE> peersList = new ArrayList<ServerDECIDE>();
+		try {
 
-		for (String feature : featuresList){
-
-			//get component's ID
-			if (feature.contains("ID")){
-				//get its ID
-				componentID = feature.split(":")[1];				
+			//get all component features
+			String[] featuresList	= features.split(",");
+			
+			String componentID = null;
+			
+			//new DECIDE transmitter
+			ClientDECIDE transmitter = null;
+			
+			//create a list of peers
+			List<ServerDECIDE> peersList = new ArrayList<ServerDECIDE>();
+	
+			for (String feature : featuresList){
+	
+				//get component's ID
+				if (feature.contains("ID")){
+					//get its ID
+					componentID = feature.split(":")[1];				
+				}
+				
+				//get component's transmitting address
+				if (feature.contains("TRANSMITTING")){
+					String transmittingAddress	= feature.split(":")[1];
+					int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
+					//create a new DECIDE transmitter
+					transmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort);
+				}
+				
+				//find the information of its peers
+				if (feature.contains("RECEIVING")){
+					String peerAddress	= feature.split(":")[1];
+					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
+					peersList.add(new MulticastReceiver(peerAddress, peerPort));
+				}			
 			}
 			
-			//get component's transmitting address
-			if (feature.contains("TRANSMITTING")){
-				String transmittingAddress	= feature.split(":")[1];
-				int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
-				//create a new DECIDE transmitter
-				transmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort);
-			}
+			//clone the DECIDE instance given by the user
+			DECIDE newDECIDE = decide.deepClone();
 			
-			//find the information of its peers
-			if (feature.contains("RECEIVING")){
-				String peerAddress	= feature.split(":")[1];
-				int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-				peersList.add(new MulticastReceiver(peerAddress, peerPort));
-			}			
+			//set the DECIDE transmitter and receivers
+			newDECIDE.setClient(transmitter);
+			newDECIDE.setServersList(peersList);
+					
+			Component comp = (Component) componentClass.newInstance();
+			comp.setID(componentID);
+			comp.setDECIDE(newDECIDE);
+			return comp;
+		} 
+		catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+			System.exit(-1);
+			return null;
 		}
 		
-		//clone the DECIDE instance given by the user
-		DECIDE newDECIDE = decide.deepClone();
-		
-		//set the DECIDE transmitter and receivers
-		newDECIDE.setClient(transmitter);
-		newDECIDE.setServersList(peersList);
-		
-//		decide.setClient(transmitter);
-//		decide.setServersList(peersList);				
-		Component component = new Component(componentID, newDECIDE);
-		
-		return component;
+//		return new Component(componentID, newDECIDE);
 	}
 	
 	
@@ -157,8 +167,9 @@ public class ComponentFactory {
 //		newDECIDE.setTransmitter(transmitter);
 //		newDECIDE.setReceivers(peersList);
 		
-		Component component = new Component(componentID, newDECIDE);
-		return component;
+//		Component component = new Component(componentID, newDECIDE);
+//		return component;
+		return null;
 	}
 
 

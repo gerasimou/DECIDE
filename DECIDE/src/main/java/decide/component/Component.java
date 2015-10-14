@@ -4,38 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import decide.DECIDE;
+import decide.component.requirements.Constraint;
+import decide.component.requirements.Objective;
 import decide.component.requirements.Requirement;
 import network.ClientSocketDECIDE;
 import network.ServerSocketDECIDE;
 
-public class Component implements Runnable{
+public abstract class Component implements Runnable{
 
 	/** List of global (system-level) requirements (constraints + objectives)*/
-	private List<Requirement> requirementsGlobalList;
+	protected List<Requirement> requirementsGlobalList;
 
 	/** List of local (component-level) requirements (constraints + objectives)*/
-	private List<Requirement> requirementsLocalList;
+	protected List<Requirement> requirementsLocalList;
 	
 	/** DECIDE protocol handler for this component*/
-	private DECIDE decide;
+	protected DECIDE decide;
 	
 	/** Component ID*/
-	private String id;	
+	protected String id;	
 	
 	
 	/**
 	 * Default constructor
 	 */
-	protected Component(String id, DECIDE decide) {
-		//init component's id
-		this.id = id;
-		
+	protected Component() {		
 		//init global and local requirement lists
 		this.requirementsGlobalList = new ArrayList<Requirement>();
 		this.requirementsLocalList	= new ArrayList<Requirement>();
-		
-		//DECIDE handler
-		this.decide = decide;
 	}
 
 
@@ -45,6 +41,15 @@ public class Component implements Runnable{
 	 */
 	public String getID(){
 		return this.id;
+	}
+
+	
+	/**
+	 * Set component ID
+	 * @param ID
+	 */
+	public void setID(String ID){
+		this.id = ID;
 	}
 	
 	
@@ -66,9 +71,15 @@ public class Component implements Runnable{
 	}
 		
 	
+	/**
+	 * Run method
+	 */
 	public void run(){
 		decide.run();
 	}	
 	
+
+	protected abstract void setupGlobalRequirements();
 	
+	protected abstract void setupLocalRequirements();
 }
