@@ -1,12 +1,22 @@
 package decide.qv.prism;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import decide.qv.QV;
+import decide.qv.ResultQV;
 
 public class PrismQV extends QV {
 	
+	/** PrismAPI handler */
 	private PrismAPI prism;
+	
+    /** System characteristics*/
+    private final int NUM_OF_SENSORS		;
+    private final int NUM_OF_SENSOR_CONFIGS	;//possible sensor configurations
+    private final int NUM_OF_SPEED_CONFIGS	; // [0,21], discrete steps
+    private final int NUM_OF_CONFIGURATIONS ;
+	
 
 	/**
 	 * Class constructor
@@ -14,6 +24,12 @@ public class PrismQV extends QV {
 	public PrismQV() {
 		super();
 		this.prism = new PrismAPI(RQV_OUTPUT_FILENAME, PROPERTIES_FILENAME);
+
+		//init system characteristics
+	    NUM_OF_SPEED_CONFIGS	= 21; // [0,21], discrete steps
+	    NUM_OF_SENSORS			= 3;
+	    NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)); //possible sensor configurations
+	    NUM_OF_CONFIGURATIONS	= (NUM_OF_SENSOR_CONFIGS-1) * NUM_OF_SPEED_CONFIGS; //discard configuration in which all sensors are switch off
 	}
 	
 	
@@ -21,25 +37,46 @@ public class PrismQV extends QV {
 	 * Class <b>copy</b> constructor
 	 */
 	private PrismQV (PrismQV instance){
-		super();
-		this.prism = new PrismAPI(instance.RQV_OUTPUT_FILENAME, instance.PROPERTIES_FILENAME);
+		this();
 	}
 
 	
 	@Override
-	public List<Double> run() {
-		//1) Instantiate parametric stochastic model								
-		String modelString = realiseProbabilisticModel(null);//(arguments);
+	public List<ResultQV> run(Object ... args) {
+		List<ResultQV> resultsList = new ArrayList<ResultQV>(); 
+		
+		
+		//For all configurations run QV and populate RQVResultArray
+		for (int CSC=1; CSC<NUM_OF_SENSOR_CONFIGS; CSC++){
+			for (int s=20; s<=40; s++){
 
-		//2) load PRISM model
-		prism.loadModel(modelString);
+				Object[] arguments = new Object[9]; 
+				arguments[0]	= args[0];
+				arguments[1]	= args[1];
+				arguments[2]	= args[2];
+				arguments[3]	= estimateP(s/10.0, 5);
+				arguments[4]	= estimateP(s/10.0, 7);
+				arguments[5]	= estimateP(s/10.0, 11);
+				arguments[6]	= args[3];
+				arguments[7]	= CSC;
+				arguments[8]	= s/10.0;
 
-		//3) run PRISM
-		List<Double> prismResult 	= prism.run();
-		double req1result 			= prismResult.get(0);
-		double req2result 			= prismResult.get(1);
-
-		return prismResult;
+				//1) Instantiate parametric stochastic model								
+				String modelString = realiseProbabilisticModel(arguments);
+		
+				//2) load PRISM model
+				prism.loadModel(modelString);
+		
+				//3) run PRISM
+				List<Double> prismResult 	= prism.run();
+				double req1Result 			= prismResult.get(0);
+				double req2Result 			= prismResult.get(1);
+				
+				resultsList.add(new ResultQV(CSC, s/10.0, req1Result, req2Result));
+			}
+		}
+		
+		return resultsList;
 	}
 
 	

@@ -9,7 +9,7 @@ public class ModelChecker extends QV {
 	}
 
 	@Override
-	public List<Double> run() {
+	public List<Object> run(Object ... args) {
 		// TODO Auto-generated method stub
 		return null;
 	}
