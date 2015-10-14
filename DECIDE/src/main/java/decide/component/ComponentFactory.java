@@ -102,8 +102,8 @@ public class ComponentFactory {
 		newDECIDE.setClient(transmitter);
 		newDECIDE.setServersList(peersList);
 		
-		decide.setClient(transmitter);
-		decide.setServersList(peersList);				
+//		decide.setClient(transmitter);
+//		decide.setServersList(peersList);				
 		Component component = new Component(componentID, newDECIDE);
 		
 		return component;

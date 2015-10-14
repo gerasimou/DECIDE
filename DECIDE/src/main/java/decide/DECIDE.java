@@ -52,13 +52,13 @@ public class DECIDE implements Cloneable, Serializable{
 	 */
 	public DECIDE(LocalCapabilityAnalysis lca, CLAReceipt claReceipt, Selection selection, LocalControl localControl){
 		
+		//if a QV instance exists -> use it, otherwise instantiate a PrismQV (default) instance
 		if (lca!=null)
 			this.qv = lca.getQV();
 		else if (localControl!=null)
 			this.qv = localControl.getQV();
 		else
 			this.qv	= new PrismQV();
-		
 		
 		//if CLAReceipt is null -> instantiate the default handler
 		if (lca == null)
@@ -83,6 +83,7 @@ public class DECIDE implements Cloneable, Serializable{
 			this.localControl = new LocalControlHandler(qv);
 		else
 			this.localControl = localControl;
+		
 	}
 	
 	
@@ -128,10 +129,10 @@ public class DECIDE implements Cloneable, Serializable{
 	 */
 	private DECIDE (DECIDE decide){
 		this.qv				= decide.qv.deepClone();
-		this.lca 			= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
+		this.lca 			= decide.lca.deepClone(this.qv);// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
 		this.claReceipt		= decide.claReceipt.deepClone();
 		this.selection		= (Selection)Utility.deepCopy(decide.selection);
-		this.localControl	= decide.localControl.deepClone();//(LocalControl)Utility.deepCopy(decide.localControl);
+		this.localControl	= decide.localControl.deepClone(this.qv);//(LocalControl)Utility.deepCopy(decide.localControl);
 		this.ID				= decide.ID;
 	}
 
