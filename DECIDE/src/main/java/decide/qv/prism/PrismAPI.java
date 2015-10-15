@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import decide.qv.QV;
+import decide.qv.ResultQV;
 import parser.ast.ModulesFile;
 import parser.ast.PropertiesFile;
 import prism.Prism;
@@ -87,33 +88,32 @@ public class PrismAPI{
 	 * This function receives data for the model and returns a double value for
 	 * the quantified property.
 	 */
-	public List<Double> run() {
-
-		List<Double> results = new ArrayList<Double>();
-
+	public double run(int propertyNum) {
 		try {
-			// run QV
-			for (int i = 0; i < propertiesFile.getNumProperties(); i++) {
-				Result result = prism.modelCheck(propertiesFile,propertiesFile.getProperty(i));
-//				System.out.println(propertiesFile.getProperty(i));
-				if (result.getResult() instanceof Boolean) {
-					boolean booleanResult = (Boolean) result.getResult();
-					
-					if (booleanResult) {
-						results.add(1.0);
-					} else {
-						results.add(0.0);
-					}
-				} else
-					results.add(Double.parseDouble(result.getResult().toString()));
-			}
+			double resultQV;
 
+			// run QV
+			Result result = prism.modelCheck(propertiesFile,propertiesFile.getProperty(propertyNum));
+//				System.out.println(propertiesFile.getProperty(i));
+			if (result.getResult() instanceof Boolean) {
+				boolean booleanResult = (Boolean) result.getResult();
+				
+				if (booleanResult) {
+					resultQV = 1.0;
+				} else {
+					resultQV = 0.0;
+				}
+			} 
+			else
+				resultQV = Double.parseDouble(result.getResult().toString());
+
+			return resultQV;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Model checking error");
 			System.exit(-1);
+			return -1;
 		}
-		return results;
 	}
 
 	
