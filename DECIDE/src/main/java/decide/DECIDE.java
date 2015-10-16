@@ -5,6 +5,7 @@ import java.util.List;
 
 import auxiliary.Utility;
 import decide.configuration.Configuration;
+import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
@@ -33,16 +34,20 @@ public class DECIDE implements Cloneable, Serializable{
 	private String					ID;	
 	
 	/** configuration */
-	private Configuration 			config;
+	private Configuration 			configuration;
+	
+	/** environment */
+	private Environment				environment;
 	
 	
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(String ID, Configuration configuration){
+	public DECIDE(String ID, Configuration configuration, Environment environment){
 		this(null, null, null, null);
 		this.ID  	= ID;
-		this.config	= configuration;
+		this.configuration	= configuration;
+		this.environment	= environment;
 	}
 	
 	
@@ -148,10 +153,11 @@ public class DECIDE implements Cloneable, Serializable{
 		long delay = Long.parseLong(Utility.getProperty("DELAY", "2000"));
 		try{
 			while (true){
-				lca.execute(this.ID, config);
-				config.printAll();
+				lca.execute(this.ID, configuration, environment);
+				configuration.printAll();
 				try{
 					Thread.sleep(delay);
+					System.exit(0);
 				}
 				catch (InterruptedException ie){
 					ie.printStackTrace();
