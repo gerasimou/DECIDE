@@ -1,11 +1,7 @@
 package decide.qv.prism;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import decide.qv.QV;
-import decide.qv.ResultQV;
 import parser.ast.ModulesFile;
 import parser.ast.PropertiesFile;
 import prism.Prism;
@@ -88,7 +84,7 @@ public class PrismAPI{
 	 * This function receives data for the model and returns a double value for
 	 * the quantified property.
 	 */
-	public double run(int propertyNum) {
+	public Double run(int propertyNum) {
 		try {
 			double resultQV;
 
@@ -112,7 +108,7 @@ public class PrismAPI{
 			e.printStackTrace();
 			System.out.println("Model checking error");
 			System.exit(-1);
-			return -1;
+			return -1.0;
 		}
 	}
 

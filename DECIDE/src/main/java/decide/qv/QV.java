@@ -25,7 +25,7 @@ public abstract class QV {
 	}
     
 	
-	public abstract List<?> run(Object ... args);
+	public abstract void run(Object ... args);
 
 	public abstract void close();
 	

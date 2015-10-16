@@ -9,9 +9,8 @@ public class ModelChecker extends QV {
 	}
 
 	@Override
-	public List<Object> run(Object ... args) {
+	public void run(Object ... args) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
