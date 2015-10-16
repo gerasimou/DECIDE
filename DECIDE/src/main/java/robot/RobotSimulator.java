@@ -4,9 +4,9 @@ import decide.component.Component;
 import decide.component.requirements.Constraint;
 import decide.component.requirements.Requirement;
 
-public class Robot extends Component {
+public class RobotSimulator extends Component {
 
-	public Robot() {
+	public RobotSimulator() {
 		super();
 		
 		setupGlobalRequirements();
