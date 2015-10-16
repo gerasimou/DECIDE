@@ -3,6 +3,7 @@ package decide.configuration;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,17 +11,21 @@ public abstract class Configuration {
 
 	/** number of configuration modes */
 	protected int numOfModes;
-		
-	protected Collection<Map<String, ? extends ResultDECIDE>> modes;
 	
-	private Iterator<Map<String, ? extends ResultDECIDE>> modesIterator;
+	/** a collection of modes */
+//	protected Collection<Map<String, ? extends ResultDECIDE>> modes;
+	protected Collection<Mode> modesCollection;
 	
-	private Iterator<? extends Entry<String, ? extends ResultDECIDE>> configurationsModeIterator;
+//	private Iterator<Map<String, ? extends ResultDECIDE>> modesIterator;
+	private Iterator<Mode> modesCollectionIterator;
+	
+	private Iterator<? extends Entry<String, ResultDECIDE>> configurationsModeIterator;
 	
 	private boolean iteratorsInitialised = false;
 	
 	protected Configuration() {
-	    this.modes					= new HashSet<Map<String,? extends ResultDECIDE>>();    
+//	    this.modes				= new HashSet<Map<String,? extends ResultDECIDE>>();    
+		this.modesCollection	= new HashSet<Mode>();
 	}
 	
 	
@@ -30,20 +35,24 @@ public abstract class Configuration {
 	public ResultDECIDE getNext(){
 		
 		if (!iteratorsInitialised){
-		    modesIterator 				= modes.iterator();
-		    configurationsModeIterator 	= modesIterator.next().entrySet().iterator();
+//		    modesIterator 				= modes.iterator();
+//		    configurationsModeIterator 	= modesIterator.next().entrySet().iterator();
 		    iteratorsInitialised		= true;
+		    
+		    modesCollectionIterator		= modesCollection.iterator();
+		    configurationsModeIterator  = modesCollectionIterator.next().getConfigurationsMapIterator();
 		}
 		
 		if (configurationsModeIterator.hasNext())
 			return configurationsModeIterator.next().getValue();
-		else if (modesIterator.hasNext()){
-			configurationsModeIterator 	=  modesIterator.next().entrySet().iterator();
-			return configurationsModeIterator.next().getValue();
+		else if (modesCollectionIterator.hasNext()){
+			configurationsModeIterator 	=  modesCollectionIterator.next().getConfigurationsMapIterator();
+			ResultDECIDE tes = configurationsModeIterator.next().getValue(); 
+			return tes;
 		}
 		else{
-		    modesIterator 				= modes.iterator();		    
-		    configurationsModeIterator	= modesIterator.next().entrySet().iterator();
+			modesCollectionIterator 	= modesCollection.iterator();		    
+		    configurationsModeIterator	= modesCollectionIterator.next().getConfigurationsMapIterator();
 		    return null;
 		}
 	}
@@ -54,6 +63,33 @@ public abstract class Configuration {
 		while ( (result= getNext()) != null){
 			System.out.println(result.toString());
 		}
-		System.out.println("TEST");
+	}
+	
+	
+	
+	protected class Mode{
+		public Map<String, ResultDECIDE> configurationsMap;
+		
+		private Iterator<Entry<String, ResultDECIDE>> configurationsMapIterator;// = configurationsMap.entrySet().iterator();
+		
+		public Mode(){
+			configurationsMap = new LinkedHashMap<String, ResultDECIDE>();
+		}		
+		
+		public void insertConfiguration(String key, ResultDECIDE value){
+			this.configurationsMap.put(key, value);
+		}
+
+		public Iterator<? extends Entry<String, ResultDECIDE>> getConfigurationsMapIterator() {
+			//if it is the first time or reached the end of the collection => reset the iterator
+			if (configurationsMapIterator==null || !configurationsMapIterator.hasNext())
+				resetConfigurationsMapIterator();
+			return configurationsMapIterator;
+		}
+
+		public void resetConfigurationsMapIterator() {
+			this.configurationsMapIterator = configurationsMap.entrySet().iterator();
+		}
+		
 	}
 }

@@ -2,7 +2,6 @@ package robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import decide.configuration.ResultDECIDE;
 
@@ -64,12 +63,12 @@ public class RobotResult extends ResultDECIDE{
      * @return a correct PRISM model instance as a String
      */
     private String realiseModel(Object ... parameters){
-    	StringBuilder model = new StringBuilder(modelAsString + "\n\n//Variables\n");
+    	StringBuilder model = new StringBuilder(modelAsString + "\n\n//Congifuration Variables\n");
 
     	//process the given parameters
-		model.append("const double r1  = "+ parameters[0].toString() +";\n");
-		model.append("const double r2  = "+ parameters[1].toString() +";\n");
-		model.append("const double r3  = "+ parameters[2].toString() +";\n");
+//		model.append("const double r1  = "+ parameters[0].toString() +";\n");
+//		model.append("const double r2  = "+ parameters[1].toString() +";\n");
+//		model.append("const double r3  = "+ parameters[2].toString() +";\n");
 		model.append("const double p1  = "+ parameters[3].toString() +";\n");
 		model.append("const double p2  = "+ parameters[4].toString() +";\n");
 		model.append("const double p3  = "+ parameters[5].toString() +";\n");
