@@ -3,25 +3,24 @@ package decide.qv.prism;
 import java.util.ArrayList;
 import java.util.List;
 
+import auxiliary.Utility;
 import decide.configuration.Configuration;
 import decide.configuration.ResultDECIDE;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.qv.QV;
 
-public class PrismQV extends QV {
+public class PrismQV implements QV {
 	
 	/** PrismAPI handler */
 	private PrismAPI prism;
 	
+	/** Stochastic model & properties filenames*/
+	protected String MODEL_FILENAME 		= Utility.getProperty("MODEL_FILE");
+	protected String PROPERTIES_FILENAME 	= Utility.getProperty("PROPERTIES_FILE");
+	protected String RQV_OUTPUT_FILENAME	= Utility.getProperty("RQV_OUTPUT_FILE");
+
 	/** # of CSL properties */
-	private final int CSL_PROPERTIES;
-	
-    /** System characteristics*/
-    private final int NUM_OF_SENSORS		;
-    private final int NUM_OF_SENSOR_CONFIGS	;//possible sensor configurations
-    private final int NUM_OF_SPEED_CONFIGS	; // [0,21], discrete steps
-    private final int NUM_OF_CONFIGURATIONS ;
-	
+	private int NUM_OF_PROPERTIES;	
 
 	/**
 	 * Class constructor
@@ -33,15 +32,8 @@ public class PrismQV extends QV {
 		this.prism = new PrismAPI(RQV_OUTPUT_FILENAME, PROPERTIES_FILENAME);
 		
 		//init #of CSL properties
-		this.CSL_PROPERTIES = 2;
-
-		//init system characteristics
-	    this.NUM_OF_SPEED_CONFIGS	= 21; // [0,21], discrete steps
-	    this.NUM_OF_SENSORS			= 3;
-	    this.NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)); //possible sensor configurations
-	    this.NUM_OF_CONFIGURATIONS	= (NUM_OF_SENSOR_CONFIGS-1) * NUM_OF_SPEED_CONFIGS; //discard configuration in which all sensors are switch off	    
-	}
-	
+		this.NUM_OF_PROPERTIES = 2;
+	}	
 	
 	/**
 	 * Class <b>copy</b> constructor
@@ -77,49 +69,12 @@ public class PrismQV extends QV {
 			prism.loadModel(model);
 			
 			//3) run PRISM
-			for (int propertyNum=0; propertyNum<CSL_PROPERTIES; propertyNum++){//for all system properties
+			for (int propertyNum=0; propertyNum<NUM_OF_PROPERTIES; propertyNum++){//for all system properties
 				Double res = prism.run(propertyNum);
 				resultsList.add(res);
 			}
 			result.setResults(resultsList);
-		}		
-//		List<ResultQV> resultsList = new ArrayList<ResultQV>(); 
-//		
-//		Object[] arguments = new Object[9]; 
-//
-//		double[] resultArray = new double[CSL_PROPERTIES];
-//		
-//		//For all configurations run QV and populate RQVResultArray
-//		for (int CSC=1; CSC<NUM_OF_SENSOR_CONFIGS; CSC++){//for all possible sensors configurations
-//
-//			for (int s=20; s<=40; s++){//for all possible UUV speed				
-//				arguments[3]	= estimateP(s/10.0, 5);		//sensor 1 accuracy
-//				arguments[4]	= estimateP(s/10.0, 7);		//sensor 2 accuracy
-//				arguments[5]	= estimateP(s/10.0, 11);	//sensor 3 accuracy
-//				arguments[6]	= args[3];					//previous configuration
-//				arguments[7]	= CSC;						//current configuration
-//				arguments[8]	= s/10.0;					//speed
-//
-//				for (int propertyNum=0; propertyNum<CSL_PROPERTIES; propertyNum++){//for all system properties
-//					arguments[0]	= estimateEnvironment(CSC, propertyNum, Double.parseDouble(args[0].toString())); //sensor 1 rate
-//					arguments[1]	= estimateEnvironment(CSC, propertyNum, Double.parseDouble(args[1].toString())); //sensor 2 rate
-//					arguments[2]	= estimateEnvironment(CSC, propertyNum, Double.parseDouble(args[2].toString())); //sensor 3 rate
-//
-//					//1) Instantiate parametric stochastic model								
-//					String modelString = realiseProbabilisticModel(arguments);
-//			
-//					//2) load PRISM model
-//					prism.loadModel(modelString);
-//					
-//					//3) run PRISM
-//					resultArray[propertyNum] 	= prism.run(propertyNum);
-//				}
-//				
-//				resultsList.add(new ResultQV(CSC, s/10.0, resultArray[0], resultArray[1]));
-//			}
-//		}
-//		
-//		return resultsList;
+		}
 	}
 
 	

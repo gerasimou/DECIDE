@@ -1,8 +1,6 @@
 package decide.qv;
 
-import java.util.List;
-
-public class ModelChecker extends QV {
+public class ModelChecker implements QV {
 
 	public ModelChecker() {
 		// TODO Auto-generated constructor stub
