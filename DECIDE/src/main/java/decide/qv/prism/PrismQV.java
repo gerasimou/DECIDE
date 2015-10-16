@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auxiliary.Utility;
+import decide.configuration.ConfigurationsCollection;
 import decide.configuration.Configuration;
-import decide.configuration.ResultDECIDE;
 import decide.environment.Environment;
 import decide.qv.QV;
 
@@ -50,8 +50,8 @@ public class PrismQV implements QV {
 	public void run(Object ... args) {
 		
 //		//For all configurations run QV
-		ResultDECIDE 	result 		= null;
-		Configuration 	config 		= (Configuration)args[0];
+		Configuration 	result 		= null;
+		ConfigurationsCollection 	config 		= (ConfigurationsCollection)args[0];
 		Environment		environment	= (Environment)args[1];
 
 		

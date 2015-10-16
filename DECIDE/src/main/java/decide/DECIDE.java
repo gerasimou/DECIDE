@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import auxiliary.Utility;
-import decide.configuration.Configuration;
+import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
@@ -34,7 +34,7 @@ public class DECIDE implements Cloneable, Serializable{
 	private String					ID;	
 	
 	/** configuration */
-	private Configuration 			configuration;
+	private ConfigurationsCollection 			configuration;
 	
 	/** environment */
 	private Environment				environment;
@@ -43,7 +43,7 @@ public class DECIDE implements Cloneable, Serializable{
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(String ID, Configuration configuration, Environment environment){
+	public DECIDE(String ID, ConfigurationsCollection configuration, Environment environment){
 		this(null, null, null, null);
 		this.ID  	= ID;
 		this.configuration	= configuration;
