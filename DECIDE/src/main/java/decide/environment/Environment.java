@@ -23,10 +23,13 @@ public abstract class Environment {
 	 * @param value
 	 */
 	public void updateEnvironmentElement(String elementName, Object value){
-		this.environmentMap.put(elementName, value);		
+		this.environmentMap.put(elementName, value);
 	}
 
 	
 	public abstract String getModel(); 
+	
+	
+	protected abstract double estimateEnvironment (Object ... args);
 
 }

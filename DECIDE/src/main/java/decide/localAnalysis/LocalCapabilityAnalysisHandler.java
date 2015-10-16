@@ -1,5 +1,6 @@
 package decide.localAnalysis;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 //		System.out.println(this.getClass().getName()+".execute()");
 		
 		//Step 1) Carry out DECIDE-based quantitative verification
-		
+		qv.run(Arrays.copyOfRange(args, 1,args.length));
 		
 		//Step 2) Find the best result per configuration subset
 		
@@ -41,12 +42,11 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 		//Step 3) Assemble capability summary
 		
 		
-		List<?> resultsList = qv.run(5,4,4,1);
-		for (Object object : resultsList){
-			System.out.println(object.toString());
-		}
-		
-		client.send((String)args[0]);
+//		for (Object object : resultsList){
+//			System.out.println(object.toString());
+//		}
+//		
+//		client.send((String)args[0]);
 	}
 
 	

@@ -7,7 +7,6 @@ import auxiliary.Utility;
 import decide.configuration.Configuration;
 import decide.configuration.ResultDECIDE;
 import decide.environment.Environment;
-import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.qv.QV;
 
 public class PrismQV implements QV {
@@ -46,11 +45,6 @@ public class PrismQV implements QV {
 	
 	/**
 	 * Run quantitative verification for this model
-	 * <b>This method is application-specific and works only with the UUV case study </b>
-	 * arg[0]: sensor 1 rate
-	 * arg[1]: sensor 2 rate
-	 * arg[2]: sensor 3 rate
-	 * arg[3]: previous sensors configuration \in 1, ..., 7
 	 */
 	@Override
 	public void run(Object ... args) {
@@ -97,34 +91,6 @@ public class PrismQV implements QV {
 	public QV deepClone(Object ... args) {
 		QV newHandler = new PrismQV(this);
 		return newHandler;
-	}
-	
-	
-	private double estimateEnvironment(int CSC, int propertyNum, double sensorRate){
-		double stDeviation = 0.3;
-		
-		double confidenceValue = -1;
-		if (CSC==1 || CSC==2 || CSC==4){
-			confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("1");
-		}
-		else if (CSC==3 || CSC==5 || CSC==6){
-			confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("2");
-		}
-		else if (CSC==7){
-			confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("3");
-		}
-		else 
-			throw new IllegalArgumentException("Current sensor configuration outside boundaries");
-		
-		
-		if (propertyNum==0){
-			return Math.max(0.1, sensorRate - confidenceValue * stDeviation);
-		}
-		else if (propertyNum==1){
-			return Math.max(0.1, sensorRate + confidenceValue * stDeviation);			
-		}
-		else 
-			throw new IllegalArgumentException("Property index outside boundaries");
 	}
 
 }

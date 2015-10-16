@@ -4,9 +4,10 @@ import decide.DECIDE;
 import decide.component.Component;
 import decide.component.ComponentFactory;
 import decide.configuration.Configuration;
-import decide.configuration.ResultDECIDE;
-import robot.RobotOld;
+import decide.environment.Environment;
 import robot.RobotConfiguration;
+import robot.RobotEnvironment;
+import robot.RobotSimulator;
 
 public class mainDECIDE {
 
@@ -20,14 +21,25 @@ public class mainDECIDE {
 		String 	 componentID		= componentDetails[0];
 		String 	 componentFeatures	= componentDetails[1];
 		
-		Configuration config = new RobotConfiguration();
-
-		DECIDE decide = new DECIDE(componentID, config);
+		//create a new robot configuration instance
+		Configuration configuration = new RobotConfiguration();
 		
-		Component aComponent = ComponentFactory.makeNewComponentMulticast(RobotOld.class, componentID, componentFeatures, decide);
-//		
+		//create a new robot environment instance
+		Environment   environment	= new RobotEnvironment();
+
+		//create a new DECIDE protocol instance
+		DECIDE decide = new DECIDE(componentID, configuration, environment);
+		
+		//create a new component
+		Component aComponent = ComponentFactory.makeNewComponentMulticast(RobotSimulator.class, componentID, componentFeatures, decide);
+
+		//start executing		
 		aComponent.run();		
 				
+		
+		
+		
+		
 		//init system components based on the features described in config.properties
 //		List<Component> componentsList = ComponentFactory.createComponents(decide);
 //
@@ -51,26 +63,5 @@ public class mainDECIDE {
 //		}
 
 		System.err.println("END");
-	}
-	
-
-	
-	
-	
-	
-	
-	private static void runMe(String parameter){
-//		if(logger.isDebugEnabled()){
-//			logger.debug("This is debug : " + parameter);
-//		}
-//		
-//		if(logger.isInfoEnabled()){
-//			logger.info("This is info : " + parameter);
-//		}
-//		
-//		logger.warn("This is warn : " + parameter);
-//		logger.error("This is error : " + parameter);
-//		logger.fatal("This is fatal : " + parameter);
-//		
 	}
 }

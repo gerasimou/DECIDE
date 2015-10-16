@@ -69,12 +69,12 @@ public class RobotResult extends ResultDECIDE{
 //		model.append("const double r1  = "+ parameters[0].toString() +";\n");
 //		model.append("const double r2  = "+ parameters[1].toString() +";\n");
 //		model.append("const double r3  = "+ parameters[2].toString() +";\n");
-		model.append("const double p1  = "+ parameters[3].toString() +";\n");
-		model.append("const double p2  = "+ parameters[4].toString() +";\n");
-		model.append("const double p3  = "+ parameters[5].toString() +";\n");
-		model.append("const int    PSC = "+ parameters[6].toString() +";\n");
-		model.append("const int    CSC = "+ parameters[7].toString() +";\n");
-		model.append("const double s   = "+ parameters[8].toString() +";\n\n");
+		model.append("const double p1  = "+ parameters[0].toString() +";\n");
+		model.append("const double p2  = "+ parameters[1].toString() +";\n");
+		model.append("const double p3  = "+ parameters[2].toString() +";\n");
+		model.append("const int    PSC = "+ parameters[3].toString() +";\n");
+		model.append("const int    CSC = "+ parameters[4].toString() +";\n");
+		model.append("const double s   = "+ parameters[5].toString() +";\n\n");
     	
     	return model.toString();
     }
@@ -95,7 +95,7 @@ public class RobotResult extends ResultDECIDE{
 	public String getModel() {
 		
 		return realiseModel(
-						5, 4, 4,					// environment information
+//						5, 4, 4,					// environment information
 						estimateP(speed/10.0, 5),	//sensor 1 accuracy
 						estimateP(speed/10.0, 7),	//sensor 2 accuracy
 						estimateP(speed/10.0, 11),	//sensor 3 accuracy

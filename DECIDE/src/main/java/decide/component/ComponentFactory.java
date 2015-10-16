@@ -99,15 +99,15 @@ public class ComponentFactory {
 			}
 			
 			//clone the DECIDE instance given by the user
-			DECIDE newDECIDE = decide.deepClone();
+//			DECIDE newDECIDE = decide.deepClone();
 			
 			//set the DECIDE transmitter and receivers
-			newDECIDE.setClient(transmitter);
-			newDECIDE.setServersList(peersList);
+			decide.setClient(transmitter);
+			decide.setServersList(peersList);
 					
 			Component comp = (Component) componentClass.newInstance();
 			comp.setID(componentID);
-			comp.setDECIDE(newDECIDE);
+			comp.setDECIDE(decide);
 			return comp;
 		} 
 		catch (InstantiationException | IllegalAccessException e) {

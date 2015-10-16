@@ -4,13 +4,15 @@ public abstract class Constraint extends Requirement {
 	
 
 	/** threshold*/
-	private Number threshold;
+	protected Number threshold;
 	
 	/** */ 
 	
 	
-	public Constraint(String id, boolean maximisation, Number threshold) {
+	public Constraint(String id, Number threshold) {
 		super(id);
 		this.threshold = threshold;
 	}
+
+	public abstract Object evaluate(Object... args);
 }
