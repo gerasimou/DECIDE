@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import auxiliary.Utility;
+import decide.configuration.Configuration;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
@@ -31,14 +32,17 @@ public class DECIDE implements Cloneable, Serializable{
 	/** this DECIDE ID */
 	private String					ID;	
 	
+	/** configuration */
+	private Configuration 			config;
 	
 	
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(String ID){
+	public DECIDE(String ID, Configuration configuration){
 		this(null, null, null, null);
 		this.ID  	= ID;
+		this.config	= configuration;
 	}
 	
 	
@@ -144,7 +148,8 @@ public class DECIDE implements Cloneable, Serializable{
 		long delay = Long.parseLong(Utility.getProperty("DELAY", "2000"));
 		try{
 			while (true){
-				lca.execute(this.ID);
+				lca.execute(this.ID, config);
+				config.printAll();
 				try{
 					Thread.sleep(delay);
 				}

@@ -10,7 +10,7 @@ public class RobotSimulator extends Component {
 		super();
 		
 		setupGlobalRequirements();
-		setupLocalRequirements();
+		setupLocalRequirements();  
 	}
 	
 	

@@ -3,6 +3,10 @@ package main;
 import decide.DECIDE;
 import decide.component.Component;
 import decide.component.ComponentFactory;
+import decide.configuration.Configuration;
+import decide.configuration.ResultDECIDE;
+import robot.RobotOld;
+import robot.RobotConfiguration;
 
 public class mainDECIDE {
 
@@ -15,21 +19,15 @@ public class mainDECIDE {
 		String[] componentDetails 	= ComponentFactory.getComponentDetails();
 		String 	 componentID		= componentDetails[0];
 		String 	 componentFeatures	= componentDetails[1];
+		
+		Configuration config = new RobotConfiguration();
 
-//		componentID 			= "C1";
-//		componentFeatures 	= "ID:C1,TRANSMITTING:224.224.224.221:8881,RECEIVING:224.224.224.222:8882,RECEIVING:224.224.224.223:8883"; 
+		DECIDE decide = new DECIDE(componentID, config);
 		
-//		componentID 			= "C2";
-//		componentFeatures		= "ID:C2, TRANSMITTING:224.224.224.222:8882, RECEIVING:224.224.224.221:8881, RECEIVING:224.224.224.223:8883";
-
-		
-		DECIDE decide = new DECIDE(componentID);
-		
-		Component aComponent = ComponentFactory.makeNewComponentMulticast(componentID, componentFeatures, decide);
-		
-		aComponent.run();
-		
-		
+		Component aComponent = ComponentFactory.makeNewComponentMulticast(RobotOld.class, componentID, componentFeatures, decide);
+//		
+		aComponent.run();		
+				
 		//init system components based on the features described in config.properties
 //		List<Component> componentsList = ComponentFactory.createComponents(decide);
 //
