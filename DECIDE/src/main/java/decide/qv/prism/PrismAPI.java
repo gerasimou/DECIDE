@@ -70,8 +70,11 @@ public class PrismAPI{
 			this.modelString = modelString;
 			modulesFile = prism.parseModelString(this.modelString);
 			modulesFile.setUndefinedConstants(null);
-			propertiesFile = prism.parsePropertiesFile(modulesFile,propertyFile);
-			propertiesFile.setUndefinedConstants(null);
+			
+			if (propertiesFile == null){
+				propertiesFile = prism.parsePropertiesFile(modulesFile,propertyFile);
+				propertiesFile.setUndefinedConstants(null);
+			}
 			prism.buildModel(modulesFile);
 		} 
 		catch (Exception e) {
@@ -89,7 +92,7 @@ public class PrismAPI{
 			double resultQV;
 
 			// run QV
-			Result result = prism.modelCheck(propertiesFile,propertiesFile.getProperty(propertyNum));
+			Result result = prism.modelCheck (propertiesFile,propertiesFile.getProperty(propertyNum));
 //				System.out.println(propertiesFile.getProperty(i));
 			if (result.getResult() instanceof Boolean) {
 				boolean booleanResult = (Boolean) result.getResult();

@@ -6,6 +6,7 @@ import java.util.List;
 import auxiliary.Utility;
 import decide.configuration.Configuration;
 import decide.configuration.ResultDECIDE;
+import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.qv.QV;
 
@@ -55,8 +56,9 @@ public class PrismQV implements QV {
 	public void run(Object ... args) {
 		
 //		//For all configurations run QV
-		ResultDECIDE result = null;
-		Configuration config = (Configuration)args[0];
+		ResultDECIDE 	result 		= null;
+		Configuration 	config 		= (Configuration)args[0];
+		Environment		environment	= (Environment)args[1];
 
 		
 		while ((result = config.getNext()) != null){
@@ -64,6 +66,7 @@ public class PrismQV implements QV {
 
 			//1) Instantiate parametric stochastic model								
 			String model = result.getModel();
+			model += environment.getModel();
 	
 			//2) load PRISM model
 			prism.loadModel(model);
@@ -78,6 +81,9 @@ public class PrismQV implements QV {
 	}
 
 	
+	/**
+	 * Close PrismQV & PrismAPI
+	 */
 	@Override
 	public void close() {
 		prism.close();
