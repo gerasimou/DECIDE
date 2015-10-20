@@ -1,7 +1,10 @@
 package robot;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import decide.configuration.Configuration;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 
@@ -31,35 +34,46 @@ public class RobotEnvironment extends Environment {
 	
 
 	@Override
-	protected double estimateEnvironment(Object ... args){
-		int CSC 			= Integer.parseInt(args[0].toString());
-		int propertyNum		= Integer.parseInt(args[1].toString());
-		double sensorRate 	= Double.parseDouble(args[2].toString());
+	protected Map<String, Object> adjustEnvironment(Configuration configuration, int property){
 		
-		double stDeviation = 0.3;
+		@SuppressWarnings("unchecked")
+		List<Object> configurationElements = (List<Object>) configuration.getConfigurationElements();
 		
-		double confidenceValue = -1;
-		if (CSC==1 || CSC==2 || CSC==4){
-			confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("1");
-		}
-		else if (CSC==3 || CSC==5 || CSC==6){
-			confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("2");
-		}
-		else if (CSC==7){
-			confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("3");
-		}
-		else 
-			throw new IllegalArgumentException("Current sensor configuration outside boundaries");
+//		Map<String, Object> adjustedEnvironmentMap = new HashMap<>();
+		
+		int CSC 					= (int)configurationElements.get(0);
 		
 		
-		if (propertyNum==0){
-			return Math.max(0.1, sensorRate - confidenceValue * stDeviation);
+		for (Map.Entry<String, Object> entry : environmentMap.entrySet()){
+			
+			double environmentParam 	= Double.parseDouble(entry.getValue().toString());
+			
+			double stDeviation = 0.3;
+			
+			double confidenceValue = -1;
+			if (CSC==1 || CSC==2 || CSC==4){
+				confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("1");
+			}
+			else if (CSC==3 || CSC==5 || CSC==6){
+				confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("2");
+			}
+			else if (CSC==7){
+				confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("3");
+			}
+			else 
+				throw new IllegalArgumentException("Current sensor configuration outside boundaries");
+			
+			
+			if (property==0){
+				environmentMap.put(entry.getKey(), Math.max(0.1, environmentParam - confidenceValue * stDeviation));
+			}
+			else if (property==1){
+				environmentMap.put(entry.getKey(), Math.max(0.1, environmentParam + confidenceValue * stDeviation));
+			}
+			else 
+				throw new IllegalArgumentException("Property index outside boundaries");
 		}
-		else if (propertyNum==1){
-			return Math.max(0.1, sensorRate + confidenceValue * stDeviation);			
-		}
-		else 
-			throw new IllegalArgumentException("Property index outside boundaries");
+		return environmentMap;
 	}
 
 }

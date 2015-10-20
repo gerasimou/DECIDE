@@ -32,5 +32,7 @@ public abstract class Configuration {
 	
 	
 	public abstract String getModel(); 
+	
+	public abstract List<?> getConfigurationElements();
 
 }

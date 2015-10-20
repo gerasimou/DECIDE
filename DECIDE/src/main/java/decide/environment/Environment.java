@@ -3,17 +3,21 @@ package decide.environment;
 import java.util.HashMap;
 import java.util.Map;
 
+import decide.configuration.Configuration;
+
 public abstract class Environment {
 	
 	/** Map containing environment information*/
 	protected Map<String, Object> environmentMap;
+	protected Map<String, Object> adjustedEnvironmentMap;
 
 	
 	/**
 	 * Class constructor
 	 */
 	public Environment() {
-		this.environmentMap = new HashMap<String, Object>();
+		this.environmentMap 		= new HashMap<String, Object>();
+		this.adjustedEnvironmentMap	= new HashMap<String, Object>();
 	}
 
 	
@@ -30,6 +34,17 @@ public abstract class Environment {
 	public abstract String getModel(); 
 	
 	
-	protected abstract double estimateEnvironment (Object ... args);
+	protected abstract Map<String, Object> adjustEnvironment (Configuration configuration, int property);
 
+	public String getModel(boolean adjustedModel, Configuration configuration, int propertyNum){
+		if (adjustedModel){
+			adjustedEnvironmentMap  = new HashMap<>(environmentMap);
+			adjustEnvironment(configuration, propertyNum);
+			String modelString	   	= getModel();
+			environmentMap			= adjustedEnvironmentMap;
+			return modelString;
+		}
+		else
+			return getModel();
+	}
 }
