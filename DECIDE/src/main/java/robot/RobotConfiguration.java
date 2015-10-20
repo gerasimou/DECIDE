@@ -2,6 +2,7 @@ package robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import decide.configuration.Configuration;
 
@@ -102,5 +103,13 @@ public class RobotConfiguration extends Configuration{
 						5, CSC, speed
 					);	
 	}
+
+
+	@Override
+	public List<?> getConfigurationElements() {
+		return Arrays.asList(new Object[]{CSC, sensor1, sensor2, sensor3, speed});
+	}
+	
+	
 	
 }

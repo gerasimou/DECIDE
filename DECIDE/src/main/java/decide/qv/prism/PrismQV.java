@@ -50,27 +50,27 @@ public class PrismQV implements QV {
 	public void run(Object ... args) {
 		
 //		//For all configurations run QV
-		Configuration 	result 		= null;
-		ConfigurationsCollection 	config 		= (ConfigurationsCollection)args[0];
-		Environment		environment	= (Environment)args[1];
+		Configuration 	config 						= null;
+		ConfigurationsCollection configsCollection 	= (ConfigurationsCollection)args[0];
+		Environment		environment					= (Environment)args[1];
+		boolean 		adjustEnvironment			= (boolean)args[2];
 
 		
-		while ((result = config.getNext()) != null){
+		while ((config = configsCollection.getNext()) != null){
 			List<Double> resultsList = new ArrayList<Double> ();
 
-			//1) Instantiate parametric stochastic model								
-			String model = result.getModel();
-			model += environment.getModel();
-	
-			//2) load PRISM model
-			prism.loadModel(model);
-			
-			//3) run PRISM
 			for (int propertyNum=0; propertyNum<NUM_OF_PROPERTIES; propertyNum++){//for all system properties
+				//1) Instantiate parametric stochastic model								
+				String model = config.getModel() + environment.getModel(adjustEnvironment, config, propertyNum);
+		
+				//2) load PRISM model
+				prism.loadModel(model);
+				
+				//3) run PRISM
 				Double res = prism.run(propertyNum);
 				resultsList.add(res);
 			}
-			result.setResults(resultsList);
+			config.setResults(resultsList);
 		}
 	}
 

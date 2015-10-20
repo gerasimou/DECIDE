@@ -157,6 +157,7 @@ public class DECIDE implements Cloneable, Serializable{
 				configuration.printAll();
 				try{
 					Thread.sleep(delay);
+					localControl.execute(this.ID, configuration, environment);
 					System.exit(0);
 				}
 				catch (InterruptedException ie){
