@@ -10,7 +10,7 @@ public abstract class Constraint extends Requirement {
 	
 	
 	public Constraint(String id, Number threshold) {
-		super(id);
+		super(RequirementType.SYSTEM_COST, id, threshold);
 		this.threshold = threshold;
 	}
 

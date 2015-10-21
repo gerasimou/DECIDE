@@ -1,6 +1,7 @@
 package main;
 
 import decide.DECIDE;
+import decide.Knowledge;
 import decide.component.Component;
 import decide.component.ComponentFactory;
 import decide.configuration.ConfigurationsCollection;
@@ -32,6 +33,9 @@ public class mainDECIDE {
 		
 		//create a new component
 		Component aComponent = ComponentFactory.makeNewComponentMulticast(RobotSimulator.class, componentID, componentFeatures, decide);
+		
+		//init knowledge
+		Knowledge.initKnowledge(aComponent);
 
 		//start executing		
 		aComponent.run();		

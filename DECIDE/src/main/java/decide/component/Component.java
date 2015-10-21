@@ -78,6 +78,15 @@ public abstract class Component implements Runnable{
 		decide.run();
 	}	
 	
+	
+	public List<Requirement> getGlobalRequirements(){
+		return this.requirementsGlobalList;
+	}
+	
+	
+	public List<Requirement> getLocalRequirements(){
+		return this.requirementsLocalList;
+	}
 
 	protected abstract void setupGlobalRequirements();
 	
