@@ -34,13 +34,11 @@ public class RobotEnvironment extends Environment {
 	
 
 	@Override
-	protected Map<String, Object> adjustEnvironment(Configuration configuration, int property){
+	protected void adjustEnvironment(Configuration configuration, int property){
 		
 		@SuppressWarnings("unchecked")
 		List<Object> configurationElements = (List<Object>) configuration.getConfigurationElements();
-		
-//		Map<String, Object> adjustedEnvironmentMap = new HashMap<>();
-		
+				
 		int CSC 					= (int)configurationElements.get(0);
 		
 		
@@ -73,7 +71,6 @@ public class RobotEnvironment extends Environment {
 			else 
 				throw new IllegalArgumentException("Property index outside boundaries");
 		}
-		return environmentMap;
 	}
 
 }

@@ -105,10 +105,29 @@ public class RobotConfiguration extends Configuration{
 	}
 
 
+	
 	@Override
 	public List<?> getConfigurationElements() {
 		return Arrays.asList(new Object[]{CSC, sensor1, sensor2, sensor3, speed});
 	}
+	
+	
+	public Object getMeasurements(){
+		return this.verificationResults.get(0);
+	}
+
+	public Object getEnergy(){
+		return this.verificationResults.get(1);
+	}
+	
+	public boolean areSensorsOn(){
+		return CSC > 0 ? true : false;
+	}
+	
+	public double getSpeed(){
+		return this.speed;
+	}
+
 	
 	
 	

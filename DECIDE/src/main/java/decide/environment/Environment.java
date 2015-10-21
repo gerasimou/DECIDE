@@ -9,7 +9,6 @@ public abstract class Environment {
 	
 	/** Map containing environment information*/
 	protected Map<String, Object> environmentMap;
-	protected Map<String, Object> adjustedEnvironmentMap;
 
 	
 	/**
@@ -17,7 +16,6 @@ public abstract class Environment {
 	 */
 	public Environment() {
 		this.environmentMap 		= new HashMap<String, Object>();
-		this.adjustedEnvironmentMap	= new HashMap<String, Object>();
 	}
 
 	
@@ -34,14 +32,14 @@ public abstract class Environment {
 	public abstract String getModel(); 
 	
 	
-	protected abstract Map<String, Object> adjustEnvironment (Configuration configuration, int property);
+	protected abstract void adjustEnvironment (Configuration configuration, int property);
 
 	public String getModel(boolean adjustedModel, Configuration configuration, int propertyNum){
 		if (adjustedModel){
-			adjustedEnvironmentMap  = new HashMap<>(environmentMap);
+			Map<String, Object> tempEnvironmentMap = new HashMap<>(environmentMap);
 			adjustEnvironment(configuration, propertyNum);
 			String modelString	   	= getModel();
-			environmentMap			= adjustedEnvironmentMap;
+			environmentMap			= tempEnvironmentMap;
 			return modelString;
 		}
 		else
