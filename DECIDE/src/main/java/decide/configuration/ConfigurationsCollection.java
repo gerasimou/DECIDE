@@ -35,10 +35,7 @@ public abstract class ConfigurationsCollection {
 	public Configuration getNext(){
 		
 		if (!iteratorsInitialised){
-//		    modesIterator 				= modes.iterator();
-//		    configurationsModeIterator 	= modesIterator.next().entrySet().iterator();
-		    iteratorsInitialised		= true;
-		    
+		    iteratorsInitialised		= true;		    
 		    modesCollectionIterator		= modesCollection.iterator();
 		    configurationsModeIterator  = modesCollectionIterator.next().getConfigurationsMapIterator();
 		}
@@ -67,19 +64,39 @@ public abstract class ConfigurationsCollection {
 	
 	
 	
+	
+	
+	/** Inner class */
 	protected class Mode{
+		/** Map storing the configurations for this mode**/
 		public Map<String, Configuration> configurationsMap;
 		
+		/** An iterator for the configurations map of this mode**/
 		private Iterator<Entry<String, Configuration>> configurationsMapIterator;// = configurationsMap.entrySet().iterator();
 		
+		
+		/**
+		 * Class constructor
+		 */
 		public Mode(){
 			configurationsMap = new LinkedHashMap<String, Configuration>();
 		}		
 		
+		
+		/**
+		 * Add new configuration to this map
+		 * @param key
+		 * @param value
+		 */
 		public void insertConfiguration(String key, Configuration value){
 			this.configurationsMap.put(key, value);
 		}
 
+		
+		/**
+		 * Retrieve the iterator for this map
+		 * @return
+		 */
 		public Iterator<? extends Entry<String, Configuration>> getConfigurationsMapIterator() {
 			//if it is the first time or reached the end of the collection => reset the iterator
 			if (configurationsMapIterator==null || !configurationsMapIterator.hasNext())
@@ -87,9 +104,25 @@ public abstract class ConfigurationsCollection {
 			return configurationsMapIterator;
 		}
 
+		
+		/**
+		 * Reset the iterator of this map
+		 */
 		public void resetConfigurationsMapIterator() {
 			this.configurationsMapIterator = configurationsMap.entrySet().iterator();
 		}
+	
 		
+		/**
+		 * Identify the best configuration for this mode
+		 */
+//		public void findBestConfiguration(){
+//			for (Map.Entry<String, Configuration> entry : configurationsMap.entrySet()){
+//				
+//			}
+			
+//		}
 	}
+	
+	
 }

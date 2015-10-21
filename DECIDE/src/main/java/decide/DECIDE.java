@@ -22,32 +22,32 @@ import network.ServerDECIDE;
 public class DECIDE implements Cloneable, Serializable{
 	
 	/** DECIDE stages interfaces*/
-	private LocalCapabilityAnalysis lca;
-	private CLAReceipt				claReceipt;
-	private LocalControl 			localControl;
-	private Selection				selection;
+	private LocalCapabilityAnalysis 	lca;
+	private CLAReceipt					claReceipt;
+	private LocalControl 				localControl;
+	private Selection					selection;
 	
 	/** QV handler */
 	private QV qv;
 
 	/** this DECIDE ID */
-	private String					ID;	
+	private String						ID;	
 	
 	/** configuration */
-	private ConfigurationsCollection 			configuration;
+	private ConfigurationsCollection 	configurationCollections;
 	
 	/** environment */
-	private Environment				environment;
+	private Environment					environment;
 	
 	
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(String ID, ConfigurationsCollection configuration, Environment environment){
+	public DECIDE(String ID, ConfigurationsCollection configurationCollection, Environment environment){
 		this(null, null, null, null);
-		this.ID  	= ID;
-		this.configuration	= configuration;
-		this.environment	= environment;
+		this.ID  						= ID;
+		this.configurationCollections	= configurationCollection;
+		this.environment				= environment;
 	}
 	
 	
@@ -153,11 +153,12 @@ public class DECIDE implements Cloneable, Serializable{
 		long delay = Long.parseLong(Utility.getProperty("DELAY", "2000"));
 		try{
 			while (true){
-				lca.execute(this.ID, configuration, environment);
-				configuration.printAll();
+				lca.execute(this.ID, configurationCollections, environment, true);
+				configurationCollections.printAll();
 				try{
 					Thread.sleep(delay);
-					localControl.execute(this.ID, configuration, environment);
+					localControl.execute(configurationCollections, environment, false);
+					configurationCollections.printAll();
 					System.exit(0);
 				}
 				catch (InterruptedException ie){

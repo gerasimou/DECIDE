@@ -1,5 +1,7 @@
 package decide.localControl;
 
+import java.util.Arrays;
+
 import decide.qv.QV;
 
 public class LocalControlHandler extends LocalControl{
@@ -26,7 +28,8 @@ public class LocalControlHandler extends LocalControl{
 	
 	@Override
 	public void execute(Object...args){
-		System.out.println(this.getClass().getName()+".execute()");
+		System.err.println(this.getClass().getSimpleName()+".execute()");
+		qv.run(args);
 	}
 	
 	

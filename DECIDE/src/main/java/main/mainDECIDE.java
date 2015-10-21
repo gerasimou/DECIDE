@@ -14,7 +14,7 @@ public class mainDECIDE {
 	
 	public static void main(String[] args) {
 		
-		System.err.println("Starting DECIDE simulation");
+		System.err.println("Starting DECIDE simulation\n========================\n\n");
 				
 		//create a new component given its ID and transmitting + receiving features
 		String[] componentDetails 	= ComponentFactory.getComponentDetails();

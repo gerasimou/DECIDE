@@ -2,6 +2,10 @@ package decide.qv;
 
 public interface QV {
 	
+	/**
+	 * 
+	 * @param args
+	 */
 	public abstract void run(Object ... args);
 
 	public abstract void close();

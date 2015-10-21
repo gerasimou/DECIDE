@@ -31,7 +31,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	
 	@Override
 	public void execute(Object... args) {
-//		System.out.println(this.getClass().getName()+".execute()");
+		System.err.println(this.getClass().getSimpleName()+".execute()");
 		
 		//Step 1) Carry out DECIDE-based quantitative verification
 		qv.run(Arrays.copyOfRange(args, 1,args.length));
