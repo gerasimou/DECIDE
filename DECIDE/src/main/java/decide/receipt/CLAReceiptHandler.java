@@ -34,10 +34,5 @@ public class CLAReceiptHandler extends CLAReceipt{
 	public CLAReceipt deepClone(Object ... args) {
 		CLAReceipt newHandler = new CLAReceiptHandler(this);
 		return newHandler;
-	}
-
-	
-	public void receive(String msg){
-		
-	}
+	}	
 }
