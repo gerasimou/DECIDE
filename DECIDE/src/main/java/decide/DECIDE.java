@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import auxiliary.Utility;
-import decide.configuration.ModesCollection;
-import decide.configuration.ModesCollection.Mode;
+import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ConfigurationsCollection.Mode;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
@@ -35,7 +35,7 @@ public class DECIDE implements Cloneable, Serializable{
 	private String						ID;	
 	
 	/** configuration */
-	private ModesCollection 	configurationCollections;
+	private ConfigurationsCollection 	configurationsCollection;
 	
 	/** environment */
 	private Environment					environment;
@@ -44,10 +44,10 @@ public class DECIDE implements Cloneable, Serializable{
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(String ID, ModesCollection configurationCollection, Environment environment){
+	public DECIDE(String ID, ConfigurationsCollection configurationsCollection, Environment environment){
 		this(null, null, null, null);
 		this.ID  						= ID;
-		this.configurationCollections	= configurationCollection;
+		this.configurationsCollection	= configurationsCollection;
 		this.environment				= environment;
 	}
 	
@@ -154,24 +154,21 @@ public class DECIDE implements Cloneable, Serializable{
 		long delay = Long.parseLong(Utility.getProperty("DELAY", "2000"));
 		try{
 			while (true){
-				lca.execute(this.ID, configurationCollections, environment, true);
-				configurationCollections.printAll();
+				Thread.sleep(delay+1000); System.out.println();
 				
-				System.out.println("\nPrinting best from each mode\n\n");
-				Mode mode = null;
-				while ( (mode=configurationCollections.getNextMode()) != null){
-					mode.printBestConfiguration();
-				}
+				lca.execute(configurationsCollection, environment, true, this.ID);
+//				configurationsCollection.printAll();
 				
-				try{
-					Thread.sleep(delay);
-//					localControl.execute(configurationCollections, environment, false);
-//					configurationCollections.printAll();
-					System.exit(0);
-				}
-				catch (InterruptedException ie){
-					ie.printStackTrace();
-				}
+//				System.out.println("\n\nPrinting best from each mode\n");
+//				configurationsCollection.printBestFromMode();
+				
+				Thread.sleep(delay);
+				localControl.execute(configurationsCollection, environment, false);
+//					configurationsCollection.printAll();
+
+//				System.out.println("\n\nPrinting best from each mode\n");
+//				configurationsCollection.printBestFromMode();
+
 //				claReceipt.execute();
 //				selection.execute();
 //				localControl.execute();

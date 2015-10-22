@@ -1,15 +1,16 @@
 package decide.configuration;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import decide.component.requirements.RequirementSet;
 import decide.environment.Environment;
 
-public abstract class ModesCollection {
+public abstract class ConfigurationsCollection {
 
 	/** number of configuration modes */
 	protected int numOfModes;
@@ -25,9 +26,9 @@ public abstract class ModesCollection {
 	
 	private boolean iteratorsInitialised = false;
 	
-	protected ModesCollection() {
+	protected ConfigurationsCollection() {
 //	    this.modes				= new HashSet<Map<String,? extends ResultDECIDE>>();    
-		this.modesCollection	= new HashSet<Mode>();
+		this.modesCollection	= new LinkedHashSet<Mode>();
 	}
 	
 	
@@ -50,8 +51,10 @@ public abstract class ModesCollection {
 			return tes;
 		}
 		else{
+			//reset iterators
 			modesCollectionIterator 	= modesCollection.iterator();		    
 		    configurationsModeIterator	= modesCollectionIterator.next().getConfigurationsMapIterator();
+		    iteratorsInitialised		= false;		    
 		    return null;
 		}
 	}
@@ -65,6 +68,26 @@ public abstract class ModesCollection {
 			modesCollectionIterator 	= modesCollection.iterator();
 			return null;
 		}
+	}
+	
+	
+	public void printBestFromMode(){
+		modesCollectionIterator 	= modesCollection.iterator();
+		while (modesCollectionIterator.hasNext()){
+			Mode mode = modesCollectionIterator.next();
+			System.out.println(mode.getBestConfiguration());
+		}
+		//reset iterator
+		modesCollectionIterator 	= modesCollection.iterator();
+	}
+	
+	public void findBestPerMode(Environment environment){
+		modesCollectionIterator 	= modesCollection.iterator();
+		while (modesCollectionIterator.hasNext()){
+			modesCollectionIterator.next().findBestConfiguration(environment);
+		}
+		//reset iterator
+		modesCollectionIterator 	= modesCollection.iterator();
 	}
 	
 	public void printAll(){
@@ -137,10 +160,11 @@ public abstract class ModesCollection {
 					Configuration config = entry.getValue();
 					
 					//1) determine if the config satisfies requirements
+					config.evaluateGlobalRequirements(environment);
 					config.evaluateLocalRequirements(environment);
 					
-					//2) check whether the config satisfies requirements
-					boolean reqsSatified = config.requirementsSatisfied();
+					//2) check whether the config satisfies local requirements
+					boolean reqsSatified = config.requirementsSatisfied(RequirementSet.LOCAL);
 					
 					//3) if true, get the bound (attribute analysis 2)
 					double bound = reqsSatified ? config.getBound() : 0.0;
@@ -153,6 +177,14 @@ public abstract class ModesCollection {
 		}
 		
 		
+		
+		public Configuration getBestConfiguration(){
+			return configurationsMap.get(bestConfigurationKey);
+		}
+		
+		/**
+		 * Print details of the best configuration for this mode
+		 */
 		public void printBestConfiguration(){
 			System.out.println(configurationsMap.get(bestConfigurationKey).toString());
 		}
