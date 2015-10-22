@@ -3,6 +3,7 @@ package decide.localAnalysis;
 import java.util.Arrays;
 import java.util.Map;
 
+import decide.Knowledge;
 import decide.configuration.Configuration;
 import decide.configuration.ConfigurationsCollection;
 import decide.configuration.ConfigurationsCollection.Mode;
@@ -49,7 +50,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 		configurationsCollection.findBestPerMode(environment);
 		
 		//Step 3) Assemble capability summary
-		StringBuilder capabilitySummary = new StringBuilder();
+		StringBuilder capabilitySummary = new StringBuilder("{" + Knowledge.getID() + ",");
 		while ( (mode=configurationsCollection.getNextMode()) != null){
 			Configuration bestConfig 		= mode.getBestConfiguration();
 			Map<String,Object> grResults   	= bestConfig.getGlobalRequirementsResults();
@@ -57,8 +58,10 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 			String resultsStr				= Arrays.toString(results);
 			capabilitySummary.append(resultsStr);
 		}
+		capabilitySummary.append('}');
 		
 //		System.err.println(capabilitySummary.toString());
+		
 		
 		shareCapabilitySummary(capabilitySummary.toString());
 	}

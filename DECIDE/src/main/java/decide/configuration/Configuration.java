@@ -1,6 +1,7 @@
 package decide.configuration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,8 @@ public abstract class Configuration {
 		this.modelAsString = Utility.readFile(MODEL_FILENAME);	
 		
 		//init hasmaps
-		this.globalRequirementsResults = new HashMap<String, Object>();
-		this.localRequirementsResults = new HashMap<String, Object>();
+		this.globalRequirementsResults = new LinkedHashMap<String, Object>();
+		this.localRequirementsResults  = new LinkedHashMap<String, Object>();
 	}
 	
 	

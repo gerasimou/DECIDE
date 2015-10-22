@@ -12,6 +12,9 @@ public class Knowledge {
 	/** List of local (component-level) requirements (constraints + objectives)*/
 	private static List<Requirement> requirementsLocalList;
 	
+	/** this components ID */
+	private static String ID;
+	
 	
 	/** 
 	 * Class <b>private</b> constructor
@@ -23,6 +26,8 @@ public class Knowledge {
 		requirementsGlobalList	= component.getGlobalRequirements();
 		
 		requirementsLocalList	= component.getLocalRequirements();
+		
+		ID 						= component.getID();
 	}
 	
 	
@@ -32,6 +37,10 @@ public class Knowledge {
 
 	public static List<Requirement> geLocalRequirements(){
 		return requirementsLocalList;
+	}
+	
+	public static String getID(){
+		return ID;
 	}
 
 }

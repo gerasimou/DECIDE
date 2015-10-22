@@ -5,7 +5,6 @@ import java.util.List;
 
 import auxiliary.Utility;
 import decide.configuration.ConfigurationsCollection;
-import decide.configuration.ConfigurationsCollection.Mode;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
@@ -30,9 +29,6 @@ public class DECIDE implements Cloneable, Serializable{
 	
 	/** QV handler */
 	private QV qv;
-
-	/** this DECIDE ID */
-	private String						ID;	
 	
 	/** configuration */
 	private ConfigurationsCollection 	configurationsCollection;
@@ -46,7 +42,6 @@ public class DECIDE implements Cloneable, Serializable{
 	 */
 	public DECIDE(String ID, ConfigurationsCollection configurationsCollection, Environment environment){
 		this(null, null, null, null);
-		this.ID  						= ID;
 		this.configurationsCollection	= configurationsCollection;
 		this.environment				= environment;
 	}
@@ -143,7 +138,6 @@ public class DECIDE implements Cloneable, Serializable{
 		this.claReceipt		= decide.claReceipt.deepClone();
 		this.selection		= (Selection)Utility.deepCopy(decide.selection);
 		this.localControl	= decide.localControl.deepClone(this.qv);//(LocalControl)Utility.deepCopy(decide.localControl);
-		this.ID				= decide.ID;
 	}
 
 	
@@ -154,9 +148,9 @@ public class DECIDE implements Cloneable, Serializable{
 		long delay = Long.parseLong(Utility.getProperty("DELAY", "2000"));
 		try{
 			while (true){
-				Thread.sleep(delay+1000); System.out.println();
+				Thread.sleep(delay); System.out.println();
 				
-				lca.execute(configurationsCollection, environment, true, this.ID);
+				lca.execute(configurationsCollection, environment, true);
 //				configurationsCollection.printAll();
 				
 //				System.out.println("\n\nPrinting best from each mode\n");
