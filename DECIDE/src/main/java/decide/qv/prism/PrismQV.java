@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auxiliary.Utility;
-import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ModesCollection;
 import decide.configuration.Configuration;
 import decide.environment.Environment;
 import decide.qv.QV;
@@ -51,12 +51,12 @@ public class PrismQV implements QV {
 		
 //		//For all configurations run QV
 		Configuration 	config 						= null;
-		ConfigurationsCollection configsCollection 	= (ConfigurationsCollection)args[0];
+		ModesCollection configsCollection 	= (ModesCollection)args[0];
 		Environment		environment					= (Environment)args[1];
 		boolean 		adjustEnvironment			= (boolean)args[2];
 
 		
-		while ((config = configsCollection.getNext()) != null){
+		while ((config = configsCollection.getNextConfiguration()) != null){
 			List<Double> resultsList = new ArrayList<Double> ();
 
 			for (int propertyNum=0; propertyNum<NUM_OF_PROPERTIES; propertyNum++){//for all system properties

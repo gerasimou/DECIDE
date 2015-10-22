@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import auxiliary.Utility;
-import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ModesCollection;
+import decide.configuration.ModesCollection.Mode;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
@@ -34,7 +35,7 @@ public class DECIDE implements Cloneable, Serializable{
 	private String						ID;	
 	
 	/** configuration */
-	private ConfigurationsCollection 	configurationCollections;
+	private ModesCollection 	configurationCollections;
 	
 	/** environment */
 	private Environment					environment;
@@ -43,7 +44,7 @@ public class DECIDE implements Cloneable, Serializable{
 	/**
 	 * Default constructor: instantiates the default handlers
 	 */
-	public DECIDE(String ID, ConfigurationsCollection configurationCollection, Environment environment){
+	public DECIDE(String ID, ModesCollection configurationCollection, Environment environment){
 		this(null, null, null, null);
 		this.ID  						= ID;
 		this.configurationCollections	= configurationCollection;
@@ -155,10 +156,17 @@ public class DECIDE implements Cloneable, Serializable{
 			while (true){
 				lca.execute(this.ID, configurationCollections, environment, true);
 				configurationCollections.printAll();
+				
+				System.out.println("\nPrinting best from each mode\n\n");
+				Mode mode = null;
+				while ( (mode=configurationCollections.getNextMode()) != null){
+					mode.printBestConfiguration();
+				}
+				
 				try{
 					Thread.sleep(delay);
-					localControl.execute(configurationCollections, environment, false);
-					configurationCollections.printAll();
+//					localControl.execute(configurationCollections, environment, false);
+//					configurationCollections.printAll();
 					System.exit(0);
 				}
 				catch (InterruptedException ie){

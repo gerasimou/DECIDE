@@ -1,15 +1,15 @@
 package robot;
 
-import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ModesCollection;
 
-public class RobotConfigurationsCollection extends ConfigurationsCollection {
+public class RobotModesCollection extends ModesCollection {
 
     /** System characteristics*/
     private final int NUM_OF_SENSORS		;
     private final int NUM_OF_SENSOR_CONFIGS	;//possible sensor configurations
     
     
-	public RobotConfigurationsCollection() {
+	public RobotModesCollection() {
 		//init system characteristics
 	    this.NUM_OF_SENSORS			= 2;
 	    this.NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)); //possible sensor configurations
@@ -24,7 +24,7 @@ public class RobotConfigurationsCollection extends ConfigurationsCollection {
 		for (int i=1; i<numOfModes; i++){
 			Mode mode = new Mode();
 						
-			for (int s=20; s<=25; s++){//for all possible UUV speed				
+			for (int s=20; s<=22; s++){//for all possible UUV speed				
 				mode.insertConfiguration(i+"_"+s, new RobotConfiguration(i, s/10.0));
 			}
 			

@@ -4,9 +4,9 @@ import decide.DECIDE;
 import decide.Knowledge;
 import decide.component.Component;
 import decide.component.ComponentFactory;
-import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ModesCollection;
 import decide.environment.Environment;
-import robot.RobotConfigurationsCollection;
+import robot.RobotModesCollection;
 import robot.RobotEnvironment;
 import robot.RobotSimulator;
 
@@ -23,7 +23,7 @@ public class mainDECIDE {
 		String 	 componentFeatures	= componentDetails[1];
 		
 		//create a new robot configuration instance
-		ConfigurationsCollection configuration = new RobotConfigurationsCollection();
+		ModesCollection configuration = new RobotModesCollection();
 		
 		//create a new robot environment instance
 		Environment   environment	= new RobotEnvironment();

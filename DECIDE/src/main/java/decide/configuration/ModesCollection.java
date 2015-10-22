@@ -7,7 +7,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class ConfigurationsCollection {
+import decide.environment.Environment;
+
+public abstract class ModesCollection {
 
 	/** number of configuration modes */
 	protected int numOfModes;
@@ -23,7 +25,7 @@ public abstract class ConfigurationsCollection {
 	
 	private boolean iteratorsInitialised = false;
 	
-	protected ConfigurationsCollection() {
+	protected ModesCollection() {
 //	    this.modes				= new HashSet<Map<String,? extends ResultDECIDE>>();    
 		this.modesCollection	= new HashSet<Mode>();
 	}
@@ -32,7 +34,7 @@ public abstract class ConfigurationsCollection {
 	protected abstract void initModes();
 	
 	
-	public Configuration getNext(){
+	public Configuration getNextConfiguration(){
 		
 		if (!iteratorsInitialised){
 		    iteratorsInitialised		= true;		    
@@ -55,10 +57,20 @@ public abstract class ConfigurationsCollection {
 	}
 	
 	
+	public Mode getNextMode(){
+		if (modesCollectionIterator.hasNext()) {
+			return modesCollectionIterator.next();
+		}
+		else{
+			modesCollectionIterator 	= modesCollection.iterator();
+			return null;
+		}
+	}
+	
 	public void printAll(){
-		Configuration result = null;
-		while ( (result= getNext()) != null){
-			System.out.println(result.toString());
+		Configuration config = null;
+		while ( (config= getNextConfiguration()) != null){
+			System.out.println(config.toString());
 		}
 	}
 	
@@ -67,13 +79,15 @@ public abstract class ConfigurationsCollection {
 	
 	
 	/** Inner class */
-	protected class Mode{
+	public class Mode{
 		/** Map storing the configurations for this mode**/
 		public Map<String, Configuration> configurationsMap;
 		
 		/** An iterator for the configurations map of this mode**/
 		private Iterator<Entry<String, Configuration>> configurationsMapIterator;// = configurationsMap.entrySet().iterator();
 		
+		/** key holding the best configuration for this mode*/
+		private String bestConfigurationKey;
 		
 		/**
 		 * Class constructor
@@ -116,12 +130,32 @@ public abstract class ConfigurationsCollection {
 		/**
 		 * Identify the best configuration for this mode
 		 */
-//		public void findBestConfiguration(){
-//			for (Map.Entry<String, Configuration> entry : configurationsMap.entrySet()){
-//				
-//			}
-			
-//		}
+		public void findBestConfiguration(Environment environment){
+			double bestBound = 0;
+			//evaluate the configuration for this mode
+			for (Map.Entry<String, Configuration> entry : configurationsMap.entrySet()){
+					Configuration config = entry.getValue();
+					
+					//1) determine if the config satisfies requirements
+					config.evaluateLocalRequirements(environment);
+					
+					//2) check whether the config satisfies requirements
+					boolean reqsSatified = config.requirementsSatisfied();
+					
+					//3) if true, get the bound (attribute analysis 2)
+					double bound = reqsSatified ? config.getBound() : 0.0;
+					
+					if (bound > bestBound){
+						bestBound 				= bound;
+						bestConfigurationKey	= entry.getKey();
+					}
+			}
+		}
+		
+		
+		public void printBestConfiguration(){
+			System.out.println(configurationsMap.get(bestConfigurationKey).toString());
+		}
 	}
 	
 	
