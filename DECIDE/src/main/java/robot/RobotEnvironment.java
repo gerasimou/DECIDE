@@ -3,6 +3,7 @@ package robot;
 import java.util.List;
 import java.util.Map;
 
+import auxiliary.Utility;
 import decide.configuration.Configuration;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
@@ -15,9 +16,9 @@ public class RobotEnvironment extends Environment {
 	
 	
 	private void initRobotEnvironment(){
-		environmentMap.put("r1", "5");
-		environmentMap.put("r2", "4");
-		environmentMap.put("r3", "4");
+		environmentMap.put("r1", Utility.getProperty("r1"));
+		environmentMap.put("r2", Utility.getProperty("r2"));
+		environmentMap.put("r3", Utility.getProperty("r3"));
 	}
 	
 

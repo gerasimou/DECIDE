@@ -58,18 +58,27 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 			capabilitySummary.append(resultsStr);
 		}
 		
-		System.err.println(capabilitySummary.toString());
+//		System.err.println(capabilitySummary.toString());
 		
-		
-//		client.send((String)args[0]);
+		shareCapabilitySummary(capabilitySummary.toString());
 	}
 
 	
+	/**
+	 * Share capability summary with peers
+	 */
+	private void shareCapabilitySummary(String capabilitySummary){
+		client.send(capabilitySummary);
+	}
+
+	
+	/**
+	 * Clone this object
+	 */
 	public LocalCapabilityAnalysis deepClone(Object ... args){
 		LocalCapabilityAnalysis newHandler = new LocalCapabilityAnalysisHandler(this);
 		newHandler.qv = (QV) args[0];
 		return newHandler;
-	}	
-	
+	}		
 
 }
