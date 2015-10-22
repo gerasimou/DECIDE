@@ -1,5 +1,8 @@
 package decide.qv;
 
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
+
 public class ModelChecker implements QV {
 
 	public ModelChecker() {
@@ -7,7 +10,7 @@ public class ModelChecker implements QV {
 	}
 
 	@Override
-	public void run(Object ... args) {
+	public void run(ConfigurationsCollection modesCollection, Environment environment, Object...args){
 		// TODO Auto-generated method stub
 	}
 

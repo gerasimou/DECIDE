@@ -128,6 +128,12 @@ public class RobotConfiguration extends Configuration{
 		return this.speed;
 	}
 
+
+	@Override
+	public double getBound() {
+		return (double)getMeasurements();
+	}
+
 	
 	
 	

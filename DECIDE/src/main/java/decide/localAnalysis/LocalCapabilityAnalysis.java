@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import auxiliary.Utility;
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
 import decide.qv.QV;
 import network.ClientDECIDE;
 
@@ -53,7 +55,7 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	 * <b>Abstact</b> execute action
 	 * @param args
 	 */
-	public abstract void execute(Object...args);
+	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment, Object...args);
 	
 	
 	public abstract LocalCapabilityAnalysis deepClone(Object ... args);

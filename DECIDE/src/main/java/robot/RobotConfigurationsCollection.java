@@ -1,15 +1,15 @@
 package robot;
 
-import decide.configuration.ModesCollection;
+import decide.configuration.ConfigurationsCollection;
 
-public class RobotModesCollection extends ModesCollection {
+public class RobotConfigurationsCollection extends ConfigurationsCollection {
 
     /** System characteristics*/
     private final int NUM_OF_SENSORS		;
     private final int NUM_OF_SENSOR_CONFIGS	;//possible sensor configurations
     
     
-	public RobotModesCollection() {
+	public RobotConfigurationsCollection() {
 		//init system characteristics
 	    this.NUM_OF_SENSORS			= 2;
 	    this.NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)); //possible sensor configurations
