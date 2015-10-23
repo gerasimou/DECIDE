@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import auxiliary.Utility;
 import network.ServerDECIDE;
 
 public abstract class CLAReceipt implements Serializable{
@@ -21,21 +22,33 @@ public abstract class CLAReceipt implements Serializable{
 	/** ID pattern | 
 	 * {C1,[199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]}  
 	 * 		--> C1*/
-	Pattern idPattern = Pattern.compile("\\{(.*?)\\,");
+	private Pattern idPattern = Pattern.compile("\\{(.*?)\\,");
 	
 	/** Capability pattern
 	 * 	{C1,[199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]}  
 	 * 	--> [199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]
 	 */
-	Pattern capabilityPattern = Pattern.compile("\\[(.*?)\\]");
+	private Pattern capabilityPattern = Pattern.compile("\\[(.*?)\\]");
 
+	/** flag indicating whether a new capability summary has been receivedr*/
+	private boolean receivedNewCapabilitySummary;
+	
+	/** flag indicating whether the time window passed and a new selection needs to be carried out*/
+	protected boolean timeWindowPassed;
+
+	/** time window for waiting for new capability summaries*/
+	private final long TIME_WINDOW;
+	
 
 	/**
 	 * Class constructor
 	 */
 	protected CLAReceipt() {
 		//init parameters
-		this.messagesFromPeers = new LinkedHashMap<String,String>();
+		this.messagesFromPeers 				= new LinkedHashMap<String,String>();
+		this.receivedNewCapabilitySummary	= false;
+		this.TIME_WINDOW					= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
+		this.timeWindowPassed				= false;
 	}
 
 	
@@ -55,7 +68,12 @@ public abstract class CLAReceipt implements Serializable{
 	
 
 	public void receive(String msg){
-//        System.out.println("Received:\t" + msg);
+		//if this is the first new CS received --> wait for TIME_WINDOW ms 
+		if (!receivedNewCapabilitySummary){
+			receivedNewCapabilitySummary = true;
+			new TimeWindow();
+		}
+			
 		Matcher idMatcher = idPattern.matcher(msg);
 		while (idMatcher.find()){
 			System.out.println(idMatcher.group(1));
@@ -65,11 +83,34 @@ public abstract class CLAReceipt implements Serializable{
 		while (capabilityMatcher.find()){
 			System.out.println(capabilityMatcher.group(1));
 		}
-
 	}
 	
 	
-	public abstract void execute(Object...args);
+	public boolean execute(Object...args){
+//		System.out.println(this.getClass().getSimpleName()+".execute()");
+		return this.timeWindowPassed;
+	}
 
 	public abstract CLAReceipt deepClone(Object ... args);
+		
+	
+	
+	class TimeWindow extends Thread{
+		protected TimeWindow(){
+			this.start();
+		}
+		
+		@Override
+		public void run(){
+			try {
+				Thread.sleep(TIME_WINDOW);
+				//time window has passed so a new selection can be carried out
+				timeWindowPassed 			 = true;
+				receivedNewCapabilitySummary = false;
+			} 
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

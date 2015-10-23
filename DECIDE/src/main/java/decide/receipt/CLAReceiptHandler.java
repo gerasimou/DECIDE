@@ -21,10 +21,11 @@ public class CLAReceiptHandler extends CLAReceipt{
 	/**
 	 * Execute this CLAReceipt handler
 	 */
-	@Override
-	public void execute(Object...args){
-		System.out.println(this.getClass().getName()+".execute()");
-	}
+//	@Override
+//	public boolean execute(Object...args){
+////		System.out.println(this.getClass().getSimpleName()+".execute()");
+//		return this.timeWindowPassed;
+//	}
 
 	
 	/**
