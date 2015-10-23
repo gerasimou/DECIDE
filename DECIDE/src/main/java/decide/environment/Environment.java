@@ -35,6 +35,7 @@ public abstract class Environment {
 	protected abstract void adjustEnvironment (Configuration configuration, int property);
 
 	public String getModel(boolean adjustedModel, Configuration configuration, int propertyNum){
+		initEnvironment();
 		if (adjustedModel){
 			Map<String, Object> tempEnvironmentMap = new HashMap<>(environmentMap);
 			adjustEnvironment(configuration, propertyNum);
@@ -45,4 +46,6 @@ public abstract class Environment {
 		else
 			return getModel();
 	}
+	
+	protected abstract void initEnvironment(); 
 }

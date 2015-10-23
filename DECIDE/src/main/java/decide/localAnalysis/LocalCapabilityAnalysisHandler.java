@@ -10,7 +10,7 @@ import decide.configuration.ConfigurationsCollection.Mode;
 import decide.environment.Environment;
 import decide.qv.QV;
 
-public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
+public class LocalCapabilityAnalysisHandler<K, V> extends LocalCapabilityAnalysis {
 
 	/**
 	 * Class constructor
@@ -51,28 +51,32 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 		
 		//Step 3) Assemble capability summary
 		StringBuilder capabilitySummary = new StringBuilder("{" + Knowledge.getID() + ",");
+		CapabilitySummary cs = new CapabilitySummary();
 		while ( (mode=configurationsCollection.getNextMode()) != null){
 			Configuration bestConfig 		= mode.getBestConfiguration();
 			Map<String,Object> grResults   	= bestConfig.getGlobalRequirementsResults();
 			Object[] results				= grResults.values().toArray();
 			String resultsStr				= Arrays.toString(results);
 			capabilitySummary.append(resultsStr);
+			cs.put(mode.hashCode()+"", results);
 		}
 		capabilitySummary.append('}');
 		
 //		System.err.println(capabilitySummary.toString());
 		
 		
-		shareCapabilitySummary(capabilitySummary.toString());
+//		shareCapabilitySummary(capabilitySummary.toString());
+		shareCapabilitySummary(cs);
 	}
 
 	
 	/**
 	 * Share capability summary with peers
 	 */
-	private void shareCapabilitySummary(String capabilitySummary){
+	private void shareCapabilitySummary(Object capabilitySummary){
 		client.send(capabilitySummary);
 	}
+
 
 	
 	/**
