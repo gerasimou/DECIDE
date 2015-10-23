@@ -58,7 +58,7 @@ public class LocalCapabilityAnalysisHandler<K, V> extends LocalCapabilityAnalysi
 			Object[] results				= grResults.values().toArray();
 //			String resultsStr				= Arrays.toString(results);
 //			capabilitySummary.append(resultsStr);
-			cs.put(mode.hashCode()+"", grResults);
+			cs.put(mode.hashCode()+"", bestConfig);
 		}
 //		capabilitySummary.append('}');
 //		System.err.println(capabilitySummary.toString());

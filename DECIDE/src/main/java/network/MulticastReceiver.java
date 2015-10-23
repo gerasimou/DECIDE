@@ -22,7 +22,7 @@ public class MulticastReceiver extends ServerDECIDE{
 	
 	/** Buffer containing the data received */
 	byte[] buf;
-	private final int BUFFER_SIZE = 1024;
+	private final int BUFFER_SIZE = 20000;
 
 	
 	/**
@@ -69,7 +69,8 @@ public class MulticastReceiver extends ServerDECIDE{
 	            ObjectInputStream     ois  = new ObjectInputStream(bais);
 	            try {
 					CapabilitySummary cs = (CapabilitySummary)ois.readObject();
-					System.out.println(cs.toString());					
+					System.out.println(cs.toString());
+					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

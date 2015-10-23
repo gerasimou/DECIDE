@@ -1,5 +1,6 @@
 package decide.configuration;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import decide.component.requirements.RequirementSet;
 import decide.component.requirements.RequirementType;
 import decide.environment.Environment;
 
-public abstract class Configuration {
+public abstract class Configuration implements Serializable{
 
 	/** Stochastic model & properties filenames*/
 	protected String MODEL_FILENAME 		= Utility.getProperty("MODEL_FILE");
