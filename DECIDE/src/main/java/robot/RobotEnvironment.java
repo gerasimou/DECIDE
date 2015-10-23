@@ -2,6 +2,7 @@ package robot;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import auxiliary.Utility;
 import decide.configuration.Configuration;
@@ -10,15 +11,17 @@ import decide.localAnalysis.LocalCapabilityAnalysis;
 
 public class RobotEnvironment extends Environment {
 
+	Random rand = new Random(System.currentTimeMillis());
+	
 	public RobotEnvironment() {
-		initRobotEnvironment();
+		initEnvironment();
 	}
 	
 	
-	private void initRobotEnvironment(){
-		environmentMap.put("r1", Utility.getProperty("r1"));
-		environmentMap.put("r2", Utility.getProperty("r2"));
-		environmentMap.put("r3", Utility.getProperty("r3"));
+	protected void initEnvironment(){
+		environmentMap.put("r1", Double.parseDouble(Utility.getProperty("r1")) + rand.nextDouble());
+		environmentMap.put("r2", Double.parseDouble(Utility.getProperty("r2")) + rand.nextDouble());
+		environmentMap.put("r3", Double.parseDouble(Utility.getProperty("r3")) + rand.nextDouble());
 	}
 	
 

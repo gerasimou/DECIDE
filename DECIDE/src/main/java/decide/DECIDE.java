@@ -152,7 +152,9 @@ public class DECIDE implements Cloneable, Serializable{
 				
 				lca.execute(configurationsCollection, environment, true);
 //				configurationsCollection.printAll();
-				
+
+				claReceipt.execute();
+
 //				System.out.println("\n\nPrinting best from each mode\n");
 //				configurationsCollection.printBestFromMode();
 				
@@ -163,9 +165,7 @@ public class DECIDE implements Cloneable, Serializable{
 //				System.out.println("\n\nPrinting best from each mode\n");
 //				configurationsCollection.printBestFromMode();
 
-//				claReceipt.execute();
 //				selection.execute();
-//				localControl.execute();
 			}
 		}
 		catch (Exception e){

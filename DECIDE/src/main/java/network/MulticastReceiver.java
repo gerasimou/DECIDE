@@ -69,7 +69,7 @@ public class MulticastReceiver extends ServerDECIDE{
 	            ObjectInputStream     ois  = new ObjectInputStream(bais);
 	            try {
 					CapabilitySummary cs = (CapabilitySummary)ois.readObject();
-					System.out.println(cs.toString());
+					System.out.println(cs.toString());					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

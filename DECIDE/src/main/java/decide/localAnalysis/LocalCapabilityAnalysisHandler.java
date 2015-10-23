@@ -50,18 +50,17 @@ public class LocalCapabilityAnalysisHandler<K, V> extends LocalCapabilityAnalysi
 		configurationsCollection.findBestPerMode(environment);
 		
 		//Step 3) Assemble capability summary
-		StringBuilder capabilitySummary = new StringBuilder("{" + Knowledge.getID() + ",");
+//		StringBuilder capabilitySummary = new StringBuilder("{" + Knowledge.getID() + ",");
 		CapabilitySummary cs = new CapabilitySummary();
 		while ( (mode=configurationsCollection.getNextMode()) != null){
 			Configuration bestConfig 		= mode.getBestConfiguration();
 			Map<String,Object> grResults   	= bestConfig.getGlobalRequirementsResults();
 			Object[] results				= grResults.values().toArray();
-			String resultsStr				= Arrays.toString(results);
-			capabilitySummary.append(resultsStr);
-			cs.put(mode.hashCode()+"", results);
+//			String resultsStr				= Arrays.toString(results);
+//			capabilitySummary.append(resultsStr);
+			cs.put(mode.hashCode()+"", grResults);
 		}
-		capabilitySummary.append('}');
-		
+//		capabilitySummary.append('}');
 //		System.err.println(capabilitySummary.toString());
 		
 		
