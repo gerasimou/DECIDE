@@ -9,4 +9,6 @@ public abstract class ServerDECIDE implements Runnable {
 	public void setCLAReceipt (CLAReceipt claReceipt){
 		this.claReceipt = claReceipt;
 	}
+	
+	public abstract void  run();
 }

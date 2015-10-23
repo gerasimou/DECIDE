@@ -1,11 +1,15 @@
 package network;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-public class MulticastReceiver implements ServerDECIDE{
+import decide.localAnalysis.CapabilitySummary;
+
+public class MulticastReceiver extends ServerDECIDE{
 	
 	/** server address*/
 	private String serverAddress;
@@ -18,9 +22,14 @@ public class MulticastReceiver implements ServerDECIDE{
 	
 	/** Buffer containing the data received */
 	byte[] buf;
-	private final int BUFFER_SIZE = 256;
+	private final int BUFFER_SIZE = 1024;
 
 	
+	/**
+	 * Class constructor: create a new multicast receiver
+	 * @param serverAddress
+	 * @param port
+	 */
 	public MulticastReceiver (String serverAddress, int port) {
 		this.serverAddress	= serverAddress;
 		this.serverPort		= port;
@@ -51,12 +60,24 @@ public class MulticastReceiver implements ServerDECIDE{
 	public void run() {
 		try{
 	        while (true) {
-	            // Receive the information and print it.
+	            // Receive the information and print it
 	            DatagramPacket msgPacket = new DatagramPacket(buf, buf.length);
 	            receiverSocket.receive(msgPacket);
+	            
+	            byte data[] = msgPacket.getData();
+	            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+	            ObjectInputStream     ois  = new ObjectInputStream(bais);
+	            try {
+					CapabilitySummary cs = (CapabilitySummary)ois.readObject();
+					System.out.println(cs.toString());
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
 	
-	            String msg = new String(buf, 0, buf.length);
-	            System.out.println("Received from ["+ serverAddress +":"+ receiverSocket.getLocalPort() + "] <-- " + msg);
+//	            String msg = new String(buf, 0, buf.length);
+	            
+//	            System.out.println("Received from ["+ serverAddress +":"+ receiverSocket.getLocalPort() + "] <-- " + msg);
+//	            claReceipt.receive(msg);
 	        }		
 	    }
 	    catch (IOException e) {
