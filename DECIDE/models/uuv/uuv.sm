@@ -12,7 +12,7 @@ ctmc
 
 //const int CSC; 		// current  sensors configuration
 //const int PSC;		// previous sensors configuration
-//const double s;		// uuv speed 
+//	const double s;		// uuv speed 
 
 //--------------------------------------------------------------
 
