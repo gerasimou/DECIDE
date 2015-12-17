@@ -1,0 +1,10 @@
+RobotWifi3.cpp
+>compiler=C++
+>memtype=lmm main ram
+>optimize=-Os
+>-m32bit-doubles
+>-fno-exceptions
+>-fno-rtti
+>defs::-std=c++0x
+>-ltiny
+>BOARD::ACTIVITYBOARD

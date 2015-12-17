@@ -1,0 +1,9 @@
+RobotWifi2.c
+RobotWifi2.h -> RobotWifi2.h
+>compiler=C
+>memtype=cmm main ram compact
+>optimize=-Os
+>-m32bit-doubles
+>-fno-exceptions
+>-lm
+>BOARD::ACTIVITYBOARD

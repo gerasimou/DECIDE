@@ -1,0 +1,20 @@
+!_TAG_FILE_FORMAT	1	/original ctags format/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DOWN	WorkExperienceLib.h	13
+LEFT	WorkExperienceLib.h	10
+RIGHT	WorkExperienceLib.h	11
+UP	WorkExperienceLib.h	12
+direction	WorkExperienceLib.h	/^static volatile char direction;$/
+driveStack	WorkExperienceLib.h	/^unsigned int driveStack[40 + 128];$/
+main	/Users/sgerasimou/Documents/Programming/SimpleIDE/Simos/WorkExperience/WorkExperience.c	/^int main()                                    \/\/ main function$/
+pingStack	WorkExperienceLib.h	/^unsigned int pingStack[40 + 128];$/
+readCharStack	WorkExperienceLib.h	/^unsigned int readCharStack[40 + 128];$/
+run	WorkExperienceLib.c	/^void run(){$/
+sendPing	WorkExperienceLib.c	/^void sendPing(){$/
+setup	WorkExperienceLib.c	/^void setup(){$/
+startTransmission	WorkExperienceLib.h	/^static volatile int startTransmission;$/
+xbee	WorkExperienceLib.h	/^static volatile fdserial *xbee;$/
