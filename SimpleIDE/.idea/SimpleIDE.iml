@@ -3,10 +3,9 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/QTI/QTI_Test.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/QTI/28108-QTI-Line-Follower-C-Code.zip" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/QTI/cmm/QTI_Test.elf" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/QTI/cmm/QTI_Test.binary" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/QTI/Drive.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/QTI/28108-QTI-Line-Follower-C-Code.zip" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/QTI/QTI_Test.side" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/QTI/QTI Example Code for ActivityBot/Line Follow with QTIs.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/QTI/QTI Example Code for ActivityBot/Line Follow with QTIs.side" isTestSource="false" />

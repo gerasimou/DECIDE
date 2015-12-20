@@ -11,7 +11,9 @@ int main()                                     // Main function
 {
   while(1)                                     // Main loop
   {
-    int qtis = getQTIs(7, 4);                  // Check stripe position
+    int qtis = getQTIs(10, 9);
+    print("QTIs = %02b \n", qtis);             // QTI detections as binary val
+                  // Check stripe position
     if(qtis == 0b1000) drive_speed(-64, 64);   // Far left, rotate left
     if(qtis == 0b1100) drive_speed(0, 64);     // Left, pivot left
     if(qtis == 0b0100) drive_speed(32, 64);    // A little left, curve left

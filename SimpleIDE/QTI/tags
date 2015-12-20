@@ -4,4 +4,5 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+getQTIs	/Users/sgerasimou/Documents/Git/DECIDE_Robots/SimpleIDE/QTI/QTIDrive.c	/^int getQTIs (int highPin, int lowPin){$/
 main	/Users/sgerasimou/Documents/Git/DECIDE_Robots/SimpleIDE/QTI/QTIDrive.c	/^int main()                                     \/\/ Main function$/
