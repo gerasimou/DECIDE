@@ -15,23 +15,23 @@ int main()                                     // Main function
     // Check QTIs
     int qtis = getQTIs(10,9);
     // QTI detections as binary val
-//    print("QTIs = %02b\t", qtis);             
+    print("QTIs = %02b\n", qtis);             
     //turn off led 27
 //    low(27);
 
     //check the QTI input & drive
     if (qtis==0b11){
 //      print ("centre\n");
-      drive_speed(32, 32);
+      drive_speed(24, 24);
       
     }
     else if (qtis==0b10){
 //      print ("right\n");
-      drive_speed(0, 64);
+      drive_speed(0, 16);
     }
     else if (qtis==0b01){
 //      print ("left\n");
-      drive_speed(64, 0);
+      drive_speed(16, 0);
     }
     else if (qtis==0b00){
  //     print ("do nothing\n");
@@ -46,7 +46,7 @@ int main()                                     // Main function
 //    drive_ramp(0, 0);
 //    high(27);
     // Pause after 1s
-//    pause(500); 
+    pause(50); 
   }
 }
 
