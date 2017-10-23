@@ -13,17 +13,17 @@ RUN="yes"
 
 
 
-#-------------------------------------------------------
-#  Function for creatating new tab
+#------------------------------------------------------------------
+#  Function for creating new tab and executing COMMAND into each tab
 #  Params: (1) Tab name, (2): command to execute
-#-------------------------------------------------------
+#------------------------------------------------------------------
 function createNewTab() {
   TAB_NAME=$1
   COMMAND=$2
   osascript \
     -e "tell application \"Terminal\"" \
     -e "tell application \"System Events\" to keystroke \"t\" using {command down}" \
-    -e "do script \"printf '\\\e];$TAB_NAME\\\a'; $COMMAND\" in front window" \
+    -e "do script \"printf '\\\e];$TAB_NAME\\\a';$COMMAND\" in front window" \
     -e "end tell" > /dev/null
 }
 
@@ -80,7 +80,8 @@ function initAndRun() {
 	mkdir ${COMP1_DIR}/resources
 	cp -r ${TARGET_DIR}/resources/config1.properties	${COMP1_DIR}/resources/
 	mv ${COMP1_DIR}/resources/config1.properties		${COMP1_DIR}/resources/config.properties	
-	cp -r ${TARGET_DIR}/models 							${COMP1_DIR}/
+	cp -r ${TARGET_DIR}/models 						${COMP1_DIR}/
+	cp -r repo 										${COMP1_DIR}/
 
 	COMP2_DIR=${TARGET_DIR}/COMP2
 	mkdir ${COMP2_DIR}
@@ -88,21 +89,15 @@ function initAndRun() {
 	mkdir ${COMP2_DIR}/resources
 	cp -r ${TARGET_DIR}/resources/config2.properties	${COMP2_DIR}/resources/
 	mv ${COMP2_DIR}/resources/config2.properties		${COMP2_DIR}/resources/config.properties	
-	cp -r ${TARGET_DIR}/models 			${COMP2_DIR}/
+	cp -r ${TARGET_DIR}/models 						${COMP2_DIR}/
+	cp -r repo 										${COMP2_DIR}/
 
-	#-------------------------------------------------------
-	#  Set PRISM library
-	#-------------------------------------------------------
-	PRISM_DIR=${TARGET_DIR}/repo/prism
-
-	printf "\n\nSetting DYLD_LIBRARY_PATH\n"
-	export DYLD_LIBRARY_PATH="$PRISM_DIR":$DYLD_LIBRARY_PATH
 
 	#-------------------------------------------------------
 	#  Execute
 	#-------------------------------------------------------
-	createNewTab "COMP1" "cd ${TARGET_DIR}/COMP1; java -jar ${DECIDE_JAR}.jar &"
-	createNewTab "COMP2" "cd ${TARGET_DIR}/COMP2; java -jar ${DECIDE_JAR}.jar"
+	createNewTab "COMP1" "cd ${TARGET_DIR}/COMP1; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
+	createNewTab "COMP2" "cd ${TARGET_DIR}/COMP2; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
 }
 
 
