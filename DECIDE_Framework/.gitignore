@@ -1,0 +1,9 @@
+/bin/
+/target/
+output_Prism.txt
+logging.log
+.DS_Store
+/run.sh
+/test.sh
+/DECIDE_ClassDiagram_Template.ucls
+/output_PRISM1.txt

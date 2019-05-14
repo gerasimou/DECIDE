@@ -1,0 +1,3 @@
+DEBUG   2017-12-12 20:01:17,399 [main] main.mainDECIDEtest  - this is a debug log message
+INFO    2017-12-12 20:01:17,402 [main] main.mainDECIDEtest  - this is a information log message
+WARN    2017-12-12 20:01:17,402 [main] main.mainDECIDEtest  - this is a warning log message
