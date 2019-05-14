@@ -1,9 +1,0 @@
-//------------------------------------------------
-// sRQVMOOS_DECIDE config block
-
-ProcessConfig = sRQVMOOS_DECIDE
-{
-   AppTick   = 4
-   CommsTick = 4
-}
-

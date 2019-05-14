@@ -1,9 +1,0 @@
-//------------------------------------------------
-// sSonarSensor config block
-
-ProcessConfig = sSonarSensor
-{
-   AppTick   = 4
-   CommsTick = 4
-}
-
