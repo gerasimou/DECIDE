@@ -12,16 +12,18 @@ import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluator;
 import network.TransmitterDECIDE;
+import network.NetworkUser;
 import network.ReceiverDECIDE;
+import network.ReceiverDECIDENew;
 
 
-public abstract class LocalControlNew extends LocalControl implements Serializable{
+public abstract class LocalControlNew implements Serializable, NetworkUser{
 	
 	/** DECIDE peers */
 	protected TransmitterDECIDE client;
 	
 	/** peers list */	
-	protected ReceiverDECIDE  server;
+	protected ReceiverDECIDENew  receiver;
 	
 	/** monitor heartbeat frequency*/
 	protected TimeWindow timeWindow = null;
@@ -145,13 +147,13 @@ public abstract class LocalControlNew extends LocalControl implements Serializab
 	
 	/**
 	 * Assign this DECIDE instance server, i.e., where it can transmit
-	 * @param server
+	 * @param receiver
 	 */
-	public void assignReceiver(ReceiverDECIDE  server){
-		this.server = server;
-		this.server.setLocalControl(this, 0);
+	public void setReceiver(ReceiverDECIDENew  receiver){
+		this.receiver = receiver;
+		this.receiver.setNetworkUser(this, 0);
 		//start the receivers
-		this.serverThread = new Thread(this.server, this.server.toString());
+		this.serverThread = new Thread(this.receiver, this.receiver.toString());
 		this.serverThread.setDaemon(true);
 		this.serverThread.start();
 	}

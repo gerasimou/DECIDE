@@ -108,7 +108,7 @@ public class UUVLocalCapabilityAnalysis extends LocalCapabilityAnalysis {
 	 */
 	@Override
 	public void shareCapabilitySummary(Object ... args){
-		client.send(args);
+		transmitter.send(args);
 	}
 
 	

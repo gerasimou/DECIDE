@@ -8,26 +8,24 @@ import org.apache.log4j.Logger;
 //import ServerClient.FileReader;
 import auxiliary.Utility;
 import decide.OperationMode;
+import decide.capabilitySummary.CapabilitySummary;
 import decide.capabilitySummary.CapabilitySummaryCollection;
+import network.NetworkUser;
 import network.ReceiverDECIDE;
+import network.ReceiverDECIDENew;
+
 import java.util.concurrent.atomic.AtomicReference;
 
 
-public abstract class CLAReceipt implements Serializable{
+public abstract class CLAReceipt implements Serializable, NetworkUser{
 	
 	/** peers list */	
-	protected List<ReceiverDECIDE> serversList;
+	protected List<ReceiverDECIDENew> serversList;
 	
 	protected TimeWindow timeWindow = null;
 	
 	/** Logging system events*/
     final static Logger logger = Logger.getLogger(CLAReceipt.class);
-
-	/** Message map from peers */
-	//protected Map<String, String> messagesFromPeer;
-	
-	/** Map storing the CapabilitySummary for this peer**/
-	//protected Map<String, CapabilitySummary> capabilitySummaryMap;
 
 	/** ID pattern | 
 	 * {C1,[199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]}  
@@ -43,9 +41,6 @@ public abstract class CLAReceipt implements Serializable{
 	/** flag indicating whether a new capability summary has been received*/
 	protected volatile boolean receivedNewCapabilitySummary = false;
 	
-	/** flag indicating whether the time window passed and a new selection needs to be carried out*/
-	//protected boolean timeWindowPassed = false;
-
 	/** time window for waiting for new capability summaries*/
 	protected final long TIME_WINDOW;
 	
@@ -81,7 +76,7 @@ public abstract class CLAReceipt implements Serializable{
 	/**
 	 * Return the list of servers, i.e., where I am listening to
 	 */
-	public List<ReceiverDECIDE> getServersList() {
+	public List<ReceiverDECIDENew> getServersList() {
 		return serversList;
 	}
 
@@ -89,12 +84,12 @@ public abstract class CLAReceipt implements Serializable{
 	/**
 	 * Set the list of servers, i.e., where I am listening to
 	 */
-	public void setServersList(List<ReceiverDECIDE> serverList, CapabilitySummaryCollection capabilitySummaryCollection){
+	public void setReceiverFromOtherDECIDE(List<ReceiverDECIDENew> serverList, CapabilitySummaryCollection capabilitySummaryCollection){
 		this.serversList = serverList;
 		//do initialisation
-		for (ReceiverDECIDE server : this. serversList){
+		for (ReceiverDECIDENew server : this. serversList){
 			//assign the CLAReceipt handler
-			server.setCLAReceipt(this, capabilitySummaryCollection, 0);
+			server.setNetworkUser(this, 0);
 
 			//start the receivers
 			new Thread(server, server.toString()).start();
@@ -114,7 +109,9 @@ public abstract class CLAReceipt implements Serializable{
 	}
 	
 	
-	public void receive(String serverAddress){
+	@Override
+	public void receive(String serverAddress, Object message){
+		capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])message);
 		// I think this boolean flag has to be atomic
 		if (!receivedNewCapabilitySummary){
 			receivedNewCapabilitySummary = true;
@@ -161,5 +158,10 @@ public abstract class CLAReceipt implements Serializable{
 				logger.error(e.getStackTrace());
 			}
 		}
+	}
+	
+	
+	public boolean isKnownReceiver (String serverAddress) {
+		return capabilitySummaryCollection.capabilitySummaryExists(serverAddress);
 	}
 }

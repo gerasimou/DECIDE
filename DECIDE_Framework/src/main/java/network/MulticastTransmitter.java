@@ -21,11 +21,7 @@ public class MulticastTransmitter implements TransmitterDECIDE{
 	
 	/** communicating address */
 	private InetAddress address;
-	
-	
-	/** Message to be sent*/
-	private String msg = "message";
-	
+		
 	/** Logging system events*/
     final static Logger logger = Logger.getLogger(MulticastTransmitter.class);
 	
@@ -90,11 +86,11 @@ public class MulticastTransmitter implements TransmitterDECIDE{
 	/** 
 	 * Send an object to peers 
 	 */
-	public void send (Object ... args){
+	public void send (Object object){
 		try{
 			ByteArrayOutputStream baos 	= new ByteArrayOutputStream();
 			ObjectOutputStream    oas	= new ObjectOutputStream(baos);
-			oas.writeObject(args);
+			oas.writeObject(object);
 			byte data[] = baos.toByteArray();
 			
             // Create a packet that will contain the data (in the form of bytes) and send it.

@@ -93,11 +93,11 @@ public class MulticastReceiver extends ReceiverDECIDE{
 						
 		            	//System.out.println("Received from:"+serverAddress+"\t " + cs.toString()+"Peer Status is"+this.getAtomicPeerStatus().get());
 					if(logger.isDebugEnabled())
-						logger.debug("Received from:"+serverAddress+", " +Arrays.toString(csArray)+",[Status: "+this.getAtomicPeerStatus().get()+"]");
+						logger.debug("Received from:"+serverAddress+", " +Arrays.toString(csArray)+",[Status: "+ atomicPeerStatus.get()+"]");
 					// reset boolean flag
 					result = false;
 					/* reset configuartion map if peer had been Missing */
-					if (this.getAtomicPeerStatus().get()==PeerStatus.MISSING) { //&& capabilitySummaryCollection.concurrentCapabilitySummaryMap.contains(serverAddress) )		
+					if (atomicPeerStatus.get()==PeerStatus.MISSING) { //&& capabilitySummaryCollection.concurrentCapabilitySummaryMap.contains(serverAddress) )		
 						//capabilitySummaryCollection.concurrentCapabilitySummaryMap.remove(serverAddress);
 						tempHashCode = 0;
 					}
@@ -111,14 +111,14 @@ public class MulticastReceiver extends ReceiverDECIDE{
 					if (!result) {
 						tempHashCode = hashCode;
 						// if key is not there then either status has changed or a new peer has joined
-						switch (this.getAtomicPeerStatus().get()) {
+						switch (atomicPeerStatus.get()) {
 						    case ALIVE:{
 							    	// its a minor change, peer has recalculated lca phase
 							    	// alter concurrent CS map
 							    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
 		//					    	capabilitySummaryCollection.concurrentCapabilitySummaryMap.put(serverAddress, (CapabilitySummary[])csArray);
-							    	claReceipt.receive(serverAddress);
-							    	this.getAtomicPeerStatus().set(PeerStatus.CHANGE);
+							    	claReceipt.receive(serverAddress, csArray);
+							    	atomicPeerStatus.set(PeerStatus.CHANGE);
 							    	this.setTimeStamp(System.currentTimeMillis());
 							    	break;
 						    }
@@ -127,15 +127,15 @@ public class MulticastReceiver extends ReceiverDECIDE{
 							    	// its a minor change, new component has just joined.
 							    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
 		//					    	capabilitySummaryCollection.concurrentCapabilitySummaryMap.put(serverAddress, (CapabilitySummary[])csArray);
-							    	claReceipt.receive(serverAddress);
-							    	this.getAtomicPeerStatus().set(PeerStatus.NEW_JOIN);
+							    	claReceipt.receive(serverAddress, csArray);
+							    	atomicPeerStatus.set(PeerStatus.NEW_JOIN);
 							    	this.setTimeStamp(System.currentTimeMillis());
 							    	break;
 						    }
 						    	
 					    		default:{ 
 					    			// invoke receive method to trace peer heartbeat.
-					    			claReceipt.receive(serverAddress);
+							    	claReceipt.receive(serverAddress, csArray);
 					    			this.setTimeStamp(System.currentTimeMillis());
 					    			break;
 					    		}

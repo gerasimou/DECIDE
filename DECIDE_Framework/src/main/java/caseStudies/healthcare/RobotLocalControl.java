@@ -16,7 +16,7 @@ public class RobotLocalControl extends LocalControl {
 
 	
 	@Override
-	public void receive(String serverAddress) {
+	public void receive(String serverAddress, Object message) {
 		// TODO Auto-generated method stub
 
 	}

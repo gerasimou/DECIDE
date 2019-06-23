@@ -11,46 +11,15 @@ import decide.DECIDE;
 import network.TransmitterDECIDE;
 import network.ClientSocketDECIDE;
 import network.MulticastReceiver;
+import network.MulticastReceiverNew;
 import network.MulticastTransmitter;
 import network.ReceiverDECIDE;
+import network.ReceiverDECIDENew;
 import network.DatagramSocketReceiver;
 import network.SocketReceiver;
 
 public class ComponentFactory {
 
-	/**
-	 * Create a list of components based on the information set in the configuration file
-	 * @param decide
-	 * @return
-	 */
-	@Deprecated
-	public static List<Component> createComponents(DECIDE decide, Class<?> clazz){
-		Utility.setup();
-		
-		//Get the properties set
-		Set<Entry<Object,Object>> propertiesSet = Utility.getPropertiesEntrySet();
-		
-		List<Component> componentsList = new ArrayList<Component>();
-		
-		//Get the iterator
-		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
-				
-		while (iterator.hasNext()){
-			Entry<Object, Object> entry = iterator.next();
-			String key					= entry.getKey().toString();
-			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
-			
-			//create the components list
-			if (key.contains("COMPONENT")){
-				componentsList.add(makeNewComponentMulticast(clazz, key.split("_")[1], value, decide));
-			}//if			
-		}//while
-		
-		
-		return componentsList;
-	}
-		
-	
 	/**
 	 * Create a new component instance using multicast as the communication mechanism
 	 * @param id
@@ -66,18 +35,16 @@ public class ComponentFactory {
 			//get all component features
 			String[] featuresList	= features.split(",");
 			
-			
-			
-			//new DECIDE transmitter
+			//transmitter to other DECIDE components
 			TransmitterDECIDE transmitter = null;
 			
-			//create a list of peers
-			List<ReceiverDECIDE> peersList = new ArrayList<ReceiverDECIDE>();
+			//receiver from other DECIDE components
+			List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
 			
-			//new DECIDE UUV transmitter
+			//transmitter to robot
 			TransmitterDECIDE uuvTransmitter = null;
 			
-			//new DECIDE UUV receiver
+			//Receiver from robot
 			ReceiverDECIDE uuvReceiver = null;
 	
 			for (String feature : featuresList){
@@ -100,7 +67,7 @@ public class ComponentFactory {
 				if (feature.contains("RECEIVING")){
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					peersList.add(new MulticastReceiver(peerAddress, peerPort));
+					peersList.add(new MulticastReceiverNew(peerAddress, peerPort));
 				}			
 			}
 			
@@ -108,8 +75,8 @@ public class ComponentFactory {
 //			DECIDE newDECIDE = decide.deepClone();
 			
 			//set the DECIDE transmitter and receivers through which it communicates with other DECIDE components
-			decide.setTransmitterForOtherDECIDE(transmitter);
-			decide.setServersList(peersList);
+			decide.setTransmitterToOtherDECIDE(transmitter);
+			decide.setReceiverFromOtherDECIDE(peersList);
 			
 			
 			// Set MOOS UUV 
@@ -163,6 +130,40 @@ public class ComponentFactory {
 //		return new Component(componentID, newDECIDE);
 	}
 	
+	
+	/**
+	 * Create a list of components based on the information set in the configuration file
+	 * @param decide
+	 * @return
+	 */
+	@Deprecated
+	public static List<Component> createComponents(DECIDE decide, Class<?> clazz){
+		Utility.setup();
+		
+		//Get the properties set
+		Set<Entry<Object,Object>> propertiesSet = Utility.getPropertiesEntrySet();
+		
+		List<Component> componentsList = new ArrayList<Component>();
+		
+		//Get the iterator
+		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
+				
+		while (iterator.hasNext()){
+			Entry<Object, Object> entry = iterator.next();
+			String key					= entry.getKey().toString();
+			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
+			
+			//create the components list
+			if (key.contains("COMPONENT")){
+				componentsList.add(makeNewComponentMulticast(clazz, key.split("_")[1], value, decide));
+			}//if			
+		}//while
+		
+		
+		return componentsList;
+	}
+		
+	
 	/**
 	 * Create a new component instance using multicast as the communication mechanism
 	 * @param id
@@ -170,6 +171,7 @@ public class ComponentFactory {
 	 * @param decide
 	 * @return
 	 */
+	@Deprecated
 	public static Component makeNewRobotComponentMulticast(Class componentClass, String id, String features, DECIDE decide){
 		Utility.setup();
 
@@ -190,7 +192,7 @@ public class ComponentFactory {
 			DatagramSocketReceiver robotReceiver = null;
 			
 			//create a list of peers
-			List<ReceiverDECIDE> peersList = new ArrayList<ReceiverDECIDE>();
+			List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
 	
 			for (String feature : featuresList){
 	
@@ -212,7 +214,7 @@ public class ComponentFactory {
 				if (feature.contains("RECEIVING")){
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					peersList.add(new MulticastReceiver(peerAddress, peerPort));
+					peersList.add(new MulticastReceiverNew(peerAddress, peerPort));
 				}			
 			}
 			
@@ -220,8 +222,8 @@ public class ComponentFactory {
 //			DECIDE newDECIDE = decide.deepClone();
 			
 			//set the DECIDE transmitter and receivers
-			decide.setTransmitterForOtherDECIDE(transmitter);
-			decide.setServersList(peersList);
+			decide.setTransmitterToOtherDECIDE(transmitter);
+			decide.setReceiverFromOtherDECIDE(peersList);
 			
 			String robotFeatures = Utility.getProperty("ROBOT");
 			int robotID = 0;
@@ -281,6 +283,7 @@ public class ComponentFactory {
 	 * @param decide
 	 * @return
 	 */
+	@Deprecated
 	private static Component makeNewComponent(String id, String features, DECIDE decide){
 		//get all component features
 		String[] featuresList	= features.split(",");

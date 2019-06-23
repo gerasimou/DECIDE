@@ -53,7 +53,7 @@ public class ActivityBotLocalControl extends LocalControl{
 	 * Monitor UUV heartbeat
 	 */
 	@Override
-	public void receive(String serverMessage){
+	public void receive(String serverAddress, Object message){
 
 		try {
 		if (!receivedAliveMessage){

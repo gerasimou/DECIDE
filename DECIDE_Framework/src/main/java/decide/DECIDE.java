@@ -23,6 +23,7 @@ import decide.selection.Selection;
 import decide.selection.SelectionHandler;
 import network.TransmitterDECIDE;
 import network.ReceiverDECIDE;
+import network.ReceiverDECIDENew;
 
 public class DECIDE implements Cloneable, Serializable{
 	
@@ -325,19 +326,19 @@ public class DECIDE implements Cloneable, Serializable{
 	
 	/**
 	 * Set the DECIDE remote client, i.e., where DECIDE can transmit to the robot/component
-	 * @param client
+	 * @param transmitter
 	 */
-	public void setTransmitterToComponent (TransmitterDECIDE client){
-		localControl.setTransmitter(client);
+	public void setTransmitterToComponent (TransmitterDECIDE transmitter){
+		localControl.setTransmitter(transmitter);
 	}
 	
 	
 	/**
 	 * Set the DECIDE listening server for remote client, i.e., where DECIDE can receive from the robot/component
-	 * @param server
+	 * @param receiver
 	 */
-	public void setReceiverFromComponent (ReceiverDECIDE server){
-		localControl.assignReceiver(server);
+	public void setReceiverFromComponent (ReceiverDECIDE receiver){
+		localControl.setReceiver(receiver);
 	}
 	
 	
@@ -345,8 +346,8 @@ public class DECIDE implements Cloneable, Serializable{
 	 * Set the DECIDE client, i.e., where DECIDE can transmit to other DECIDE
 	 * @param client
 	 */
-	public void setTransmitterForOtherDECIDE(TransmitterDECIDE client){
-		lca.assignClient(client);
+	public void setTransmitterToOtherDECIDE(TransmitterDECIDE client){
+		lca.setTransmitterToOtherDECIDE(client);
 	}
 	
 	
@@ -354,8 +355,8 @@ public class DECIDE implements Cloneable, Serializable{
 	 * Set the DECIDE servers, i.e., where DECIDE can receive messages from other DECIDE
 	 * @param serverList
 	 */
-	public void setServersList(List<ReceiverDECIDE> serverList){
-		claReceipt.setServersList(serverList, capabilitySummaryCollection);
+	public void setReceiverFromOtherDECIDE(List<ReceiverDECIDENew> serverList){
+		claReceipt.setReceiverFromOtherDECIDE(serverList, capabilitySummaryCollection);
 	}
 	
 	

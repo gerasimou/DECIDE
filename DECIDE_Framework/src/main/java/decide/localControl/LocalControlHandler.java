@@ -41,8 +41,7 @@ public class LocalControlHandler extends LocalControl{
 	 * Monitor Component heartbeat
 	 */
 	@Override
-	public void receive(String serverMessage){
-
+	public void receive (String serverAddress, Object message){
 		try {
 		if (!receivedAliveMessage){
 			receivedAliveMessage = true;
@@ -83,5 +82,6 @@ public class LocalControlHandler extends LocalControl{
 	public boolean executeListeningThread() {
 		return true;
 	}
+
 
 }

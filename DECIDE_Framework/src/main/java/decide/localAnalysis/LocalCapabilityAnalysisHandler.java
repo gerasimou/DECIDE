@@ -108,7 +108,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 */
 	@Override
 	public void shareCapabilitySummary(Object ... args){
-		client.send(args);
+		transmitter.send(args);
 	}
 
 
@@ -121,6 +121,5 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 		LocalCapabilityAnalysis newHandler = new LocalCapabilityAnalysisHandler(this);
 		return newHandler;
 	}
-
 
 }

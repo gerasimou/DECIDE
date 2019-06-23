@@ -6,6 +6,7 @@ import decide.OperationMode;
 import decide.receipt.CLAReceipt;
 import network.PeerStatus;
 import network.ReceiverDECIDE;
+import network.ReceiverDECIDENew;
 
 
 public class UUVCLAReceipt extends CLAReceipt{
@@ -52,7 +53,7 @@ public class UUVCLAReceipt extends CLAReceipt{
 		receivedTimeStamp = System.currentTimeMillis();
 		
 		//for all connections to my peers 
-		for (ReceiverDECIDE server : serversList){
+		for (ReceiverDECIDENew server : serversList){
 			timestamp = server.getTimeStamp();
 			
 			//check if peer is missing

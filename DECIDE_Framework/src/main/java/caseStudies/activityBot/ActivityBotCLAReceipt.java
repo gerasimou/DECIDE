@@ -7,6 +7,7 @@ import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
 import network.PeerStatus;
 import network.ReceiverDECIDE;
+import network.ReceiverDECIDENew;
 
 public class ActivityBotCLAReceipt extends CLAReceipt{
 	
@@ -51,7 +52,7 @@ public class ActivityBotCLAReceipt extends CLAReceipt{
 			
 			receivedTimeStamp = System.currentTimeMillis();
 			
-			for (ReceiverDECIDE server : serversList){
+			for (ReceiverDECIDENew server : serversList){
 				timestamp = server.getTimeStamp();
 				if(timestamp > 0)
 				{ 

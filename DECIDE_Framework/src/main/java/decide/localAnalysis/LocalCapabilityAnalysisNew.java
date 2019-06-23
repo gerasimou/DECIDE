@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import auxiliary.Utility;
-import decide.configuration.ConfigurationsCollection;
 import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.Environment;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
 import network.TransmitterDECIDE;

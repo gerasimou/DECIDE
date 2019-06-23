@@ -54,7 +54,7 @@ public class UUVLocalControl extends LocalControl{
 	 * Monitor UUV heartbeat
 	 */
 	@Override
-	public void receive(String serverMessage){
+	public void receive(String serverAddress, Object serverMessage){
 		try {
 			if (!receivedAliveMessage){
 				receivedAliveMessage = true;
@@ -71,7 +71,7 @@ public class UUVLocalControl extends LocalControl{
 			}
 
 			// update environment map based on received UUV sensor readings, 
-			String [] receivedReadings = serverMessage.split(",");
+			String [] receivedReadings = ((String)serverMessage).split(",");
 			logger.info("[UUVSensorReading: "+serverMessage+"]");
 		
 			if(receivedReadings.length !=3) {

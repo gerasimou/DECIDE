@@ -12,10 +12,11 @@ import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluator;
 import network.TransmitterDECIDE;
+import network.NetworkUser;
 import network.ReceiverDECIDE;
 
 
-public abstract class LocalControl implements Serializable{
+public abstract class LocalControl implements Serializable, NetworkUser{
 	
 	/** DECIDE sender to robot component */
 	protected TransmitterDECIDE transmitter;
@@ -81,7 +82,7 @@ public abstract class LocalControl implements Serializable{
 	/**
 	 * Monitor component status & heartbeat
 	 */
-	public abstract void receive(String serverAddress);
+//	public abstract void receive(String serverAddress);
 	
 	
 	/**
@@ -147,7 +148,7 @@ public abstract class LocalControl implements Serializable{
 	 * Assign this DECIDE instance server, i.e., where it can transmit
 	 * @param receiver
 	 */
-	public void assignReceiver(ReceiverDECIDE  receiver){
+	public void setReceiver(ReceiverDECIDE  receiver){
 		this.receiver = receiver;
 		this.receiver.setLocalControl(this, 0);
 		//start the receivers

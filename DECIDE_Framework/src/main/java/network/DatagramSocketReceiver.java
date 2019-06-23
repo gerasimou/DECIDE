@@ -87,16 +87,16 @@ public class DatagramSocketReceiver extends ReceiverDECIDE{
 	            	 //new
 		            message = new String(msgPacket.getData()); 
 					if(logger.isDebugEnabled())
-						logger.debug("Received from:"+serverAddress+", " + message +",[Status: "+this.getAtomicPeerStatus().get()+"]");
+						logger.debug("Received from:"+serverAddress+", " + message +",[Status: "+ atomicPeerStatus.get()+"]");
 					
 					// just clear configuartion map if peer is absent
-					if(this.getAtomicPeerStatus().get()==PeerStatus.MISSING) {
-						this.getAtomicPeerStatus().set(PeerStatus.NEW_JOIN);
+					if(atomicPeerStatus.get()==PeerStatus.MISSING) {
+						atomicPeerStatus.set(PeerStatus.NEW_JOIN);
 					}
 					
 					this.setTimeStamp(System.currentTimeMillis());
 					
-					this.localControl.receive(serverAddress);				
+					this.localControl.receive(serverAddress, message);				
 				} 
 	            catch (Exception e) {
 					e.printStackTrace();

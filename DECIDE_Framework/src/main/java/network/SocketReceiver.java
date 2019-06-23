@@ -106,8 +106,8 @@ public class SocketReceiver extends ReceiverDECIDE{
 		logger.info("[UUV Connected]:" + serverSocket.getLocalPort());
 		try {
 			do {
-				if(this.getAtomicPeerStatus().get()==PeerStatus.MISSING) {
-					this.getAtomicPeerStatus().set(PeerStatus.NEW_JOIN);
+				if(atomicPeerStatus.get()==PeerStatus.MISSING) {
+					atomicPeerStatus.set(PeerStatus.NEW_JOIN);
 				}
 		
 		
@@ -116,7 +116,7 @@ public class SocketReceiver extends ReceiverDECIDE{
 		        writer = new PrintWriter(server.getOutputStream());
 				//new Server(server).start();
         
-		        if(this.getReplyMessage().hashCode() != messageHashCode && this.getReplyMessage() != "" ) {
+		        if (this.getReplyMessage().hashCode() != messageHashCode && this.getReplyMessage() != "" ) {
 					messageHashCode = this.getReplyMessage().hashCode();
 					writer.println(this.getReplyMessage());
 					writer.flush();
@@ -125,11 +125,12 @@ public class SocketReceiver extends ReceiverDECIDE{
 		        if(inFromClient.ready()) {
 		        	
 			        	if((message = inFromClient.readLine()) != null) {
-			        		logger.debug("Received from:UUV"+ message+",[Status: "+this.getAtomicPeerStatus().get()+"]");
+			        		logger.debug("Received from:UUV"+ message+",[Status: "+atomicPeerStatus.get()+"]");
 						
 			        		this.setTimeStamp(System.currentTimeMillis());
 				
-			        		this.localControl.receive(message);
+			        		String serverAddress = serverSocket.getInetAddress().getHostAddress();
+			        		this.localControl.receive(serverAddress, message);
 	
 			        	}
         
