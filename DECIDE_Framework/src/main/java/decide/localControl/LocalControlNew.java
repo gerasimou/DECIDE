@@ -9,8 +9,11 @@ import org.apache.log4j.Logger;
 import auxiliary.Utility;
 import decide.OperationMode;
 import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.Environment;
+import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluator;
+import decide.evaluator.AttributeEvaluatorNew;
 import network.TransmitterDECIDE;
 import network.NetworkUser;
 import network.ReceiverDECIDE;
@@ -64,7 +67,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
     final static Logger logger = Logger.getLogger(LocalControlNew.class);
 	
 	/** Property Evaluator handler */
-	protected AttributeEvaluator attributeEvaluator;
+	protected AttributeEvaluatorNew attributeEvaluator;
 	
 	
 	
@@ -80,10 +83,10 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	}
 	
 	
-	/**
-	 * Monitor component status & heartbeat
-	 */
-	public abstract void receive(String serverAddress);
+//	/**
+//	 * Monitor component status & heartbeat
+//	 */
+//	public abstract void receive(String serverAddress);
 	
 	
 	/**
@@ -131,7 +134,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	 * Return the QV instance
 	 * @return
 	 */
-	public AttributeEvaluator getPropertyEvaluator(){
+	public AttributeEvaluatorNew getAttributeEvaluator(){
 		return this.attributeEvaluator;
 	}
 	
@@ -171,7 +174,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	 * <b>Abstact</b> execute action
 	 * @param args
 	*/
-	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment);
+	public abstract void execute(ConfigurationsCollectionNew modesCollection, EnvironmentNew environment);
 	
 	
 	public abstract LocalControlNew deepClone(Object ... args);
@@ -185,7 +188,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	public abstract boolean executeListeningThread();
 
 	
-	public void setPropertyEvaluator(AttributeEvaluator propertyEvaluator) {
+	public void setPropertyEvaluator(AttributeEvaluatorNew propertyEvaluator) {
 		this.attributeEvaluator = propertyEvaluator;
 	}
 

@@ -63,7 +63,7 @@ public abstract class ConfigurationsCollectionNew {
 	 * Identify and select the optimal configuration based for
 	 * the local control
 	 */
-	public abstract boolean findOptimalLocalConfiguration();
+//	public abstract boolean findOptimalLocalConfiguration();
 	
 		
 //	/**

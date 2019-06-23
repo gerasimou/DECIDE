@@ -14,7 +14,7 @@ public class RobotConfiguration extends ConfigurationNew {
 	/**
 	 * RobotConfiguration constructor
 	 */
-	public RobotConfiguration(double probFull, double probBasic) {
+	public RobotConfiguration(double probFull) {
 		//assign probabilities for this configuration
 		this.pfull 	= probFull;	
 	}

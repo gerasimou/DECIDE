@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import caseStudies.uuv.UUVConfigurationsCollection;
 import decide.component.ComponentFactory;
 import decide.configuration.ConfigurationsCollection;
+import decide.configuration.ConfigurationsCollectionNew;
 import main.mainDECIDE;
 import java.io.File;
 
@@ -40,7 +41,9 @@ public class mainHealthcare {
 		String 	 componentFeatures	= componentDetails[1];
 
 		//create a new robot configuration instance
-		ConfigurationsCollection configurationCollections = new UUVConfigurationsCollection();
+		final double P3_FULL_MAX = 1.0;
+		final double STEP		= 0.1;
+		ConfigurationsCollectionNew configurationCollections = new RobotConfigurationCollection(P3_FULL_MAX, STEP);
 
 		
 	}

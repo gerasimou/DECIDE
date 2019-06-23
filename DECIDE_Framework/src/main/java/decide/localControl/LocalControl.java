@@ -79,9 +79,9 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	}
 	
 	
-	/**
-	 * Monitor component status & heartbeat
-	 */
+//	/**
+//	 * Monitor component status & heartbeat
+//	 */
 //	public abstract void receive(String serverAddress);
 	
 	

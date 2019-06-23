@@ -15,12 +15,25 @@ public class Dummy {
 
 
 	public static void main(String[] args) {
-//		generateProbs();
+		generateProbs2();
 //		runPrism();
 //		checkConfigurationNew();
-		runPrismAPINew();
+//		runPrismAPINew();
 	}
 	
+	
+	private static void generateProbs2() {
+		final double P3_FULL_MAX = 1;
+		final double STEPS		 = 0.4;
+		
+		double numOfModes = (int)(P3_FULL_MAX/STEPS) + 1;
+		System.out.println(numOfModes);
+		for (int i=0; i<numOfModes; i++) {
+			double v = i*STEPS;
+			System.out.println(v);
+		}
+			
+	}
 	
 	private static void generateProbs() {
 		double step = 0.3;

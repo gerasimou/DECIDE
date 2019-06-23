@@ -36,8 +36,8 @@ public class UUVLocalControl extends LocalControl{
 	public UUVLocalControl(AttributeEvaluator propertyEvaluator) {
 		super();
 		receivedEnvironmentMap = new ConcurrentHashMap<>();
-		initEnvironment();
 		this.attributeEvaluator = propertyEvaluator;
+		initEnvironment();
 	}
 
 	
