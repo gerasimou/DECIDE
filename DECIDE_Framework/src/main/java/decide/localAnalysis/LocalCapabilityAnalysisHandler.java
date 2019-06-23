@@ -2,14 +2,14 @@ package decide.localAnalysis;
 
 import org.apache.log4j.Logger;
 
+import caseStudies.uuv.UUVCapabilitySummary;
+import caseStudies.uuv.UUVConfiguration;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.configuration.Configuration;
 import decide.configuration.ConfigurationsCollection;
 import decide.configuration.Mode;
 import decide.environment.Environment;
-import decide.evaluator.PropertyEvaluator;
-import example.uuv.UUVCapabilitySummary;
-import example.uuv.UUVConfiguration;
+import decide.evaluator.AttributeEvaluator;
 
 public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 
@@ -20,8 +20,8 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	public LocalCapabilityAnalysisHandler (PropertyEvaluator propertyEvaluator){
-		super();
+	public LocalCapabilityAnalysisHandler (AttributeEvaluator propertyEvaluator){
+		super (false);
 		this.setPropertyEvaluator(propertyEvaluator);
 //		System.out.println(this.getClass().getName());
 	}
@@ -30,8 +30,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 * Class constructor
 	 */
 	public LocalCapabilityAnalysisHandler (){
-		super();
-//		System.out.println(this.getClass().getName());
+		super(false);
 	}
 	
 	
@@ -39,8 +38,7 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 * Class <b>copy</b> constructor
 	 */
 	private LocalCapabilityAnalysisHandler (LocalCapabilityAnalysisHandler instance) {
-		super();
-//		this.client	= instance.client.deepClone();
+		super(true);
 	}
 
 	/**
@@ -64,13 +62,13 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 * 3) assemble capability summary (one result per mode)
 	 */
 	@Override
-	public void execute(ConfigurationsCollection configurationsCollection, Environment environment, Object...args) {
+	public void execute(ConfigurationsCollection configurationsCollection, Environment environment) {
 		logEvents("execute LocalCapabilityAnalysis");
 		//System.err.println(this.getClass().getSimpleName()+".execute()");
 		Mode mode = null;
 		
 		//Step 1) Carry out DECIDE-based quantitative verification
-		getPropertyEvaluator().run(configurationsCollection, environment, args[0]);
+		getAttributeEvaluator().run(configurationsCollection, environment, true);
 		
 		// for debug 
 		configurationsCollection.printAll();
@@ -118,10 +116,11 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	/**
 	 * Clone this object
 	 */
-	public LocalCapabilityAnalysis deepClone(Object ... args){
+	@Override
+	public LocalCapabilityAnalysis deepClone(){
 		LocalCapabilityAnalysis newHandler = new LocalCapabilityAnalysisHandler(this);
-		newHandler.setPropertyEvaluator((PropertyEvaluator)args[0]);
 		return newHandler;
-	}		
+	}
+
 
 }

@@ -47,12 +47,10 @@ public class PrismQV implements QV {
 	 * Run quantitative verification for this model
 	 */
 	@Override
-	public void run(ConfigurationsCollection modesCollection, Environment environment, Object...args) {
+	public void run(ConfigurationsCollection modesCollection, Environment environment, boolean adjustEnvironment) {
 		
 //		//For all configurations run QV
 		Configuration 	config 			= null;
-		boolean 		adjustEnvironment = (boolean)args[0];
-
 		
 		while ((config = modesCollection.getNextConfiguration()) != null){
 			List<Double> resultsList = new ArrayList<Double> ();
@@ -86,9 +84,8 @@ public class PrismQV implements QV {
 	 * Clone the QV handler
 	 */
 	@Override
-	public QV deepClone(Object ... args) {
-		QV newHandler = new PrismQV(this);
-		return newHandler;
+	public QV deepClone () {
+		return new PrismQV(this);
 	}
 
 }

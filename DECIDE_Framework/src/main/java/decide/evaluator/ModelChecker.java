@@ -10,7 +10,7 @@ public class ModelChecker implements QV {
 	}
 
 	@Override
-	public void run(ConfigurationsCollection modesCollection, Environment environment, Object...args){
+	public void run(ConfigurationsCollection modesCollection, Environment environment, boolean adjustEnvironment){
 		// TODO Auto-generated method stub
 	}
 
@@ -21,7 +21,7 @@ public class ModelChecker implements QV {
 	}
 
 	@Override
-	public QV deepClone(Object ... args) {
+	public QV deepClone() {
 		// TODO Auto-generated method stub
 		return null;
 	}

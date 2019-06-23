@@ -11,7 +11,7 @@ import decide.capabilitySummary.CapabilitySummary;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import decide.evaluator.PropertyEvaluator;
+import decide.evaluator.AttributeEvaluator;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localControl.LocalControl;
@@ -21,9 +21,8 @@ import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
 import decide.selection.Selection;
 import decide.selection.SelectionHandler;
-import network.ClientDECIDE;
-import network.ServerDECIDE;
-import network.ServerDatagramSocket;
+import network.TransmitterDECIDE;
+import network.ReceiverDECIDE;
 
 public class DECIDE implements Cloneable, Serializable{
 	
@@ -35,7 +34,7 @@ public class DECIDE implements Cloneable, Serializable{
 	private CapabilitySummary			capabilitySummary;
 	
 	/** QV handler */
-	private PropertyEvaluator propertyEvaluator;
+	private AttributeEvaluator propertyEvaluator;
 
 	
 	/** configuration */
@@ -107,7 +106,7 @@ public class DECIDE implements Cloneable, Serializable{
 		
 		//if a PropertyEvaluator instance exists -> use it, otherwise instantiate a PrismQV (default) instance
 		if (lca!=null)
-			this.propertyEvaluator = lca.getPropertyEvaluator();
+			this.propertyEvaluator = lca.getAttributeEvaluator();
 		else if (localControl!=null)
 			this.propertyEvaluator = localControl.getPropertyEvaluator();
 		else
@@ -199,7 +198,7 @@ public class DECIDE implements Cloneable, Serializable{
 	 */
 	private DECIDE (DECIDE decide){
 		this.propertyEvaluator	= decide.propertyEvaluator.deepClone();
-		this.lca 				= decide.lca.deepClone(this.propertyEvaluator);// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
+		this.lca 				= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
 		this.claReceipt			= decide.claReceipt.deepClone();
 		this.selection			= (Selection)Utility.deepCopy(decide.selection);
 		this.localControl		= decide.localControl.deepClone(this.propertyEvaluator);//(LocalControl)Utility.deepCopy(decide.localControl);
@@ -235,7 +234,7 @@ public class DECIDE implements Cloneable, Serializable{
 					default: break;
 					}
 					
-					lca.execute(configurationsCollection, environment, true);
+					lca.execute(configurationsCollection, environment);
 					
 					if(logger.isDebugEnabled())
 					configurationsCollection.printAll();
@@ -294,25 +293,11 @@ public class DECIDE implements Cloneable, Serializable{
 				
 				}
 				
-				if((localControl.getAtomicOperationReference().get() == OperationMode.STABLE_MODE))//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
-				{
-					
-					localControl.execute(configurationsCollection,environment,false);
+				if((localControl.getAtomicOperationReference().get() == OperationMode.STABLE_MODE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
+					localControl.execute(configurationsCollection, environment);
 					localControl.setReceivedNewCommand(false);
 
 				}
-				
-				/*
-				 * FileReader.command[arrayflag][1]+","+FileReader.command[arrayflag][2]+","+FileReader.command[arrayflag][3]+","+FileReader.command[arrayflag][4]+","
-        	 +FileReader.command[arrayflag][5]+","+FileReader.command[arrayflag][6];
-        	 //C,6,10,2,4,1
-        	  * COMMAND_TYPE=C
-INITIAL_POINT=6
-NUMBERofSTEPS=10
-POINT_1=2
-POINT_2=4
-CLOCKWISE=1
-				 */
 		
 				// reset the operation mode to Stable
 				//if(claReceipt.getAtomicOperationReference().get() == OperationMode.MINOR_CHANGE_MODE)
@@ -337,38 +322,39 @@ CLOCKWISE=1
 			decide.setRemoteServer(robotReceiver);
 	 */
 	
-	/**
-	 * Set the DECIDE remote client, i.e., where DECIDE can transmit
-	 * @param client
-	 */
-	public void setRemoteClient(ClientDECIDE client){
-		
-		localControl.assignClient(client);
-	}
 	
 	/**
-	 * Set the DECIDE listening server for remote client, i.e., where DECIDE can receive
+	 * Set the DECIDE remote client, i.e., where DECIDE can transmit to the robot/component
+	 * @param client
+	 */
+	public void setTransmitterToComponent (TransmitterDECIDE client){
+		localControl.setTransmitter(client);
+	}
+	
+	
+	/**
+	 * Set the DECIDE listening server for remote client, i.e., where DECIDE can receive from the robot/component
 	 * @param server
 	 */
-	public void setRemoteServer(ServerDECIDE server){
-		
-		localControl.assignServer(server);
+	public void setReceiverFromComponent (ReceiverDECIDE server){
+		localControl.assignReceiver(server);
 	}
 	
+	
 	/**
-	 * Set the DECIDE client, i.e., where DECIDE can transmit
+	 * Set the DECIDE client, i.e., where DECIDE can transmit to other DECIDE
 	 * @param client
 	 */
-	public void setClient(ClientDECIDE client){
+	public void setTransmitterForOtherDECIDE(TransmitterDECIDE client){
 		lca.assignClient(client);
 	}
 	
 	
 	/** 
-	 * Set the DECIDE servers, i.e., where DECIDE can receive messages
+	 * Set the DECIDE servers, i.e., where DECIDE can receive messages from other DECIDE
 	 * @param serverList
 	 */
-	public void setServersList(List<ServerDECIDE> serverList){
+	public void setServersList(List<ReceiverDECIDE> serverList){
 		claReceipt.setServersList(serverList, capabilitySummaryCollection);
 	}
 	

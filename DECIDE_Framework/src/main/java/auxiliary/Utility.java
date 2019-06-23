@@ -24,8 +24,17 @@ public class Utility {
 	// assumes the current class is called logger
 	private final static Logger logger = Logger.getLogger(Utility.class);
 
-	private final static String fileName = "resources/uuv/config.properties";
+	private static String fileName = "resources/uuv/config.properties";
 	private static Properties properties;
+	
+	/** 
+	 * Setup Utility class 
+	 * @param filename that has the configuration information
+	 */
+	public static void setConfigurationFile (String filename){
+		fileName = filename;
+	}
+	
 	
 	/** Setup Utility class*/
 	public static void setup(){

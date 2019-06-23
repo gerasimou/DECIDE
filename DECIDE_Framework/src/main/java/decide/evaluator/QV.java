@@ -1,6 +1,6 @@
 package decide.evaluator;
 
-public interface QV extends PropertyEvaluator {
+public interface QV extends AttributeEvaluator {
 	
 //	/**
 //	 * 

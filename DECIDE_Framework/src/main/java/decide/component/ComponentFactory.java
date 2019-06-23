@@ -8,13 +8,13 @@ import java.util.Set;
 
 import auxiliary.Utility;
 import decide.DECIDE;
-import network.ClientDECIDE;
+import network.TransmitterDECIDE;
 import network.ClientSocketDECIDE;
 import network.MulticastReceiver;
 import network.MulticastTransmitter;
-import network.ServerDECIDE;
-import network.ServerDatagramSocket;
-import network.ServerSocketDECIDE;
+import network.ReceiverDECIDE;
+import network.DatagramSocketReceiver;
+import network.SocketReceiver;
 
 public class ComponentFactory {
 
@@ -69,16 +69,16 @@ public class ComponentFactory {
 			
 			
 			//new DECIDE transmitter
-			ClientDECIDE transmitter = null;
+			TransmitterDECIDE transmitter = null;
 			
 			//create a list of peers
-			List<ServerDECIDE> peersList = new ArrayList<ServerDECIDE>();
+			List<ReceiverDECIDE> peersList = new ArrayList<ReceiverDECIDE>();
 			
 			//new DECIDE UUV transmitter
-			ClientDECIDE uuvTransmitter = null;
+			TransmitterDECIDE uuvTransmitter = null;
 			
 			//new DECIDE UUV receiver
-			ServerDECIDE uuvReceiver = null;
+			ReceiverDECIDE uuvReceiver = null;
 	
 			for (String feature : featuresList){
 	
@@ -107,9 +107,10 @@ public class ComponentFactory {
 			//clone the DECIDE instance given by the user
 //			DECIDE newDECIDE = decide.deepClone();
 			
-			//set the DECIDE transmitter and receivers
-			decide.setClient(transmitter);
+			//set the DECIDE transmitter and receivers through which it communicates with other DECIDE components
+			decide.setTransmitterForOtherDECIDE(transmitter);
 			decide.setServersList(peersList);
+			
 			
 			// Set MOOS UUV 
 			String uuvFeatures = Utility.getProperty("UUV");
@@ -139,13 +140,13 @@ public class ComponentFactory {
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
 					//uuvReceiver 		= new ServerDatagramSocket(peerAddress, peerPort);
-					uuvReceiver			= new ServerSocketDECIDE(peerPort);
+					uuvReceiver			= new SocketReceiver(peerPort);
 				}			
 			}
 			
-			//set the DECIDE remote transmitter and receivers
-			decide.setRemoteClient(uuvTransmitter);
-			decide.setRemoteServer(uuvReceiver);
+			//set the DECIDE remote transmitter and receiver through which DECIDE communicates with the robot/component
+			decide.setTransmitterToComponent(uuvTransmitter);
+			decide.setReceiverFromComponent(uuvReceiver);
 			
 			
 			Component comp = (Component) componentClass.newInstance();
@@ -180,16 +181,16 @@ public class ComponentFactory {
 			String componentID = null;
 			
 			//new DECIDE transmitter
-			ClientDECIDE transmitter = null;
+			TransmitterDECIDE transmitter = null;
 			
 			//new DECIDE Robottransmitter
-			ClientDECIDE robotTransmitter = null;
+			TransmitterDECIDE robotTransmitter = null;
 			
 			//new DECIDE Robottransmitter
-			ServerDatagramSocket robotReceiver = null;
+			DatagramSocketReceiver robotReceiver = null;
 			
 			//create a list of peers
-			List<ServerDECIDE> peersList = new ArrayList<ServerDECIDE>();
+			List<ReceiverDECIDE> peersList = new ArrayList<ReceiverDECIDE>();
 	
 			for (String feature : featuresList){
 	
@@ -219,7 +220,7 @@ public class ComponentFactory {
 //			DECIDE newDECIDE = decide.deepClone();
 			
 			//set the DECIDE transmitter and receivers
-			decide.setClient(transmitter);
+			decide.setTransmitterForOtherDECIDE(transmitter);
 			decide.setServersList(peersList);
 			
 			String robotFeatures = Utility.getProperty("ROBOT");
@@ -248,13 +249,13 @@ public class ComponentFactory {
 				if (feature.contains("RECEIVING")){
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					robotReceiver 		= new ServerDatagramSocket(peerAddress, peerPort);
+					robotReceiver 		= new DatagramSocketReceiver(peerAddress, peerPort);
 				}			
 			}
 			
 			//set the DECIDE remote transmitter and receivers
-			decide.setRemoteClient(robotTransmitter);
-			decide.setRemoteServer(robotReceiver);
+			decide.setTransmitterToComponent(robotTransmitter);
+			decide.setReceiverFromComponent(robotReceiver);
 					
 			Component comp = (Component) componentClass.newInstance();
 			comp.setID(componentID);
@@ -291,7 +292,7 @@ public class ComponentFactory {
 		int listeningPort 		= Integer.parseInt(featuresList[1].split(":")[1]);
 		
 		//create a new DECIDE server
-		ServerSocketDECIDE server = new ServerSocketDECIDE(listeningPort);
+		SocketReceiver server = new SocketReceiver(listeningPort);
 		
 //		List<String[]> peersListData = new ArrayList<String[]>();
 		
@@ -325,6 +326,10 @@ public class ComponentFactory {
 
 
 	
+	/**
+	 * Get details of this component
+	 * @return
+	 */
 	public static String[] getComponentDetails(){
 		Utility.setup();
 		
@@ -337,7 +342,7 @@ public class ComponentFactory {
 		while (iterator.hasNext()){
 			Entry<Object, Object> entry = iterator.next();
 			String key					= entry.getKey().toString();
-			String value				= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
+			String value					= entry.getValue().toString().replaceAll("\\s+","");//remove whitespaces
 			
 			//create the components list
 			if (key.contains("COMPONENT")){
@@ -347,5 +352,18 @@ public class ComponentFactory {
 		
 		return null;
 	}
+	
+	
+	/**
+	 * Get details of this component, after initialising the utility class with the provided configuration file
+	 * @param configurationFile that holds configuration information for this component
+	 * @return
+	 */
+	public static String[] getComponentDetails (String configurationFile){
+		Utility.setConfigurationFile(configurationFile);
+		return getComponentDetails();
+	}
+
+	
 
 }

@@ -2,6 +2,7 @@ package decide.capabilitySummary;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,7 +29,7 @@ public abstract class CapabilitySummaryCollection implements Serializable{
 	/** Map storing the configurations for this mode**/
 	//public Map<String, Configuration> configurationsMap;
 	
-	/** ConcurrentMap storing the CapabilitySummary for each mode**/
+	/** ConcurrentMap storing the CapabilitySummary for each peer**/
 	public ConcurrentHashMap<String, CapabilitySummary[]> concurrentCapabilitySummaryMap;
 	
 	/** ConcurrentMapIterator to iterate the map entries**/
@@ -37,11 +38,18 @@ public abstract class CapabilitySummaryCollection implements Serializable{
 	/** ConcurrentMapIterator to iterate the map entries**/
 	//private Iterator <? extends CapabilitySummary> capabilitySummaryListIterator;
 	 
-	public CapabilitySummaryCollection() 
-	{
+    /** Map storing a list of optimal configurations **/
+	public Map<String, CapabilitySummary[]> feasibleCapabilitySummaryMap;
+
+	/** An iterator for the optimal configurations map**/
+	protected Iterator<Entry<String, CapabilitySummary[]>> optimalCapabilitySummaryMapIterator;// = configurationsMap.entrySet().iterator();
+
+	
+	public CapabilitySummaryCollection() {
 		//configurationsMap = new LinkedHashMap<String, Configuration>();
 		concurrentCapabilitySummaryMap = new ConcurrentHashMap<String,CapabilitySummary[]>(4,0.75f,1);
 	}
+	
 	
 	/**
 	 * Retrieve the iterator for this map
@@ -54,29 +62,31 @@ public abstract class CapabilitySummaryCollection implements Serializable{
 		return capabilitySummaryMapIterator;
 	}
 
-	public CapabilitySummary[] getNextCapabilitySummary(){
-		
-		if (!iteratorsInitialised){
-		    iteratorsInitialised		= true;		    
-		    capabilitySummaryMapIterator		= getCapabilitySummaryMapIterator();
-		    //capabilitySummaryListIterator  = capabilitySummaryMapIterator.next().getValue().iterator();
-		}
-		
-//		if (capabilitySummaryListIterator.hasNext())
-//			return capabilitySummaryListIterator.next();
-		if (capabilitySummaryMapIterator.hasNext()){
-			//capabilitySummaryListIterator 	=  capabilitySummaryMapIterator.next().getValue().iterator();
-			return capabilitySummaryMapIterator.next().getValue(); 
-			
-		}
-		else{
-			//reset iterators
-			capabilitySummaryMapIterator 	= getCapabilitySummaryMapIterator();		    
-			//capabilitySummaryListIterator	= capabilitySummaryMapIterator.next().getValue().iterator();
-		    iteratorsInitialised		= false;		    
-		    return null;
-		}
-	}
+	
+//	public CapabilitySummary[] getNextCapabilitySummary(){
+//		
+//		if (!iteratorsInitialised){
+//		    iteratorsInitialised		= true;		    
+//		    capabilitySummaryMapIterator		= getCapabilitySummaryMapIterator();
+//		    //capabilitySummaryListIterator  = capabilitySummaryMapIterator.next().getValue().iterator();
+//		}
+//		
+////		if (capabilitySummaryListIterator.hasNext())
+////			return capabilitySummaryListIterator.next();
+//		if (capabilitySummaryMapIterator.hasNext()){
+//			//capabilitySummaryListIterator 	=  capabilitySummaryMapIterator.next().getValue().iterator();
+//			return capabilitySummaryMapIterator.next().getValue(); 
+//			
+//		}
+//		else{
+//			//reset iterators
+//			capabilitySummaryMapIterator 	= getCapabilitySummaryMapIterator();		    
+//			//capabilitySummaryListIterator	= capabilitySummaryMapIterator.next().getValue().iterator();
+//		    iteratorsInitialised		= false;		    
+//		    return null;
+//		}
+//	}
+	
 	
 	/**
 	 * Reset the iterator of this map
@@ -86,21 +96,24 @@ public abstract class CapabilitySummaryCollection implements Serializable{
 	}
 	
 	
-	public void addCapabilitySummary(String key, CapabilitySummary[] value)
-	{
+	public void addCapabilitySummary(String key, CapabilitySummary[] value) {
 		this.concurrentCapabilitySummaryMap.put(key, value);
-//		if(this.concurrentCapabilitySummaryMap.containsKey(id))
-//		this.concurrentCapabilitySummaryMap.get(id).add(cs);
 	}
 	
-	public void removePeerCapabilitySummary(String id)
-	{
+	
+	public void removePeerCapabilitySummary(String id) {
 		this.concurrentCapabilitySummaryMap.remove(id);
 	}
 	
 	public int getSizeOfCS() {
 		return this.concurrentCapabilitySummaryMap.size();
 	}
+	
+	
+	public boolean capabilitySummaryExists (String key) {
+		return this.concurrentCapabilitySummaryMap.containsKey(key);
+	}
+	
 	
 	/**
 	 * Find the optimal allocation of global tasks
@@ -112,15 +125,11 @@ public abstract class CapabilitySummaryCollection implements Serializable{
 	public String toString(){
 		StringBuilder str = new StringBuilder();
 		
-		
 		Iterator concurrentCapabilitySummaryIter=concurrentCapabilitySummaryMap.keySet().iterator();//put debug point at this line
-        while(concurrentCapabilitySummaryIter.hasNext())
-        {
+        while(concurrentCapabilitySummaryIter.hasNext()) {
             String key = (String)concurrentCapabilitySummaryIter.next();
-            
             str.append("["+ key +":"+ concurrentCapabilitySummaryMap.get(key) +"]");
-            
-            }
+        }
 		
 		return str.toString();
 	}

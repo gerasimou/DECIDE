@@ -6,12 +6,10 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
 import org.apache.log4j.Logger;
 
-import decide.DECIDE;
 
-public class MulticastTransmitter implements ClientDECIDE{
+public class MulticastTransmitter implements TransmitterDECIDE{
 	/** server address*/
 	private String serverAddress;
 	
@@ -134,8 +132,8 @@ public class MulticastTransmitter implements ClientDECIDE{
 	
 	 	
 	
-	public ClientDECIDE deepClone(){
-		ClientDECIDE newHandler = new MulticastTransmitter(this);
+	public TransmitterDECIDE deepClone(){
+		TransmitterDECIDE newHandler = new MulticastTransmitter(this);
 		return newHandler;
 	}
 }

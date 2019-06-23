@@ -18,7 +18,7 @@ public abstract class Configuration implements Serializable{
 	protected String MODEL_FILENAME 		= Utility.getProperty("MODEL_FILE");
 
 	/** Model string*/
-	protected String modelAsString;
+	protected String modelTemplate;
 
 	/** List holding verification for this configuration */ 
 	protected List<?> verificationResults;
@@ -36,13 +36,12 @@ public abstract class Configuration implements Serializable{
 	 */
 	protected Configuration(){
 		//Read the model
-		this.modelAsString = Utility.readFile(MODEL_FILENAME);	
+		this.modelTemplate = Utility.readFile(MODEL_FILENAME);	
 		
-		//init hasmaps
+		//init hashmaps
 		this.globalRequirementsResults = new LinkedHashMap<String, Object>();
 		this.localRequirementsResults  = new LinkedHashMap<String, Object>();
 	}
-	
 	
 	
 	/**
@@ -63,10 +62,9 @@ public abstract class Configuration implements Serializable{
 	}
 	
 	
-	
 	/**
  	 * Evaluate this configuration considering local requirements
-	 * The results are save in appropriate hashmaps
+	 * The results are saved in appropriate hashmaps
 	 * @param environment
 	 */
 	public void evaluateLocalRequirements(Environment environment){
@@ -93,6 +91,7 @@ public abstract class Configuration implements Serializable{
 		}
 	}
 	
+	
 	/**
  	 * Evaluate this configuration considering global requirements and received peer 
  	 * capability summary. The results are saved in appropriate hashmaps
@@ -114,6 +113,7 @@ public abstract class Configuration implements Serializable{
 			globalRequirementsResults.put(requirement.getID(), result);
 		}
 	}
+	
 	
 	/**
  	 * Evaluate this combination of configurations considering global requirements and received peer 
@@ -171,7 +171,6 @@ public abstract class Configuration implements Serializable{
 	}
 	
 	
-	
 	/**
 	 * Get map of results for global (system-level) requirements associated with this configuration
 	 * @return
@@ -179,6 +178,7 @@ public abstract class Configuration implements Serializable{
 	public Map<String, Object> getGlobalRequirementsResults(){
 		return this.globalRequirementsResults;
 	}
+	
 	
 	/**
 	 * Get map of results for local (local-level) requirements associated with this configuration

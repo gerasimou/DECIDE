@@ -7,29 +7,34 @@ import java.util.Map;
 import auxiliary.Utility;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import decide.evaluator.PropertyEvaluator;
-import network.ClientDECIDE;
+import decide.evaluator.AttributeEvaluator;
+import network.TransmitterDECIDE;
 
 public abstract class LocalCapabilityAnalysis implements Serializable{
 
 	/** DECIDE peers */
-	protected ClientDECIDE client;
+	protected TransmitterDECIDE client;
 	
 	/** Property Evaluator handler */
-	private PropertyEvaluator propertyEvaluator;
-	
-	
+	private AttributeEvaluator attributeEvaluator;
 	
 	/** Confidence array*/
 	protected static Map<String, Double> confidenceMap;
+	
 	
 	
 	/**
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	protected LocalCapabilityAnalysis() {
+	protected LocalCapabilityAnalysis(boolean deepClone) {
 		assignConfidenceArray();
+		
+		if (deepClone) {
+			attributeEvaluator	= attributeEvaluator.deepClone();
+			client				= client.deepClone();
+		}
+			
 	}
 
 
@@ -37,22 +42,25 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	 * Assign this DECIDE instance client, i.e., where it can transmit
 	 * @param client
 	 */
-	public void assignClient(ClientDECIDE client){
+	public void assignClient(TransmitterDECIDE client){
 		this.client = client;
 	}
 
-	
-	
 	
 	/**
 	 * <b>Abstact</b> execute action
 	 * @param args
 	 */
-	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment, Object...args);
+	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment);
 	
 	
+	/**
+	 * Deep clone this local capability analysis object
+	 * @param args
+	 * @return
+	 */
+	public abstract LocalCapabilityAnalysis deepClone();
 	
-	public abstract LocalCapabilityAnalysis deepClone(Object ... args);
 	
 	/**
 	 * Share capability summary with peers
@@ -86,22 +94,27 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 		return confidenceMap.get(key);
 	}
 
-	// newlly added
-	public ClientDECIDE getClient() {
+
+	public TransmitterDECIDE getClient() {
 		return client;
 	}
 
+	
 	/**
 	 * Return the QV instance
 	 * @return
 	 */
-	public PropertyEvaluator getPropertyEvaluator() {
-		return propertyEvaluator;
+	public AttributeEvaluator getAttributeEvaluator() {
+		return attributeEvaluator;
 	}
 
 
-	public void setPropertyEvaluator(PropertyEvaluator propertyEvaluator) {
-		this.propertyEvaluator = propertyEvaluator;
+	/** Set this property evaluator
+	 * 
+	 * @param attributeEvaluator
+	 */
+	public void setPropertyEvaluator(AttributeEvaluator attributeEvaluator) {
+		this.attributeEvaluator = attributeEvaluator;
 	}
 
 	

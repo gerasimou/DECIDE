@@ -2,29 +2,21 @@
 package decide.receipt;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
-
 //import ServerClient.FileReader;
 import auxiliary.Utility;
 import decide.OperationMode;
-import decide.capabilitySummary.CapabilitySummary;
 import decide.capabilitySummary.CapabilitySummaryCollection;
-import decide.configuration.Configuration;
-import network.MulticastReceiver;
-import network.PeerStatus;
-import network.ServerDECIDE;
+import network.ReceiverDECIDE;
 import java.util.concurrent.atomic.AtomicReference;
+
 
 public abstract class CLAReceipt implements Serializable{
 	
 	/** peers list */	
-	protected List<ServerDECIDE> serversList;
+	protected List<ReceiverDECIDE> serversList;
 	
 	protected TimeWindow timeWindow = null;
 	
@@ -89,7 +81,7 @@ public abstract class CLAReceipt implements Serializable{
 	/**
 	 * Return the list of servers, i.e., where I am listening to
 	 */
-	public List<ServerDECIDE> getServersList() {
+	public List<ReceiverDECIDE> getServersList() {
 		return serversList;
 	}
 
@@ -97,10 +89,10 @@ public abstract class CLAReceipt implements Serializable{
 	/**
 	 * Set the list of servers, i.e., where I am listening to
 	 */
-	public void setServersList(List<ServerDECIDE> serverList, CapabilitySummaryCollection capabilitySummaryCollection){
+	public void setServersList(List<ReceiverDECIDE> serverList, CapabilitySummaryCollection capabilitySummaryCollection){
 		this.serversList = serverList;
 		//do initialisation
-		for (ServerDECIDE server : this. serversList){
+		for (ReceiverDECIDE server : this. serversList){
 			//assign the CLAReceipt handler
 			server.setCLAReceipt(this, capabilitySummaryCollection, 0);
 
@@ -117,8 +109,7 @@ public abstract class CLAReceipt implements Serializable{
 
 	}
 	
-	public void removeCapabilitySummary(String id)
-	{
+	public void removeCapabilitySummary(String id) {
 		this.capabilitySummaryCollection.removePeerCapabilitySummary(id);
 	}
 	
@@ -134,27 +125,23 @@ public abstract class CLAReceipt implements Serializable{
 			timeWindow.start();
 			logger.info("[Initiating heartbeat trace]");	
 		}
-		//logger.info("[Received: "+serverAddress+"]");
-
-		}
+		//logger.info("[Received: "+serverAddress+"]");	
+	}
 	
 	
 	public abstract boolean execute(Object...args);
-//		
-
-	
 
 
 	public abstract CLAReceipt deepClone(Object ... args);
 		
 	public abstract boolean executeListeningThread();
+
 	
 	public AtomicReference<OperationMode> getAtomicOperationReference() {
 		return atomicOperationReference;
 	}
 
-
-
+	
 	class TimeWindow extends Thread{
 		protected TimeWindow(){
 			
@@ -163,12 +150,10 @@ public abstract class CLAReceipt implements Serializable{
 		@Override
 		public void run(){
 			try {
-				
-				while(!this.isInterrupted())
-				{	
+				while(!this.isInterrupted()) {	
 					Thread.sleep(TIME_WINDOW);
 				
-					if(executeListeningThread())
+					if (executeListeningThread())
 						this.interrupt();
 				}
 			} 

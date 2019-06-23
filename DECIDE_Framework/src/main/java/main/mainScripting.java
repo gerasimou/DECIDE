@@ -10,7 +10,7 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import example.uuv.UUVConfiguration;
+import caseStudies.uuv.UUVConfiguration;
 
 public class mainScripting {
 

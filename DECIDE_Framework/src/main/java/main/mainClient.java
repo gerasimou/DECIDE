@@ -1,7 +1,7 @@
 package main;
 
 import network.ClientSocketDECIDE;
-import network.ServerSocketDECIDE;
+import network.SocketReceiver;
 
 public class mainClient {
 

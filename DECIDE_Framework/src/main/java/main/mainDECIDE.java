@@ -2,6 +2,10 @@ package main;
 
 import org.apache.log4j.Logger;
 
+import caseStudies.uuv.UUV;
+import caseStudies.uuv.UUVCapabilitySummaryCollection;
+import caseStudies.uuv.UUVConfigurationsCollection;
+import caseStudies.uuv.UUVEnvironment;
 import decide.DECIDE;
 import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
@@ -9,10 +13,6 @@ import decide.component.Component;
 import decide.component.ComponentFactory;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import example.uuv.UUV;
-import example.uuv.UUVCapabilitySummaryCollection;
-import example.uuv.UUVConfigurationsCollection;
-import example.uuv.UUVEnvironment;
 
 public class mainDECIDE {
 
@@ -30,6 +30,8 @@ public class mainDECIDE {
 
 		//logger.error("This is error : " + parameter);
 	}
+	
+	
 	public static void main(String[] args) {
 		
 		logEvents("Starting DECIDE simulation");

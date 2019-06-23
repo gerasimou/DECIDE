@@ -9,7 +9,6 @@ import decide.component.requirements.Requirement;
 import decide.component.requirements.RequirementSet;
 import decide.component.requirements.RequirementType;
 import decide.environment.Environment;
-import decide.receipt.CLAReceipt;
 import lombok.EqualsAndHashCode;
 
 
@@ -32,11 +31,8 @@ public abstract class CapabilitySummary implements Serializable{
 	 * Create a new capabilitySummary instance
 	 */
 	protected CapabilitySummary(){
-		
 		//init hasmaps
 		this.globalRequirementsResults = new LinkedHashMap<String, Object>();
-				
-		
 	}
 
 	
@@ -53,6 +49,7 @@ public abstract class CapabilitySummary implements Serializable{
 			globalRequirementsResults.put(requirement.getID(), result);
 		}
 	}
+
 	
 	/**
  	 * Evaluate this capabilitySummary considering global requirements and received peer 
@@ -60,7 +57,7 @@ public abstract class CapabilitySummary implements Serializable{
 	 * @param environment
 	 * @param capabilitySummary
 	 */
-	public void evaluateGlobalRequirements(Environment environment, CapabilitySummary ... capabilitySummary){
+	public void evaluateGlobalRequirements(Environment environment, CapabilitySummary[] capabilitySummary){
 		//evaluate global requirements
 		List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
 		
@@ -71,9 +68,7 @@ public abstract class CapabilitySummary implements Serializable{
 		// Place the component configuration at index 0 and the following indexes hold peer configurations.
 //		capabilitySummaryArray[0] = this;
 		for (Requirement requirement : globalReqsList){
-			if(requirement.getType().equals(RequirementType.SYSTEM_REQUIREMENT) || 
-					requirement.getType().equals(RequirementType.SYSTEM_COST))
-			{
+			if(requirement.getType().equals(RequirementType.SYSTEM_REQUIREMENT) || requirement.getType().equals(RequirementType.SYSTEM_COST)) {
 				Object result = requirement.evaluate(environment,capabilitySummary);
 				globalRequirementsResults.put(requirement.getID(), result);
 			}
@@ -81,27 +76,29 @@ public abstract class CapabilitySummary implements Serializable{
 		}
 	}
 	
-	/**
- 	 * Evaluate this combination of capability summaries considering global requirements and received peer 
- 	 * capability summary. The results are saved in appropriate hashmaps
-	 * @param environment
-	 * @param capabilitySummaries
-	 */
-	public void evaluateGlobalRequirementsforCombinations(Environment environment,CapabilitySummary ... capabilitySummary){
-		//evaluate global requirements
-		List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
-		
-		// adapt to any number of Configurations
-		//Configuration[] configurationArray = new Configuration[receivedConfig.length+1];
-		//System.arraycopy(receivedConfig, 0, configurationArray, 1, receivedConfig.length);
-		
-		// Place the component configuration at index 0 and the following indexes hold peer configurations.
-		//configurationArray[0] = this;
-		for (Requirement requirement : globalReqsList){
-			Object result = requirement.evaluate(environment,capabilitySummary);
-			globalRequirementsResults.put(requirement.getID(), result);
-		}
-	}
+	
+//	/**
+// 	 * Evaluate this combination of capability summaries considering global requirements and received peer 
+// 	 * capability summary. The results are saved in appropriate hashmaps
+//	 * @param environment
+//	 * @param capabilitySummaries
+//	 */
+//	@Deprecated
+//	public void evaluateGlobalRequirementsforCombinationss(Environment environment,CapabilitySummary ... capabilitySummary){
+//		//evaluate global requirements
+//		List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
+//		
+//		// adapt to any number of Configurations
+//		//Configuration[] configurationArray = new Configuration[receivedConfig.length+1];
+//		//System.arraycopy(receivedConfig, 0, configurationArray, 1, receivedConfig.length);
+//		
+//		// Place the component configuration at index 0 and the following indexes hold peer configurations.
+//		//configurationArray[0] = this;
+//		for (Requirement requirement : globalReqsList){
+//			Object result = requirement.evaluate(environment,capabilitySummary);
+//			globalRequirementsResults.put(requirement.getID(), result);
+//		}
+//	}
 
 	
 	/**
@@ -146,10 +143,12 @@ public abstract class CapabilitySummary implements Serializable{
 		return this.globalRequirementsResults;
 	}
 	
+	
 	/**
 	 * Clone Capability Summary object
 	 */
 	public abstract CapabilitySummary deepClone(Object ... args);
+	
 	
 	/**
 	 * Retrieve as a list the elements of this capabilitySummary
@@ -157,13 +156,12 @@ public abstract class CapabilitySummary implements Serializable{
 	 */
 	public abstract List<?> getCapabilitySummaryElements();
 
+	
 	/**
 	 * Get the bounds associated with this capabilitySummary
 	 * This is used in attributed analysis 2 from the DECIDE protocol
 	 * @return
 	 */
-	public abstract double getBound(); 
-	
-	
+	public abstract double getBound();
 }
 

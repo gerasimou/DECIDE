@@ -42,9 +42,6 @@ public abstract class Mode{
 	}
 
 
-
-
-
 	/**
 	 * Retrieve the iterator for this map
 	 * @return

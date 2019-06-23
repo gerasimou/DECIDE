@@ -1,7 +1,7 @@
 package main;
 
 import network.ClientSocketDECIDE;
-import network.ServerSocketDECIDE;
+import network.SocketReceiver;
 
 public class mainServer {
 
@@ -10,6 +10,6 @@ public class mainServer {
 		
 		System.out.println("Starting DECIDE");
 		
-		new Thread(new ServerSocketDECIDE(9990)).start();
+		new Thread(new SocketReceiver(9990)).start();
 	}
 }

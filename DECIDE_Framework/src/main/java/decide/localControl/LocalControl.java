@@ -10,19 +10,18 @@ import auxiliary.Utility;
 import decide.OperationMode;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import decide.evaluator.PropertyEvaluator;
-import decide.evaluator.QV;
-import network.ClientDECIDE;
-import network.ServerDECIDE;
-import network.ServerDatagramSocket;
+import decide.evaluator.AttributeEvaluator;
+import network.TransmitterDECIDE;
+import network.ReceiverDECIDE;
+
 
 public abstract class LocalControl implements Serializable{
 	
-	/** DECIDE peers */
-	protected ClientDECIDE client;
+	/** DECIDE sender to robot component */
+	protected TransmitterDECIDE transmitter;
 	
 	/** peers list */	
-	protected ServerDECIDE  server;
+	protected ReceiverDECIDE  receiver;
 	
 	/** monitor heartbeat frequency*/
 	protected TimeWindow timeWindow = null;
@@ -63,8 +62,7 @@ public abstract class LocalControl implements Serializable{
     final static Logger logger = Logger.getLogger(LocalControl.class);
 	
 	/** Property Evaluator handler */
-	private PropertyEvaluator propertyEvaluator;
-	
+	protected AttributeEvaluator attributeEvaluator;
 	
 	
 	
@@ -77,14 +75,14 @@ public abstract class LocalControl implements Serializable{
 		this.TIME_WINDOW						= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
 		this.receivedTimeStamp				= 0;
 		this.atomicOperationReference		= new AtomicReference<OperationMode>(OperationMode.STARTUP);
-		
-	
 	}
+	
 	
 	/**
 	 * Monitor component status & heartbeat
 	 */
 	public abstract void receive(String serverAddress);
+	
 	
 	/**
 	 * Check if new command has been received
@@ -93,28 +91,31 @@ public abstract class LocalControl implements Serializable{
 		return receivedNewCommand;
 	}
 	
+	
 	/**
 	 * Terminate component heartbeat thread
 	 */
-	public void interruptTimeWindow()
-	{
+	public void interruptTimeWindow(){
 		timeWindow.interrupt();
 	}
+	
 	
 	/**
 	 * Start component heartbeat thread
 	 */
-	public void initiateTimeWindowThread()
-	{
+	public void initiateTimeWindowThread() {
 		timeWindow.start();
 	}
+	
+	
 	/**
 	 * Create new heartbeat thread
 	 */
-	public TimeWindow createNewTimeWindowInstance()
-	{
+	public TimeWindow createNewTimeWindowInstance() {
 		return new TimeWindow();
 	}
+	
+	
 	/**
 	 * Set new command flag to new boolean value
 	 * @param boolean
@@ -123,41 +124,44 @@ public abstract class LocalControl implements Serializable{
 		this.receivedNewCommand = receivedNewCommand;
 	}
 
+	
 	/**
 	 * Return the QV instance
 	 * @return
 	 */
-	public PropertyEvaluator getPropertyEvaluator(){
-		return this.propertyEvaluator;
+	public AttributeEvaluator getPropertyEvaluator(){
+		return this.attributeEvaluator;
 	}
+	
 	
 	/**
 	 * Assign this DECIDE instance client, i.e., where it can transmit
-	 * @param client
+	 * @param transmitter
 	 */
-	public void assignClient(ClientDECIDE client){
-		this.client = client;
+	public void setTransmitter (TransmitterDECIDE transmitter){
+		this.transmitter = transmitter;
 	}
+	
 	
 	/**
 	 * Assign this DECIDE instance server, i.e., where it can transmit
-	 * @param server
+	 * @param receiver
 	 */
-	public void assignServer(ServerDECIDE  server){
-		this.server = server;
-		this.server.setLocalControl(this, 0);
+	public void assignReceiver(ReceiverDECIDE  receiver){
+		this.receiver = receiver;
+		this.receiver.setLocalControl(this, 0);
 		//start the receivers
-		this.serverThread = new Thread(this.server, this.server.toString());
+		this.serverThread = new Thread(this.receiver, this.receiver.toString());
 		this.serverThread.setDaemon(true);
 		this.serverThread.start();
 	}
 	
+	
 	/**
 	 * Share capability summary with peers
 	 */
-	
 	public void sendCommand(Object command){
-		this.client.send(command);
+		this.transmitter.send(command);
 	}
 	
 	
@@ -165,27 +169,27 @@ public abstract class LocalControl implements Serializable{
 	 * <b>Abstact</b> execute action
 	 * @param args
 	*/
-	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment, Object...args);
-	
+	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment);
 	
 	
 	public abstract LocalControl deepClone(Object ... args);
+	
 	
 	public AtomicReference<OperationMode> getAtomicOperationReference() {
 		return atomicOperationReference;
 	}
 
+	
 	public abstract boolean executeListeningThread();
 
-	public void setPropertyEvaluator(PropertyEvaluator propertyEvaluator) {
-		this.propertyEvaluator = propertyEvaluator;
+	
+	public void setPropertyEvaluator(AttributeEvaluator propertyEvaluator) {
+		this.attributeEvaluator = propertyEvaluator;
 	}
 
 
-
 	class TimeWindow extends Thread{
-		protected TimeWindow(){
-			
+		protected TimeWindow() {	
 		}
 		
 		@Override
@@ -193,20 +197,13 @@ public abstract class LocalControl implements Serializable{
 			
 			try {
 				boolean result = false;
-				while(!this.isInterrupted())
-				{
-					
+				while(!this.isInterrupted()) {
 					Thread.sleep(TIME_WINDOW+15000);
 			
 					result = executeListeningThread();
 					if(result)
-						this.interrupt();
-//					
-					}
-//					
-//					
-//				
-				
+						this.interrupt();	
+				}
 			} 
 			catch (InterruptedException e) {
 				logger.error(e.getStackTrace());

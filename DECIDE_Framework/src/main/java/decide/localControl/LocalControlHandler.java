@@ -3,7 +3,7 @@ package decide.localControl;
 import decide.OperationMode;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import decide.evaluator.PropertyEvaluator;
+import decide.evaluator.AttributeEvaluator;
 import decide.evaluator.QV;
 
 public class LocalControlHandler extends LocalControl{
@@ -12,7 +12,7 @@ public class LocalControlHandler extends LocalControl{
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	public LocalControlHandler(PropertyEvaluator propertyEvaluator) {
+	public LocalControlHandler(AttributeEvaluator propertyEvaluator) {
 		super();
 		this.setPropertyEvaluator(propertyEvaluator);
 //		System.out.println(this.getClass().getName());		
@@ -66,16 +66,16 @@ public class LocalControlHandler extends LocalControl{
 		
 		}
 	@Override
-	public void execute(ConfigurationsCollection modesCollection, Environment environment, Object...args){
+	public void execute(ConfigurationsCollection modesCollection, Environment environment){
 		System.err.println(this.getClass().getSimpleName()+".execute()");
-		getPropertyEvaluator().run(modesCollection, environment, args[0]);
+		getPropertyEvaluator().run(modesCollection, environment, false);
 	}
 	
 	
 	
 	public LocalControl deepClone(Object ... args){
 		LocalControl newHandler = new LocalControlHandler(this);
-		newHandler.setPropertyEvaluator((PropertyEvaluator) args[0]);
+		newHandler.setPropertyEvaluator((AttributeEvaluator) args[0]);
 		return newHandler;
 	}
 
