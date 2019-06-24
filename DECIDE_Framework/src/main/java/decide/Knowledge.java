@@ -3,6 +3,7 @@ package decide;
 import java.util.List;
 
 import decide.component.Component;
+import decide.component.ComponentNew;
 import decide.component.requirements.Requirement;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
@@ -40,6 +41,13 @@ public class Knowledge {
 	public static void initKnowledge(Component component){
 		requirementsGlobalList	= component.getGlobalRequirements();
 		requirementsLocalList	= component.getLocalRequirements();
+		ID 						= component.getID();
+	}
+	
+	
+	public static void initKnowledgeNew(ComponentNew component){
+//		requirementsGlobalList	= component.getGlobalRequirements();
+//		requirementsLocalList	= component.getLocalRequirements();
 		ID 						= component.getID();
 	}
 	

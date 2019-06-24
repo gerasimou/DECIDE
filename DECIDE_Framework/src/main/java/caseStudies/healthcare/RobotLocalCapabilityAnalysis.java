@@ -16,9 +16,9 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	 * Basic constructor receiving the attribute evaluator instance 
 	 * @param qvInstance
 	 */
-	public RobotLocalCapabilityAnalysis(AttributeEvaluatorNew qvInstance){
+	public RobotLocalCapabilityAnalysis(AttributeEvaluatorNew attributeEvaluator){
 		super (false);
-		this.setPropertyEvaluator(qvInstance);
+		this.setPropertyEvaluator(attributeEvaluator);
 	}
 	
 	
@@ -69,7 +69,7 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	
 	@Override
 	public void shareCapabilitySummary(Object... args) { 
-		client.send(args);
+		transmitter.send(args);
 	}
 
 }

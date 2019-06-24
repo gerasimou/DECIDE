@@ -14,7 +14,7 @@ import network.TransmitterDECIDE;
 public abstract class LocalCapabilityAnalysisNew implements Serializable{
 
 	/** DECIDE peers */
-	protected TransmitterDECIDE client;
+	protected TransmitterDECIDE transmitter;
 	
 	/** Property Evaluator handler */
 	private AttributeEvaluatorNew attributeEvaluator;
@@ -33,7 +33,7 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 		
 		if (deepClone) {
 			attributeEvaluator	= attributeEvaluator.deepClone();
-			client				= client.deepClone();
+			transmitter				= transmitter.deepClone();
 		}
 			
 	}
@@ -43,8 +43,8 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	 * Assign this DECIDE instance client, i.e., where it can transmit
 	 * @param client
 	 */
-	public void assignClient(TransmitterDECIDE client){
-		this.client = client;
+	public void setTransmitterToOtherDECIDE(TransmitterDECIDE client){
+		this.transmitter = client;
 	}
 
 	
@@ -97,7 +97,7 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 
 
 	public TransmitterDECIDE getClient() {
-		return client;
+		return transmitter;
 	}
 
 	
