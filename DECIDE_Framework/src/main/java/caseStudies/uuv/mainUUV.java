@@ -39,7 +39,7 @@ public class mainUUV {
 				
 		//create a new component given its ID and transmitting + receiving features
 		String[] componentDetails 	= ComponentFactory.getComponentDetails();
-		String 	 componentID			= componentDetails[0].split("_")[1];
+		String 	 componentID		= componentDetails[0].split("_")[1];
 		String 	 componentFeatures	= componentDetails[1];
 		
 		//create a new robot configuration instance

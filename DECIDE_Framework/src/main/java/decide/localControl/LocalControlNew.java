@@ -23,7 +23,7 @@ import network.ReceiverDECIDENew;
 public abstract class LocalControlNew implements Serializable, NetworkUser{
 	
 	/** DECIDE peers */
-	protected TransmitterDECIDE client;
+	protected TransmitterDECIDE transmitter;
 	
 	/** peers list */	
 	protected ReceiverDECIDENew  receiver;
@@ -144,7 +144,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	 * @param client
 	 */
 	public void setTransmitter(TransmitterDECIDE client){
-		this.client = client;
+		this.transmitter = client;
 	}
 	
 	
@@ -166,7 +166,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	 * Share capability summary with peers
 	 */
 	public void sendCommand(Object command){
-		this.client.send(command);
+		this.transmitter.send(command);
 	}
 	
 	

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import decide.component.requirements.DECIDEAttribute;
-import decide.configuration.Configuration;
 import decide.configuration.ConfigurationNew;
 
 public abstract class EnvironmentNew {
@@ -31,7 +30,7 @@ public abstract class EnvironmentNew {
 	}
 
 	
-	public abstract String getModel(); 
+	public abstract String getEnvironmentModelParameters(); 
 	
 	
 	protected abstract void adjustEnvironment (ConfigurationNew configuration, DECIDEAttribute attribute);
@@ -39,14 +38,14 @@ public abstract class EnvironmentNew {
 	public String getModel(boolean adjustedModel, ConfigurationNew configuration, DECIDEAttribute attribute){
 		initEnvironment();
 		if (adjustedModel){
-			Map<String, Object> tempEnvironmentMap = new HashMap<>(environmentMap);
+			Map<String, Object> tempEnvironmentMap = new HashMap<>(environmentMap);//this is used to preserve the original values of the environment
 			adjustEnvironment(configuration, attribute);
-			String modelString	   	= getModel();
+			String modelString	   	= getEnvironmentModelParameters();
 			environmentMap			= tempEnvironmentMap;
 			return modelString;
 		}
 		else
-			return getModel();
+			return getEnvironmentModelParameters();
 	}
 	
 	protected abstract void initEnvironment(); 

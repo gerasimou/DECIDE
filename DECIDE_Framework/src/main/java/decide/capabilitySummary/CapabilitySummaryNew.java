@@ -1,15 +1,9 @@
 package decide.capabilitySummary;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import decide.Knowledge;
-import decide.component.requirements.Requirement;
-import decide.component.requirements.RequirementSet;
-import decide.component.requirements.RequirementType;
-import decide.component.requirements.reqNew.GlobalConstraintNew;
-import decide.environment.Environment;
 import lombok.EqualsAndHashCode;
 
 
@@ -25,8 +19,8 @@ public abstract class CapabilitySummaryNew implements Serializable{
 
 	protected Map<String, Object> capabilitySummaryElementsMap;
 
-	/** Map holding evaluation results of <b>global (system-level)</b> requirements*/
-	@EqualsAndHashCode.Exclude private Map<String, Object> globalRequirementsResults;
+//	/** Map holding evaluation results of <b>global (system-level)</b> requirements*/
+//	@EqualsAndHashCode.Exclude private Map<String, Object> globalRequirementsResults;
 
 	
 	/** Class constructor
@@ -34,19 +28,10 @@ public abstract class CapabilitySummaryNew implements Serializable{
 	 */
 	protected CapabilitySummaryNew(){
 		//init hashmaps
-		this.capabilitySummaryElementsMap = new LinkedHashMap<String, Object>();
-		this.globalRequirementsResults 	 = new LinkedHashMap<String, Object>();
+		this.capabilitySummaryElementsMap 	= new LinkedHashMap<String, Object>();
+//		this.globalRequirementsResults 	 	= new LinkedHashMap<String, Object>();
 	}
 
-
-	
-	public void evaluteGlobalConstraints (CapabilitySummaryNew[] capabilitySummaries) {
-		List<GlobalConstraintNew> globalConstraints = Knowledge.getGlobalConstraints();
-		for (GlobalConstraintNew constraint : globalConstraints) {
-			constraint.evaluate(capabilitySummaries);
-		}
-	}
-	
 	
 	/**
 	 * Get the value of an element of this capability summary by providing its key 
@@ -141,14 +126,19 @@ public abstract class CapabilitySummaryNew implements Serializable{
 //		
 //		return true;
 //	}
+//	
+//	
+//	/**
+//	 * Get map of results for global (system-level) requirements associated with this configuration
+//	 * @return
+//	 */
+//	public Map<String, Object> getGlobalRequirementsResults(){
+//		return this.globalRequirementsResults;
+//	}
 	
 	
-	/**
-	 * Get map of results for global (system-level) requirements associated with this configuration
-	 * @return
-	 */
-	public Map<String, Object> getGlobalRequirementsResults(){
-		return this.globalRequirementsResults;
+	public Collection<Object> getCapabilitySummaryValues(){
+		return this.capabilitySummaryElementsMap.values();
 	}
 	
 }

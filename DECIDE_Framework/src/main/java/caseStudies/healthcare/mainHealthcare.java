@@ -2,29 +2,20 @@ package caseStudies.healthcare;
 
 import org.apache.log4j.Logger;
 
-import caseStudies.uuv.UUV;
-import caseStudies.uuv.UUVConfigurationsCollection;
-import caseStudies.uuv.UUVLocalCapabilityAnalysis;
-import decide.DECIDE;
+import auxiliary.Utility;
 import decide.DECIDENew;
 import decide.DecideException;
 import decide.Knowledge;
+import decide.KnowledgeNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.component.Component;
 import decide.component.ComponentFactory;
 import decide.component.ComponentNew;
-import decide.configuration.ConfigurationsCollection;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluator;
 import decide.evaluator.AttributeEvaluatorNew;
-import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localAnalysis.LocalCapabilityAnalysisNew;
 import decide.localControl.LocalControlNew;
-import decide.qv.prism.PrismQV;
 import decide.qv.prism.PrismQVNew;
-import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptNew;
 import decide.selection.SelectionNew;
 import main.mainDECIDE;
@@ -55,11 +46,7 @@ public class mainHealthcare {
 			
 		//setup configuration file, it can also be provided as an argument
 		String configurationFile = "resources" + File.separator + "healthcare" +File.separator +"config.properties";
-		
-		//create a new component given its ID and transmitting + receiving features
-		String[] componentDetails 	= ComponentFactory.getComponentDetails(configurationFile);
-		String 	 componentID			= componentDetails[0].split("_")[1];
-		String 	 componentFeatures	= componentDetails[1];
+		Utility.setConfigurationFile(configurationFile);
 
 		//create a new robot configuration instance
 		final double P3_FULL_MAX = 1.0;
@@ -79,11 +66,11 @@ public class mainHealthcare {
 		LocalCapabilityAnalysisNew lca 	= new RobotLocalCapabilityAnalysis(attributeEvaluator);
 		
 		//create cla receipt
-		CLAReceiptNew claReceipt			= new RobotCLAReceipt();
-		claReceipt.setCapabilitySummaryCollection(capabilitySummaryCollection);
+		CLAReceiptNew claReceipt	= new RobotCLAReceipt(capabilitySummaryCollection);
 
 		//create selection part
-		SelectionNew selection = new RobotSelection();
+//		SelectionNew selection 		= new RobotSelectionMDP();
+		SelectionNew selection 		= new RobotSelectionExhaustive();
 		
 		//crate local control
 		LocalControlNew localControl = new RobotLocalControl(attributeEvaluator);
@@ -91,11 +78,11 @@ public class mainHealthcare {
 		DECIDENew decide  = new DECIDENew (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
 
 		//create a new component
-		ComponentNew aComponent = ComponentFactory.makeNewComponentMulticastNew(Robot.class, componentID, componentFeatures, decide);
+		ComponentNew aComponent = ComponentFactory.makeNewComponentMulticastNew(Robot.class, configurationFile, decide);
 
 		//init knowledge
 		//TODO
-		Knowledge.initKnowledgeNew(aComponent);
+		KnowledgeNew.initKnowledgeNew(aComponent);
 
 		//start executing		
 		aComponent.run();		

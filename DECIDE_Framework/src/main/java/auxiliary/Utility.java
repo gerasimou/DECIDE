@@ -33,6 +33,7 @@ public class Utility {
 	 */
 	public static void setConfigurationFile (String filename){
 		fileName = filename;
+		setup();
 	}
 	
 	

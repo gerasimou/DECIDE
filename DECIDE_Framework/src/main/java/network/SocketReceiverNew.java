@@ -1,20 +1,14 @@
 package network;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Serializable;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import org.apache.log4j.Logger;
+
 
 public class SocketReceiverNew extends ReceiverDECIDENew{
 	
@@ -41,33 +35,18 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 	 * Class constructor
 	 * @param port number
 	 */
-	public SocketReceiverNew(int port){
-		this.serverPort = port;
+	public SocketReceiverNew(String ipAddress, int port){
+		this.serverPort 	= port;
+		this.serverAddress	= ipAddress;
 		try {
-			
-	        // Create a new Multicast socket (that will allow other sockets/programs to join it as well.
-	        this.serverSocket = new ServerSocket(serverPort);
-	        
-	                 
+	        // Create a new Server socket (that will allow other sockets/programs to join it as well.
+	        this.serverSocket = new ServerSocket(port, 1, InetAddress.getByName(ipAddress));      
         }
         catch (IOException e) {
 			logger.error(e.getStackTrace().toString());
 		}
 	}
-	/*
-	 * do {
-                br1 = new BufferedReader(new InputStreamReader(System.in));
-                pr1 = new PrintWriter(socket.getOutputStream(), true);
-                in = br1.readLine();
-                pr1.println(in);
-            } while (!in.equals("END"));
-        } else {
-            do {
-                br2 = new BufferedReader(new   InputStreamReader(socket.getInputStream()));
-                out = br2.readLine();
-                System.out.println("Server says : : : " + out);
-            } while (!out.equals("END"));
-	 */
+
 	
 	public void run() {			
 		try {
@@ -79,9 +58,7 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 				
 				initiateCommunication(server);
 				// just clear configuartion map if peer is absent
-				
 			}			
-
 		}
 		catch (IOException e) {
 			logger.error("Exception", e);
@@ -98,8 +75,8 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 		}
 	}
 	
-	private void initiateCommunication(Socket server)
-	{
+	
+	private void initiateCommunication(Socket server) {
 		String message;
 		int messageHashCode = 0;
 		
@@ -109,7 +86,6 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 				if(atomicPeerStatus.get()==PeerStatus.MISSING) {
 					atomicPeerStatus.set(PeerStatus.NEW_JOIN);
 				}
-		
 		
 				inFromClient = new BufferedReader(new InputStreamReader(server.getInputStream()));
 		
@@ -123,7 +99,6 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 				}
         
 		        if(inFromClient.ready()) {
-		        	
 			        	if((message = inFromClient.readLine()) != null) {
 			        		logger.debug("Received from:UUV"+ message+",[Status: "+atomicPeerStatus.get()+"]");
 						
@@ -132,8 +107,7 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 			        		String serverAddress = serverSocket.getInetAddress().getHostAddress();
 			        		networkUser.receive(serverAddress, message);
 	
-			        	}
-        
+			        	} 
 		        }// end if(inFromClient.ready())
 
 		        Thread.sleep(15000);
@@ -145,7 +119,6 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 			e.printStackTrace();	
 		} 
 		catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally{

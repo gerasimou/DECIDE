@@ -3,11 +3,8 @@ package caseStudies.healthcare;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import decide.configuration.ConfigurationsCollection;
 import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.Environment;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluator;
 import decide.evaluator.AttributeEvaluatorNew;
 import decide.localControl.LocalControlNew;
 
@@ -56,14 +53,14 @@ public class RobotLocalControl extends LocalControlNew {
 		//1) Update environment map based in "receivedEnvironmentMap", this enable us to 
 		//   do some preprocessing/analysis of the data received by the robot (e.g., add ML for prediction)
 		//e.g., to simply update the environment based on the received values (provided that the received information and those expected by the environment match)
-		//   receivedEnvironmentMap.forEach((k, v) -> environment.updateEnvironmentElement(k, v));
+	   receivedEnvironmentMap.forEach((k, v) -> environment.updateEnvironmentElement(k, v));
 		
 		//2) Carry out analysis based on the given attribute evaluator
 		modesCollection.analyseConfigurations(getAttributeEvaluator(), environment, false);
 		
 
 		//TODO: Here we need to check both the satisfiability of the local constraints and the assigned responsibilities
-		//FIXME: What is the constraint to be solve once the distribution is made?
+		//FIXME: What is the constraint to be solved once the distribution is made?
 		// n1 * t1 + n2 * t2 + t_travel < T_left
 	}
 

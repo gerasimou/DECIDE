@@ -1,5 +1,6 @@
 package decide.component;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -140,28 +141,26 @@ public class ComponentFactory {
 	 * @param decide
 	 * @return
 	 */
-	public static ComponentNew makeNewComponentMulticastNew(Class componentClass, String id, String features, DECIDENew decide){
+	public static ComponentNew makeNewComponentMulticastNew(Class componentClass, String configurationFile, DECIDENew decide){
 		Utility.setup();
 
 		try {
+			
+			//create a new component given its ID and transmitting + receiving features
+			String[] componentDetails 	= ComponentFactory.getComponentDetails(configurationFile);
+			String 	 componentID		= componentDetails[0].split("_")[1];
+			String 	 componentFeatures	= componentDetails[1];
 
 			//get all component features
-			String[] featuresList	= features.split(",");
+			String[] featuresList	= componentFeatures.split(",");
 			
 			//transmitter to other DECIDE components
-			TransmitterDECIDE transmitter = null;
+			TransmitterDECIDE transmitterDECIDE = null;
 			
 			//receiver from other DECIDE components
 			List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
 			
-			//transmitter to robot
-			TransmitterDECIDE uuvTransmitter = null;
-			
-			//Receiver from robot
-			ReceiverDECIDENew uuvReceiver = null;
-	
 			for (String feature : featuresList){
-	
 				//get component's ID
 //				if (feature.contains("ID")){
 //					//get its ID
@@ -173,7 +172,7 @@ public class ComponentFactory {
 					String transmittingAddress	= feature.split(":")[1];
 					int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
 					//create a new DECIDE transmitter
-					transmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort);
+					transmitterDECIDE 				= new MulticastTransmitter(transmittingAddress, transmittingPort);
 				}
 				
 				//find the information of its peers(peerPort%10 for id)
@@ -183,54 +182,56 @@ public class ComponentFactory {
 					peersList.add(new MulticastReceiverNew(peerAddress, peerPort));
 				}			
 			}
-			
-			//clone the DECIDE instance given by the user
-//			DECIDE newDECIDE = decide.deepClone();
-			
+						
 			//set the DECIDE transmitter and receivers through which it communicates with other DECIDE components
-			decide.setTransmitterToOtherDECIDE(transmitter);
+			decide.setTransmitterToOtherDECIDE(transmitterDECIDE);
 			decide.setReceiverFromOtherDECIDE(peersList);
 			
+
 			
-			// Set MOOS UUV 
-			String uuvFeatures = Utility.getProperty("UUV");
-			int uuvID = 0;
+			//transmitter to robot
+			TransmitterDECIDE robotTransmitter = null;
+			
+			//Receiver from robot
+			ReceiverDECIDENew robotReceiver = null;
+			
+			// Set Robot communication 
+			String robotFeatures = Utility.getProperty("ROBOT");
+			int robotID = 0;
 			//get all robot features
-			String[] uuvFeaturesList	= uuvFeatures.split(",");
+			String[] robotFeaturesList	= robotFeatures.split(",");
 			
-			for (String feature : uuvFeaturesList){
+			for (String feature : robotFeaturesList){
 				
 				//get robot's ID
 				if (feature.contains("ID")){
 					//get its ID
-					uuvID = Integer.parseInt(feature.split(":")[1]);				
+					robotID = Integer.parseInt(feature.split(":")[1]);				
 				}
-				
 				
 				//get component's remote transmitting address
 				if (feature.contains("TRANSMITTING")){
 					String transmittingAddress	= feature.split(":")[1];
 					int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
 					//create a new DECIDE transmitter
-					uuvTransmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort);
+					robotTransmitter 			= new MulticastTransmitter(transmittingAddress, transmittingPort);
 				}
 				
 				//find the information of remote peers
 				if (feature.contains("RECEIVING")){
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					//uuvReceiver 		= new ServerDatagramSocket(peerAddress, peerPort);
-					uuvReceiver			= new SocketReceiverNew(peerPort);
+					robotReceiver		= new SocketReceiverNew(peerAddress, peerPort);
 				}			
 			}
 			
 			//set the DECIDE remote transmitter and receiver through which DECIDE communicates with the robot/component
-			decide.setTransmitterToComponent(uuvTransmitter);
-			decide.setReceiverFromComponent(uuvReceiver);
+			decide.setTransmitterToComponent(robotTransmitter);
+			decide.setReceiverFromComponent(robotReceiver);
 			
 			
 			ComponentNew comp = (ComponentNew) componentClass.newInstance();
-			comp.setID(id);
+			comp.setID(componentID);
 			comp.setDECIDE(decide);
 			return comp;
 		} 
@@ -443,10 +444,12 @@ public class ComponentFactory {
 
 	
 	/**
-	 * Get details of this component
+	 * Get details of this component, after initialising the utility class with the provided configuration file
+	 * @param configurationFile that holds configuration information for this component
 	 * @return
 	 */
-	public static String[] getComponentDetails(){
+	public static String[] getComponentDetails(String configurationFile){
+		Utility.setConfigurationFile(configurationFile);
 		Utility.setup();
 		
 		//Get the properties set
@@ -454,6 +457,7 @@ public class ComponentFactory {
 		
 		//Get the iterator
 		Iterator<Entry<Object,Object>> iterator = propertiesSet.iterator();
+		
 				
 		while (iterator.hasNext()){
 			Entry<Object, Object> entry = iterator.next();
@@ -468,18 +472,12 @@ public class ComponentFactory {
 		
 		return null;
 	}
-	
-	
-	/**
-	 * Get details of this component, after initialising the utility class with the provided configuration file
-	 * @param configurationFile that holds configuration information for this component
-	 * @return
-	 */
-	public static String[] getComponentDetails (String configurationFile){
-		Utility.setConfigurationFile(configurationFile);
-		return getComponentDetails();
-	}
 
 	
+	public static String[] getComponentDetails() {
+			String configurationFile = "resources" + File.separator + "uuv" +File.separator +"config.properties";
+			Utility.setConfigurationFile(configurationFile);
+			return getComponentDetails();
+	}
 
 }

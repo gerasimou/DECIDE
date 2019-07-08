@@ -7,12 +7,12 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.log4j.Logger;
-import decide.capabilitySummary.CapabilitySummary;
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.environment.Environment;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
+
 
 public abstract class ConfigurationsCollectionNew {
 
@@ -27,7 +27,9 @@ public abstract class ConfigurationsCollectionNew {
 	
 	private Iterator<ModeNew> modesCollectionIterator;
 	
-	/** Map storing the CapabilitySummary for each mode**/
+	/** Map storing the CapabilitySummary for each mode
+	 *  in the form <modeID, Capability Summary>
+	 **/
 	protected Map<String, CapabilitySummaryNew> capabilitySummaryMapForModes;
 	
 	/** An iterator for the CapabilitySummary map **/
@@ -50,7 +52,7 @@ public abstract class ConfigurationsCollectionNew {
 	
 	
 	protected ConfigurationsCollectionNew() {
-		this.modesCollection					= new LinkedHashSet<ModeNew>();
+		this.modesCollection				= new LinkedHashSet<ModeNew>();
 		this.capabilitySummaryMapForModes 	= new LinkedHashMap<String, CapabilitySummaryNew>();
 //		this.optimalConfigurationMap			= new LinkedHashMap<String, ConfigurationNew>();
 	}
@@ -84,9 +86,8 @@ public abstract class ConfigurationsCollectionNew {
 	}
 
 	
-	public Object[] getCapabilitySummariesArray() {
-//		return capabilitySummariesArray;
-		return capabilitySummaryMapForModes.values().toArray(new CapabilitySummary[capabilitySummaryMapForModes.size()]);
+	public CapabilitySummaryNew[] getCapabilitySummariesArray() {
+		return capabilitySummaryMapForModes.values().toArray(new CapabilitySummaryNew[capabilitySummaryMapForModes.size()]);
 	}
 
 	
@@ -144,7 +145,7 @@ public abstract class ConfigurationsCollectionNew {
 	}
 	
 	
-	public CapabilitySummaryNew getNextCapabilitySummary(){
+	private CapabilitySummaryNew getNextCapabilitySummary(){
 		if (!capabilityIteratorsInitialised){ //reset iterator
 			capabilityIteratorsInitialised	= true;
 			capabilitySummaryMapIterator 	= capabilitySummaryMapForModes.entrySet().iterator();
@@ -157,15 +158,7 @@ public abstract class ConfigurationsCollectionNew {
 		    return null;
 		}
 	}
-	
-
-//	/**
-//	 * Size optimal configuration map
-//	 */
-//	public int getOptimalConfigurationMapSize(){
-//		return optimalConfigurationMap.size();
-//	}
-	
+		
 	
 	/**
 	 * Gets the next configuration, irrespective of the mode

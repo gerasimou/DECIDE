@@ -1,11 +1,12 @@
 package caseStudies.healthcare;
 
+import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.receipt.CLAReceiptNew;
 
 public class RobotCLAReceipt extends CLAReceiptNew {
 
-	public RobotCLAReceipt() {
-		// TODO Auto-generated constructor stub
+	public RobotCLAReceipt(CapabilitySummaryCollectionNew capabilitySummaryCollection) {
+		super (capabilitySummaryCollection);
 	}
 
 	@Override

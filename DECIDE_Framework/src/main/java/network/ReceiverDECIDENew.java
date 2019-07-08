@@ -20,9 +20,9 @@ public abstract class ReceiverDECIDENew implements Runnable {
 	
 	
 	public void setNetworkUser (NetworkUser networkUser, long timeStamp){
-		this.networkUser = networkUser;
+		this.networkUser 		= networkUser;
 		this.timeStamp			= timeStamp;
-		this.status 				= 1;
+		this.status 			= 1;
 		this.atomicPeerStatus	= new AtomicReference<PeerStatus>(PeerStatus.MISSING);
 	}
 	

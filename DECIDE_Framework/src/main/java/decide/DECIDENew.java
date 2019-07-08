@@ -375,7 +375,7 @@ public class DECIDENew implements Cloneable, Serializable{
 	 * @param serverList
 	 */
 	public void setReceiverFromOtherDECIDE(List<ReceiverDECIDENew> serverList){
-		claReceipt.setReceiverFromOtherDECIDE(serverList, capabilitySummaryCollection);
+		claReceipt.setReceiverFromOtherDECIDE(serverList);
 	}
 	
 	

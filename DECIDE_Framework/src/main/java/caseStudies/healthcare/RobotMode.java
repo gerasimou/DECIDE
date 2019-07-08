@@ -46,6 +46,10 @@ public class RobotMode extends ModeNew {
 	}
 
 	
+	/**
+	 * Find the best configuration for this mode considering local constraints
+	 * and my responsibilities
+	 */
 	@Override
 	public void findBestConfigurationforLocalControl() {
 		// TODO Auto-generated method stub
