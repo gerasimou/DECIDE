@@ -69,15 +69,21 @@ public class RobotRequirements {
 	
 	private void initGlobalConstraints() {
 		double CMAX = 100;
-		GlobalConstraintNew constraint1 = new GlobalConstraintNew(RequirementType.GLOBAL_CONSTRAINT, "maintanance_cost", CMAX) {
+		GlobalConstraintNew constraint1 = new GlobalConstraintNew(RequirementType.GLOBAL_CONSTRAINT, "maintainance_cost", CMAX) {
 			@Override
 //			"costRoom1, timeRoom1, costRoom2"
-			public Object evaluate(List<CapabilitySummaryNew> capabilitySummaries) {
+			public Number evaluate(List<CapabilitySummaryNew> capabilitySummaries) {
 				for (CapabilitySummaryNew cs : capabilitySummaries) {
 					double costRoom1 = (double) cs.getCapabilitySummaryElement("costRoom1");
 					double timRoom1  = (double) cs.getCapabilitySummaryElement("timeRoom1");
 				}
 				return null;
+			}
+
+			@Override
+			public boolean isSatisfied(List<CapabilitySummaryNew> capabilitySummaries) {
+				// TODO Auto-generated method stub
+				return false;
 			};
 		};
 	

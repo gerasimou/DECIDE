@@ -222,7 +222,7 @@ public abstract class ConfigurationsCollectionNew {
 	}
 	
 	
-	public void findBestPerModeforLocalControl(Environment environment){
+	public void findBestPerModeforLocalControl(){
 		modesCollectionIterator 	= modesCollection.iterator();
 		while (modesCollectionIterator.hasNext()){
 			modesCollectionIterator.next().findBestConfigurationforLocalControl();

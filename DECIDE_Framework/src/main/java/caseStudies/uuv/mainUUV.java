@@ -33,6 +33,7 @@ public class mainUUV {
 
 		//logger.error("This is error : " + parameter);
 	}
+	
 	public static void main(String[] args) {
 		
 		logEvents("Starting DECIDE simulation");

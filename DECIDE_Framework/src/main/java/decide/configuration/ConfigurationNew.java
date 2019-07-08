@@ -1,7 +1,6 @@
 package decide.configuration;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,6 +9,7 @@ import java.util.Map;
 import auxiliary.Utility;
 import decide.DecideException;
 import decide.Knowledge;
+import decide.KnowledgeNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
@@ -112,7 +112,7 @@ public abstract class ConfigurationNew implements Serializable{
 	 * Retrieve as a list the elements of this configuration
 	 * @return
 	 */
-	public abstract List<?> getConfigurationElements();
+	public abstract List<Object> getConfigurationElements();
 
 	
 	
@@ -123,7 +123,7 @@ public abstract class ConfigurationNew implements Serializable{
 	 */
 	public boolean evaluateLocalConstraints() {
 		boolean satisfied = true;
-		List<LocalConstraintNew> localConstraints = Knowledge.getLocalConstraints();
+		List<LocalConstraintNew> localConstraints = KnowledgeNew.getLocalConstraints();
 		for (LocalConstraintNew constraint : localConstraints) {
 			
 			//get the verification results for this constraint
@@ -143,7 +143,7 @@ public abstract class ConfigurationNew implements Serializable{
 	 * to <i>localRequirementResults</i> list
 	 */
 	public void evaluateLocalObjectives() {
-		List<LocalObjectiveNew> localObjectives = Knowledge.getLocalObjectives();
+		List<LocalObjectiveNew> localObjectives = KnowledgeNew.getLocalObjectives();
 		for (LocalObjectiveNew objective : localObjectives) {
 			
 			//get the verification results for this objective
@@ -151,139 +151,26 @@ public abstract class ConfigurationNew implements Serializable{
 		}
 	}
 	
-	
-//	/**
-// 	 * Evaluate this configuration considering local requirements
-//	 * The results are save in appropriate hashmaps
-//	 * @param environment
-//	 */
-//	public void evaluateLocalRequirements(Environment environment){
-//		evaluate local requirements
-//		List<RequirementNew> localReqsList = Knowledge.geLocalRequirementsNew();
-//		for (RequirementNew requirement : localReqsList){
-//			Object result = requirement.evaluate(attributesList);
-//			localRequirementsResults.put(requirement.getID(), result);
-//		}
-//	}
-//
-//	
-//	/**
-// 	 * Evaluate this configuration considering global requirements
-//	 * The results are save in appropriate hashmaps
-//	 * @param environment
-//	 */
-//	public void evaluateGlobalRequirements(Environment environment){
-//		//evaluate local requirements
-//		List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
-//		for (Requirement requirement : globalReqsList){
-//			Object result = requirement.evaluate(environment, this);
-//			globalRequirementsResults.put(requirement.getID(), result);
-//		}
-//	}
-//	
-//	
-//	/**
-// 	 * Evaluate this configuration considering global requirements and received peer 
-// 	 * capability summary. The results are saved in appropriate hashmaps
-//	 * @param environment
-//	 * @param Configuration
-//	 */
-//	public void evaluateGlobalRequirements(Environment environment, ConfigurationNew ... receivedConfig){
-//		//evaluate global requirements
-//		List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
-//		
-//		// adapt to any number of Configurations
-//		ConfigurationNew[] configurationArray = new ConfigurationNew[receivedConfig.length+1];
-//		System.arraycopy(receivedConfig, 0, configurationArray, 1, receivedConfig.length);
-//		
-//		// Place the component configuration at index 0 and the following indexes hold peer configurations.
-//		configurationArray[0] = this;
-//		for (Requirement requirement : globalReqsList){
-//			Object result = requirement.evaluate(environment,configurationArray);
-//			globalRequirementsResults.put(requirement.getID(), result);
-//		}
-//	}
-//	
-//	
-//	/**
-// 	 * Evaluate this combination of configurations considering global requirements and received peer 
-// 	 * capability summary. The results are saved in appropriate hashmaps
-//	 * @param environment
-//	 * @param Configurations
-//	 */
-//	public void evaluateGlobalRequirementsforCombinations(Environment environment,ConfigurationNew ... receivedConfig){
-//		//evaluate global requirements
-//		List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
-//		
-//		// adapt to any number of Configurations
-//		//Configuration[] configurationArray = new Configuration[receivedConfig.length+1];
-//		//System.arraycopy(receivedConfig, 0, configurationArray, 1, receivedConfig.length);
-//		
-//		// Place the component configuration at index 0 and the following indexes hold peer configurations.
-//		//configurationArray[0] = this;
-//		for (Requirement requirement : globalReqsList){
-//			Object result = requirement.evaluate(environment,receivedConfig);
-//			globalRequirementsResults.put(requirement.getID(), result);
-//		}
-//	}
-//
-//	
-//	/**
-//	 * Check that all requirements (global + local <b>except global and local costs</b>) are satisfied
-//	 * @return
-//	 */
-//	public boolean requirementsSatisfied(RequirementSet reqSet){
-//		//check whether all the global requirements (except the last one (system-level cost)- are satisfied--> true)
-//		if (reqSet.equals(RequirementSet.GLOBAL) || reqSet.equals(RequirementSet.ALL)){
-//			List<Requirement> globalReqsList = Knowledge.getGlobalRequirements();
-//			for (Requirement requirement : globalReqsList){
-//				if (requirement.getType() != RequirementType.SYSTEM_COST){				
-//					if (!(boolean)requirement.checkSatisfaction(globalRequirementsResults.get(requirement.getID()))){
-//						return false;					
-//					}
-//				}
-//			}
-//		}
-//		
-//		//check whether all the local requirements (except the last one (component cost) are satisfied--> true)
-//		if (reqSet.equals(RequirementSet.LOCAL) || reqSet.equals(RequirementSet.ALL)){
-//			List<Requirement> localReqsList = Knowledge.geLocalRequirements();
-//			for (Requirement requirement : localReqsList){
-//				if (requirement.getType() != RequirementType.COMPONENT_COST){
-//					if (!(boolean)requirement.checkSatisfaction(localRequirementsResults.get(requirement.getID()))){
-//						return false;					
-//					}
-//				}
-//			}
-//		}
-//		
-//		return true;
-//	}
-//	
-//	
-//	/**
-//	 * Get map of results for global (system-level) requirements associated with this configuration
-//	 * @return
-//	 */
-//	public Map<String, Object> getGlobalRequirementsResults(){
-//		return this.globalRequirementsResults;
-//	}
-//	
-//	
-//	/**
-//	 * Get map of results for local (local-level) requirements associated with this configuration
-//	 * @return
-//	 */
-//	public Map<String, Object> getLocalRequirementsResults(){
-//		return this.localRequirementsResults;
-//	}
-//	
-//	
-//	
-//	/**
-//	 * Get the bounds associated with this configuration
-//	 * This is used in attributed analysis 2 from the DECIDE protocol
-//	 * @return
-//	 */
-//	public abstract double getBound(); 
+
+	/**
+	 * Evaluate responsibilities for this configuration and append results
+	 * to <i>localRequirementResults</i> list
+	 */
+	public boolean evaluateResponsibilities() {
+		boolean satisfied = true;
+		List<LocalConstraintNew> responsibilities = KnowledgeNew.getResponsibilities();
+		
+		for (LocalConstraintNew responsibility : responsibilities) {
+			
+			//get the verification results for this constraint
+			globalRequirementsResults.put(responsibility.getID(), responsibility.evaluate(this));
+			
+			//check if constraint is satisfied or not
+			if (!responsibility.isSatisfied(this))
+				satisfied = false;
+		}
+		
+		return satisfied;
+	}
+
 }

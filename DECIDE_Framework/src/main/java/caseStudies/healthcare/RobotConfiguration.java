@@ -38,7 +38,7 @@ public class RobotConfiguration extends ConfigurationNew {
 	 * of the environment parameter is affected analogously
 	 */
 	@Override
-	public List<?> getConfigurationElements() {
+	public List<Object> getConfigurationElements() {
 		return null;//not needed for the healthcare case study
 	}
 	

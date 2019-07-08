@@ -1,5 +1,6 @@
 package decide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import decide.component.ComponentNew;
@@ -30,6 +31,7 @@ public class KnowledgeNew {
 	
 	public static void initKnowledgeNew(ComponentNew component){
 		ID  = component.getID();
+		responsibilitiesList = new ArrayList<>();
 	}
 	
 	
@@ -54,5 +56,17 @@ public class KnowledgeNew {
 	public static List<LocalObjectiveNew> getLocalObjectives(){
 		return localObjectives;
 	}
+	
+	
+	public static void updateResponsibility (List<LocalConstraintNew> responsibilites) {
+		responsibilitiesList.clear();
+		responsibilitiesList.addAll(responsibilites);
+	}
+	
+	
+	public static List<LocalConstraintNew> getResponsibilities(){
+		return responsibilitiesList;
+	}
+
 	
 }

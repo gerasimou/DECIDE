@@ -7,7 +7,6 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
-import decide.DECIDE;
 import decide.configuration.Configuration;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
