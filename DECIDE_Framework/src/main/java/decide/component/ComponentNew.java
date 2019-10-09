@@ -3,14 +3,13 @@ package decide.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import decide.DECIDE;
 import decide.DECIDENew;
-import decide.component.requirements.Requirement;
-import decide.component.requirements.reqNew.RequirementNew;
 import decide.component.requirements.reqNew.RequirementNew;
 
 public abstract class ComponentNew implements Runnable{
 
+	
+	
 	/** List of global (system-level) requirements (constraints + objectives)*/
 	protected List<RequirementNew> requirementsGlobalList;
 
@@ -31,6 +30,10 @@ public abstract class ComponentNew implements Runnable{
 		//init global and local requirement lists
 		this.requirementsGlobalList = new ArrayList<RequirementNew>();
 		this.requirementsLocalList	= new ArrayList<RequirementNew>();
+				
+		setupGlobalRequirements();
+		setupLocalRequirements();  
+
 	}
 
 

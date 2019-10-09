@@ -58,7 +58,7 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	protected CLAReceiptNew(CapabilitySummaryCollectionNew capabilitySummaryCollection) {
 		//init parameters
 		this.receivedNewCapabilitySummary	= false;
-		this.TIME_WINDOW					= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
+		this.TIME_WINDOW					= Long.parseLong(Utility.getProperty("CLA_TIME_WINDOW"));
 		this.receivedTimeStamp				= 0;
 		atomicOperationReference			= new AtomicReference<OperationMode>(OperationMode.STABLE_MODE);
 		this.capabilitySummaryCollection	= capabilitySummaryCollection;		
@@ -98,16 +98,23 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	public void receive(String serverAddress, Object message){
 		capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummaryNew[])message);
 		// I think this boolean flag has to be atomic
-		if (!receivedNewCapabilitySummary){
-			receivedNewCapabilitySummary = true;
-			if(timeWindow != null)
-				timeWindow.interrupt();	
-			
-			timeWindow = new TimeWindow();
-			timeWindow.start();
-			logger.info("[Initiating heartbeat trace]");	
+//		if (!receivedNewCapabilitySummary){
+//			receivedNewCapabilitySummary = true;
+//			if(timeWindow != null)
+//				timeWindow.interrupt();	
+//			
+//			timeWindow = new TimeWindow();
+//			timeWindow.start();
+//			logger.info("[Initiating heartbeat trace]");	
+//		}
+		
+		StringBuilder bestSolutionStr = new StringBuilder();
+		for (CapabilitySummaryNew cs : (CapabilitySummaryNew[])message) {
+			bestSolutionStr.append(cs);
 		}
-		//logger.info("[Received: "+serverAddress+"]");	
+		logger.info("Received from " + serverAddress +" "+ bestSolutionStr);
+		
+		atomicOperationReference.set(OperationMode.MAJOR_CHANGE_MODE);
 	}
 	
 	
@@ -120,8 +127,24 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	public abstract boolean executeListeningThread();
 
 	
-	public AtomicReference<OperationMode> getAtomicOperationReference() {
-		return atomicOperationReference;
+//	public AtomicReference<OperationMode> geatAtomicOperationReference() {
+//		return atomicOperationReference;
+//	}
+
+	public OperationMode getOperationMode() {
+		return atomicOperationReference.get();
+	}
+
+	public void setOperationMode(OperationMode mode) {
+		atomicOperationReference.set(mode);
+	}
+	
+	public boolean checkOperationMode (OperationMode mode) {
+		return (atomicOperationReference.get() == mode); 
+	}
+	
+	public boolean compareAndSetOperationMode (OperationMode expected, OperationMode update) {
+		return atomicOperationReference.compareAndSet(expected, update);
 	}
 
 	

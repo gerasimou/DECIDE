@@ -272,7 +272,7 @@ public class DECIDE implements Cloneable, Serializable{
 				if(!temp)
 				{
 					logEvents("Component"+Knowledge.getID()+"[idle]: Could not find feasible plan");
-					localControl.getAtomicOperationReference().set(OperationMode.IDEL);
+					localControl.getAtomicOperationReference().set(OperationMode.IDLE);
 					localControl.setReceivedNewCommand(false);
 					// You could order attached component to stop action.
 	
@@ -282,7 +282,7 @@ public class DECIDE implements Cloneable, Serializable{
 					logger.debug("[Component"+Knowledge.getID()+" has task]");
 					if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE)
 					{
-					localControl.getAtomicOperationReference().compareAndSet(OperationMode.IDEL, OperationMode.STABLE_MODE);
+					localControl.getAtomicOperationReference().compareAndSet(OperationMode.IDLE, OperationMode.STABLE_MODE);
 					localControl.setReceivedNewCommand(true);
 					logger.debug("[Component "+localControl.getAtomicOperationReference().get()+" NewCommand "+localControl.isReceivedNewCommand()+"]");
 					

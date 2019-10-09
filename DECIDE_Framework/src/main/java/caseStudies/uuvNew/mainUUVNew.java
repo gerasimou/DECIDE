@@ -3,15 +3,12 @@ package caseStudies.uuvNew;
 import java.io.File;
 
 import auxiliary.Utility;
-import caseStudies.healthcare.RobotCLAReceipt;
-import caseStudies.healthcare.RobotCapabilitySummaryCollection;
-import caseStudies.healthcare.RobotLocalCapabilityAnalysis;
-import caseStudies.healthcare.RobotLocalControl;
-import caseStudies.healthcare.RobotSelectionExhaustive;
-import caseStudies.uuv.UUVEnvironment;
+import decide.DECIDENew;
+import decide.KnowledgeNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
+import decide.component.ComponentFactory;
+import decide.component.ComponentNew;
 import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.Environment;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
 import decide.localAnalysis.LocalCapabilityAnalysisNew;
@@ -30,8 +27,8 @@ public class mainUUVNew {
 		
 		//create a new robot configuration instance
 		final int NUM_OF_SENSORS		= 3;
-		final double SPEED_MAX 			= 1.0;
-		final double STEP	  			= 0.1;
+		final double SPEED_MAX 			= 5.0;
+		final double STEP	  			= 0.2;
 		ConfigurationsCollectionNew configurationCollections = new UUVConfigurationsCollectionNew(NUM_OF_SENSORS, SPEED_MAX, STEP);
 		
 		//create a new robot environment instance
@@ -50,10 +47,24 @@ public class mainUUVNew {
 		CLAReceiptNew claReceipt		= new UUVCLAReceiptNew(capabilitySummaryCollection);
 
 		//create selection part
-		SelectionNew selection 		= new UUVSelectionExhaustiveNew();
+		SelectionNew selection 			= new UUVSelectionExhaustiveNew();
 
 		//crate local control
-		LocalControlNew localControl = new UUVLocalControlNew(attributeEvaluator);
+		LocalControlNew localControl 	= new UUVLocalControlNew(attributeEvaluator);
+
+	
+		//create new DECIDE
+		DECIDENew decide  = new DECIDENew (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
+
+		
+		//create a new component
+		ComponentNew aComponent = ComponentFactory.makeNewComponentMulticastNew(UUVNew.class, configurationFile, decide);
+
+		//init knowledge
+		KnowledgeNew.initKnowledgeNew(aComponent);
+		
+		//start executing		
+		aComponent.run();		
 
 	}
 

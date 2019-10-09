@@ -80,25 +80,26 @@ function initAndRun() {
 	mkdir ${COMP1_DIR}/resources
 	cp -r ${TARGET_DIR}/resources/config1.properties	${COMP1_DIR}/resources/
 	mv ${COMP1_DIR}/resources/config1.properties		${COMP1_DIR}/resources/config.properties	
-	cp -r ${TARGET_DIR}/models/robot 					${COMP1_DIR}/
+	cp -r ${TARGET_DIR}/models 					${COMP1_DIR}/
 	cp -r repo 										${COMP1_DIR}/
+	
 	#  Please remove comment
-	#COMP2_DIR=${TARGET_DIR}/COMP2
-	#mkdir ${COMP2_DIR}
-	#cp ${TARGET_DIR}/${DECIDE_JAR}.jar 	${COMP2_DIR}/
-	#mkdir ${COMP2_DIR}/resources
-	#cp -r ${TARGET_DIR}/resources/config2.properties	${COMP2_DIR}/resources/
-	#mv ${COMP2_DIR}/resources/config2.properties		${COMP2_DIR}/resources/config.properties	
-	#cp -r ${TARGET_DIR}/models 						${COMP2_DIR}/
-	#cp -r repo 										${COMP2_DIR}/
+	COMP2_DIR=${TARGET_DIR}/COMP2
+	mkdir ${COMP2_DIR}
+	cp ${TARGET_DIR}/${DECIDE_JAR}.jar 	${COMP2_DIR}/
+	mkdir ${COMP2_DIR}/resources
+	cp -r ${TARGET_DIR}/resources/config2.properties	${COMP2_DIR}/resources/
+	mv ${COMP2_DIR}/resources/config2.properties		${COMP2_DIR}/resources/config.properties	
+	cp -r ${TARGET_DIR}/models 						${COMP2_DIR}/
+	cp -r repo 										${COMP2_DIR}/
 
 
 	#-------------------------------------------------------
 	#  Execute, please remove comment
 	#-------------------------------------------------------
-	createNewTab "COMP1" "cd ${TARGET_DIR}/COMP1; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
-	#sleep 60
-	#createNewTab "COMP2" "cd ${TARGET_DIR}/COMP2; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
+	# createNewTab "COMP1" "cd ${TARGET_DIR}/COMP1; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
+	# sleep 60
+	# createNewTab "COMP2" "cd ${TARGET_DIR}/COMP2; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
 }
 
 

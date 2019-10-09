@@ -8,13 +8,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
-public class ClientSocketDECIDE implements Runnable, Serializable {
+public class SocketTransmitterNew implements Runnable, Serializable {
 
 	/** Class logger*/
-	private final static Logger logger = Logger.getLogger(ClientSocketDECIDE.class);
+	private final static Logger logger = Logger.getLogger(SocketTransmitterNew.class);
 	
 	/** client socket*/
 	private Socket socket;
@@ -39,7 +40,7 @@ public class ClientSocketDECIDE implements Runnable, Serializable {
 	 * @param serverAddress
 	 * @param port
 	 */
-	public ClientSocketDECIDE(String serverAddress, int port) {
+	public SocketTransmitterNew(String serverAddress, int port) {
 		this.serverAddress	= serverAddress;
 		this.serverPort		= port;
 		
@@ -60,6 +61,7 @@ public class ClientSocketDECIDE implements Runnable, Serializable {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(-1);
 //			logger.error("Exception", e);
 		}
 	}
@@ -67,17 +69,43 @@ public class ClientSocketDECIDE implements Runnable, Serializable {
 		
 	@Override
 	public void run() {
+//		try {
+//			outToServer.println("From Client " + num++);
+//			outToServer.flush();
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		finally{
+//			outToServer.println("Final message" + num++);
+//			outToServer.flush();
+//			outToServer.close();
+//		}
+		Random rand = new Random();
 		try {
-			outToServer.println("From Client " + num++);
-			outToServer.flush();
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
+			while (true) {
+				String line; 
+				if(inFromServer.ready()) {
+					if((line = inFromServer.readLine()) != null) {
+	//					line = inFromServer.readLine();
+	//				}
+					
+						System.out.println("Received:\t" + line);
+						Thread.sleep(15000);
+						
+						double r1 = rand.nextInt(500)/100.0;
+						double r2 = rand.nextInt(400)/100.0;
+						double r3 = rand.nextInt(400)/100.0;
+						String msg = r1+","+r2+","+r3;
+						System.out.println("Sending:\t"+msg);
+						outToServer.println(msg);// "From Client " + num++);
+						outToServer.flush();
+					}
+				}
+			}
+		} 
+		catch (IOException | InterruptedException e) {
 			e.printStackTrace();
-		}
-		finally{
-			outToServer.println("Final message" + num++);
-			outToServer.flush();
-			outToServer.close();
 		}
 	}
 

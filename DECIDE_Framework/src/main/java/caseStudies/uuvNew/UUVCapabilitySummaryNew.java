@@ -8,9 +8,9 @@ public class UUVCapabilitySummaryNew extends CapabilitySummaryNew {
 	 * Class constructor
 	 */
 	public UUVCapabilitySummaryNew (int csc, double measurements, double energy) {
-		capabilitySummaryElementsMap.put("csc", csc);
-		capabilitySummaryElementsMap.put("measurements", measurements);
-		capabilitySummaryElementsMap.put("energy", energy);
+		put("csc", csc);
+		put("measurements", measurements);
+		put("energy", energy);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
+import decide.OperationMode;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.configuration.ModeNew;
 import decide.environment.EnvironmentNew;
@@ -14,10 +15,12 @@ import decide.localControl.LocalControlNew;
 public class UUVLocalControlNew extends LocalControlNew {
 
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(UUVLocalControlNew.class);
+    final Logger logger = Logger.getLogger(UUVLocalControlNew.class);
 
     /** Local map stores received information from robot*/
 	protected Map<String, Object> receivedEnvironmentMap;
+	
+	protected boolean receivedEnvironmentMapUpdated;
 
 	
 	/**
@@ -25,8 +28,9 @@ public class UUVLocalControlNew extends LocalControlNew {
 	 */
 	public UUVLocalControlNew(AttributeEvaluatorNew attributeEvaluator) {
 		super();
-		this.attributeEvaluator 	= attributeEvaluator;
-		receivedEnvironmentMap	= new ConcurrentHashMap<>();
+		this.attributeEvaluator 		= attributeEvaluator;
+		receivedEnvironmentMap			= new ConcurrentHashMap<>();
+		receivedEnvironmentMapUpdated	= true;
 	}
 
 	
@@ -41,6 +45,8 @@ public class UUVLocalControlNew extends LocalControlNew {
 		//1) extract data from message, e.g.,
 		String [] receivedReadings = ((String)message).split(",");
 		
+		logger.info("Received from UUV: " + message + "");
+
 		//2) do some processing/analysis
 		if(receivedReadings.length !=3) {
 			logger.error("Format error UUV sensor reading");
@@ -53,6 +59,7 @@ public class UUVLocalControlNew extends LocalControlNew {
 		for (int i=1; i<=receivedReadings.length; i++)
 			receivedEnvironmentMap.put("r"+i, Double.parseDouble(receivedReadings[i-1].replaceAll("\\s+","")));	
 
+		receivedEnvironmentMapUpdated = true;
 	}
 	
 	
@@ -77,23 +84,31 @@ public class UUVLocalControlNew extends LocalControlNew {
 	   UUVConfigurationNew bestConfig	= null;
 	   while ( (mode = configurationsCollection.getNextMode()) != null) {
 		   UUVConfigurationNew bestConfigForMode = (UUVConfigurationNew)mode.getBestConfiguration();
-		   double utility = ((UUVConfigurationNew)bestConfigForMode).getUtility();
-		   if (utility < bestUtility) {
-			   bestUtility 	= utility;
-			   bestConfig	= bestConfigForMode;
+		   if (bestConfigForMode != null) {
+			   double utility = ((UUVConfigurationNew)bestConfigForMode).getUtility();
+			   if (utility < bestUtility) {
+				   bestUtility 	= utility;
+				   bestConfig	= bestConfigForMode;
+			   }
 		   }
+	   }
 		
+	   // if a feasible and best configuration exists, then adopt it
+	   if (bestConfig != null) {
 		   int csc 		= bestConfig.getCSC();
 		   double speed	= bestConfig.getSpeed();
 		   
-		   
 		   String configMessage = csc +"," + speed;
-		   this.receiver.setReplyMessage(configMessage);
+		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated);
+		   
+		   receivedEnvironmentMapUpdated = false;
 	   }
-		
+	   else //otherwise, flag that the component is affected by a major local change.
+		   atomicOperationReference.set(OperationMode.MAJOR_LOCAL_CHANGE_MODE);
 		
 	}
 
+	
 	@Override
 	public LocalControlNew deepClone(Object... args) {
 		// TODO Auto-generated method stub

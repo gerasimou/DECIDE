@@ -1,5 +1,8 @@
 package caseStudies.uuvNew;
 
+import java.util.Arrays;
+import java.util.logging.Logger;
+
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.configuration.ConfigurationNew;
 import decide.configuration.ConfigurationsCollectionNew;
@@ -47,11 +50,14 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 		ModeNew mode = null;
 		while ( (mode = configurationsCollection.getNextMode()) != null) {
 			ConfigurationNew bestConfig 	= mode.getBestConfiguration();
-			CapabilitySummaryNew cs			= new UUVCapabilitySummaryNew (Integer.parseInt(mode.getID()), 
-																		   (double)bestConfig.getAttributeByName("attr1").getVerificationResult(),
-																		   (double)bestConfig.getAttributeByName("attr2").getVerificationResult());
 			
-			configurationsCollection.insertCapabilitySummary(mode.getID(), cs);
+			if (bestConfig != null) {
+				CapabilitySummaryNew cs			= new UUVCapabilitySummaryNew (Integer.parseInt(mode.getID()), 
+																		   (double)bestConfig.getAttributeByName("attr0").getVerificationResult(),
+																		   (double)bestConfig.getAttributeByName("attr1").getVerificationResult());
+			
+				configurationsCollection.insertCapabilitySummary(mode.getID(), cs);
+			}
 		}
 	}
 
@@ -64,6 +70,7 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 	@Override
 	public void shareCapabilitySummary(Object... args) {
 		transmitter.send(args);
+		
 	}
 
 }

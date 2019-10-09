@@ -1,5 +1,5 @@
 #!/bin/bash 
-
+sleep 5
 
 #-------------------------------------------------------
 #  Variables
@@ -52,6 +52,7 @@ function initAndRun() {
 	#  Create a single component system
 	#	added log4j compatibility line58
 	#-------------------------------------------------------
+	printf "\n\nCreating COMP%s directory for Robot #%s\n" ${ROBOT_ID} ${ROBOT_ID}
 	COMP_DIR=${TARGET_DIR}/COMP${ROBOT_ID}
 	mkdir ${COMP_DIR}
 	cp ${TARGET_DIR}/${DECIDE_JAR}.jar 	${COMP_DIR}/
@@ -69,10 +70,29 @@ function initAndRun() {
 	#-------------------------------------------------------
 	cd ${COMP_DIR}; 
 
-	PRISM_JAVA=`/usr/libexec/java_home`"/bin/java" 
-	export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; 
-	echo $DYLD_LIBRARY_PATH
+	if [[ "$OSTYPE" == "linux-gnu" ]]; then
+		export LD_LIBRARY_PATH=repo/prism:$LD_LIBRARY_PATH
+		echo $LD_LIBRARY_PATH
+		PRISM_JAVA="$JAVA_HOME"/bin/java
+	elif [[ "$OSTYPE" == "darwin"* ]]; then
+		export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH
+		echo $DYLD_LIBRARY_PATH
+		PRISM_JAVA=`/usr/libexec/java_home`"/bin/java" 
+	else 
+		printf "%s prism files not implemented yet..." $OSTYPE
+		exit 0
+	fi
+
+	echo $PRISM_JAVA
 	$PRISM_JAVA -jar ${DECIDE_JAR}.jar
+	
+	
+
+
+	#PRISM_JAVA=`/usr/libexec/java_home`"/bin/java" 
+	#export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; 
+	#echo $DYLD_LIBRARY_PATH
+	#$PRISM_JAVA -jar ${DECIDE_JAR}.jar
 	#createNewTab "COMP1" "cd ${TARGET_DIR}/COMP1; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"
 	#sleep 60
 	#createNewTab "COMP2" "cd ${TARGET_DIR}/COMP2; export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH; java -jar ${DECIDE_JAR}.jar &"

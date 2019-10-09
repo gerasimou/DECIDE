@@ -7,33 +7,19 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
-import decide.capabilitySummary.CapabilitySummary;
-import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.configuration.ConfigurationsCollection;
 import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.Environment;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluator;
 import decide.evaluator.AttributeEvaluatorNew;
-import decide.localAnalysis.LocalCapabilityAnalysis;
-import decide.localAnalysis.LocalCapabilityAnalysisHandler;
 import decide.localAnalysis.LocalCapabilityAnalysisNew;
-import decide.localControl.LocalControl;
-import decide.localControl.LocalControlHandler;
 import decide.localControl.LocalControlNew;
-import decide.qv.prism.PrismQV;
 import decide.qv.prism.PrismQVNew;
-import decide.receipt.CLAReceipt;
-import decide.receipt.CLAReceiptHandler;
 import decide.receipt.CLAReceiptNew;
-import decide.selection.Selection;
-import decide.selection.SelectionHandler;
 import decide.selection.SelectionNew;
 import network.TransmitterDECIDE;
-import network.ReceiverDECIDE;
 import network.ReceiverDECIDENew;
+
 
 public class DECIDENew implements Cloneable, Serializable{
 	
@@ -115,43 +101,48 @@ public class DECIDENew implements Cloneable, Serializable{
 	 * @throws DecideException 
 	 */
 	public DECIDENew(LocalCapabilityAnalysisNew lca, CLAReceiptNew claReceipt, SelectionNew selection, LocalControlNew localControl,
-			ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew  environment) throws DecideException{
+			ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew  environment) {
+		try {
+			//if a PropertyEvaluator instance exists -> use it, otherwise instantiate a PrismQV (default) instance
+			if (lca!=null)
+				this.propertyEvaluator = lca.getAttributeEvaluator();
+			else if (localControl!=null)
+				this.propertyEvaluator = localControl.getAttributeEvaluator();
+			else
+				this.propertyEvaluator	= new PrismQVNew();
+			
+			//if CLAReceipt is null -> instantiate the default handler
+			if (lca == null)
+				throw new DecideException("No local capability analysis handled defined");
+			else
+				this.lca = lca;
+	
+			//if CLAReceipt is null -> instantiate the default handler
+			if (claReceipt == null)
+				throw new DecideException("No capability summary receipt handler handled defined");
+			else
+				this.claReceipt = claReceipt;
+			
+			//if Selection is null -> instantiate the default handler
+			if (selection == null)
+				throw new DecideException("No selection handled defined");
+			else
+				this.selection = selection;
+			
+			//if LocalControl is null -> instantiate the default handler
+			if (localControl == null)
+				throw new DecideException("No local control loop handled defined");
+			else
+				this.localControl = localControl;
+			
+			this.configurationsCollection		= configurationsCollection;
+			this.capabilitySummaryCollection		= capabilitySummaries;
+			this.environment						= environment;	
+		}
+		catch (DecideException e) {
+			e.printStackTrace();
+		}
 		
-		//if a PropertyEvaluator instance exists -> use it, otherwise instantiate a PrismQV (default) instance
-		if (lca!=null)
-			this.propertyEvaluator = lca.getAttributeEvaluator();
-		else if (localControl!=null)
-			this.propertyEvaluator = localControl.getAttributeEvaluator();
-		else
-			this.propertyEvaluator	= new PrismQVNew();
-		
-		//if CLAReceipt is null -> instantiate the default handler
-		if (lca == null)
-			throw new DecideException("No local capability analysis handled defined");
-		else
-			this.lca = lca;
-
-		//if CLAReceipt is null -> instantiate the default handler
-		if (claReceipt == null)
-			throw new DecideException("No capability summary receipt handler handled defined");
-		else
-			this.claReceipt = claReceipt;
-		
-		//if Selection is null -> instantiate the default handler
-		if (selection == null)
-			throw new DecideException("No selection handled defined");
-		else
-			this.selection = selection;
-		
-		//if LocalControl is null -> instantiate the default handler
-		if (localControl == null)
-			throw new DecideException("No local control loop handled defined");
-		else
-			this.localControl = localControl;
-		
-		this.configurationsCollection		= configurationsCollection;
-		this.capabilitySummaryCollection		= capabilitySummaries;
-		this.environment						= environment;
 	}
 	
 	
@@ -166,19 +157,20 @@ public class DECIDENew implements Cloneable, Serializable{
 	
 	
 	
-	/**
-	 * Log system events to console or file
-	 * @param String log
-	 */
-	private void logEvents(String parameter){
-
-		if(logger.isDebugEnabled())
-			logger.debug("[debug] : " + parameter);
-		else
-			logger.info("[info] : " + parameter);
-
-		//logger.error("This is error : " + parameter);
-	}
+//	/**
+//	 * Log system events to console or file
+//	 * @param String log
+//	 */
+//	private void logEvents(String parameter){
+//		if(logger.isDebugEnabled())
+//			logger.debug("[debug] : " + parameter);
+//		else
+//			logger.info("[info] : " + parameter);
+//
+//		//logger.error("This is error : " + parameter);
+//	}
+	
+	
 	/**
 	 * Constructor accepting a <b>CLAReceipt</b> instance
 	 * @param claReceipt
@@ -231,35 +223,37 @@ public class DECIDENew implements Cloneable, Serializable{
 	 * Run <b>DECIDE</b> protocol
 	 */
 	public void run(){
-		long delay = Long.parseLong(Utility.getProperty("DELAY", "10000"));
+		long decideLoopTimeWindow = Long.parseLong(Utility.getProperty("DECIDE_LOOP_TIME_WINDOW"));
 		//boolean initialRun = true;
-		boolean temp = false;
+		boolean solutionFound = false;
 		
 		try{
-			while (true){
-				Thread.sleep(delay); 
+			while (true) {
+				Thread.sleep(decideLoopTimeWindow); 
 				
-				if(this.localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE || this.localControl.getAtomicOperationReference().get() == OperationMode.STARTUP)
-				{
-					switch (localControl.getAtomicOperationReference().get())
-					{
-					case MAJOR_LOCAL_CHANGE_MODE:
-					this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
-					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
-					break;
-					case STARTUP:
-					this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE); // Used to be Offline, changed for testing purpose
-					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
-					break;
-					default: break;
+				if(	localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE ||
+					localControl.getAtomicOperationReference().get() == OperationMode.STARTUP) {
+					
+					switch (localControl.getAtomicOperationReference().get()) {
+						case MAJOR_LOCAL_CHANGE_MODE:{
+							localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
+							claReceipt.setOperationMode(OperationMode.MAJOR_CHANGE_MODE);
+							break;
+						}
+						case STARTUP:{
+							this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE); // Used to be Offline, changed for testing purpose
+							this.claReceipt.setOperationMode(OperationMode.MAJOR_CHANGE_MODE);
+							break;
+						}
+						default: {break;}
 					}
 					
 					lca.execute(configurationsCollection, environment);
 					
 					if(logger.isDebugEnabled())
-					configurationsCollection.printAll();
+						configurationsCollection.printAll();
 
-				}
+				
 				// why resetting local control to stable and claReceipt to Major change mode, and this block never executed
 //				if(this.localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_CHANGE_MODE)
 //				{
@@ -267,53 +261,46 @@ public class DECIDENew implements Cloneable, Serializable{
 //					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
 //				}
 				// share CapabilitySummary periodically (heart beat message)
-				if(!(this.localControl.getAtomicOperationReference().get() == OperationMode.OFFLINE))
-				{
-					lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
-					if(logger.isDebugEnabled())
-					logger.debug("[Send:" +Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+					if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE) {
+						lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
+						logger.debug("Sending to peers " + Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+//						if(logger.isDebugEnabled())
+//							logger.debug("[Send:" +Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+					}
 				}
 
 //				System.out.println("\n\nPrinting best from each mode\n");
 //				configurationsCollection.printBestFromMode();
 				
-				Thread.sleep(5000);
+//				Thread.sleep(5000);
 				
-				if((claReceipt.getAtomicOperationReference().get() == OperationMode.MAJOR_CHANGE_MODE))//||(localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE))
-				{
-					logger.debug("[ClaMode "+claReceipt.getAtomicOperationReference().get()+"]");
-//					
+				if ((claReceipt.checkOperationMode(OperationMode.MAJOR_CHANGE_MODE))){//||(localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE))
+				
+					logger.debug("CLAMode "+claReceipt.getOperationMode()+"]");
 					
-					claReceipt.getAtomicOperationReference().compareAndSet(OperationMode.MAJOR_CHANGE_MODE, OperationMode.STABLE_MODE);
+					claReceipt.compareAndSetOperationMode(OperationMode.MAJOR_CHANGE_MODE, OperationMode.STABLE_MODE);
 					
-//					
-				temp = selection.execute(configurationsCollection, capabilitySummaryCollection);
-				if(!temp)
-				{
-					logEvents("Component"+Knowledge.getID()+"[idle]: Could not find feasible plan");
-					localControl.getAtomicOperationReference().set(OperationMode.IDEL);
-					localControl.setReceivedNewCommand(false);
-					// You could order attached component to stop action.
-	
-				}
-				else
-				{
-					logger.debug("[Component"+Knowledge.getID()+" has task]");
-					if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE)
-					{
-					localControl.getAtomicOperationReference().compareAndSet(OperationMode.IDEL, OperationMode.STABLE_MODE);
-					localControl.setReceivedNewCommand(true);
-					logger.debug("[Component "+localControl.getAtomicOperationReference().get()+" NewCommand "+localControl.isReceivedNewCommand()+"]");
+					//Run selection algorithm to partition mission goals among peers					
+					solutionFound = selection.execute(configurationsCollection, capabilitySummaryCollection);
 					
-					
+					if(!solutionFound) {
+						logger.debug("Component" + KnowledgeNew.getID() + "[idle]: Could not find feasible plan");
+//						logEvents("Component" + KnowledgeNew.getID()+"[idle]: Could not find feasible plan");
+						localControl.getAtomicOperationReference().set(OperationMode.IDLE);
+						localControl.setReceivedNewCommand(false);
+						// You could order attached component to stop action.
 					}
-					
+					else {
+						logger.debug("[Component "+Knowledge.getID()+" has task]");
+						if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE) {
+							localControl.getAtomicOperationReference().compareAndSet(OperationMode.IDLE, OperationMode.STABLE_MODE);
+							localControl.setReceivedNewCommand(true);
+							logger.debug("[Component "+localControl.getAtomicOperationReference().get()+" NewCommand "+localControl.isReceivedNewCommand()+"]");
+						}
+					}
 				}
-					
 				
-				}
-				
-				if((localControl.getAtomicOperationReference().get() == OperationMode.STABLE_MODE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
+				if ((localControl.getAtomicOperationReference().get() == OperationMode.STABLE_MODE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
 					localControl.execute(configurationsCollection, environment);
 					localControl.setReceivedNewCommand(false);
 

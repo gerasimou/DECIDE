@@ -17,6 +17,7 @@ public abstract class EnvironmentNew {
 	 */
 	public EnvironmentNew() {
 		this.environmentMap 		= new HashMap<String, Object>();
+		initEnvironment();
 	}
 
 	
@@ -36,7 +37,6 @@ public abstract class EnvironmentNew {
 	protected abstract void adjustEnvironment (ConfigurationNew configuration, DECIDEAttribute attribute);
 
 	public String getModel(boolean adjustedModel, ConfigurationNew configuration, DECIDEAttribute attribute){
-		initEnvironment();
 		if (adjustedModel){
 			Map<String, Object> tempEnvironmentMap = new HashMap<>(environmentMap);//this is used to preserve the original values of the environment
 			adjustEnvironment(configuration, attribute);

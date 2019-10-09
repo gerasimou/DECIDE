@@ -4,7 +4,6 @@ import java.util.List;
 
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.RequirementType;
-import decide.configuration.ConfigurationNew;
 
 
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import auxiliary.Utility;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
@@ -21,6 +23,9 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	
 	/** Confidence array*/
 	protected static Map<String, Double> confidenceMap;
+	
+	/** Logging system events*/
+    final protected Logger logger = Logger.getLogger(this.getClass());
 	
 	
 	

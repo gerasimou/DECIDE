@@ -77,7 +77,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	 */
 	protected LocalControlNew(){
 		this.receivedAliveMessage			= false;
-		this.TIME_WINDOW						= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
+		this.TIME_WINDOW					= Long.parseLong(Utility.getProperty("LOCAL_CONTROL_TIME_WINDOW"));
 		this.receivedTimeStamp				= 0;
 		this.atomicOperationReference		= new AtomicReference<OperationMode>(OperationMode.STARTUP);
 	}
@@ -165,9 +165,9 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	/**
 	 * Share capability summary with peers
 	 */
-	public void sendCommand(Object command){
-		this.transmitter.send(command);
-	}
+//	public void sendCommand(Object command){
+//		this.transmitter.send(command);
+//	}
 	
 	
 	/**

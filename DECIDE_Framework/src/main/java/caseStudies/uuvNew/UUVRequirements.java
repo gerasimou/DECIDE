@@ -3,7 +3,6 @@ package caseStudies.uuvNew;
 import java.util.ArrayList;
 import java.util.List;
 
-import decide.DecideException;
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.RequirementType;

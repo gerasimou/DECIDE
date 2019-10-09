@@ -47,8 +47,10 @@ public abstract class ReceiverDECIDENew implements Runnable {
 	}
 
 	
-	public void setReplyMessage(String replyMessage) {
+	public void setReplyMessage(String replyMessage, boolean receivedEnvironmentMapUpdated) {
 		this.replyMessage = replyMessage;
+		if (receivedEnvironmentMapUpdated)
+			status			  = 1;
 	}
 
 	

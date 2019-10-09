@@ -56,7 +56,7 @@ public abstract class ConfigurationNew implements Serializable{
 		try {
 			String[] modelsFiles = MODELS_FILES.replaceAll(" ", "").split(",");
 			
-			String[] properties = Utility.readFile(PROPERTIES_FILE).replaceAll("(?m)^\\s", "").split("\n");
+			String[] properties = Utility.readFile(PROPERTIES_FILE).replaceAll("(?m)^[ \t]*\r?\n", "").split("\n");
 			
 			//check if we have the same number of models and properties in the configuration file
 			if (modelsFiles.length != properties.length)

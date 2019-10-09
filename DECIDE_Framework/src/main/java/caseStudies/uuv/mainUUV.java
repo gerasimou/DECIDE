@@ -2,6 +2,7 @@ package caseStudies.uuv;
 
 import org.apache.log4j.Logger;
 
+import _main.mainDECIDE;
 import decide.DECIDE;
 import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
@@ -15,7 +16,6 @@ import decide.localControl.LocalControl;
 import decide.qv.prism.PrismQV;
 import decide.receipt.CLAReceipt;
 import decide.selection.Selection;
-import main.mainDECIDE;
 
 public class mainUUV {
 

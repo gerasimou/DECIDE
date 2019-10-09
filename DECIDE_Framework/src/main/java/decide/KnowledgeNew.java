@@ -8,6 +8,7 @@ import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
+import decide.component.requirements.reqNew.RequirementNew;
 
 public class KnowledgeNew {
 		
@@ -32,6 +33,28 @@ public class KnowledgeNew {
 	public static void initKnowledgeNew(ComponentNew component){
 		ID  = component.getID();
 		responsibilitiesList = new ArrayList<>();
+		
+		globalConstraints 	= new ArrayList<GlobalConstraintNew>();
+		localConstraints 	= new ArrayList<LocalConstraintNew>();
+		globalObjectives	= new ArrayList<GlobalObjectiveNew>();
+		localObjectives		= new ArrayList<LocalObjectiveNew>();
+		
+		for (RequirementNew req : component.getGlobalRequirements()) {
+			if (req instanceof GlobalConstraintNew)
+				globalConstraints.add((GlobalConstraintNew)req);
+			else
+				globalObjectives.add((GlobalObjectiveNew)req);
+			
+		}
+		
+		for (RequirementNew req : component.getLocalRequirements()) {
+			if (req instanceof LocalConstraintNew)
+				localConstraints.add((LocalConstraintNew)req);
+			else
+				localObjectives.add((LocalObjectiveNew)req);			
+		}
+		
+		ID 						= component.getID();
 	}
 	
 	

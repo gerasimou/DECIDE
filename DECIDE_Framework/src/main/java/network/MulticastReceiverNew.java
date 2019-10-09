@@ -11,6 +11,7 @@ import java.util.Objects;
 import org.apache.log4j.Logger;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.receipt.CLAReceipt;
+import decide.receipt.CLAReceiptNew;
 
 
 public class MulticastReceiverNew extends ReceiverDECIDENew{		
@@ -120,7 +121,7 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 		}
 		
 		//id = Knowledge.getPeerID(serverAddress);
-		if ( (networkUser instanceof CLAReceipt) && ( ((CLAReceipt)networkUser).isKnownReceiver(serverAddress)) ) {
+		if ( (networkUser instanceof CLAReceiptNew) && ( ((CLAReceiptNew)networkUser).isKnownReceiver(serverAddress)) ) {
 			if (hashCode == tempHashCode)
 				exists = true;
 		}

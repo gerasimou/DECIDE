@@ -2,7 +2,6 @@ package caseStudies.uuvNew;
 
 import java.util.Map;
 
-import caseStudies.healthcare.RobotConfiguration;
 import decide.configuration.ConfigurationNew;
 import decide.configuration.ModeNew;
 

@@ -1,7 +1,9 @@
 package auxiliary;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicReference;
 
+import decide.OperationMode;
 import decide.configuration.ConfigurationNew;
 import decide.qv.prism.PrismAPINew;
 import parser.ast.ModulesFile;
@@ -15,10 +17,12 @@ public class Dummy {
 
 
 	public static void main(String[] args) {
-		generateProbs2();
+//		generateProbs2();
 //		runPrism();
 //		checkConfigurationNew();
 //		runPrismAPINew();
+		testAtomicReference();
+		
 	}
 	
 	
@@ -96,4 +100,28 @@ public class Dummy {
 //		ConfigurationNew configNew = new ConfigurationNew();
 	}
 	
+
+	private static void testAtomicReference() {
+		
+		AtomicReference<MyMode>  integerMode = new AtomicReference<MyMode>(MyMode.IDLE);
+		System.out.println(integerMode.get());		
+		integerMode.set(MyMode.STARTUP);
+		System.out.println(integerMode.get());
+		integerMode.compareAndSet(MyMode.STARTUP, MyMode.OFFLINE);
+		System.out.println(integerMode.get());
+		integerMode.compareAndSet(MyMode.OFFLINE, MyMode.IDLE);
+		System.out.println(integerMode.get());
+	}
+
+	
+	enum MyMode {
+		STABLE_MODE, 
+		MAJOR_CHANGE_MODE,
+		MINOR_CHANGE_MODE,
+		OFFLINE,
+		IDLE,
+		MAJOR_LOCAL_CHANGE_MODE,
+		STARTUP;
+	}
+
 }

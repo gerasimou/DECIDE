@@ -29,7 +29,7 @@ public class UUVConfigurationsCollectionNew extends ConfigurationsCollectionNew 
 			UUVModeNew uuvMode = new UUVModeNew(csc+"");
 			
 			//for all the configurations in this mode, i.e., for all the possible speed values
-			for (int j=0; j*STEP < SPEED_MAX; j++) {
+			for (int j=1; j*STEP < SPEED_MAX; j++) {
 				double speed = j * STEP;
 
 				//create a new configuration 

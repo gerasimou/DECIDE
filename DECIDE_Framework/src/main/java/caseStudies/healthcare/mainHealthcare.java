@@ -2,6 +2,7 @@ package caseStudies.healthcare;
 
 import org.apache.log4j.Logger;
 
+import _main.mainDECIDE;
 import auxiliary.Utility;
 import decide.DECIDENew;
 import decide.DecideException;
@@ -18,7 +19,7 @@ import decide.localControl.LocalControlNew;
 import decide.qv.prism.PrismQVNew;
 import decide.receipt.CLAReceiptNew;
 import decide.selection.SelectionNew;
-import main.mainDECIDE;
+
 import java.io.File;
 
 public class mainHealthcare {

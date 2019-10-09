@@ -7,7 +7,7 @@ import auxiliary.Utility;
 import decide.component.requirements.DECIDEAttribute;
 import decide.configuration.ConfigurationNew;
 import decide.environment.EnvironmentNew;
-import decide.localAnalysis.LocalCapabilityAnalysis;
+import decide.localAnalysis.LocalCapabilityAnalysisNew;
 
 public class UUVEnvironmentNew extends EnvironmentNew {
 
@@ -41,11 +41,11 @@ public class UUVEnvironmentNew extends EnvironmentNew {
 
 			double confidenceValue = -1;
 			if (CSC==1 || CSC==2 || CSC==4 || CSC==0)
-				confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("1");
+				confidenceValue = LocalCapabilityAnalysisNew.getConfidenceValue("1");
 			else if (CSC==3 || CSC==5 || CSC==6)
-				confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("2");
+				confidenceValue = LocalCapabilityAnalysisNew.getConfidenceValue("2");
 			else if (CSC==7)
-				confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("3");
+				confidenceValue = LocalCapabilityAnalysisNew.getConfidenceValue("3");
 			else 
 				throw new IllegalArgumentException("Current sensor configuration outside boundaries");
 			

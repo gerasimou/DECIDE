@@ -45,11 +45,11 @@ public class Knowledge {
 	}
 	
 	
-	public static void initKnowledgeNew(ComponentNew component){
+//	public static void initKnowledgeNew(ComponentNew component){
 //		requirementsGlobalList	= component.getGlobalRequirements();
 //		requirementsLocalList	= component.getLocalRequirements();
-		ID 						= component.getID();
-	}
+//		ID 						= component.getID();
+//	}
 	
 	
 	public static List<Requirement> getGlobalRequirements(){

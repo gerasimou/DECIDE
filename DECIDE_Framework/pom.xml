@@ -104,7 +104,8 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 					  <manifest>
-						<mainClass>example.uuv.mainUUV</mainClass>
+						<!-- <mainClass>example.uuv.mainUUV</mainClass> -->
+						<mainClass>caseStudies.uuvNew.mainUUVNew</mainClass>
 					  </manifest>
 					  <manifestEntries>
                 				<Class-Path>./resources/</Class-Path>
