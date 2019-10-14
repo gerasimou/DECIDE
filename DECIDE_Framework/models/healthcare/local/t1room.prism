@@ -1,0 +1,33 @@
+// Type 1 room CTMC model
+// ------------------------------------------------------------
+
+ctmc 
+
+// Model parameters
+const double t;
+const double l1i; const double l2i; const double l2ip;
+const double p2norm; const double p2retry;
+const double c1i; const double c2i;
+
+// State constants
+const T1=0; const T2=1; const T2P=2; const END=3;
+label "end" = s=END;
+
+module room
+  s:[T1..END] init T1;
+  
+  [T1done] (s=T1) -> l1i*p2norm: (s'=T2) + l1i*(1-p2norm): (s'=T2P);
+  [T2done] (s=T2) -> l2i*p2retry: (s'=T2) + l2i*(1-p2retry): (s'=END);
+  [T2done] (s=T2P) -> l2ip*p2retry: (s'=T2P) + l2ip*(1-p2retry): (s'=END);
+endmodule
+
+// Cost reward
+rewards "c"
+  [T1done] true: c1i;
+  [T2done] true: c2i;
+endrewards
+
+// Time reward
+rewards "t"
+   true : 1;
+endrewards
