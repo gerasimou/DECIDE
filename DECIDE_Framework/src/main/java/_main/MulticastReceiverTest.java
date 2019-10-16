@@ -9,6 +9,7 @@ import caseStudies.uuvNew.UUVCLAReceiptNew;
 import caseStudies.uuvNew.UUVCapabilitySummaryCollectionNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.receipt.CLAReceiptNew;
+import network.ComponentTypeDECIDE;
 import network.MulticastReceiverNew;
 import network.ReceiverDECIDENew;
 
@@ -32,14 +33,14 @@ public class MulticastReceiverTest {
 		//dummy multicast receiver
 		String peerAddress 	= "224.224.224.221";
 		int peerPort		= 8881;
-		MulticastReceiverNew mrTest = new MulticastReceiverNew(peerAddress, peerPort);
+		MulticastReceiverNew mrTest = new MulticastReceiverNew(peerAddress, peerPort, ComponentTypeDECIDE.PEER);
 
 		//receiver from other DECIDE components
 		List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
 		peersList.add(mrTest);
 		
 
-		claReceipt.setReceiverFromOtherDECIDE(peersList);		
+		claReceipt.setReceiversFromOtherDECIDEs(peersList);		
 		
 //		Thread t = new Thread(mrTest, mrTest.toString());
 //		t.start();

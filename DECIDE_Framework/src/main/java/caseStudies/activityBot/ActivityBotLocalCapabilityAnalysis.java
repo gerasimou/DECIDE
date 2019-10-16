@@ -23,25 +23,25 @@ public class ActivityBotLocalCapabilityAnalysis extends LocalCapabilityAnalysis 
 	 * @param qvInstance
 	 */
 	public ActivityBotLocalCapabilityAnalysis (AttributeEvaluator qvInstance){
-		super (false);
+		super ();
 		this.setPropertyEvaluator(qvInstance);
 	}
 
 	
-	/**
-	 * Class constructor
-	 */
-	public ActivityBotLocalCapabilityAnalysis (){
-		super (false);
-	}
+//	/**
+//	 * Class constructor
+//	 */
+//	public ActivityBotLocalCapabilityAnalysis (){
+//		super (false);
+//	}
+//	
 	
-	
-	/**
-	 * Class <b>copy</b> constructor
-	 */
-	private ActivityBotLocalCapabilityAnalysis (ActivityBotLocalCapabilityAnalysis instance) {
-		super (true);
-	}
+//	/**
+//	 * Class <b>copy</b> constructor
+//	 */
+//	private ActivityBotLocalCapabilityAnalysis (ActivityBotLocalCapabilityAnalysis instance) {
+//		super (true);
+//	}
 
 	
 	/**
@@ -121,12 +121,12 @@ public class ActivityBotLocalCapabilityAnalysis extends LocalCapabilityAnalysis 
 
 	
 	/**
-	 * Clone this object
-	 */
-	@Override
-	public LocalCapabilityAnalysis deepClone(){
-		LocalCapabilityAnalysis newHandler = new ActivityBotLocalCapabilityAnalysis(this);
-		return newHandler;
-	}		
+//	 * Clone this object
+//	 */
+//	@Override
+//	public LocalCapabilityAnalysis deepClone(){
+//		LocalCapabilityAnalysis newHandler = new ActivityBotLocalCapabilityAnalysis(this);
+//		return newHandler;
+//	}		
 
 }

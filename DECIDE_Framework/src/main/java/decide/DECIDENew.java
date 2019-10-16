@@ -3,12 +3,14 @@ package decide;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
+import caseStudies.uuvNew.UUVLocalControlNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
@@ -26,13 +28,11 @@ public class DECIDENew implements Cloneable, Serializable{
 	/** DECIDE stages interfaces*/
 	private LocalCapabilityAnalysisNew 	lca;
 	private CLAReceiptNew				claReceipt;
-	private LocalControlNew 				localControl;
-	private SelectionNew					selection;
-	private CapabilitySummaryNew			capabilitySummary;
+	private LocalControlNew 			localControl;
+	private SelectionNew				selection;
 	
 	/** QV handler */
 	private AttributeEvaluatorNew propertyEvaluator;
-
 	
 	/** configuration */
 	private ConfigurationsCollectionNew 	configurationsCollection;
@@ -43,54 +43,18 @@ public class DECIDENew implements Cloneable, Serializable{
 	/** environment */
 	private EnvironmentNew					environment;
 	
-	
-	
 	/** Logging system events*/
     final static Logger logger = Logger.getLogger(DECIDENew.class);
 	
+    /** Keeping track of peers status*/
+    private Map<ReceiverDECIDENew, Long> peerReceiversMap;
+    
+    private ReceiverDECIDENew robotReceiver;
+    
+    
+    private HeartbeatDECIDE heartbeat;
 	
-	/** 
-	 * Default constructor: instantiates the default handlers
-	 * @throws DecideException 
-	 */
-	public DECIDENew(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew environment) throws DecideException{
-		this(null, null, null, null, configurationsCollection, capabilitySummaries, environment);
-		this.configurationsCollection	= configurationsCollection;
-		this.environment					= environment;
-		this.capabilitySummaryCollection	= capabilitySummaries;		
-	}
-	
-	
-	/** 
-	 * Default constructor: instantiates the default handlers
-	 */
-	public DECIDENew(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew environment, 
-			Class<? extends LocalCapabilityAnalysisNew> localClass, Class<? extends CLAReceiptNew> claReciptClass ,Class<? extends SelectionNew> selectionClass,
-			Class<? extends LocalControlNew> localControlClass){
-		try {
-			this.propertyEvaluator	= new PrismQVNew();
-			this.lca = localClass.newInstance();
-			this.lca.setPropertyEvaluator(propertyEvaluator);
-			
-			this.claReceipt = claReciptClass.newInstance();
-			this.selection	= selectionClass.newInstance();
-			
-			this.localControl	= localControlClass.newInstance();
-			this.localControl.setPropertyEvaluator(propertyEvaluator);
-			
-			this.configurationsCollection		= configurationsCollection;
-			this.environment						= environment;
-			this.capabilitySummaryCollection		= capabilitySummaries;
-		} 
-		catch(IllegalAccessException iAE) {
-			logger.error("Illegal Access Exception",iAE);
-		}
-		catch(InstantiationException iE) {
-			logger.error("Instantiation Exception",iE);
-		}
-	}
-	
-	
+    
 	/**
  	 * Constructor requiring all components of DECIDE framework. 
  	 * If any is null, the default handler will be instantiated.
@@ -136,15 +100,28 @@ public class DECIDENew implements Cloneable, Serializable{
 				this.localControl = localControl;
 			
 			this.configurationsCollection		= configurationsCollection;
-			this.capabilitySummaryCollection		= capabilitySummaries;
-			this.environment						= environment;	
+			this.capabilitySummaryCollection	= capabilitySummaries;
+			this.environment					= environment;
+			this.peerReceiversMap					= new ConcurrentHashMap<>();
+			
+			long hrTimeWindow = Long.parseLong(Utility.getProperty("HEARTBEAT_TIME_WINDOW"));
+			this.heartbeat = new HeartbeatDECIDE(hrTimeWindow);
+			
 		}
 		catch (DecideException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 	
+	
+	/** 
+ 	 * Default constructor: instantiates the default handlers
+	 * @throws DecideException 
+	 */
+	public DECIDENew(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew environment) throws DecideException{
+		this(null, null, null, null, configurationsCollection, capabilitySummaries, environment);
+	}
+
 	
 	/**
 	 * Constructor accepting a <b>LocalCapabilityAnalysis</b> instance
@@ -154,21 +131,6 @@ public class DECIDENew implements Cloneable, Serializable{
 	public DECIDENew(LocalCapabilityAnalysisNew lca, ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew environment) throws DecideException{
 		this(lca, null, null, null, configurationsCollection, capabilitySummaries, environment);
 	}
-	
-	
-	
-//	/**
-//	 * Log system events to console or file
-//	 * @param String log
-//	 */
-//	private void logEvents(String parameter){
-//		if(logger.isDebugEnabled())
-//			logger.debug("[debug] : " + parameter);
-//		else
-//			logger.info("[info] : " + parameter);
-//
-//		//logger.error("This is error : " + parameter);
-//	}
 	
 	
 	/**
@@ -202,23 +164,8 @@ public class DECIDENew implements Cloneable, Serializable{
 					 CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew  environment) throws DecideException{
 		this (null, null, null, localControl, configurationsCollection, capabilitySummaries, environment);
 	}
-	
-	
-	/**
-	 * Class <b>copy</b> constructor
-	 * @param decide
-	 */
-	private DECIDENew (DECIDENew decide){
-		this.propertyEvaluator	= decide.propertyEvaluator.deepClone();
-		this.lca 				= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
-		this.claReceipt			= decide.claReceipt.deepClone();
-		this.selection			= (SelectionNew)Utility.deepCopy(decide.selection);
-		this.localControl		= decide.localControl.deepClone(this.propertyEvaluator);//(LocalControl)Utility.deepCopy(decide.localControl);
-	}
 
 	
-
-
 	/**
 	 * Run <b>DECIDE</b> protocol
 	 */
@@ -231,91 +178,84 @@ public class DECIDENew implements Cloneable, Serializable{
 			while (true) {
 				Thread.sleep(decideLoopTimeWindow); 
 				
-				if(	localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE ||
-					localControl.getAtomicOperationReference().get() == OperationMode.STARTUP) {
+				
+				//When there is a problem with the robot (i.e., a major change)
+				if (localControl.checkStatus(StatusRobot.MAJOR_LOCAL_CHANGE)) {
+
+					//flag the problem
+					claReceipt.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
 					
-					switch (localControl.getAtomicOperationReference().get()) {
-						case MAJOR_LOCAL_CHANGE_MODE:{
-							localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
-							claReceipt.setOperationMode(OperationMode.MAJOR_CHANGE_MODE);
-							break;
-						}
-						case STARTUP:{
-							this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE); // Used to be Offline, changed for testing purpose
-							this.claReceipt.setOperationMode(OperationMode.MAJOR_CHANGE_MODE);
-							break;
-						}
-						default: {break;}
-					}
-					
+					//execute local capability analysis step
 					lca.execute(configurationsCollection, environment);
 					
-					if(logger.isDebugEnabled())
+//					if(logger.isDebugEnabled())
 						configurationsCollection.printAll();
-
 				
-				// why resetting local control to stable and claReceipt to Major change mode, and this block never executed
-//				if(this.localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_CHANGE_MODE)
-//				{
-//					this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
-//					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
-//				}
-				// share CapabilitySummary periodically (heart beat message)
-					if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE) {
-						lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
-						logger.debug("Sending to peers " + Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
-//						if(logger.isDebugEnabled())
-//							logger.debug("[Send:" +Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+					//share local capability analysis results with peers
+					logger.info("Sending to peers " + Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+					lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
+						
+					//wait for some time for new CLAs from peers
+					Thread.sleep(2000);	
+				}
+				
+				
+				//Assess Peers Health
+				long TIME_NOW = System.currentTimeMillis();
+		
+				logger.info("Checking if a peer is stale " + TIME_NOW);
+				for (ReceiverDECIDENew receiver :  peerReceiversMap.keySet()) {
+					//if we haven't heard from this peer for 10s -> it has probably failed
+					if (!receiver.isAlive(TIME_NOW)) {
+						logger.info("Peer " + receiver.getServerAddress() + " is stale " + receiver.getTimeStamp());
+						
+						//1) remove its capability summary for the collection 
+						claReceipt.removeCapabilitySummary(receiver.getServerAddress());
+												
+						//2) flag the problem to trigger a new CLA selection
+						claReceipt.setStatus(StatusRobot.MAJOR_PEER_CHANGE);
 					}
 				}
-
-//				System.out.println("\n\nPrinting best from each mode\n");
-//				configurationsCollection.printBestFromMode();
 				
-//				Thread.sleep(5000);
-				
-				if ((claReceipt.checkOperationMode(OperationMode.MAJOR_CHANGE_MODE))){//||(localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE))
-				
-					logger.debug("CLAMode "+claReceipt.getOperationMode()+"]");
+				//Assess Robot Health
+				if (!robotReceiver.isAlive(TIME_NOW)) {
+					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
 					
-					claReceipt.compareAndSetOperationMode(OperationMode.MAJOR_CHANGE_MODE, OperationMode.STABLE_MODE);
+					//1) Reset robot's environment map
+					localControl.robotIsStale();
 					
+				}
+				
+				
+				//If a new local capability summary exists (either from the robot or its peers) or a peer is absent
+				if ((claReceipt.checkStatus(StatusRobot.MAJOR_PEER_CHANGE)) || 
+					(claReceipt.checkStatus(StatusRobot.MAJOR_LOCAL_CHANGE))){
+				
+					logger.info("CLAMode "+claReceipt.getStatus()+"]");
+										
 					//Run selection algorithm to partition mission goals among peers					
 					solutionFound = selection.execute(configurationsCollection, capabilitySummaryCollection);
 					
 					if(!solutionFound) {
-						logger.debug("Component" + KnowledgeNew.getID() + "[idle]: Could not find feasible plan");
-//						logEvents("Component" + KnowledgeNew.getID()+"[idle]: Could not find feasible plan");
-						localControl.getAtomicOperationReference().set(OperationMode.IDLE);
-						localControl.setReceivedNewCommand(false);
-						// You could order attached component to stop action.
+						logger.info("Could not find feasible solution");
+						localControl.setStatus(StatusRobot.IDLE);
 					}
 					else {
-						logger.debug("[Component "+Knowledge.getID()+" has task]");
-						if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE) {
-							localControl.getAtomicOperationReference().compareAndSet(OperationMode.IDLE, OperationMode.STABLE_MODE);
-							localControl.setReceivedNewCommand(true);
-							logger.debug("[Component "+localControl.getAtomicOperationReference().get()+" NewCommand "+localControl.isReceivedNewCommand()+"]");
+						logger.info("[Component "+KnowledgeNew.getID()+ " has responsibilities]" + KnowledgeNew.getResponsibilities().toString());
+						if (!localControl.checkStatus(StatusRobot.OFFLINE)) {
+							localControl.setStatus(StatusRobot.STABLE);
+							logger.info("[Component "+localControl.getStatus()+" NewCommand ");
 						}
 					}
+					
+					claReceipt.setStatus(StatusRobot.STABLE);
 				}
 				
-				if ((localControl.getAtomicOperationReference().get() == OperationMode.STABLE_MODE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
+				//If everything is OK
+				if (localControl.checkStatus(StatusRobot.STABLE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
 					localControl.execute(configurationsCollection, environment);
-					localControl.setReceivedNewCommand(false);
 
-				}
-		
-				// reset the operation mode to Stable
-				//if(claReceipt.getAtomicOperationReference().get() == OperationMode.MINOR_CHANGE_MODE)
-				//claReceipt.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
-//				localControl.execute(configurationsCollection, environment, false);
-//					configurationsCollection.printAll();
-
-//				System.out.println("\n\nPrinting best from each mode\n");
-//				configurationsCollection.printBestFromMode();
-
-//				selection.execute();
+				}		
 			}
 		}
 		catch (Exception e){
@@ -334,8 +274,8 @@ public class DECIDENew implements Cloneable, Serializable{
 	 * Set the DECIDE remote client, i.e., where DECIDE can transmit to the robot/component
 	 * @param transmitter
 	 */
-	public void setTransmitterToComponent (TransmitterDECIDE transmitter){
-		localControl.setTransmitter(transmitter);
+	public void setTransmitterToRobot (TransmitterDECIDE transmitter){
+		localControl.setTransmitterToRobot(transmitter);
 	}
 	
 	
@@ -343,8 +283,9 @@ public class DECIDENew implements Cloneable, Serializable{
 	 * Set the DECIDE listening server for remote client, i.e., where DECIDE can receive from the robot/component
 	 * @param receiver
 	 */
-	public void setReceiverFromComponent (ReceiverDECIDENew receiver){
-		localControl.setReceiver(receiver);
+	public void setReceiverFromRobot (ReceiverDECIDENew receiver){
+		localControl.setReceiverFromRobot(receiver);
+		robotReceiver = receiver;
 	}
 	
 	
@@ -354,42 +295,26 @@ public class DECIDENew implements Cloneable, Serializable{
 	 */
 	public void setTransmitterToOtherDECIDE(TransmitterDECIDE client){
 		lca.setTransmitterToOtherDECIDE(client);
+		
+		//start the heartbeat
+		heartbeat.setHeartbeatTransmitterToOtherDECIDE(client);
+		Thread t = new Thread(heartbeat, "Heartbeat");
+		t.start();
 	}
 	
 	
 	/** 
 	 * Set the DECIDE servers, i.e., where DECIDE can receive messages from other DECIDE
-	 * @param serverList
+	 * @param receiversList
 	 */
-	public void setReceiverFromOtherDECIDE(List<ReceiverDECIDENew> serverList){
-		claReceipt.setReceiverFromOtherDECIDE(serverList);
-	}
-	
-	
-	/**
-	 * Clone <b>this</b> DECIDE object 
-	 */
-	public DECIDENew clone(){
-		try {
-			return (DECIDENew) super.clone();
+	public void setReceiversFromOtherDECIDEs(List<ReceiverDECIDENew> receiversList){
+		claReceipt.setReceiversFromOtherDECIDEs(receiversList);
+		for (ReceiverDECIDENew receiver : receiversList) {
+			peerReceiversMap.put (receiver, receiver.getTimeStamp());
 		}
-		catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		System.exit(-1);
-		return null;
 	}
 	
-	
-	/**
-	 * <b>Deep clone</b> of this DECIDE object
-	 * @return
-	 */
-	public DECIDENew deepClone(){ 
-		return new DECIDENew(this);
-	}
 
-	
 	/**
 	 * Overloaded toString  method
 	 */
@@ -398,27 +323,123 @@ public class DECIDENew implements Cloneable, Serializable{
 		return this.hashCode() +","+ lca +","+ claReceipt +","+ selection +","+ localControl;
 	}
 
-	// Newly added, for testing purpose
-	public ConfigurationsCollectionNew getConfigurationsCollection() {
-		return configurationsCollection;
-	}
 
-	// Newly added, for testing purpose
-	public LocalCapabilityAnalysisNew getLca() {
-		return lca;
-	}
-
-	// Newly added, for testing purpose
-	public CapabilitySummaryNew getCapabilitySummary() {
-		return capabilitySummary;
-	}
-
-	// Newly added, for testing purpose
-	public void setCapabilitySummary(CapabilitySummaryNew capabilitySummary) {
-		this.capabilitySummary = capabilitySummary;
-	}
-
-
+//	/**
+//	 * Log system events to console or file
+//	 * @param String log
+//	 */
+//	private void logEvents(String parameter){
+//		if(logger.isDebugEnabled())
+//			logger.debug("[debug] : " + parameter);
+//		else
+//			logger.info("[info] : " + parameter);
+//
+//		//logger.error("This is error : " + parameter);
+//	}
 	
+//	public void run(){
+//		long decideLoopTimeWindow = Long.parseLong(Utility.getProperty("DECIDE_LOOP_TIME_WINDOW"));
+//		//boolean initialRun = true;
+//		boolean solutionFound = false;
+//		
+//		try{
+//			while (true) {
+//				Thread.sleep(decideLoopTimeWindow); 
+//				
+//				
+//				//When there is a problem with the robot (i.e., a major change)
+//				if (localControl.checkStatus(StatusRobot.MAJOR_LOCAL_CHANGE)) {
+////					|| localControl.getAtomicOperationReference().get() == StatusRobot.STARTUP) {
+//					
+//					switch (localControl.getStatus()) {
+//						case MAJOR_LOCAL_CHANGE:{
+//							localControl.setStatus(StatusRobot.STABLE);
+//							claReceipt.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
+//							break;
+//						}
+////						case STARTUP:{
+////							this.localControl.getAtomicOperationReference().set(StatusRobot.STABLE); // Used to be Offline, changed for testing purpose
+////							this.claReceipt.setOperationMode(StatusRobot.MAJOR_PEER_CHANGE);
+////							break;
+////						}
+//						default: {break;}
+//					}
+//					
+//					lca.execute(configurationsCollection, environment);
+//					
+//					if(logger.isDebugEnabled())
+//						configurationsCollection.printAll();
+//
+//				
+//				// why resetting local control to stable and claReceipt to Major change mode, and this block never executed
+////				if(this.localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_CHANGE_MODE)
+////				{
+////					this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
+////					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
+////				}
+//
+//					if (localControl.checkStatus(StatusRobot.OFFLINE)) {
+//						lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
+//						logger.debug("Sending to peers " + Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+////						if(logger.isDebugEnabled())
+////							logger.debug("[Send:" +Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
+//					}
+//				}
+//
+////				System.out.println("\n\nPrinting best from each mode\n");
+////				configurationsCollection.printBestFromMode();
+//				
+////				Thread.sleep(5000);
+//				
+//				if ((claReceipt.checkStatus(StatusRobot.MAJOR_PEER_CHANGE)) || 
+//					(claReceipt.checkStatus(StatusRobot.MAJOR_LOCAL_CHANGE))){
+//				
+//					logger.debug("CLAMode "+claReceipt.getStatus()+"]");
+//										
+//					//Run selection algorithm to partition mission goals among peers					
+//					solutionFound = selection.execute(configurationsCollection, capabilitySummaryCollection);
+//					
+//					if(!solutionFound) {
+//						logger.debug("Component" + KnowledgeNew.getID() + "[idle]: Could not find feasible plan");
+////						logEvents("Component" + KnowledgeNew.getID()+"[idle]: Could not find feasible plan");
+//						localControl.setStatus(StatusRobot.IDLE);
+//						localControl.setReceivedNewCommand(false);
+//						// You could order attached component to stop action.
+//					}
+//					else {
+//						logger.debug("[Component "+Knowledge.getID()+" has task]");
+//						if (localControl.checkStatus(StatusRobot.OFFLINE)) {
+//							localControl.compareAndSetStatus(StatusRobot.IDLE, StatusRobot.STABLE);
+//							localControl.setReceivedNewCommand(true);
+//							logger.debug("[Component "+localControl.getStatus()+" NewCommand "+localControl.isReceivedNewCommand()+"]");
+//						}
+//					}
+//					
+//					claReceipt.compareAndSetStatus(StatusRobot.MAJOR_PEER_CHANGE, StatusRobot.STABLE);
+//				}
+//				
+//				if (localControl.checkStatus(StatusRobot.STABLE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
+//					localControl.execute(configurationsCollection, environment);
+//					localControl.setReceivedNewCommand(false);
+//
+//				}
+//		
+//				// reset the operation mode to Stable
+//				//if(claReceipt.getAtomicOperationReference().get() == OperationMode.MINOR_CHANGE_MODE)
+//				//claReceipt.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
+////				localControl.execute(configurationsCollection, environment, false);
+////					configurationsCollection.printAll();
+//
+////				System.out.println("\n\nPrinting best from each mode\n");
+////				configurationsCollection.printBestFromMode();
+//
+////				selection.execute();
+//			}
+//		}
+//		catch (Exception e){
+//			logger.error("[error] : " + e.getMessage(),e);
+//			
+//		}
+//	}
 	
 }

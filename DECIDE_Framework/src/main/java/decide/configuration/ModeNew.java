@@ -8,16 +8,22 @@ import java.util.Map.Entry;
 
 /** Class representing a mode of operation*/
 public abstract class ModeNew{
+	
 	/** Map storing the configurations for this mode**/
 	public Map<String, ConfigurationNew> configurationsMap;
+	
 	
 	/** An iterator for the configurations map of this mode**/
 	private Iterator<Entry<String, ConfigurationNew>> configurationsMapIterator;// = configurationsMap.entrySet().iterator();
 	
+	
 	/** key holding the best configuration for this mode*/
 	protected String bestConfigurationKey;
 	
+	
 	protected String ID;
+	
+	
 	
 	/**
 	 * Class constructor

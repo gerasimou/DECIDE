@@ -8,13 +8,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import org.apache.log4j.Logger;
 
+import decide.StatusComponent;
 
-public class MulticastTransmitter implements TransmitterDECIDE{
-	/** server address*/
-	private String serverAddress;
-	
-	/** server port */
-	private int serverPort;
+
+public class MulticastTransmitter extends TransmitterDECIDE{
 	
 	/** datagram socket */
 	private DatagramSocket datagramSocket; 
@@ -25,14 +22,16 @@ public class MulticastTransmitter implements TransmitterDECIDE{
 	/** Logging system events*/
     final static Logger logger = Logger.getLogger(MulticastTransmitter.class);
 	
+    
+    
 	/**
 	 * Class constructor: create a new multicast transmitter
 	 * @param serverAddress
 	 * @param port
 	 */
-	public MulticastTransmitter(String serverAddress, int port) {
-		this.serverAddress	= serverAddress;
-		this.serverPort		= port;
+	public MulticastTransmitter(String serverAddress, int port, ComponentTypeDECIDE networkType) {
+    	super(serverAddress, port, networkType);
+		
 
 		try{
 			// Get the address that we are going to connect to.
@@ -40,33 +39,14 @@ public class MulticastTransmitter implements TransmitterDECIDE{
 			
 			// Open a new DatagramSocket, which will be used to send the data.
 			datagramSocket = new DatagramSocket();
-		} 
-		catch (IOException e) {
-			logger.error(e.getStackTrace());
-		}
-	}
-	
-	
-	
-	/**
-	 * Class <b>copy</b> constructor
-	 * @param instance
-	 */
-	private MulticastTransmitter (MulticastTransmitter instance){
-		this.serverAddress 	= instance.serverAddress;
-		this.serverPort		= instance.serverPort;
-		
-		try{
-			// Get the address that we are going to connect to.
-			address = InetAddress.getByName(this.serverAddress);
 			
-			// Open a new DatagramSocket, which will be used to send the data.
-			datagramSocket = new DatagramSocket();
+			setAtomicPeerStatus(StatusComponent.ALIVE);
 		} 
 		catch (IOException e) {
 			logger.error(e.getStackTrace());
 		}
 	}
+	
 	
 	/**
 	 * Log system events to console or file
@@ -98,6 +78,7 @@ public class MulticastTransmitter implements TransmitterDECIDE{
             
             datagramSocket.send(msgPacket);
             
+	    	setTimeStamp(System.currentTimeMillis());
             
             //System.out.println("Sending from ["+ serverAddress +":"+ serverPort +"] --> " + object.toString());
 		}
@@ -126,10 +107,4 @@ public class MulticastTransmitter implements TransmitterDECIDE{
 		}
 	}
 	
-	 	
-	
-	public TransmitterDECIDE deepClone(){
-		TransmitterDECIDE newHandler = new MulticastTransmitter(this);
-		return newHandler;
-	}
 }

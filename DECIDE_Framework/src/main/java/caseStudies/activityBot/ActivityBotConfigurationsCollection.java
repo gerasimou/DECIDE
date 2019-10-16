@@ -14,12 +14,12 @@ import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
 import caseStudies.uuv.UUVConfiguration;
+import decide.StatusComponent;
 import decide.component.requirements.RequirementSet;
 import decide.configuration.Configuration;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.receipt.CLAReceipt;
-import network.PeerStatus;
 import network.ReceiverDECIDE;
 
 public class ActivityBotConfigurationsCollection extends ConfigurationsCollection {

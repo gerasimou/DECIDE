@@ -9,6 +9,8 @@ import java.net.MulticastSocket;
 import java.util.Arrays;
 import java.util.Objects;
 import org.apache.log4j.Logger;
+
+import decide.StatusComponent;
 import decide.capabilitySummary.CapabilitySummary;
 
 
@@ -97,7 +99,7 @@ public class MulticastReceiver extends ReceiverDECIDE{
 					// reset boolean flag
 					result = false;
 					/* reset configuartion map if peer had been Missing */
-					if (atomicPeerStatus.get()==PeerStatus.MISSING) { //&& capabilitySummaryCollection.concurrentCapabilitySummaryMap.contains(serverAddress) )		
+					if (atomicPeerStatus.get()==StatusComponent.MISSING) { //&& capabilitySummaryCollection.concurrentCapabilitySummaryMap.contains(serverAddress) )		
 						//capabilitySummaryCollection.concurrentCapabilitySummaryMap.remove(serverAddress);
 						tempHashCode = 0;
 					}
@@ -118,7 +120,7 @@ public class MulticastReceiver extends ReceiverDECIDE{
 							    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
 		//					    	capabilitySummaryCollection.concurrentCapabilitySummaryMap.put(serverAddress, (CapabilitySummary[])csArray);
 							    	claReceipt.receive(serverAddress, csArray);
-							    	atomicPeerStatus.set(PeerStatus.CHANGE);
+							    	atomicPeerStatus.set(StatusComponent.CHANGE);
 							    	this.setTimeStamp(System.currentTimeMillis());
 							    	break;
 						    }
@@ -128,7 +130,7 @@ public class MulticastReceiver extends ReceiverDECIDE{
 							    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
 		//					    	capabilitySummaryCollection.concurrentCapabilitySummaryMap.put(serverAddress, (CapabilitySummary[])csArray);
 							    	claReceipt.receive(serverAddress, csArray);
-							    	atomicPeerStatus.set(PeerStatus.NEW_JOIN);
+							    	atomicPeerStatus.set(StatusComponent.NEW_JOIN);
 							    	this.setTimeStamp(System.currentTimeMillis());
 							    	break;
 						    }

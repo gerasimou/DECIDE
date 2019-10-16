@@ -12,7 +12,9 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
-public class SocketTransmitterNew implements Runnable, Serializable {
+import decide.StatusComponent;
+
+public class SocketTransmitterNew extends TransmitterDECIDE implements Runnable, Serializable {
 
 	/** Class logger*/
 	private final static Logger logger = Logger.getLogger(SocketTransmitterNew.class);
@@ -25,14 +27,7 @@ public class SocketTransmitterNew implements Runnable, Serializable {
 	
 	/** writer */
 	private PrintWriter outToServer;
-
-	/** server address*/
-	private String serverAddress;
 	
-	/** server port */
-	private int serverPort;
-	
-	static int num = 0;
 	
 	
 	/**
@@ -40,9 +35,9 @@ public class SocketTransmitterNew implements Runnable, Serializable {
 	 * @param serverAddress
 	 * @param port
 	 */
-	public SocketTransmitterNew(String serverAddress, int port) {
-		this.serverAddress	= serverAddress;
-		this.serverPort		= port;
+	public SocketTransmitterNew(String serverAddress, int port, ComponentTypeDECIDE networkType) {
+    	super(serverAddress, port, networkType);
+
 		
 		init();
 	}
@@ -59,7 +54,9 @@ public class SocketTransmitterNew implements Runnable, Serializable {
 			
 			outToServer		= new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true); 		
 			
-		} catch (IOException e) {
+			setAtomicPeerStatus(StatusComponent.ALIVE);
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 //			logger.error("Exception", e);
@@ -97,9 +94,8 @@ public class SocketTransmitterNew implements Runnable, Serializable {
 						double r2 = rand.nextInt(400)/100.0;
 						double r3 = rand.nextInt(400)/100.0;
 						String msg = r1+","+r2+","+r3;
-						System.out.println("Sending:\t"+msg);
-						outToServer.println(msg);// "From Client " + num++);
-						outToServer.flush();
+						
+						send(msg);
 					}
 				}
 			}
@@ -107,6 +103,16 @@ public class SocketTransmitterNew implements Runnable, Serializable {
 		catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	@Override
+	public void send(Object object) {
+		System.out.println("Sending:\t"+ object);
+		outToServer.println(object);// "From Client " + num++);
+		outToServer.flush();
+		
+    	setTimeStamp(System.currentTimeMillis());
 	}
 
 }

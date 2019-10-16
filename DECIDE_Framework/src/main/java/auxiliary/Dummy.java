@@ -3,7 +3,7 @@ package auxiliary;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
-import decide.OperationMode;
+import decide.StatusRobot;
 import decide.configuration.ConfigurationNew;
 import decide.qv.prism.PrismAPINew;
 import parser.ast.ModulesFile;

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
+import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
@@ -15,7 +16,7 @@ import network.TransmitterDECIDE;
 
 public abstract class LocalCapabilityAnalysisNew implements Serializable{
 
-	/** DECIDE peers */
+	/** Transmitter to DECIDE peers */
 	protected TransmitterDECIDE transmitter;
 	
 	/** Property Evaluator handler */
@@ -33,13 +34,13 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	protected LocalCapabilityAnalysisNew(boolean deepClone) {
+	protected LocalCapabilityAnalysisNew() {
 		assignConfidenceArray();
 		
-		if (deepClone) {
-			attributeEvaluator	= attributeEvaluator.deepClone();
-			transmitter				= transmitter.deepClone();
-		}
+//		if (deepClone) {
+//			attributeEvaluator	= attributeEvaluator.deepClone();
+//			transmitter				= transmitter.deepClone();
+//		}
 			
 	}
 
@@ -65,13 +66,13 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	 * @param args
 	 * @return
 	 */
-	public abstract LocalCapabilityAnalysisNew deepClone();
+//	public abstract LocalCapabilityAnalysisNew deepClone();
 	
 	
 	/**
 	 * Share capability summary with peers
 	 */
-	public abstract void shareCapabilitySummary(Object ... args);
+	public abstract void shareCapabilitySummary(CapabilitySummaryNew[] csArray);
 
 	
 	private void assignConfidenceArray(){

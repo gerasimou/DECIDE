@@ -9,19 +9,19 @@ public abstract class Constraint extends RequirementNew {
 	private Object threshold;
 		
 
-	private Object value;
-	private boolean satisfied;
+//	private Object value;
+//	private boolean satisfied;
 	
 	
 	public Constraint(RequirementType reqType, String id, Object threshold) {
 		super(reqType, id);
 		this.threshold 		= threshold;
-		this.satisfied		= false;
+//		this.satisfied		= false;
 	}
 	
-	public Object getValue() {
-		return this.value;
-	}
+//	public Object getValue() {
+//		return this.value;
+//	}
 	
 	
 	public Object getThreshold() {

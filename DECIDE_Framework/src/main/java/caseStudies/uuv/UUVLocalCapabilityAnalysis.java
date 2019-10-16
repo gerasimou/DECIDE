@@ -26,17 +26,17 @@ public class UUVLocalCapabilityAnalysis extends LocalCapabilityAnalysis {
 	 * @param qvInstance
 	 */
 	public UUVLocalCapabilityAnalysis (AttributeEvaluator qvInstance){
-		super (false);
+		super ();
 		this.setPropertyEvaluator(qvInstance);
 	}
 	
 	
-	/**
-	 * Class <b>copy</b> constructor
-	 */
-	private UUVLocalCapabilityAnalysis (UUVLocalCapabilityAnalysis instance) {
-		super (true);
-	}
+//	/**
+//	 * Class <b>copy</b> constructor
+//	 */
+//	private UUVLocalCapabilityAnalysis (UUVLocalCapabilityAnalysis instance) {
+//		super (true);
+//	}
 
 	
 	/**
@@ -112,12 +112,12 @@ public class UUVLocalCapabilityAnalysis extends LocalCapabilityAnalysis {
 	}
 
 	
-	/**
-	 * Clone this object
-	 */
-	public LocalCapabilityAnalysis deepClone (){
-		LocalCapabilityAnalysis newHandler = new UUVLocalCapabilityAnalysis(this);
-		return newHandler;
-	}		
+//	/**
+//	 * Clone this object
+//	 */
+//	public LocalCapabilityAnalysis deepClone (){
+//		LocalCapabilityAnalysis newHandler = new UUVLocalCapabilityAnalysis(this);
+//		return newHandler;
+//	}		
 
 }

@@ -11,8 +11,8 @@ import decide.localControl.LocalControlNew;
 
 public class RobotLocalControl extends LocalControlNew {
 
-    /** Local map stores received information from robot*/
-	protected Map<String, Object> receivedEnvironmentMap;
+//    /** Local map stores received information from robot*/
+//	protected Map<String, Object> receivedEnvironmentMap;
 
 	
 	/**
@@ -65,16 +65,10 @@ public class RobotLocalControl extends LocalControlNew {
 //		modesCollection.findBestPerModeforLocalControl();
 	}
 
-	
-	@Override
-	public LocalControlNew deepClone(Object... args) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public boolean executeListeningThread() {
+	public void robotIsStale() {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
 }

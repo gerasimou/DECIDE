@@ -1,5 +1,6 @@
 package _main;
 
+import network.ComponentTypeDECIDE;
 import network.SocketTransmitterNew;
 
 public class mainUUVComponent {
@@ -11,7 +12,7 @@ public class mainUUVComponent {
 		String address 	= "127.0.0.1";
 		int port		= 9201;
 
-		SocketTransmitterNew client = new SocketTransmitterNew(address, port);
+		SocketTransmitterNew client = new SocketTransmitterNew(address, port, ComponentTypeDECIDE.ROBOT);
 		Thread t = new Thread(client, "UUV Client");
 		
 		t.start();

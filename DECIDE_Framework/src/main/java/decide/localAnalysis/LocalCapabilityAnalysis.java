@@ -28,13 +28,13 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	 * Class constructor
 	 * @param qvInstance
 	 */
-	protected LocalCapabilityAnalysis(boolean deepClone) {
+	protected LocalCapabilityAnalysis() {
 		assignConfidenceArray();
 		
-		if (deepClone) {
-			attributeEvaluator	= attributeEvaluator.deepClone();
-			transmitter				= transmitter.deepClone();
-		}
+//		if (deepClone) {
+//			attributeEvaluator	= attributeEvaluator.deepClone();
+//			transmitter				= transmitter.deepClone();
+//		}
 			
 	}
 
@@ -55,12 +55,12 @@ public abstract class LocalCapabilityAnalysis implements Serializable{
 	public abstract void execute(ConfigurationsCollection modesCollection, Environment environment);
 	
 	
-	/**
-	 * Deep clone this local capability analysis object
-	 * @param args
-	 * @return
-	 */
-	public abstract LocalCapabilityAnalysis deepClone();
+//	/**
+//	 * Deep clone this local capability analysis object
+//	 * @param args
+//	 * @return
+//	 */
+//	public abstract LocalCapabilityAnalysis deepClone();
 	
 	
 	/**

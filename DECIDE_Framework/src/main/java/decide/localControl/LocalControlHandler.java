@@ -1,6 +1,6 @@
 package decide.localControl;
 
-import decide.OperationMode;
+import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluator;
@@ -45,7 +45,7 @@ public class LocalControlHandler extends LocalControl{
 		try {
 		if (!receivedAliveMessage){
 			receivedAliveMessage = true;
-			if(this.atomicOperationReference.compareAndSet( OperationMode.OFFLINE, OperationMode.STABLE_MODE))
+			if(this.atomicOperationReference.compareAndSet( StatusRobot.IDLE, StatusRobot.STABLE))
 				logger.debug("ComponentOperationMode is STABLE");
 				
 			// check if thread sleeps, Why?

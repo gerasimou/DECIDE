@@ -21,25 +21,11 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	 * @param qvInstance
 	 */
 	public LocalCapabilityAnalysisHandler (AttributeEvaluator propertyEvaluator){
-		super (false);
+		super ();
 		this.setPropertyEvaluator(propertyEvaluator);
 //		System.out.println(this.getClass().getName());
 	}
-	
-	/**
-	 * Class constructor
-	 */
-	public LocalCapabilityAnalysisHandler (){
-		super(false);
-	}
-	
-	
-	/**
-	 * Class <b>copy</b> constructor
-	 */
-	private LocalCapabilityAnalysisHandler (LocalCapabilityAnalysisHandler instance) {
-		super(true);
-	}
+
 
 	/**
 	 * Log system events to console or file
@@ -109,17 +95,6 @@ public class LocalCapabilityAnalysisHandler extends LocalCapabilityAnalysis {
 	@Override
 	public void shareCapabilitySummary(Object ... args){
 		transmitter.send(args);
-	}
-
-
-	
-	/**
-	 * Clone this object
-	 */
-	@Override
-	public LocalCapabilityAnalysis deepClone(){
-		LocalCapabilityAnalysis newHandler = new LocalCapabilityAnalysisHandler(this);
-		return newHandler;
 	}
 
 }

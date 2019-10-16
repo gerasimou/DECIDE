@@ -193,17 +193,17 @@ public class DECIDE implements Cloneable, Serializable{
 	}
 	
 	
-	/**
-	 * Class <b>copy</b> constructor
-	 * @param decide
-	 */
-	private DECIDE (DECIDE decide){
-		this.propertyEvaluator	= decide.propertyEvaluator.deepClone();
-		this.lca 				= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
-		this.claReceipt			= decide.claReceipt.deepClone();
-		this.selection			= (Selection)Utility.deepCopy(decide.selection);
-		this.localControl		= decide.localControl.deepClone(this.propertyEvaluator);//(LocalControl)Utility.deepCopy(decide.localControl);
-	}
+//	/**
+//	 * Class <b>copy</b> constructor
+//	 * @param decide
+//	 */
+//	private DECIDE (DECIDE decide){
+//		this.propertyEvaluator	= decide.propertyEvaluator.deepClone();
+//		this.lca 				= decide.lca.deepClone();// (LocalCapabilityAnalysis) Utility.deepCopy(decide.lca);
+//		this.claReceipt			= decide.claReceipt.deepClone();
+//		this.selection			= (Selection)Utility.deepCopy(decide.selection);
+//		this.localControl		= decide.localControl.deepClone(this.propertyEvaluator);//(LocalControl)Utility.deepCopy(decide.localControl);
+//	}
 
 	
 
@@ -220,18 +220,18 @@ public class DECIDE implements Cloneable, Serializable{
 			while (true){
 				Thread.sleep(delay); 
 				
-				if(this.localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE || this.localControl.getAtomicOperationReference().get() == OperationMode.STARTUP)
+				if(this.localControl.getAtomicOperationReference().get() == StatusRobot.MAJOR_LOCAL_CHANGE)//|| this.localControl.getAtomicOperationReference().get() == StatusRobot.STARTUP)
 				{
 					switch (localControl.getAtomicOperationReference().get())
 					{
-					case MAJOR_LOCAL_CHANGE_MODE:
-					this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE);
-					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
+					case MAJOR_LOCAL_CHANGE:
+					this.localControl.getAtomicOperationReference().set(StatusRobot.STABLE);
+					this.claReceipt.getAtomicOperationReference().set(StatusRobot.MAJOR_PEER_CHANGE);
 					break;
-					case STARTUP:
-					this.localControl.getAtomicOperationReference().set(OperationMode.STABLE_MODE); // Used to be Offline, changed for testing purpose
-					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
-					break;
+//					case STARTUP:
+//					this.localControl.getAtomicOperationReference().set(StatusRobot.STABLE); // Used to be Offline, changed for testing purpose
+//					this.claReceipt.getAtomicOperationReference().set(StatusRobot.MAJOR_PEER_CHANGE);
+//					break;
 					default: break;
 					}
 					
@@ -248,7 +248,7 @@ public class DECIDE implements Cloneable, Serializable{
 //					this.claReceipt.getAtomicOperationReference().set(OperationMode.MAJOR_CHANGE_MODE);
 //				}
 				// share CapabilitySummary periodically (heart beat message)
-				if(!(this.localControl.getAtomicOperationReference().get() == OperationMode.OFFLINE))
+				if(!(this.localControl.getAtomicOperationReference().get() == StatusRobot.OFFLINE))
 				{
 					lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
 					if(logger.isDebugEnabled())
@@ -260,19 +260,19 @@ public class DECIDE implements Cloneable, Serializable{
 				
 				Thread.sleep(5000);
 				
-				if((claReceipt.getAtomicOperationReference().get() == OperationMode.MAJOR_CHANGE_MODE))//||(localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE))
+				if((claReceipt.getAtomicOperationReference().get() == StatusRobot.MAJOR_PEER_CHANGE))//||(localControl.getAtomicOperationReference().get() == OperationMode.MAJOR_LOCAL_CHANGE_MODE))
 				{
 					logger.debug("[ClaMode "+claReceipt.getAtomicOperationReference().get()+"]");
 //					
 					
-					claReceipt.getAtomicOperationReference().compareAndSet(OperationMode.MAJOR_CHANGE_MODE, OperationMode.STABLE_MODE);
+					claReceipt.getAtomicOperationReference().compareAndSet(StatusRobot.MAJOR_PEER_CHANGE, StatusRobot.STABLE);
 					
 //					
 				temp = selection.execute(this.configurationsCollection, this.capabilitySummaryCollection, this.environment);
 				if(!temp)
 				{
 					logEvents("Component"+Knowledge.getID()+"[idle]: Could not find feasible plan");
-					localControl.getAtomicOperationReference().set(OperationMode.IDLE);
+					localControl.getAtomicOperationReference().set(StatusRobot.IDLE);
 					localControl.setReceivedNewCommand(false);
 					// You could order attached component to stop action.
 	
@@ -280,9 +280,9 @@ public class DECIDE implements Cloneable, Serializable{
 				else
 				{
 					logger.debug("[Component"+Knowledge.getID()+" has task]");
-					if(localControl.getAtomicOperationReference().get() != OperationMode.OFFLINE)
+					if(localControl.getAtomicOperationReference().get() != StatusRobot.OFFLINE)
 					{
-					localControl.getAtomicOperationReference().compareAndSet(OperationMode.IDLE, OperationMode.STABLE_MODE);
+					localControl.getAtomicOperationReference().compareAndSet(StatusRobot.IDLE, StatusRobot.STABLE);
 					localControl.setReceivedNewCommand(true);
 					logger.debug("[Component "+localControl.getAtomicOperationReference().get()+" NewCommand "+localControl.isReceivedNewCommand()+"]");
 					
@@ -294,7 +294,7 @@ public class DECIDE implements Cloneable, Serializable{
 				
 				}
 				
-				if((localControl.getAtomicOperationReference().get() == OperationMode.STABLE_MODE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
+				if((localControl.getAtomicOperationReference().get() == StatusRobot.STABLE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
 					localControl.execute(configurationsCollection, environment);
 					localControl.setReceivedNewCommand(false);
 
@@ -375,13 +375,13 @@ public class DECIDE implements Cloneable, Serializable{
 	}
 	
 	
-	/**
-	 * <b>Deep clone</b> of this DECIDE object
-	 * @return
-	 */
-	public DECIDE deepClone(){ 
-		return new DECIDE(this);
-	}
+//	/**
+//	 * <b>Deep clone</b> of this DECIDE object
+//	 * @return
+//	 */
+//	public DECIDE deepClone(){ 
+//		return new DECIDE(this);
+//	}
 
 	
 	/**

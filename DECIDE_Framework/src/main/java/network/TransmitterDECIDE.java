@@ -1,9 +1,13 @@
 package network;
 
-public interface TransmitterDECIDE {
+public abstract class TransmitterDECIDE extends NetworkComponent{
 	
-	public void send (Object object);
+
+    public abstract void send (Object object);
 	
-	public abstract TransmitterDECIDE deepClone(); 
+    
+    public TransmitterDECIDE (String serverAddress, int serverPort, ComponentTypeDECIDE networkType) {
+    	super(serverAddress, serverPort, networkType);
+    }
 
 }

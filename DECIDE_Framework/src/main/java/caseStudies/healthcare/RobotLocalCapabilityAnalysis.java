@@ -17,17 +17,17 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	 * @param qvInstance
 	 */
 	public RobotLocalCapabilityAnalysis(AttributeEvaluatorNew attributeEvaluator){
-		super (false);
+		super ();
 		this.setPropertyEvaluator(attributeEvaluator);
 	}
 	
 	
-	/**
-	 * Class <b>copy</b> constructor
-	 */
-	private RobotLocalCapabilityAnalysis (RobotLocalCapabilityAnalysis instance) {
-		super(true);
-	}
+//	/**
+//	 * Class <b>copy</b> constructor
+//	 */
+//	private RobotLocalCapabilityAnalysis (RobotLocalCapabilityAnalysis instance) {
+//		super(true);
+//	}
 
 	
 	/**
@@ -61,15 +61,15 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	}
 
 	
-	@Override
-	public LocalCapabilityAnalysisNew deepClone () {
-		return new RobotLocalCapabilityAnalysis(this);
-	}
+//	@Override
+//	public LocalCapabilityAnalysisNew deepClone () {
+//		return new RobotLocalCapabilityAnalysis(this);
+//	}
 
 	
 	@Override
-	public void shareCapabilitySummary(Object... args) { 
-		transmitter.send(args);
+	public void shareCapabilitySummary(CapabilitySummaryNew[] csArray) { 
+		transmitter.send(csArray);
 	}
 
 }

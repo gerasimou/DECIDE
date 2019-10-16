@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import org.apache.log4j.Logger;
 
+import decide.StatusComponent;
+
 public class DatagramSocketReceiver extends ReceiverDECIDE{
 	
 	
@@ -90,8 +92,8 @@ public class DatagramSocketReceiver extends ReceiverDECIDE{
 						logger.debug("Received from:"+serverAddress+", " + message +",[Status: "+ atomicPeerStatus.get()+"]");
 					
 					// just clear configuartion map if peer is absent
-					if(atomicPeerStatus.get()==PeerStatus.MISSING) {
-						atomicPeerStatus.set(PeerStatus.NEW_JOIN);
+					if(atomicPeerStatus.get()==StatusComponent.MISSING) {
+						atomicPeerStatus.set(StatusComponent.NEW_JOIN);
 					}
 					
 					this.setTimeStamp(System.currentTimeMillis());

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
-import decide.OperationMode;
+import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluator;
@@ -51,7 +51,7 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	protected final long TIME_WINDOW;
 	
 	/** An object that reports system operation mode */
-	protected AtomicReference<OperationMode> atomicOperationReference;
+	protected AtomicReference<StatusRobot> atomicOperationReference;
 	
 	
 	/** Time stamp to record peer activity*/
@@ -75,7 +75,7 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 		this.receivedAliveMessage			= false;
 		this.TIME_WINDOW						= Long.parseLong(Utility.getProperty("TIME_WINDOW"));
 		this.receivedTimeStamp				= 0;
-		this.atomicOperationReference		= new AtomicReference<OperationMode>(OperationMode.STARTUP);
+		this.atomicOperationReference		= new AtomicReference<StatusRobot>(StatusRobot.MAJOR_LOCAL_CHANGE);
 	}
 	
 	
@@ -176,7 +176,7 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	public abstract LocalControl deepClone(Object ... args);
 	
 	
-	public AtomicReference<OperationMode> getAtomicOperationReference() {
+	public AtomicReference<StatusRobot> getAtomicOperationReference() {
 		return atomicOperationReference;
 	}
 

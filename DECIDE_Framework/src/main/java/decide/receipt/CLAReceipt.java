@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 //import ServerClient.FileReader;
 import auxiliary.Utility;
-import decide.OperationMode;
+import decide.StatusRobot;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import network.NetworkUser;
@@ -45,7 +45,7 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 	protected final long TIME_WINDOW;
 	
 	/** An object that reports system operation mode */
-	protected AtomicReference<OperationMode> atomicOperationReference;
+	protected AtomicReference<StatusRobot> atomicOperationReference;
 	
 	/** capability summaries received from peers*/
 	private CapabilitySummaryCollection capabilitySummaryCollection;
@@ -65,7 +65,7 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 		//this.timeWindowPassed				= false;
 	//	this.receivedCS						=  new CapabilitySummary();
 		this.receivedTimeStamp				= 0;
-		atomicOperationReference			= new AtomicReference<OperationMode>(OperationMode.STABLE_MODE);
+		atomicOperationReference			= new AtomicReference<StatusRobot>(StatusRobot.STABLE);
 		this.capabilitySummaryCollection	= null;
 	//	this.capabilitySummaryMap			= new LinkedHashMap<String, CapabilitySummary>();
 		
@@ -134,7 +134,7 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 	public abstract boolean executeListeningThread();
 
 	
-	public AtomicReference<OperationMode> getAtomicOperationReference() {
+	public AtomicReference<StatusRobot> getAtomicOperationReference() {
 		return atomicOperationReference;
 	}
 

@@ -1,41 +1,28 @@
 package network;
 
-import java.util.concurrent.atomic.AtomicReference;
 
-
-public abstract class ReceiverDECIDENew implements Runnable {
+public abstract class ReceiverDECIDENew extends NetworkComponent implements Runnable {
 
 	protected NetworkUser networkUser;
-		
-	protected volatile long timeStamp;
-	
+			
 	protected volatile String replyMessage = "";
 	
 	protected  int status;
+
 	
-	/** server address*/
-	protected String serverAddress;
-		
-	protected AtomicReference<PeerStatus> atomicPeerStatus;				
+	
+	public ReceiverDECIDENew (String serverAddress, int serverPort, ComponentTypeDECIDE networkType) {
+    	super(serverAddress, serverPort, networkType);
+	}
 	
 	
 	public void setNetworkUser (NetworkUser networkUser, long timeStamp){
 		this.networkUser 		= networkUser;
 		this.timeStamp			= timeStamp;
 		this.status 			= 1;
-		this.atomicPeerStatus	= new AtomicReference<PeerStatus>(PeerStatus.MISSING);
 	}
 	
 	
-	public String getServerAddress() {
-		return serverAddress;
-	}
-	
-		
-	public AtomicReference<PeerStatus> getAtomicPeerStatus() {
-		return atomicPeerStatus;
-	}
-
 	
 	public int getStatus() {
 		return status;
@@ -62,12 +49,6 @@ public abstract class ReceiverDECIDENew implements Runnable {
 	public long getTimeStamp() {
 		return timeStamp;
 	}
-
-	
-	public void setTimeStamp(long timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
 	
 	public abstract void  run();
 }

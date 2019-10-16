@@ -15,16 +15,4 @@ public class RobotCLAReceipt extends CLAReceiptNew {
 		return false;
 	}
 
-	@Override
-	public CLAReceiptNew deepClone(Object... args) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean executeListeningThread() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

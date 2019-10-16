@@ -16,5 +16,10 @@ public abstract class LocalConstraintNew extends Constraint {
 	public abstract Number evaluate(ConfigurationNew configuration);
 
 	public abstract boolean isSatisfied (ConfigurationNew configuration);
+	
+	
+	public String toString() {
+		return "{" + getType()  +", "+ getID() +", "+ getThreshold();
+	}
 
 }

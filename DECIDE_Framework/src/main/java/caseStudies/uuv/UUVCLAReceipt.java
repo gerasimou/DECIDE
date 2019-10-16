@@ -2,9 +2,9 @@ package caseStudies.uuv;
 
 import org.apache.log4j.Logger;
 
-import decide.OperationMode;
+import decide.StatusRobot;
+import decide.StatusComponent;
 import decide.receipt.CLAReceipt;
-import network.PeerStatus;
 import network.ReceiverDECIDE;
 import network.ReceiverDECIDENew;
 
@@ -70,21 +70,21 @@ public class UUVCLAReceipt extends CLAReceipt{
 				if ((receivedTimeStamp - timestamp) > (TIME_WINDOW+20000)) {
 					alivecounter--;
 					server.setTimeStamp(0);
-					server.getAtomicPeerStatus().set(PeerStatus.MISSING);	// Set its status as missing
+					server.setAtomicPeerStatus(StatusComponent.MISSING);	// Set its status as missing
 					removeCapabilitySummary(server.getServerAddress()); 	// Remove missing peer capability summary
 					change = true;
 				}
 			}
 			
-			switch(server.getAtomicPeerStatus().get()) {
+			switch(server.getAtomicPeerStatus()) {
 			    case NEW_JOIN: // its a Major change
 				    	change = true;
-				    	server.getAtomicPeerStatus().set(PeerStatus.ALIVE);
+				    	server.setAtomicPeerStatus(StatusComponent.ALIVE);
 				    	break;
 			    	
 			    case CHANGE: // its a minor change			    	
 				    	change = true;
-				    	server.getAtomicPeerStatus().set(PeerStatus.ALIVE);
+				    	server.setAtomicPeerStatus(StatusComponent.ALIVE);
 				    	break;			    	
 			    	default: break;
 			}
@@ -93,7 +93,7 @@ public class UUVCLAReceipt extends CLAReceipt{
 		// its a major change, kill the thread and reset received flag after safe time window. 
 		// Also interrupt the main thread
 			if(change) 
-				atomicOperationReference.set(OperationMode.MAJOR_CHANGE_MODE);
+				atomicOperationReference.set(StatusRobot.MAJOR_PEER_CHANGE);
 		
 			if (alivecounter ==0) {
 				receivedNewCapabilitySummary = false;

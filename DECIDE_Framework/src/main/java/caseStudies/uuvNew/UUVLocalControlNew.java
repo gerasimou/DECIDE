@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
-import decide.OperationMode;
+import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.configuration.ModeNew;
 import decide.environment.EnvironmentNew;
@@ -17,11 +17,7 @@ public class UUVLocalControlNew extends LocalControlNew {
 	/** Logging system events*/
     final Logger logger = Logger.getLogger(UUVLocalControlNew.class);
 
-    /** Local map stores received information from robot*/
-	protected Map<String, Object> receivedEnvironmentMap;
-	
-	protected boolean receivedEnvironmentMapUpdated;
-
+    
 	
 	/**
 	 * Class constructor
@@ -104,21 +100,16 @@ public class UUVLocalControlNew extends LocalControlNew {
 		   receivedEnvironmentMapUpdated = false;
 	   }
 	   else //otherwise, flag that the component is affected by a major local change.
-		   atomicOperationReference.set(OperationMode.MAJOR_LOCAL_CHANGE_MODE);
-		
+		   robotStatus.set(StatusRobot.MAJOR_LOCAL_CHANGE);	
+	}
+	
+	
+	@Override
+	public void robotIsStale() {
+		for (String robotEnvironmentKey : receivedEnvironmentMap.keySet()) {
+			receivedEnvironmentMap.put(robotEnvironmentKey, "0.0");
+		}
 	}
 
 	
-	@Override
-	public LocalControlNew deepClone(Object... args) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean executeListeningThread() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
-import decide.OperationMode;
+import decide.StatusRobot;
+import decide.StatusComponent;
 import decide.configuration.Configuration;
 import decide.configuration.ConfigurationsCollection;
 import decide.configuration.Mode;
 import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluator;
 import decide.localControl.LocalControl;
-import network.PeerStatus;
 
 
 public class UUVLocalControl extends LocalControl{
@@ -58,7 +58,7 @@ public class UUVLocalControl extends LocalControl{
 		try {
 			if (!receivedAliveMessage){
 				receivedAliveMessage = true;
-				if(this.atomicOperationReference.compareAndSet( OperationMode.OFFLINE, OperationMode.STABLE_MODE))
+				if(this.atomicOperationReference.compareAndSet( StatusRobot.OFFLINE, StatusRobot.STABLE))
 					logger.debug("ComponentOperationMode is STABLE");
 					
 				// check if thread sleeps, Why?
@@ -147,7 +147,7 @@ public class UUVLocalControl extends LocalControl{
 			}
 		}
 		else
-			this.atomicOperationReference.set(OperationMode.MAJOR_LOCAL_CHANGE_MODE);	
+			this.atomicOperationReference.set(StatusRobot.MAJOR_LOCAL_CHANGE);	
 	}
 	
 	protected void initEnvironment(){
@@ -179,9 +179,9 @@ public class UUVLocalControl extends LocalControl{
 				
 				if ((receivedTimeStamp - timestamp) > (TIME_WINDOW+60000)) {
 					receiver.setTimeStamp(0);
-					receiver.getAtomicPeerStatus().set(PeerStatus.MISSING);
+					receiver.getAtomicPeerStatus().set(StatusComponent.MISSING);
 					//server.getCapabilitySummary().concurrentConfigurationsMap.clear();
-					atomicOperationReference.set(OperationMode.OFFLINE);
+					atomicOperationReference.set(StatusRobot.OFFLINE);
 					receivedAliveMessage = false;
 					logger.debug("[UUV Offline]");
 					//loop = false;
@@ -189,9 +189,9 @@ public class UUVLocalControl extends LocalControl{
 					return true;
 				}
 			
-				if(receiver.getAtomicPeerStatus().get()==PeerStatus.NEW_JOIN) {
+				if(receiver.getAtomicPeerStatus().get()==StatusComponent.NEW_JOIN) {
 
-				    	receiver.getAtomicPeerStatus().set(PeerStatus.ALIVE);
+				    	receiver.getAtomicPeerStatus().set(StatusComponent.ALIVE);
 				    	// commented for testing
 				    	//atomicOperationReference.set(OperationMode.MAJOR_CHANGE_MODE)
 				}	

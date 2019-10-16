@@ -1,8 +1,5 @@
 package caseStudies.uuvNew;
 
-import java.util.Arrays;
-import java.util.logging.Logger;
-
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.configuration.ConfigurationNew;
 import decide.configuration.ConfigurationsCollectionNew;
@@ -19,17 +16,17 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 	 * @param qvInstance
 	 */
 	public UUVLocalCapabilityAnalysisNew(AttributeEvaluatorNew attributeEvaluator){
-		super (false);
+		super ();
 		this.setPropertyEvaluator(attributeEvaluator);
 	}
 	
 	
-	/**
-	 * Class <b>copy</b> constructor
-	 */
-	private UUVLocalCapabilityAnalysisNew (UUVLocalCapabilityAnalysisNew instance) {
-		super(true);
-	}
+//	/**
+//	 * Class <b>copy</b> constructor
+//	 */
+//	private UUVLocalCapabilityAnalysisNew (UUVLocalCapabilityAnalysisNew instance) {
+//		super(true);
+//	}
 
 
 	/**
@@ -59,17 +56,23 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 				configurationsCollection.insertCapabilitySummary(mode.getID(), cs);
 			}
 		}
+		
+	
+		//add the option for the peer to be idle
+		CapabilitySummaryNew cs			= new UUVCapabilitySummaryNew (0, 0, 0);
+		configurationsCollection.insertCapabilitySummary("0", cs);
 	}
+	
 
-	@Override
-	public LocalCapabilityAnalysisNew deepClone() {
-		return new UUVLocalCapabilityAnalysisNew(this);
-	}
+//	@Override
+//	public LocalCapabilityAnalysisNew deepClone() {
+//		return new UUVLocalCapabilityAnalysisNew(this);
+//	}
 
 	
 	@Override
-	public void shareCapabilitySummary(Object... args) {
-		transmitter.send(args);
+	public void shareCapabilitySummary(CapabilitySummaryNew[] csArray) {
+		transmitter.send(csArray);
 		
 	}
 

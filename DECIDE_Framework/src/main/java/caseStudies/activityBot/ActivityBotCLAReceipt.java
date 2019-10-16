@@ -2,10 +2,10 @@ package caseStudies.activityBot;
 
 import org.apache.log4j.Logger;
 
-import decide.OperationMode;
+import decide.StatusRobot;
+import decide.StatusComponent;
 import decide.receipt.CLAReceipt;
 import decide.receipt.CLAReceiptHandler;
-import network.PeerStatus;
 import network.ReceiverDECIDE;
 import network.ReceiverDECIDENew;
 
@@ -68,25 +68,25 @@ public class ActivityBotCLAReceipt extends CLAReceipt{
 					{
 						alivecounter--;
 						server.setTimeStamp(0);
-						server.getAtomicPeerStatus().set(PeerStatus.MISSING);
+						server.setAtomicPeerStatus(StatusComponent.MISSING);
 						// Remove missing peer capability summary
 						removeCapabilitySummary(server.getServerAddress());
 						change = true;
 					}
 				}
 				
-				switch(server.getAtomicPeerStatus().get()) {
+				switch(server.getAtomicPeerStatus()) {
 			    case NEW_JOIN:
 			    	// its a Major change
 			    	change =true;
-			    	server.getAtomicPeerStatus().set(PeerStatus.ALIVE);
+			    	server.setAtomicPeerStatus(StatusComponent.ALIVE);
 			    	break;
 			    	
 			    case CHANGE:
 			    	// its a minor change
 			    	
 			    	change = true;
-			    	server.getAtomicPeerStatus().set(PeerStatus.ALIVE);
+			    	server.setAtomicPeerStatus(StatusComponent.ALIVE);
 			    	break;
 			    	
 			    	default: break;
@@ -97,7 +97,7 @@ public class ActivityBotCLAReceipt extends CLAReceipt{
 			// its a major change, kill the thread and reset received flag after safe time window. 
 			// Also interrupt the main thread
 				if(change) 
-			    	atomicOperationReference.set(OperationMode.MAJOR_CHANGE_MODE);
+			    	atomicOperationReference.set(StatusRobot.MAJOR_PEER_CHANGE);
 
 		
 			    	

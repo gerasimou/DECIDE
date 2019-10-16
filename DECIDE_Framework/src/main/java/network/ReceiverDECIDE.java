@@ -1,6 +1,8 @@
 package network;
 
 import java.util.concurrent.atomic.AtomicReference;
+
+import decide.StatusComponent;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.localControl.LocalControl;
 import decide.receipt.CLAReceipt;
@@ -23,7 +25,7 @@ public abstract class ReceiverDECIDE implements Runnable {
 	/** server address*/
 	protected String serverAddress;
 		
-	protected AtomicReference<PeerStatus> atomicPeerStatus;				
+	protected AtomicReference<StatusComponent> atomicPeerStatus;				
 	
 	
 	public void setCLAReceipt (CLAReceipt claReceipt, CapabilitySummaryCollection capabilitySummaryCollection, long timeStamp){
@@ -31,7 +33,7 @@ public abstract class ReceiverDECIDE implements Runnable {
 		this.capabilitySummaryCollection 	= capabilitySummaryCollection;
 		this.timeStamp			= timeStamp;
 		this.status 				= 1;
-		this.atomicPeerStatus	= new AtomicReference<PeerStatus>(PeerStatus.MISSING);
+		this.atomicPeerStatus	= new AtomicReference<StatusComponent>(StatusComponent.MISSING);
 	}
 	
 	
@@ -39,7 +41,7 @@ public abstract class ReceiverDECIDE implements Runnable {
 		this.localControl 		= localControl;
 		this.timeStamp			= timeStamp;
 		this.status 				= 1;
-		this.atomicPeerStatus	= new AtomicReference<PeerStatus>(PeerStatus.MISSING);
+		this.atomicPeerStatus	= new AtomicReference<StatusComponent>(StatusComponent.MISSING);
 	}
 	
 	
@@ -53,7 +55,7 @@ public abstract class ReceiverDECIDE implements Runnable {
 //	}
 
 	
-	public AtomicReference<PeerStatus> getAtomicPeerStatus() {
+	public AtomicReference<StatusComponent> getAtomicPeerStatus() {
 		return atomicPeerStatus;
 	}
 

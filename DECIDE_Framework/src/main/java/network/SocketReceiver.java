@@ -16,6 +16,8 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import decide.StatusComponent;
+
 public class SocketReceiver extends ReceiverDECIDE{
 	
 	/** Class logger*/
@@ -106,8 +108,8 @@ public class SocketReceiver extends ReceiverDECIDE{
 		logger.info("[UUV Connected]:" + serverSocket.getLocalPort());
 		try {
 			do {
-				if(atomicPeerStatus.get()==PeerStatus.MISSING) {
-					atomicPeerStatus.set(PeerStatus.NEW_JOIN);
+				if(atomicPeerStatus.get()==StatusComponent.MISSING) {
+					atomicPeerStatus.set(StatusComponent.NEW_JOIN);
 				}
 		
 		

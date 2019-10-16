@@ -4,14 +4,14 @@ import org.apache.log4j.Logger;
 import auxiliary.Utility;
 import caseStudies.uuv.UUVEnvironment;
 import caseStudies.uuv.UUVLocalControl;
-import decide.OperationMode;
+import decide.StatusRobot;
+import decide.StatusComponent;
 import decide.configuration.Configuration;
 import decide.configuration.ConfigurationsCollection;
 import decide.configuration.Mode;
 import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluator;
 import decide.localControl.LocalControl;
-import network.PeerStatus;
 
 public class ActivityBotLocalControl extends LocalControl{
 
@@ -58,7 +58,7 @@ public class ActivityBotLocalControl extends LocalControl{
 		try {
 		if (!receivedAliveMessage){
 			receivedAliveMessage = true;
-			if(this.atomicOperationReference.compareAndSet( OperationMode.OFFLINE, OperationMode.STABLE_MODE))
+			if(this.atomicOperationReference.compareAndSet( StatusRobot.OFFLINE, StatusRobot.STABLE))
 				logger.debug("ComponentOperationMode is STABLE");
 				
 			// check if thread sleeps, Why?
@@ -160,9 +160,9 @@ public class ActivityBotLocalControl extends LocalControl{
 					{
 						
 						receiver.setTimeStamp(0);
-						receiver.getAtomicPeerStatus().set(PeerStatus.MISSING);
+						receiver.getAtomicPeerStatus().set(StatusComponent.MISSING);
 						//server.getCapabilitySummary().concurrentConfigurationsMap.clear();
-						atomicOperationReference.set(OperationMode.OFFLINE);
+						atomicOperationReference.set(StatusRobot.OFFLINE);
 						receivedAliveMessage = false;
 						logger.debug("[Robot Offline]");
 						//loop = false;
@@ -172,10 +172,10 @@ public class ActivityBotLocalControl extends LocalControl{
 					}
 				
 				
-				if(receiver.getAtomicPeerStatus().get()==PeerStatus.NEW_JOIN) {
+				if(receiver.getAtomicPeerStatus().get()==StatusComponent.NEW_JOIN) {
 
-			    	receiver.getAtomicPeerStatus().set(PeerStatus.ALIVE);
-			    	atomicOperationReference.set(OperationMode.MAJOR_CHANGE_MODE);
+			    	receiver.getAtomicPeerStatus().set(StatusComponent.ALIVE);
+			    	atomicOperationReference.set(StatusRobot.MAJOR_PEER_CHANGE);
 
 			}
 			

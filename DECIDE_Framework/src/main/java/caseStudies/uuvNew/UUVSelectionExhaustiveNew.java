@@ -113,8 +113,13 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			return true; //feasible solution has been found and my responibilities have been selected
 		}
 		
-		//otherwise, no feasible solution has been found 
-		return false;
+		else {
+			
+			KnowledgeNew.clearResponsibilities();
+				
+			//otherwise, no feasible solution has been found 
+			return false;
+		}
 	}
 	
 	
