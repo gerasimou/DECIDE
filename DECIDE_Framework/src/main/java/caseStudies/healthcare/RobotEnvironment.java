@@ -5,7 +5,7 @@ import auxiliary.Utility;
 import decide.component.requirements.DECIDEAttribute;
 import decide.configuration.ConfigurationNew;
 import decide.environment.EnvironmentNew;
-import decide.localAnalysis.LocalCapabilityAnalysis;
+import decide.localAnalysis.LocalCapabilityAnalysisNew;
 
 
 public class RobotEnvironment extends EnvironmentNew {
@@ -33,7 +33,7 @@ public class RobotEnvironment extends EnvironmentNew {
 	protected void adjustEnvironment (ConfigurationNew configuration, DECIDEAttribute attribute) {
 		double stDeviation = 0.1;
 		double p2iretryValue = (double) environmentMap.get("p2iretry");
-		double confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("1");
+		double confidenceValue = LocalCapabilityAnalysisNew.getConfidenceValue("1");
 		environmentMap.put("p2iretry", Math.max(0.1, p2iretryValue + confidenceValue * stDeviation));
 	}
 

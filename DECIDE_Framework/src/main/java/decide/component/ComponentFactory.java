@@ -8,128 +8,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import auxiliary.Utility;
-import decide.DECIDE;
 import decide.DECIDENew;
 import network.TransmitterDECIDE;
 import network.ComponentTypeDECIDE;
 import network.MulticastReceiverNew;
 import network.MulticastTransmitter;
-import network.ReceiverDECIDE;
 import network.ReceiverDECIDENew;
-import network.SocketReceiver;
 import network.SocketReceiverNew;
 
 public class ComponentFactory {
 
-	/**
-	 * Create a new component instance using multicast as the communication mechanism
-	 * @param id
-	 * @param features
-	 * @param decide
-	 * @return
-	 */
-	public static Component makeNewComponentMulticast(Class componentClass, String id, String features, DECIDE decide){
-		Utility.setup();
-
-		try {
-
-			//get all component features
-			String[] featuresList	= features.split(",");
-			
-			//transmitter to other DECIDE components
-			TransmitterDECIDE transmitter = null;
-			
-			//receiver from other DECIDE components
-			List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
-			
-			//transmitter to robot
-			TransmitterDECIDE uuvTransmitter = null;
-			
-			//Receiver from robot
-			ReceiverDECIDE uuvReceiver = null;
-	
-			for (String feature : featuresList){
-	
-				//get component's ID
-//				if (feature.contains("ID")){
-//					//get its ID
-//					componentID = feature.split(":")[1];				
-//				}
-				
-				//get component's transmitting address; mine
-				if (feature.contains("TRANSMITTING")){
-					String transmittingAddress	= feature.split(":")[1];
-					int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
-					//create a new DECIDE transmitter
-					transmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort, ComponentTypeDECIDE.PEER);
-				}
-				
-				//find the information of its peers(peerPort%10 for id)
-				if (feature.contains("RECEIVING")){
-					String peerAddress	= feature.split(":")[1];
-					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					peersList.add(new MulticastReceiverNew(peerAddress, peerPort, ComponentTypeDECIDE.PEER));
-				}			
-			}
-			
-			//clone the DECIDE instance given by the user
-//			DECIDE newDECIDE = decide.deepClone();
-			
-			//set the DECIDE transmitter and receivers through which it communicates with other DECIDE components
-			decide.setTransmitterToOtherDECIDE(transmitter);
-			decide.setReceiverFromOtherDECIDE(peersList);
-			
-			
-			// Set MOOS UUV 
-			String uuvFeatures = Utility.getProperty("UUV");
-			int uuvID = 0;
-			//get all robot features
-			String[] uuvFeaturesList	= uuvFeatures.split(",");
-			
-			for (String feature : uuvFeaturesList){
-				
-				//get robot's ID
-				if (feature.contains("ID")){
-					//get its ID
-					uuvID = Integer.parseInt(feature.split(":")[1]);				
-				}
-				
-				
-				//get component's remote transmitting address
-				if (feature.contains("TRANSMITTING")){
-					String transmittingAddress	= feature.split(":")[1];
-					int transmittingPort 		= Integer.parseInt(feature.split(":")[2]);
-					//create a new DECIDE transmitter
-					uuvTransmitter 				= new MulticastTransmitter(transmittingAddress, transmittingPort, ComponentTypeDECIDE.ROBOT);
-				}
-				
-				//find the information of remote peers
-				if (feature.contains("RECEIVING")){
-					String peerAddress	= feature.split(":")[1];
-					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					//uuvReceiver 		= new ServerDatagramSocket(peerAddress, peerPort);
-					uuvReceiver			= new SocketReceiver(peerPort);
-				}			
-			}
-			
-			//set the DECIDE remote transmitter and receiver through which DECIDE communicates with the robot/component
-			decide.setTransmitterToComponent(uuvTransmitter);
-			decide.setReceiverFromComponent(uuvReceiver);
-			
-			
-			Component comp = (Component) componentClass.newInstance();
-			comp.setID(id);
-			comp.setDECIDE(decide);
-			return comp;
-		} 
-		catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-			System.exit(-1);
-			return null;
-		}
-		
-//		return new Component(componentID, newDECIDE);
-	}
 	
 	
 	/**

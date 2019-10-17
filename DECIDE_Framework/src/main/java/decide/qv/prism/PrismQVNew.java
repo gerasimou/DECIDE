@@ -80,15 +80,6 @@ public class PrismQVNew implements QVNew {
 	@Override
 	public void close() {
 		prism.close();
-	}
-
-	
-	/**
-	 * Clone the QV handler
-	 */
-	@Override
-	public AttributeEvaluatorNew deepClone () {
-		return new PrismQVNew(this);
-	}
+	}	
 
 }

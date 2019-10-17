@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.DECIDEAttribute;
-import decide.environment.Environment;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
 

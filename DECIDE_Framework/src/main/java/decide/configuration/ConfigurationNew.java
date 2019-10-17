@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import auxiliary.Utility;
 import decide.DecideException;
-import decide.Knowledge;
 import decide.KnowledgeNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.reqNew.LocalConstraintNew;

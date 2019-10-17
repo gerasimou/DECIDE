@@ -1,18 +1,33 @@
 package _main;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 
-import caseStudies.uuv.UUV;
-import caseStudies.uuv.UUVCapabilitySummaryCollection;
-import caseStudies.uuv.UUVConfigurationsCollection;
-import caseStudies.uuv.UUVEnvironment;
-import decide.DECIDE;
-import decide.Knowledge;
-import decide.capabilitySummary.CapabilitySummaryCollection;
-import decide.component.Component;
+import auxiliary.Utility;
+import caseStudies.uuvNew.UUVCLAReceiptNew;
+import caseStudies.uuvNew.UUVCapabilitySummaryCollectionNew;
+import caseStudies.uuvNew.UUVConfigurationsCollectionNew;
+import caseStudies.uuvNew.UUVEnvironmentNew;
+import caseStudies.uuvNew.UUVLocalCapabilityAnalysisNew;
+import caseStudies.uuvNew.UUVLocalControlNew;
+import caseStudies.uuvNew.UUVNew;
+import caseStudies.uuvNew.UUVSelectionExhaustiveNew;
+import decide.DECIDENew;
+import decide.KnowledgeNew;
+import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.component.ComponentFactory;
-import decide.configuration.ConfigurationsCollection;
-import decide.environment.Environment;
+import decide.component.ComponentNew;
+import decide.configuration.ConfigurationsCollectionNew;
+import decide.environment.EnvironmentNew;
+import decide.evaluator.AttributeEvaluatorNew;
+import decide.localAnalysis.LocalCapabilityAnalysisNew;
+import decide.localControl.LocalControlNew;
+import decide.qv.prism.PrismQVNew;
+import decide.receipt.CLAReceiptNew;
+import decide.selection.SelectionNew;
+
+
 
 public class mainDECIDE {
 
@@ -36,29 +51,45 @@ public class mainDECIDE {
 		
 		logEvents("Starting DECIDE simulation");
 				
-		//create a new component given its ID and transmitting + receiving features
-		String[] componentDetails 	= ComponentFactory.getComponentDetails();
-		String 	 componentID		= componentDetails[0].split("_")[1];
-		String 	 componentFeatures	= componentDetails[1];
+		//setup configuration file, it can also be provided as an argument
+		String configurationFile = "resources" + File.separator + "uuv" +File.separator +"config.properties";
+		Utility.setConfigurationFile(configurationFile);
 		
 		//create a new robot configuration instance
-		ConfigurationsCollection configurations = new UUVConfigurationsCollection();
+		final int NUM_OF_SENSORS		= 3;
+		final double SPEED_MAX 			= 5.0;
+		final double STEP	  			= 0.2;
+		ConfigurationsCollectionNew configurationCollections = new UUVConfigurationsCollectionNew(NUM_OF_SENSORS, SPEED_MAX, STEP);
 		
 		//create a new robot environment instance
-		Environment   environment	= new UUVEnvironment();
+		EnvironmentNew   environment	= new UUVEnvironmentNew();
 
+		//create capability summary collection
+		CapabilitySummaryCollectionNew capabilitySummaryCollection = new UUVCapabilitySummaryCollectionNew();
 		
-		CapabilitySummaryCollection capabilitySumamries = new UUVCapabilitySummaryCollection();
-		
+		//create new attribute evaluator
+		AttributeEvaluatorNew attributeEvaluator = new PrismQVNew();
+
+		//create local capability analysis
+		LocalCapabilityAnalysisNew lca 	= new UUVLocalCapabilityAnalysisNew(attributeEvaluator);
+
+		//create cla receipt
+		CLAReceiptNew claReceipt		= new UUVCLAReceiptNew(capabilitySummaryCollection);
+
+		//create selection part
+		SelectionNew selection 			= new UUVSelectionExhaustiveNew();
+
+		//crate local control
+		LocalControlNew localControl 	= new UUVLocalControlNew(attributeEvaluator);
 		
 		//create a new DECIDE protocol instance
-		DECIDE decide = new DECIDE(configurations, capabilitySumamries, environment);
+		DECIDENew decide  = new DECIDENew (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
 		
 		//create a new component
-		Component aComponent = ComponentFactory.makeNewComponentMulticast(UUV.class, componentID, componentFeatures, decide);
-		
+		ComponentNew aComponent = ComponentFactory.makeNewComponentMulticastNew(UUVNew.class, configurationFile, decide);
+
 		//init knowledge
-		Knowledge.initKnowledge(aComponent);
+		KnowledgeNew.initKnowledgeNew(aComponent);
 
 		//start executing		
 		aComponent.run();		

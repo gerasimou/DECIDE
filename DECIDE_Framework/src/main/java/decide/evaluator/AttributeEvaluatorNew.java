@@ -12,8 +12,6 @@ public interface AttributeEvaluatorNew {
 	public abstract double run(String model, String property);
 
 	
-	public abstract void close();
-	
-	public abstract AttributeEvaluatorNew deepClone();
+	public abstract void close();	
 	
 }

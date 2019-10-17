@@ -6,7 +6,6 @@ import _main.mainDECIDE;
 import auxiliary.Utility;
 import decide.DECIDENew;
 import decide.DecideException;
-import decide.Knowledge;
 import decide.KnowledgeNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.component.ComponentFactory;
