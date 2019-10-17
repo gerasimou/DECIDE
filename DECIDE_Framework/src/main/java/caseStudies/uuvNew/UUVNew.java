@@ -23,7 +23,7 @@ public class UUVNew extends ComponentNew {
 	protected void setupGlobalRequirements() {
 		//Global Constraint 1
 		//R1: The n UUVs should take at least 1000 measurements of sufficient accuracy per 60 seconds of mission time, used to 1000
-		final double MIN_MEASUREMENTS = 500;
+		final double MIN_MEASUREMENTS = 1000;
 		GlobalConstraintNew constraint1 = new GlobalConstraintNew(RequirementType.GLOBAL_CONSTRAINT, "measurements", MIN_MEASUREMENTS) {
 
 			@Override

@@ -27,7 +27,7 @@ public abstract class NetworkComponent {
     	this.serverPort			= serverPort;
     	this.networkType		= networkType;
 		this.componentStatus	= new AtomicReference<StatusComponent>(StatusComponent.OFFLINE);
-		this.TIME_WINDOW		= 10000; // time window for detecting whether the network component is stale or not
+		this.TIME_WINDOW		= 15000; // time window for detecting whether the network component is stale or not
     }
     
     
