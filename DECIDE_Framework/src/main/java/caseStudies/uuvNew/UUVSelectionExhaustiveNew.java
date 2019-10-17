@@ -51,12 +51,12 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 		}
 
 		//if feasible solutions exist, select the solution that minimises/maximises a cost/utility function
-		double bestUtility 						= Double.MIN_NORMAL;
+		double bestUtility 						= Double.MAX_VALUE;
 		List<CapabilitySummaryNew> bestSolution = null;
 		
 		for (List<CapabilitySummaryNew> cs : feasibleSolutions) {
 			double utility = evaluteGlobalUtility(cs);
-			if (utility > bestUtility) {
+			if (utility < bestUtility) {
 				bestUtility = utility;
 				bestSolution = cs;
 			}

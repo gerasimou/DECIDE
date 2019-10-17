@@ -127,63 +127,63 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 	}
 	
 	
-	private void initiateCommunication(Socket server) {
-		String message;
-//		int messageHashCode = 0;
-		long timestamp		= Long.MIN_VALUE;
-		
-//		logger.info("Component connected at port " + serverSocket.getLocalPort());
-		try {
-			if(getAtomicPeerStatus()==StatusComponent.MISSING) {
-				setAtomicPeerStatus(StatusComponent.NEW_JOIN);
-			}
-	
-//			inFromClient = new BufferedReader(new InputStreamReader(server.getInputStream()));
+//	private void initiateCommunication(Socket server) {
+//		String message;
+////		int messageHashCode = 0;
+//		long timestamp		= Long.MIN_VALUE;
+//		
+////		logger.info("Component connected at port " + serverSocket.getLocalPort());
+//		try {
+//			if(getAtomicPeerStatus()==StatusComponent.MISSING) {
+//				setAtomicPeerStatus(StatusComponent.NEW_JOIN);
+//			}
 //	
-//	        writer = new PrintWriter(server.getOutputStream());
-			//new Server(server).start();
-
-			do {
-
-//		        if (this.getReplyMessage().hashCode() != messageHashCode && this.getReplyMessage() != "" ) {
-				if ( (this.getTimeStamp() != timestamp) && (this.getReplyMessage() != "") && (getStatus()==1) ) {
-//					System.out.println("Sending\t" + this.getReplyMessage() +"("+this.getTimeStamp() +","+ timestamp +")") ;
-					logger.info("[Sending to UUV: " + this.getReplyMessage() + "]");
-
-//					messageHashCode = this.getReplyMessage().hashCode();
-					timestamp = this.getTimeStamp();
-					writer.println(this.getReplyMessage());
-					writer.flush();
-				}
-        
-		        if(inFromClient.ready()) {
-		        	if((message = inFromClient.readLine()) != null) {
-		        		logger.info("Received from UUV"+ message+",[Status: " + getAtomicPeerStatus() + "]");
-					
-		        		this.setTimeStamp(System.currentTimeMillis());
-			
-		        		String serverAddress = serverSocket.getInetAddress().getHostAddress();
-		        		networkUser.receive(serverAddress, message);
-		        		setStatus(-1);
-		        	} 
-		        }// end if(inFromClient.ready())
-
-//		        Thread.sleep(15000);
-			}// end do
-			while(true);
-		}// end try
-		catch (Exception e) {
-			logger.error("Exception", e);
-			e.printStackTrace();	
-		} 
-		finally{
-			try {
-				serverSocket.close();
-			} 
-			catch (IOException e) {
-				logger.error("Exception", e);
-			}
-		}
-	}
+////			inFromClient = new BufferedReader(new InputStreamReader(server.getInputStream()));
+////	
+////	        writer = new PrintWriter(server.getOutputStream());
+//			//new Server(server).start();
+//
+//			do {
+//
+////		        if (this.getReplyMessage().hashCode() != messageHashCode && this.getReplyMessage() != "" ) {
+//				if ( (this.getTimeStamp() != timestamp) && (this.getReplyMessage() != "") && (getStatus()==1) ) {
+////					System.out.println("Sending\t" + this.getReplyMessage() +"("+this.getTimeStamp() +","+ timestamp +")") ;
+//					logger.info("[Sending to UUV: " + this.getReplyMessage() + "]");
+//
+////					messageHashCode = this.getReplyMessage().hashCode();
+//					timestamp = this.getTimeStamp();
+//					writer.println(this.getReplyMessage());
+//					writer.flush();
+//				}
+//        
+//		        if(inFromClient.ready()) {
+//		        	if((message = inFromClient.readLine()) != null) {
+//		        		logger.info("Received from UUV"+ message+",[Status: " + getAtomicPeerStatus() + "]");
+//					
+//		        		this.setTimeStamp(System.currentTimeMillis());
+//			
+//		        		String serverAddress = serverSocket.getInetAddress().getHostAddress();
+//		        		networkUser.receive(serverAddress, message);
+//		        		setStatus(-1);
+//		        	} 
+//		        }// end if(inFromClient.ready())
+//
+////		        Thread.sleep(15000);
+//			}// end do
+//			while(true);
+//		}// end try
+//		catch (Exception e) {
+//			logger.error("Exception", e);
+//			e.printStackTrace();	
+//		} 
+//		finally{
+//			try {
+//				serverSocket.close();
+//			} 
+//			catch (IOException e) {
+//				logger.error("Exception", e);
+//			}
+//		}
+//	}
 	
 }

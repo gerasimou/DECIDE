@@ -56,15 +56,20 @@ public abstract class NetworkComponent {
 	}
 
 
-	public boolean isAlive (final long TIME_NOW) {
-		if ( ( checkStatus(StatusComponent.ALIVE) || checkStatus(StatusComponent.CHANGE) ) 
-				&& (TIME_NOW - timeStamp <= TIME_WINDOW) ) {
-			return true;
+	public boolean hasMajorChange (final long TIME_NOW) {
+		//component is ALIVE/CHANGED and received a message (CLA or heartbeat) within the time window
+		if ( ( checkStatus(StatusComponent.ALIVE) || checkStatus(StatusComponent.CHANGE) ) && (TIME_NOW - timeStamp <= TIME_WINDOW) ) {
+			return false;
 		}
+		//component is already missing (so no need to to anything else)
+		else if (checkStatus(StatusComponent.MISSING)) {
+			return false;
+		}
+		//component is affected by a major change
 		else {
 			//change the status of this receiver
 			setAtomicPeerStatus(StatusComponent.MISSING);
-			return false;
+			return true;
 		}
 	}
 }

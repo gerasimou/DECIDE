@@ -9,7 +9,7 @@ public class UUVConfigurationsCollectionNew extends ConfigurationsCollectionNew 
     private final double STEP;
     
 	public UUVConfigurationsCollectionNew(int NUM_OF_SENSORS, double SPEED_MAX, double STEP) {
-	    this.NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS)); //possible sensor configurations
+	    this.NUM_OF_SENSOR_CONFIGS	= (int) (Math.pow(2,NUM_OF_SENSORS))-1; //possible sensor configurations
 	    this.SPEED_MAX				= SPEED_MAX;
 	    this.STEP					= STEP; 
 	    
@@ -23,7 +23,7 @@ public class UUVConfigurationsCollectionNew extends ConfigurationsCollectionNew 
 	protected void initModes() {
 		
 		//for all the modes
-		for (int csc=0; csc<numOfModes; csc++) {
+		for (int csc=1; csc<numOfModes; csc++) {
 			
 			//create the mode, in this case study each mode correspond to a different sensor configuration
 			UUVModeNew uuvMode = new UUVModeNew(csc+"");

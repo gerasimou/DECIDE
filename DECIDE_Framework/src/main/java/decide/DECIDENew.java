@@ -206,7 +206,7 @@ public class DECIDENew implements Cloneable, Serializable{
 				logger.info("Checking if a peer is stale " + TIME_NOW);
 				for (ReceiverDECIDENew receiver :  peerReceiversMap.keySet()) {
 					//if we haven't heard from this peer for 10s -> it has probably failed
-					if (!receiver.isAlive(TIME_NOW)) {
+					if (receiver.hasMajorChange(TIME_NOW)) {
 						logger.info("Peer " + receiver.getServerAddress() + " is stale " + receiver.getTimeStamp());
 						
 						//1) remove its capability summary for the collection 
@@ -215,15 +215,6 @@ public class DECIDENew implements Cloneable, Serializable{
 						//2) flag the problem to trigger a new CLA selection
 						claReceipt.setStatus(StatusRobot.MAJOR_PEER_CHANGE);
 					}
-				}
-				
-				//Assess Robot Health
-				if (!robotReceiver.isAlive(TIME_NOW)) {
-					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
-					
-					//1) Reset robot's environment map
-					localControl.robotIsStale();
-					
 				}
 				
 				
@@ -254,8 +245,20 @@ public class DECIDENew implements Cloneable, Serializable{
 				//If everything is OK
 				if (localControl.checkStatus(StatusRobot.STABLE)) {//&&(localControl.isReceivedNewCommand()))  // Comments were placed for testing
 					localControl.execute(configurationsCollection, environment);
-
-				}		
+				}
+				
+				
+				//Assess Robot Health
+				logger.info("Checking if robot is stale " + TIME_NOW);
+				if (robotReceiver.hasMajorChange(TIME_NOW)) {
+					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
+					
+					//1) Reset robot's environment map
+					localControl.robotIsStale();
+					
+					//2) flag the problem to trigger a new CLA selection
+					localControl.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
+				}
 			}
 		}
 		catch (Exception e){

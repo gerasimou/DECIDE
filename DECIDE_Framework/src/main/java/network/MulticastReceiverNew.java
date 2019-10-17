@@ -111,75 +111,10 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 	    	setTimeStamp(System.currentTimeMillis());
 		}
 	}
-
-	
-//	private void processReceivedData(Object[] csArray) {
-	private void processReceivedDataCLA2(Object receivedObject) {
-		int tempHashCode = 0;
-		int hashCode = 0;
-		boolean exists = true;
-
-    	// find the array hashcode to compare with previous received message
-    	hashCode = Objects.hash(receivedObject);//Arrays.hashCode(csArray);
-			
-	    	//System.out.println("Received from:"+serverAddress+"\t " + cs.toString()+"Peer Status is"+this.getAtomicPeerStatus().get());
-		if(logger.isDebugEnabled())
-			logger.debug("Received from:"+serverAddress+", " + receivedObject+",[Status: "+getAtomicPeerStatus()+"]");
-		// reset boolean flag
-		exists = false;
-		/* reset configuartion map if peer had been Missing */
-		if (getAtomicPeerStatus() == StatusComponent.MISSING) { //&& capabilitySummaryCollection.concurrentCapabilitySummaryMap.contains(serverAddress) )		
-			//capabilitySummaryCollection.concurrentCapabilitySummaryMap.remove(serverAddress);
-			tempHashCode = 0;
-		}
-		
-		//id = Knowledge.getPeerID(serverAddress);
-		if ( (networkUser instanceof CLAReceiptNew) && ( ((CLAReceiptNew)networkUser).isKnownReceiver(serverAddress)) ) {
-			if (hashCode == tempHashCode)
-				exists = true;
-		}
-	    					
-		if (!exists) {
-			tempHashCode = hashCode;
-			// if key is not there then either status has changed or a new peer has joined
-			switch (getAtomicPeerStatus()) {
-			    case ALIVE:{
-				    	// its a minor change, peer has recalculated lca phase
-				    	// alter concurrent CS map
-//				    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
-			    		setAtomicPeerStatus(StatusComponent.CHANGE);
-				    	networkUser.receive(serverAddress, receivedObject);
-				    	this.setTimeStamp(System.currentTimeMillis());
-				    	break;
-			    }
-		    	
-			    case MISSING: {
-				    	// its a minor change, new component has just joined.
-//				    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
-			    		setAtomicPeerStatus(StatusComponent.NEW_JOIN);
-				    	networkUser.receive(serverAddress, receivedObject);
-				    	this.setTimeStamp(System.currentTimeMillis());
-				    	break;
-			    }
-			    	
-		    		default:{ 
-		    			// invoke receive method to trace peer heartbeat.
-		    			networkUser.receive(serverAddress, receivedObject);
-		    			this.setTimeStamp(System.currentTimeMillis());
-		    			break;
-		    		}
-			}
-		}
-		else {
-			// update the time stamp, peer is alive 
-		 	this.setTimeStamp(System.currentTimeMillis());
-		 	// do i really need to set this to alive.
-		 	//this.getAtomicPeerStatus().set(PeerStatus.ALIVE);
-		}
-	}
 	
 	
 	private void processReceivedHeartBeat() {
+
 		logger.info("Heartbeat received from " + getServerAddress());
 
 		//update received timestamp from peer
@@ -190,6 +125,70 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 			setAtomicPeerStatus(StatusComponent.ALIVE);		
 		else if (getAtomicPeerStatus() == StatusComponent.CHANGE)
 			setAtomicPeerStatus(StatusComponent.ALIVE);		
-
 	}
+	
+	
+//	private void processReceivedDataCLA2(Object receivedObject) {
+//	int tempHashCode = 0;
+//	int hashCode = 0;
+//	boolean exists = true;
+//
+//	// find the array hashcode to compare with previous received message
+//	hashCode = Objects.hash(receivedObject);//Arrays.hashCode(csArray);
+//		
+//    	//System.out.println("Received from:"+serverAddress+"\t " + cs.toString()+"Peer Status is"+this.getAtomicPeerStatus().get());
+//	if(logger.isDebugEnabled())
+//		logger.debug("Received from:"+serverAddress+", " + receivedObject+",[Status: "+getAtomicPeerStatus()+"]");
+//	// reset boolean flag
+//	exists = false;
+//	/* reset configuartion map if peer had been Missing */
+//	if (getAtomicPeerStatus() == StatusComponent.MISSING) { //&& capabilitySummaryCollection.concurrentCapabilitySummaryMap.contains(serverAddress) )		
+//		//capabilitySummaryCollection.concurrentCapabilitySummaryMap.remove(serverAddress);
+//		tempHashCode = 0;
+//	}
+//	
+//	//id = Knowledge.getPeerID(serverAddress);
+//	if ( (networkUser instanceof CLAReceiptNew) && ( ((CLAReceiptNew)networkUser).isKnownReceiver(serverAddress)) ) {
+//		if (hashCode == tempHashCode)
+//			exists = true;
+//	}
+//    					
+//	if (!exists) {
+//		tempHashCode = hashCode;
+//		// if key is not there then either status has changed or a new peer has joined
+//		switch (getAtomicPeerStatus()) {
+//		    case ALIVE:{
+//			    	// its a minor change, peer has recalculated lca phase
+//			    	// alter concurrent CS map
+////			    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
+//		    		setAtomicPeerStatus(StatusComponent.CHANGE);
+//			    	networkUser.receive(serverAddress, receivedObject);
+//			    	this.setTimeStamp(System.currentTimeMillis());
+//			    	break;
+//		    }
+//	    	
+//		    case MISSING: {
+//			    	// its a minor change, new component has just joined.
+////			    	capabilitySummaryCollection.addCapabilitySummary(serverAddress, (CapabilitySummary[])csArray);
+//		    		setAtomicPeerStatus(StatusComponent.NEW_JOIN);
+//			    	networkUser.receive(serverAddress, receivedObject);
+//			    	this.setTimeStamp(System.currentTimeMillis());
+//			    	break;
+//		    }
+//		    	
+//	    		default:{ 
+//	    			// invoke receive method to trace peer heartbeat.
+//	    			networkUser.receive(serverAddress, receivedObject);
+//	    			this.setTimeStamp(System.currentTimeMillis());
+//	    			break;
+//	    		}
+//		}
+//	}
+//	else {
+//		// update the time stamp, peer is alive 
+//	 	this.setTimeStamp(System.currentTimeMillis());
+//	 	// do i really need to set this to alive.
+//	 	//this.getAtomicPeerStatus().set(PeerStatus.ALIVE);
+//	}
+//}
 }

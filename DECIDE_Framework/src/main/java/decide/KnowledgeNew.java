@@ -99,12 +99,20 @@ public class KnowledgeNew {
 	}
 	
 	
+	public static boolean hasNullResponsibilities() {
+		for (LocalConstraintNew responsibility : responsibilitiesList) {
+			if ((double)responsibility.getThreshold() != 0)
+				return false;
+		}
+		return true;
+	}
+	
+	
 	public static String responsibilitiesToString() {
 		StringBuilder respStr = new StringBuilder();
 		for (LocalConstraintNew responsibility : responsibilitiesList) {
 			respStr.append(responsibility.toString());
 		}
-		
 		return respStr.toString();
 	}
 

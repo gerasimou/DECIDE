@@ -1,10 +1,8 @@
 package caseStudies.uuvNew;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.log4j.Logger;
-
+import decide.KnowledgeNew;
 import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.configuration.ModeNew;
@@ -12,10 +10,13 @@ import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
 import decide.localControl.LocalControlNew;
 
+
 public class UUVLocalControlNew extends LocalControlNew {
 
 	/** Logging system events*/
     final Logger logger = Logger.getLogger(UUVLocalControlNew.class);
+    
+    final UUVConfigurationNew idleConfig = new UUVConfigurationNew(0, 0);
 
     
 	
@@ -74,17 +75,24 @@ public class UUVLocalControlNew extends LocalControlNew {
 	   configurationsCollection.analyseConfigurations(getAttributeEvaluator(), environment, false);
 
 		//TODO: Here we need to check both the satisfiability of the local constraints and the assigned responsibilities
-	   configurationsCollection.findBestPerModeforLocalControl();
-	   ModeNew mode 					= null;
-	   double bestUtility				= Double.MAX_VALUE;
 	   UUVConfigurationNew bestConfig	= null;
-	   while ( (mode = configurationsCollection.getNextMode()) != null) {
-		   UUVConfigurationNew bestConfigForMode = (UUVConfigurationNew)mode.getBestConfiguration();
-		   if (bestConfigForMode != null) {
-			   double utility = ((UUVConfigurationNew)bestConfigForMode).getUtility();
-			   if (utility < bestUtility) {
-				   bestUtility 	= utility;
-				   bestConfig	= bestConfigForMode;
+	   
+	   //If the robot DOES NOT HAVE responsibilities --> IDLE
+	   if (KnowledgeNew.hasNullResponsibilities()) {
+		   bestConfig = idleConfig; 
+	   }
+	   else {
+		   configurationsCollection.findBestPerModeforLocalControl();
+		   ModeNew mode 					= null;
+		   double bestUtility				= Double.MAX_VALUE;
+		   while ( (mode = configurationsCollection.getNextMode()) != null) {
+			   UUVConfigurationNew bestConfigForMode = (UUVConfigurationNew)mode.getBestConfiguration();
+			   if (bestConfigForMode != null) {
+				   double utility = ((UUVConfigurationNew)bestConfigForMode).getUtility();
+				   if (utility < bestUtility) {
+					   bestUtility 	= utility;
+					   bestConfig	= bestConfigForMode;
+				   }
 			   }
 		   }
 	   }
@@ -98,16 +106,20 @@ public class UUVLocalControlNew extends LocalControlNew {
 		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated);
 		   
 		   receivedEnvironmentMapUpdated = false;
+		   
+			logger.info("UUV meets its requirements and responsibilities");
 	   }
-	   else //otherwise, flag that the component is affected by a major local change.
+	   else { //otherwise, flag that the component is affected by a major local change.
 		   robotStatus.set(StatusRobot.MAJOR_LOCAL_CHANGE);	
+		   logger.info("UUV does not meet its requirements or responsibilities (MAJOR LOCAL CHANGE)");
+	   }
 	}
 	
 	
 	@Override
 	public void robotIsStale() {
 		for (String robotEnvironmentKey : receivedEnvironmentMap.keySet()) {
-			receivedEnvironmentMap.put(robotEnvironmentKey, "0.0");
+			receivedEnvironmentMap.put(robotEnvironmentKey, "0.01");
 		}
 	}
 
