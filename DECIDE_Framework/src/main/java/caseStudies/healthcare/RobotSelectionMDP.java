@@ -29,9 +29,9 @@ public class RobotSelectionMDP extends SelectionNew {
 		m_mdp_gen.shutDown();
 	}
 	
-	
-	public String encodeUtility(String robotId, int capabilityIndex, int roomType, Double value) {
-		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t"+Integer.toString(roomType)+"] true : "+Double.toString(value)+"; ");
+	// NOTE: only rooms of type 2 have associated utility for the optional task
+	public String encodeUtility(String robotId, int capabilityIndex, Double value) {
+		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t2] true : "+Double.toString(value)+"; ");
 	}
 
 	public String encodeUtilities(RobotCapabilitySummaryCollection c) {
@@ -42,14 +42,8 @@ public class RobotSelectionMDP extends SelectionNew {
 		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
 			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
 			for (int i=0; i<robotCapabilities.length;i++) {
-				Double rt1=10.0;    // TODO: This method has to change to incorporate actual utilities
-				Double rt2=10.0;
-				if (Objects.equals(entry.getKey(),"r1"))
-					rt1=20.0;
-				else
-					rt2=20.0;
-				res += encodeUtility(entry.getKey(),i+1,1,rt1)+"\n";
-				res += encodeUtility(entry.getKey(),i+1,2,rt2)+"\n";
+				Double utility = (Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
+				res += encodeUtility(entry.getKey(),i+1,utility)+"\n";
 			}
 		}
 		res +="endrewards\n";
@@ -175,7 +169,7 @@ public class RobotSelectionMDP extends SelectionNew {
 		RobotSelectionMDP sel = new RobotSelectionMDP(ppArgs,allocationModelFile, propsFile, advFile);
 		sel.execute(col);
 		
-        System.out.println(sel.getPlan().toString());
+//        System.out.println(sel.getPlan().toString());
 		System.out.println(sel.getAllocations().toString());
 		sel.shutDown();
 		
