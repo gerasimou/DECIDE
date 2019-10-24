@@ -7,6 +7,7 @@ import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
+import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
 import decide.configuration.ConfigurationNew;
@@ -17,6 +18,7 @@ public class RobotRequirements {
 	private List<GlobalConstraintNew> globalConstraints;
 	private List<LocalConstraintNew> localConstraints;
 	private List<LocalObjectiveNew> localObjectives;
+	private List<GlobalObjectiveNew> globalObjectives;
 	
 	
 	public RobotRequirements() {
@@ -28,6 +30,11 @@ public class RobotRequirements {
 
 		globalConstraints = new ArrayList<>();
 		initGlobalConstraints();
+		
+               
+                
+                globalObjectives= new ArrayList<>();
+		initGlobalObjectives();
 		
 	}
 	
@@ -88,6 +95,28 @@ public class RobotRequirements {
 		};
 	
 		globalConstraints.add(constraint1);
+	}
+	
+	private void initGlobalObjectives() {
+		GlobalObjectiveNew constraintR2 = new GlobalObjectiveNew(RequirementType.SYSTEM_OBJECTIVE, "system-utility", true) {
+			@Override
+//			R2: maximise the system utility
+			public Object evaluate(List<CapabilitySummaryNew> capabilitySummaries) {
+				return null;
+			};
+			public Object evaluate(ConfigurationNew[] configurations) {
+				double totalUtility = 0;
+				DECIDEAttribute attribute;
+				for (ConfigurationNew conf : configurations) {
+					attribute = conf.getAttributeByName("local-utility");
+					totalUtility += (double) attribute.getVerificationResult();
+				}
+				return totalUtility;
+			};
+		};
+	
+
+		globalObjectives.add(constraintR2);
 	}
 
 }

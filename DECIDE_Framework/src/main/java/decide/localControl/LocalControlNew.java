@@ -58,7 +58,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 //	private Thread serverThread;
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(LocalControlNew.class);
+    final public static Logger logger = Logger.getLogger(LocalControlNew.class);
 	
 	/** Property Evaluator handler */
 	protected AttributeEvaluatorNew attributeEvaluator;

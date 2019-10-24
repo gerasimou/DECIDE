@@ -10,6 +10,10 @@ import decide.localControl.LocalControlNew;
 
 
 public class RobotLocalControl extends LocalControlNew {
+ /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 //    /** Local map stores received information from robot*/
 //	protected Map<String, Object> receivedEnvironmentMap;
@@ -17,6 +21,7 @@ public class RobotLocalControl extends LocalControlNew {
 	
 	/**
 	 * Class constructor
+     * @param attributeEvaluator
 	 */
 	public RobotLocalControl(AttributeEvaluatorNew attributeEvaluator) {
 		super();
@@ -30,6 +35,8 @@ public class RobotLocalControl extends LocalControlNew {
 	 * Depending on how the message is provided by the robot component (e.g., as a summary, or as a stream of data)
 	 * the message should be parsed accordingly.
 	 * The data extracted should be used to update the environment map
+     * @param serverAddress
+     * @param message
 	 */
 	@Override
 	public void receive(String serverAddress, Object message) {
@@ -41,12 +48,36 @@ public class RobotLocalControl extends LocalControlNew {
 		
 		//3) update environment map
 		//e.g., receivedEnvironmentMap.put("r"+i, Double.parseDouble(receivedReadings[i-1].replaceAll("\\s+","")));
+		try {
+
+			String [] receivedReadings = ((String)message).split(",");
+			logger.info("[RobotSensorReading: "+message+"]");
+		
+			if(receivedReadings.length !=4) {
+				logger.error("Format error Robot sensor reading");
+			}
+			else {	//Update environment map based on received sensor reading.
+				//for(int i=1;i<=3;i++)
+				receivedEnvironmentMap.put("p2iretry", Double.parseDouble(receivedReadings[0].replaceAll("\\s+","")));	
+				receivedEnvironmentMap.put("speedi", Double.parseDouble(receivedReadings[1].replaceAll("\\s+","")));	
+				receivedEnvironmentMap.put("avTasks", Double.parseDouble(receivedReadings[2].replaceAll("\\s+","")));	
+				receivedEnvironmentMap.put("trapped", Double.parseDouble(receivedReadings[3].replaceAll("\\s+","")));	
+		
+                                
+                                receivedEnvironmentMapUpdated = true;
+			}
+		}
+		catch(NumberFormatException e) {
+			logger.error(e.getStackTrace(),e);
+		}			
 	}
 
 	
 	/**
 	 * Here we need to check if there is a configuration which given the new environment information
 	 * enables the robot to adapt and still satisfy its local requirements and the responsibilities assigned
+     * @param modesCollection
+     * @param environment
 	 */
 	@Override
 	public void execute(ConfigurationsCollectionNew modesCollection, EnvironmentNew environment) {

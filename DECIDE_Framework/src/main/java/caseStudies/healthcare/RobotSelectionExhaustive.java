@@ -7,10 +7,16 @@ import java.util.Map;
 import decide.KnowledgeNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.capabilitySummary.CapabilitySummaryNew;
+import decide.component.requirements.DECIDEAttribute;
+import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
+import decide.component.requirements.reqNew.LocalConstraintNew;
+import decide.configuration.ConfigurationNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.selection.SelectionNew;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class RobotSelectionExhaustive extends SelectionNew {
@@ -50,11 +56,54 @@ public class RobotSelectionExhaustive extends SelectionNew {
 		
 		//once the best solution is found, get my responsibilities
 		//TODO
+                // VVVVVVVVV VJH THIS SECTION - Is it correct?
 		if (bestSolution != null) {
-//			CapabilitySummaryNew myCS = bestSolution.get(0);
-//			myCS.
-			return true; //feasible solution has been found and my responibilities have been selected
-		}
+			StringBuilder bestSolutionStr = new StringBuilder();
+			bestSolution.forEach(bestSolutionStr::append);
+			logger.info("Best solution found: " + bestSolutionStr);
+			
+			CapabilitySummaryNew myCS = bestSolution.get(0);
+			
+			//generate measurements constraint
+			double measurements 	= (double) myCS.getCapabilitySummaryElement("measurements");
+			LocalConstraintNew lc1 	= new LocalConstraintNew (RequirementType.LOCAL_CONSTRAINT, "measurements", measurements) {
+				@Override
+				public boolean isSatisfied(ConfigurationNew configuration) {
+					DECIDEAttribute attribute = configuration.getAttributeByName("attr0");
+					return (double)attribute.getVerificationResult() >= (double)this.getThreshold();
+				}
+				
+				@Override
+				public Number evaluate(ConfigurationNew configuration) {
+					DECIDEAttribute attribute = configuration.getAttributeByName("attr0");
+					return (double)attribute.getVerificationResult();
+				}
+			}; 
+			
+			
+			//generate energy constraint
+			double energy		= (double) myCS.getCapabilitySummaryElement("energy");
+			LocalConstraintNew lc2 	= new LocalConstraintNew (RequirementType.LOCAL_CONSTRAINT, "energy", energy) {
+				@Override
+				public boolean isSatisfied(ConfigurationNew configuration) {
+					DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+					return (double)attribute.getVerificationResult() <= (double)this.getThreshold();
+				}
+				
+				@Override
+				public Number evaluate(ConfigurationNew configuration) {
+					DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+					return (double)attribute.getVerificationResult();
+				}
+			}; 
+			
+			
+			//add both constraints to the list of responsibilites in Knowledge
+			KnowledgeNew.updateResponsibility(Stream.of(lc1, lc2).collect(Collectors.toList()));
+			
+			
+			return true; //feasible solution has been found and my responibilities have been selected		
+                }
 		
 		//otherwise, no feasible solution has been found 
 		return false;

@@ -12,7 +12,9 @@ public class RobotCLAReceipt extends CLAReceiptNew {
 	@Override
 	public boolean execute(Object... args) {
 		// TODO Auto-generated method stub
-		return false;
+		//return false;
+                return this.receivedNewCapabilitySummary;
+
 	}
 
 }
