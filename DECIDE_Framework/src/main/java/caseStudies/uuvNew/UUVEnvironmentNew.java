@@ -12,7 +12,7 @@ import decide.localAnalysis.LocalCapabilityAnalysisNew;
 public class UUVEnvironmentNew extends EnvironmentNew {
 
 	public UUVEnvironmentNew() {
-		// TODO Auto-generated constructor stub
+		//Nothing to do
 	}
 
 	@Override

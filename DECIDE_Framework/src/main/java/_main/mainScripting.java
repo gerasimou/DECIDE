@@ -10,6 +10,7 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import caseStudies.uuvNew.UUVAttributesCollection;
 import caseStudies.uuvNew.UUVConfigurationNew;
 
 
@@ -123,7 +124,7 @@ public class mainScripting {
     	ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 
     	//crate object instance
-    	UUVConfigurationNew robotConfig = new UUVConfigurationNew(7, 3.5);
+    	UUVConfigurationNew robotConfig = new UUVConfigurationNew(new UUVAttributesCollection(), 7, 3.5);
 //    	robotConfig.setResults( new ArrayList<String>(Arrays.asList(new String[]{"11.2", "144"})));
     	//put the object in JS engine
     	engine.put("config", robotConfig);

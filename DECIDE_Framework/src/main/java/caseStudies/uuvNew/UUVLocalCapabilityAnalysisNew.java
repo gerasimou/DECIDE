@@ -5,8 +5,8 @@ import decide.configuration.ConfigurationNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.configuration.ModeNew;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluatorNew;
 import decide.localAnalysis.LocalCapabilityAnalysisNew;
+
 
 public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 
@@ -15,19 +15,11 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 	 * Basic constructor receiving the attribute evaluator instance 
 	 * @param qvInstance
 	 */
-	public UUVLocalCapabilityAnalysisNew(AttributeEvaluatorNew attributeEvaluator){
+	public UUVLocalCapabilityAnalysisNew(){
 		super ();
-		this.setPropertyEvaluator(attributeEvaluator);
 	}
 	
 	
-//	/**
-//	 * Class <b>copy</b> constructor
-//	 */
-//	private UUVLocalCapabilityAnalysisNew (UUVLocalCapabilityAnalysisNew instance) {
-//		super(true);
-//	}
-
 
 	/**
 	 * Execute local capability analysis following the steps below
@@ -38,7 +30,7 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 	@Override
 	public void execute(ConfigurationsCollectionNew configurationsCollection, EnvironmentNew environment) {
 		//1) Carry out DECIDE-based quantitative verification
-		configurationsCollection.analyseConfigurations(getAttributeEvaluator(), environment, true);		
+		configurationsCollection.analyseConfigurations(environment, true);		
 
 		//2) Find the best result per mode (configuration subset)
 		configurationsCollection.findBestPerMode();
@@ -49,9 +41,11 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 			ConfigurationNew bestConfig 	= mode.getBestConfiguration();
 			
 			if (bestConfig != null) {
+//				CapabilitySummaryNew cs			= new UUVCapabilitySummaryNew (Integer.parseInt(mode.getID()), 
+//																		   (double)bestConfig.getAttributeByName("attr0").getVerificationResult(),
+//																		   (double)bestConfig.getAttributeByName("attr1").getVerificationResult());
 				CapabilitySummaryNew cs			= new UUVCapabilitySummaryNew (Integer.parseInt(mode.getID()), 
-																		   (double)bestConfig.getAttributeByName("attr0").getVerificationResult(),
-																		   (double)bestConfig.getAttributeByName("attr1").getVerificationResult());
+						   								(double)bestConfig.getVerificationResult("measurements"),(double)bestConfig.getVerificationResult("energy"));
 			
 				configurationsCollection.insertCapabilitySummary(mode.getID(), cs);
 			}
@@ -64,12 +58,6 @@ public class UUVLocalCapabilityAnalysisNew extends LocalCapabilityAnalysisNew {
 	}
 	
 
-//	@Override
-//	public LocalCapabilityAnalysisNew deepClone() {
-//		return new UUVLocalCapabilityAnalysisNew(this);
-//	}
-
-	
 	@Override
 	public void shareCapabilitySummary(CapabilitySummaryNew[] csArray) {
 		transmitter.send(csArray);

@@ -1,5 +1,8 @@
 package decide.component.requirements.reqNew;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import decide.component.requirements.RequirementType;
 
 public abstract class Constraint extends RequirementNew {
@@ -9,22 +12,25 @@ public abstract class Constraint extends RequirementNew {
 	private Object threshold;
 		
 
-//	private Object value;
-//	private boolean satisfied;
+	/** List keeping track of changes in thresholds while the system is running*/
+	private List<Object> thresholdsList;
 	
 	
 	public Constraint(RequirementType reqType, String id, Object threshold) {
 		super(reqType, id);
+		thresholdsList 		= new ArrayList<Object>();
 		this.threshold 		= threshold;
-//		this.satisfied		= false;
-	}
-	
-//	public Object getValue() {
-//		return this.value;
-//	}
+		thresholdsList.add(threshold);
+	}	
 	
 	
 	public Object getThreshold() {
 		return this.threshold;
+	}
+	
+	
+	public void updateThreshold (Object newThreshold) {
+		threshold = newThreshold;
+		thresholdsList.add(newThreshold);
 	}
 }

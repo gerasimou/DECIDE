@@ -41,7 +41,4 @@ public abstract class RequirementNew {
 	public RequirementType getType(){
 		return this.requirementType;
 	}
-	
-	
-//	public abstract Object evaluate(List<DECIDEAttribute> attributesList);
 }

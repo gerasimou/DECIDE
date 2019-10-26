@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import auxiliary.Utility;
+import caseStudies.healthcare.RobotAttributeCollection;
 import caseStudies.healthcare.RobotCapabilitySummary;
 import caseStudies.healthcare.RobotCapabilitySummaryCollection;
 import caseStudies.healthcare.RobotConfigurationCollection;
@@ -41,12 +42,12 @@ public class RobotSelectionExhaustiveTest {
 		//create a new robot configuration instance
 		final double P3_FULL_MAX = 1.0;
 		final double STEP		= 0.1;
-		configurationsCollection = new RobotConfigurationCollection(P3_FULL_MAX, STEP);
+		configurationsCollection = new RobotConfigurationCollection(new RobotAttributeCollection(), P3_FULL_MAX, STEP);
 		
 		//create capability summary of me
-		configurationsCollection.insertCapabilitySummary("M0", new RobotCapabilitySummary(0, 0, 0, 0, 0));
-		configurationsCollection.insertCapabilitySummary("M1", new RobotCapabilitySummary(1.1, 1.2, 1.3, 1.4, 1.5));
-		configurationsCollection.insertCapabilitySummary("M2", new RobotCapabilitySummary(2.1, 2.2, 2.3, 2.4, 2.5));
+		configurationsCollection.insertCapabilitySummary("M0", new RobotCapabilitySummary(0, 0, 0, 0, 0));//, 0));
+		configurationsCollection.insertCapabilitySummary("M1", new RobotCapabilitySummary(1.1, 1.2, 1.3, 1.4, 1.5));//, 4));
+		configurationsCollection.insertCapabilitySummary("M2", new RobotCapabilitySummary(2.1, 2.2, 2.3, 2.4, 2.5));//, 5));
 	
 		//create capability summary collection
 		capabilitySummaryCollection = new RobotCapabilitySummaryCollection();

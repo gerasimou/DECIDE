@@ -2,8 +2,6 @@ package decide.capabilitySummary;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.EqualsAndHashCode;

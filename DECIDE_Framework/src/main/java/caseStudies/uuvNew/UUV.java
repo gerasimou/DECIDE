@@ -4,7 +4,6 @@ import java.util.List;
 
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.ComponentNew;
-import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
@@ -12,9 +11,9 @@ import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
 import decide.configuration.ConfigurationNew;
 
-public class UUVNew extends ComponentNew {
+public class UUV extends ComponentNew {
 
-	public UUVNew() {
+	public UUV() {
 		super();
 	}
 
@@ -99,14 +98,16 @@ public class UUVNew extends ComponentNew {
 		LocalConstraintNew localConst1 = new LocalConstraintNew(RequirementType.LOCAL_CONSTRAINT, "energy", MAX_ENERGY) {
 			@Override
 			public boolean isSatisfied(ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-				return (double)attribute.getVerificationResult() <= (double)this.getThreshold();
+				return (double) configuration.getVerificationResult("measurements") <= (double)this.getThreshold();
+//				DECIDEAttribute attribute = configuration. getAttributeByName("attr1");
+//				return (double)attribute.getVerificationResult() <= (double)this.getThreshold();
 			}
 
 			@Override
 			public Number evaluate (ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-				return (double)attribute.getVerificationResult();
+				return (double)configuration.getVerificationResult("energy");
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+//				return (double)attribute.getVerificationResult();
 			}
 		}; 
 		
@@ -133,9 +134,10 @@ public class UUVNew extends ComponentNew {
 		LocalObjectiveNew localObj1 = new LocalObjectiveNew(RequirementType.COMPONENT_OBJECTIVE, "local-utility", true) {
 			@Override
 			public Object evaluate(ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
 				double speed = ((UUVConfigurationNew)configuration).getSpeed();
-				return (1 * (double)attribute.getVerificationResult() + 100.0 / speed);
+				double attr1VerResult = (double)configuration.getVerificationResult("attr1");
+				return (1 * attr1VerResult + 100.0 / speed);
 			}
 		};						
 		

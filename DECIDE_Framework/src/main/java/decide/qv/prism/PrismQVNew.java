@@ -1,6 +1,7 @@
 package decide.qv.prism;
 
 import auxiliary.Utility;
+import decide.DECIDEConstants;
 import decide.evaluator.AttributeEvaluatorNew;
 import decide.evaluator.QVNew;
 
@@ -12,7 +13,7 @@ public class PrismQVNew implements QVNew {
 	/** Stochastic model & properties filenames*/
 //	protected String MODEL_FILENAME 		= Utility.getProperty("MODEL_FILE");
 //	protected String PROPERTIES_FILENAME 	= Utility.getProperty("PROPERTIES_FILE");
-	protected String RQV_OUTPUT_FILENAME	= Utility.getProperty("RQV_OUTPUT_FILE");
+	protected String PRISM_OUTPUT_FILENAME	= Utility.getProperty(DECIDEConstants.PRISM_OUTPUT_FILENAME);
 
 //	/** # of CSL properties */
 //	private int NUM_OF_PROPERTIES;	
@@ -25,7 +26,7 @@ public class PrismQVNew implements QVNew {
 		super();
 		
 		//init prism instance
-		this.prism = new PrismAPINew(RQV_OUTPUT_FILENAME);		
+		this.prism = new PrismAPINew(PRISM_OUTPUT_FILENAME);		
 	}	
 	
 	

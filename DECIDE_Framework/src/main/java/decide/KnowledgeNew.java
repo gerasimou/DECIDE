@@ -3,14 +3,13 @@ package decide;
 import java.util.ArrayList;
 import java.util.List;
 
-import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.ComponentNew;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
 import decide.component.requirements.reqNew.RequirementNew;
-import lombok.ToString;
+
 
 public class KnowledgeNew {
 		
@@ -83,7 +82,7 @@ public class KnowledgeNew {
 	}
 	
 	
-	public static void updateResponsibility (List<LocalConstraintNew> responsibilites) {
+	public static void updateResponsibilities (List<LocalConstraintNew> responsibilites) {
 		responsibilitiesList.clear();
 		responsibilitiesList.addAll(responsibilites);
 	}
@@ -108,7 +107,7 @@ public class KnowledgeNew {
 	}
 	
 	
-	public static String responsibilitiesToString() {
+	public static String getResponsibilitiesToString() {
 		StringBuilder respStr = new StringBuilder();
 		for (LocalConstraintNew responsibility : responsibilitiesList) {
 			respStr.append(responsibility.toString());

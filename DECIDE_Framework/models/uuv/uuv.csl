@@ -1,4 +1,8 @@
+//#Measurements
+//measurements, models/uuv/uuv.sm, BOTH 
 R{"measurement"}=? [ C<=100/s ]
 
 	
+//#Energy
+//energy, models/uuv/uuv.sm, BOTH
 R{"energy"}=? [ C<=100/s ]

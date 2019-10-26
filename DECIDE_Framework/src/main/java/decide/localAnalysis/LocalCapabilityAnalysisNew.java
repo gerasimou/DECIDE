@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import auxiliary.Utility;
+import decide.DECIDEConstants;
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
@@ -19,8 +20,8 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	/** Transmitter to DECIDE peers */
 	protected TransmitterDECIDE transmitter;
 	
-	/** Property Evaluator handler */
-	private AttributeEvaluatorNew attributeEvaluator;
+//	/** Property Evaluator handler */
+//	private AttributeEvaluatorNew attributeEvaluator;
 	
 	/** Confidence array*/
 	protected static Map<String, Double> confidenceMap;
@@ -80,7 +81,7 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 		confidenceMap = new HashMap<String, Double>();
 		
 		//get the confidence values specified in config.properties file.
-		double confidence = Double.parseDouble(Utility.getProperty("a-CONFIDENCE"));
+		double confidence = Double.parseDouble(Utility.getProperty(DECIDEConstants.a_CONFIDENCE));
 		
 		//and populate the confidence hashmap
 		if (confidence == 0.90){
@@ -107,22 +108,22 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	}
 
 	
-	/**
-	 * Return the QV instance
-	 * @return
-	 */
-	public AttributeEvaluatorNew getAttributeEvaluator() {
-		return attributeEvaluator;
-	}
-
-
-	/** Set this property evaluator
-	 * 
-	 * @param attributeEvaluator
-	 */
-	public void setPropertyEvaluator(AttributeEvaluatorNew attributeEvaluator) {
-		this.attributeEvaluator = attributeEvaluator;
-	}
+//	/**
+//	 * Return the QV instance
+//	 * @return
+//	 */
+//	public AttributeEvaluatorNew getAttributeEvaluator() {
+//		return attributeEvaluator;
+//	}
+//
+//
+//	/** Set this property evaluator
+//	 * 
+//	 * @param attributeEvaluator
+//	 */
+//	public void setPropertyEvaluator(AttributeEvaluatorNew attributeEvaluator) {
+//		this.attributeEvaluator = attributeEvaluator;
+//	}
 
 	
 }

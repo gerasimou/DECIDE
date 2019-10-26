@@ -1,0 +1,68 @@
+
+// Healthcare case study global allocation model template
+// ------------------------------------------------------
+// This MDP model takes as input the number of robots, capabilities per robot, 
+// and room number of every type, and can be used to
+// solve the optimization problem via MDP policy synthesis
+// Author: Javier Camara / 2019
+//---------------------------------------------------------
+
+mdp
+
+ // NROBOTS: Number of robots
+ // CAPABILITIES: Number of capabilities/robot (currently fixed)
+ // Number of room types
+
+const NROOMST1=2;
+const NROOMST2=2;
+
+const Max_cost=80;
+const Max_time=80;
+
+//-----------------------------------
+// Rooms 
+//-----------------------------------
+
+module rooms
+ time: [0..100] init 0;
+ cost: [0..100] init 0;
+  allocatedt1: [0..NROOMST1] init NROOMST1;
+  allocatedt2: [0..NROOMST2] init NROOMST2;
+
+  [r1c1t1] (allocatedt1>0) & (cost+costr1c1t1<=Max_cost) & (time+timer1c1t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr1c1t1) & (time'=time+timer1c1t1);
+  [r1c2t1] (allocatedt1>0) & (cost+costr1c2t1<=Max_cost) & (time+timer1c2t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr1c2t1) & (time'=time+timer1c2t1);
+  [r2c1t1] (allocatedt1>0) & (cost+costr2c1t1<=Max_cost) & (time+timer2c1t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr2c1t1) & (time'=time+timer2c1t1);
+  [r2c2t1] (allocatedt1>0) & (cost+costr2c2t1<=Max_cost) & (time+timer2c2t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr2c2t1) & (time'=time+timer2c2t1);
+  [r1c1t2] (allocatedt2>0) & (cost+costr1c1t2<=Max_cost) & (time+timer1c1t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr1c1t2) & (time'=time+timer1c1t2);
+  [r1c2t2] (allocatedt2>0) & (cost+costr1c2t2<=Max_cost) & (time+timer1c2t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr1c2t2) & (time'=time+timer1c2t2);
+  [r2c1t2] (allocatedt2>0) & (cost+costr2c1t2<=Max_cost) & (time+timer2c1t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr2c1t2) & (time'=time+timer2c1t2);
+  [r2c2t2] (allocatedt2>0) & (cost+costr2c2t2<=Max_cost) & (time+timer2c2t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr2c2t2) & (time'=time+timer2c2t2);
+endmodule
+
+//-----------------------------------
+// Robots 
+//-----------------------------------
+
+
+module r1
+ [r1c1t1] true -> true;
+ [r1c1t2] true -> true;
+ [r1c2t1] true -> true;
+ [r1c2t2] true -> true;
+endmodule
+
+module r2
+ [r2c1t1] true -> true;
+ [r2c1t2] true -> true;
+ [r2c2t1] true -> true;
+ [r2c2t2] true -> true;
+endmodule
+
+
+
+// Start of capability summary collection -------------- 
+const timer2c1t1=5; 	const costr2c1t1=4; 	const timer2c1t2=10; 	const costr2c1t2=11; 	const delayr2c1=5; 
+const timer2c2t1=3; 	const costr2c2t1=3; 	const timer2c2t2=11; 	const costr2c2t2=12; 	const delayr2c2=3; 
+const timer1c1t1=10; 	const costr1c1t1=10; 	const timer1c1t2=3; 	const costr1c1t2=3; 	const delayr1c1=5; 
+const timer1c2t1=11; 	const costr1c2t1=12; 	const timer1c2t2=4; 	const costr1c2t2=5; 	const delayr1c2=3; 
+// End of capability summary collection -------------- 

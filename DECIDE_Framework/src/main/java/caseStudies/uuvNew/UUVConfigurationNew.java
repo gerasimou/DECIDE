@@ -3,6 +3,7 @@ package caseStudies.uuvNew;
 import java.util.Arrays;
 import java.util.List;
 
+import decide.component.requirements.DECIDEAttributeCollection;
 import decide.configuration.ConfigurationNew;
 
 public class UUVConfigurationNew extends ConfigurationNew {
@@ -18,7 +19,9 @@ public class UUVConfigurationNew extends ConfigurationNew {
 
 	
 	
-	public UUVConfigurationNew (int CSC, double speed){
+	public UUVConfigurationNew (DECIDEAttributeCollection attributeCollection, int CSC, double speed){
+		super (attributeCollection);
+		
 		this.CSC		= CSC;
 		this.sensor1 	= CSC%2;
 		this.sensor2 	= CSC%4>1 ? 1 : 0;

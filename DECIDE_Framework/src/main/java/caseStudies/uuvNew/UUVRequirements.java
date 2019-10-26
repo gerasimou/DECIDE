@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.LocalConstraintNew;
@@ -38,14 +37,16 @@ public class UUVRequirements {
 		LocalConstraintNew localConst1 = new LocalConstraintNew(RequirementType.LOCAL_CONSTRAINT, "energy", MAX_ENERGY) {
 			@Override
 			public boolean isSatisfied(ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");
-				return (double)attribute.getVerificationResult() <= (double)this.getThreshold();
+				return (double) configuration.getVerificationResult("energy") <= (double)this.getThreshold();
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");
+//				return (double)attribute.getVerificationResult() <= (double)this.getThreshold();
 			}
 
 			@Override
 			public Number evaluate (ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");
-				return (double)attribute.getVerificationResult();
+				return (double) configuration.getVerificationResult("energy");
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");
+//				return (double)attribute.getVerificationResult();
 			}
 		}; 
 		
@@ -77,9 +78,10 @@ public class UUVRequirements {
 		LocalObjectiveNew localObj1 = new LocalObjectiveNew(RequirementType.COMPONENT_OBJECTIVE, "local-utility", true) {
 			@Override
 			public Object evaluate(ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");
 				double speed = ((UUVConfigurationNew)configuration).getSpeed();
-				return (1 * (double)attribute.getVerificationResult() + 100.0 / speed);
+				double attr2VerResult = (double) configuration.getVerificationResult("energy");
+				return (1 * attr2VerResult + 100.0 / speed);
 			}
 		};						
 		localObjectives.add(localObj1);

@@ -5,7 +5,6 @@ import decide.configuration.ConfigurationNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.configuration.ModeNew;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluatorNew;
 import decide.localAnalysis.LocalCapabilityAnalysisNew;
 
 
@@ -16,19 +15,10 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	 * Basic constructor receiving the attribute evaluator instance 
 	 * @param qvInstance
 	 */
-	public RobotLocalCapabilityAnalysis(AttributeEvaluatorNew attributeEvaluator){
+	public RobotLocalCapabilityAnalysis(){
 		super ();
-		this.setPropertyEvaluator(attributeEvaluator);
 	}
 	
-	
-//	/**
-//	 * Class <b>copy</b> constructor
-//	 */
-//	private RobotLocalCapabilityAnalysis (RobotLocalCapabilityAnalysis instance) {
-//		super(true);
-//	}
-
 	
 	/**
 	 * Execute local capability analysis following the steps below
@@ -39,7 +29,7 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	@Override
 	public void execute(ConfigurationsCollectionNew configurationsCollection, EnvironmentNew environment) {
 		//1) Carry out DECIDE-based quantitative verification
-		configurationsCollection.analyseConfigurations(getAttributeEvaluator(), environment, true);		
+		configurationsCollection.analyseConfigurations(environment, true);		
 
 //		// for debug 
 //		configurationsCollection.printAll();
@@ -51,20 +41,14 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 		ModeNew mode = null;
 		while ( (mode = configurationsCollection.getNextMode()) != null) {
 			ConfigurationNew bestConfig 	= mode.getBestConfiguration();
-			CapabilitySummaryNew cs		= new RobotCapabilitySummary((double)bestConfig.getAttributeByName("attr1").getVerificationResult(), 
-																	 (double)bestConfig.getAttributeByName("attr2").getVerificationResult(),
-																	 (double)bestConfig.getAttributeByName("attr3").getVerificationResult(),
-																	 (double)bestConfig.getAttributeByName("attr4").getVerificationResult(),
-																	 (double)bestConfig.getAttributeByName("attr5").getVerificationResult());
+			CapabilitySummaryNew cs		= new RobotCapabilitySummary((double)bestConfig.getVerificationResult("Room-Type1-Cost"),
+																		(double)bestConfig.getVerificationResult("Room-Type1-Time"),
+																		(double)bestConfig.getVerificationResult("Room-Type2-Cost"),
+																		(double)bestConfig.getVerificationResult("Room-Type2-Time"),
+																		(double)bestConfig.getVerificationResult("Travelling-Time"));
 			configurationsCollection.insertCapabilitySummary(mode.getID(), cs);
 		}
 	}
-
-	
-//	@Override
-//	public LocalCapabilityAnalysisNew deepClone () {
-//		return new RobotLocalCapabilityAnalysis(this);
-//	}
 
 	
 	@Override

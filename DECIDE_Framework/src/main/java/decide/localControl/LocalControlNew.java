@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.log4j.Logger;
 import auxiliary.Utility;
+import decide.DECIDEConstants;
 import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
@@ -60,8 +61,8 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	/** Logging system events*/
     final static Logger logger = Logger.getLogger(LocalControlNew.class);
 	
-	/** Property Evaluator handler */
-	protected AttributeEvaluatorNew attributeEvaluator;
+//	/** Property Evaluator handler */
+//	protected AttributeEvaluatorNew attributeEvaluator;
 	
     /** Local map stores received information from robot*/
 	protected Map<String, Object> receivedEnvironmentMap;
@@ -76,19 +77,19 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	 */
 	protected LocalControlNew(){
 		this.receivedAliveMessage	= false;
-		this.TIME_WINDOW			= Long.parseLong(Utility.getProperty("LOCAL_CONTROL_TIME_WINDOW"));
+		this.TIME_WINDOW			= Long.parseLong(Utility.getProperty(DECIDEConstants.LOCAL_CONTROL_TIME_WINDOW));
 		this.receivedTimeStamp		= 0;
 		this.robotStatus			= new AtomicReference<StatusRobot>(StatusRobot.MAJOR_LOCAL_CHANGE);
 	}
 
 	
-	/**
-	 * Return the QV instance
-	 * @return
-	 */
-	public AttributeEvaluatorNew getAttributeEvaluator(){
-		return this.attributeEvaluator;
-	}
+//	/**
+//	 * Return the QV instance
+//	 * @return
+//	 */
+//	public AttributeEvaluatorNew getAttributeEvaluator(){
+//		return this.attributeEvaluator;
+//	}
 	
 	
 	/**
@@ -128,9 +129,9 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 	
 
 	
-	public void setPropertyEvaluator(AttributeEvaluatorNew propertyEvaluator) {
-		this.attributeEvaluator = propertyEvaluator;
-	}
+//	public void setPropertyEvaluator(AttributeEvaluatorNew propertyEvaluator) {
+//		this.attributeEvaluator = propertyEvaluator;
+//	}
 	
 	
 	public StatusRobot getStatus() {

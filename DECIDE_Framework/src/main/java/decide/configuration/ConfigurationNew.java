@@ -6,25 +6,23 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import auxiliary.Utility;
-import decide.DecideException;
 import decide.KnowledgeNew;
 import decide.component.requirements.DECIDEAttribute;
+import decide.component.requirements.DECIDEAttributeCollection;
 import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
 
 
 public abstract class ConfigurationNew implements Serializable{
 	
-	/** List of attributes**/
-	protected Map<String, DECIDEAttribute> attributesMap;
+	/** List of attributes with the verification results for this configuration**/
+//	protected Map<String, DECIDEAttribute> attributesMap;
+	protected Map<DECIDEAttribute, Object> attributesMap;
 	
-	/**List of model template files in the config.properties file as many as the attributes 
-	 * e.g., MODELS_FILES = M1.pm,M2.pm **/
-	protected String MODELS_FILES 	= Utility.getProperty("MODELS_FILES");
-	
-	/**File with list of properties as many as the attributes**/
-	protected String PROPERTIES_FILE	= Utility.getProperty("PROPERTIES_FILE");
+	/** Auxiliary data structure that uses the names of attributes as keys for easy traversal
+	 * It eliminates the need to search for a verification for the attributes Map
+	 * Each entry in the map is in the form e.g., (Measurements, MeasurementsAttribute) */
+	private   Map<String, DECIDEAttribute> attributesStringMap;
 	
 	/** Map holding evaluation results of <b>global (system-level)</b> requirements*/
 	protected Map<String, Object> globalRequirementsResults;
@@ -37,9 +35,10 @@ public abstract class ConfigurationNew implements Serializable{
 	/** Class constructor
 	 * Create a new configuration instance
 	 */
-	public ConfigurationNew(){
-		attributesMap = new HashMap<>();
-		initAttributes();
+	public ConfigurationNew(DECIDEAttributeCollection attributeCollection){
+		attributesMap 		= new HashMap<>();
+		attributesStringMap = new HashMap<>();
+		initAttributes(attributeCollection);
 		
 		//init hashmaps
 		this.globalRequirementsResults = new LinkedHashMap<String, Object>();
@@ -51,24 +50,10 @@ public abstract class ConfigurationNew implements Serializable{
 	 * Initialise attributes by parsing the <b>model file</b> and <b>properties file</b> properties
 	 * defined in the configuration script
 	 */
-	private void initAttributes() {
-		try {
-			String[] modelsFiles = MODELS_FILES.replaceAll(" ", "").split(",");
-			
-			String[] properties = Utility.readFile(PROPERTIES_FILE).replaceAll("(?m)^[ \t]*\r?\n", "").split("\n");
-			
-			//check if we have the same number of models and properties in the configuration file
-			if (modelsFiles.length != properties.length)
-				throw new DecideException("Inconsistent number of models (" + modelsFiles.length + 
-											") and properties (" + properties.length + ")");
-			
-			//initialise attributes list
-			for (int i=0; i<modelsFiles.length; i++) {
-				attributesMap.put("attr"+i, new DECIDEAttribute(modelsFiles[i], properties[i]));
-			}
-		}
-		catch (DecideException de) {
-			de.printStackTrace();
+	private void initAttributes(DECIDEAttributeCollection attributeCollection) {
+		for (DECIDEAttribute attribute : attributeCollection.values()) {
+			attributesMap.put(attribute, null);
+			attributesStringMap.put(attribute.getAttributeName(), attribute);
 		}
 	}
 
@@ -78,16 +63,7 @@ public abstract class ConfigurationNew implements Serializable{
 	 * @return
 	 */
 	public Collection<DECIDEAttribute> getAttributes(){
-		return this.attributesMap.values();
-	}
-	
-	
-	/**
-	 * Get attribute given by the specified index
-	 * @return
-	 */
-	public DECIDEAttribute getAttributeByIndex (int attributeIndex){
-		return this.attributesMap.get("attr" + attributeIndex);
+		return this.attributesMap.keySet();
 	}
 	
 	
@@ -96,7 +72,48 @@ public abstract class ConfigurationNew implements Serializable{
 	 * @return
 	 */
 	public DECIDEAttribute getAttributeByName (String key){
-		return this.attributesMap.get(key);
+		return attributesStringMap.get(key);
+//		for (DECIDEAttribute attribute : attributesMap.keySet()) {
+//			if (attribute.getAttributeName().equals(key)) {
+//				return attribute;
+//			}
+//	}
+	}
+	
+	
+	/**
+	 * Set the verification result for the given attribute
+	 * @param result
+	 */
+	public void setVerificationResult (DECIDEAttribute attribute, Object result) {
+		attributesMap.put(attribute, result);
+	}
+	
+	
+	/**
+	 * Get verification result for the given attribute
+	 * @return
+	 */
+	public Object getVerificationResult(DECIDEAttribute attribute) {
+		return this.attributesMap.get(attribute);
+//		return this.result;
+	}
+	
+	
+	/**
+	 * Get verification result for the attribute with the given name
+	 * @return
+	 */
+	public Object getVerificationResult(String key) {
+		DECIDEAttribute attribute = attributesStringMap.get(key);
+		return attributesMap.get(attribute);
+//		for (DECIDEAttribute attribute : attributesMap.keySet()) {
+//			if (attribute.getAttributeName().equals(key)) {
+//				return attributesMap.get(attribute);
+//			}
+//		}
+//
+//		return null;
 	}
 	
 	

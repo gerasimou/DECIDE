@@ -82,7 +82,7 @@ public class ComponentFactory {
 			ReceiverDECIDENew robotReceiver = null;
 			
 			// Set Robot communication 
-			String robotFeatures = Utility.getProperty("UUV");
+			String robotFeatures = Utility.getProperty(componentClass.getSimpleName().toUpperCase());
 			int robotID = 0;
 			//get all robot features
 			String[] robotFeaturesList	= robotFeatures.split(",");

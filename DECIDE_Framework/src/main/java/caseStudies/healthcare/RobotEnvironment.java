@@ -42,7 +42,7 @@ public class RobotEnvironment extends EnvironmentNew {
 	protected void initEnvironment() {
 		environmentMap.put("p2iretry", Double.parseDouble(Utility.getProperty("p2i_retry")));
 		environmentMap.put("speedi",   Double.parseDouble(Utility.getProperty("speed_i")));
-		environmentMap.put("avTasks",  Utility.getProperty("avTasks"));
+		environmentMap.put("avTasks",  Utility.getProperty("avTasks").split(","));
 		environmentMap.put("trapped",  Boolean.parseBoolean(Utility.getProperty("trapped")));
 	}
 

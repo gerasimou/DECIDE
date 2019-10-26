@@ -83,7 +83,7 @@ public class RobotSelectionMDP extends SelectionNew {
 	
 	public String preprocessAllocationModel (String[] args, RobotCapabilitySummaryCollection c) {
 		String res = m_mdp_gen.preprocess(args);
-		res += encodeUtilities(c);
+//		res += encodeUtilities(c);
 		res += encodeCapabilities(c);
 		return res;
 	}
@@ -147,12 +147,12 @@ public class RobotSelectionMDP extends SelectionNew {
 		RobotCapabilitySummaryCollection col= new RobotCapabilitySummaryCollection();
 		
 		RobotCapabilitySummary[] r1 = new RobotCapabilitySummary[2];
-		r1[0] =  new RobotCapabilitySummary(10, 10, 3, 3, 5);
-		r1[1] =  new RobotCapabilitySummary(11, 12, 4, 5, 3);
+		r1[0] =  new RobotCapabilitySummary(10, 10, 3, 3, 5);//, 9);
+		r1[1] =  new RobotCapabilitySummary(11, 12, 4, 5, 3);//, 8);
 
 		RobotCapabilitySummary[] r2 = new RobotCapabilitySummary[2];
-		r2[0] =  new RobotCapabilitySummary(5, 4, 10, 11, 5);
-		r2[1] =  new RobotCapabilitySummary(3, 3, 11, 12, 3);
+		r2[0] =  new RobotCapabilitySummary(5, 4, 10, 11, 5);//, 98);
+		r2[1] =  new RobotCapabilitySummary(3, 3, 11, 12, 3);//, 89);
 		
 		
 		col.addCapabilitySummary("r1", r1);
@@ -161,7 +161,8 @@ public class RobotSelectionMDP extends SelectionNew {
 		
 	// Create a Robot MDP selection object to run a test
 		
-		String workPath = "/Users/javier/Desktop/haiq-bin-old/dist-bin/GlobalAlloc-v3/";
+//		String workPath = "/Users/javier/Desktop/haiq-bin-old/dist-bin/GlobalAlloc-v3/";
+		String workPath = "models/healthcare/global/";
 		String[] ppArgs = {workPath+"gallocsp.pp", "2", "2", "2"};
 		String allocationModelFile = workPath+"allocmodel.prism";
 		String propsFile = workPath+"gallocsp.props";

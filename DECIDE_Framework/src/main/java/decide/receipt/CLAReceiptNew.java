@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import auxiliary.Utility;
+import decide.DECIDEConstants;
 import decide.StatusComponent;
 import decide.StatusRobot;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
@@ -31,7 +32,6 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	
 	/** time window for waiting for new capability summaries*/
 	protected final long TIME_WINDOW;
-	protected TimeWindow timeWindow = null;
 	
 	/** An object that reports system operation mode */
 	protected AtomicReference<StatusRobot> robotStatus;
@@ -61,7 +61,7 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	protected CLAReceiptNew(CapabilitySummaryCollectionNew capabilitySummaryCollection) {
 		//init parameters
 		this.receivedNewCapabilitySummary	= false;
-		this.TIME_WINDOW					= Long.parseLong(Utility.getProperty("CLA_TIME_WINDOW"));
+		this.TIME_WINDOW					= Long.parseLong(Utility.getProperty(DECIDEConstants.CLA_TIME_WINDOW));
 //		this.receivedTimeStamp				= 0;
 		this.robotStatus					= new AtomicReference<StatusRobot>(StatusRobot.MAJOR_LOCAL_CHANGE);
 		this.capabilitySummaryCollection	= capabilitySummaryCollection;		
@@ -139,28 +139,6 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	public boolean compareAndSetStatus (StatusRobot expected, StatusRobot update) {
 		return robotStatus.compareAndSet(expected, update);
 	}
-
-	
-	class TimeWindow extends Thread{
-		protected TimeWindow(){
-			
-		}
-		
-		@Override
-		public void run(){
-			try {
-				while(!this.isInterrupted()) {	
-					Thread.sleep(TIME_WINDOW);
-				
-//					if (executeListeningThread())
-//						this.interrupt();
-				}
-			} 
-			catch (InterruptedException e) {
-				logger.error(e.getStackTrace());
-			}
-		}
-	}
 	
 	
 	public boolean isKnownReceiver (String serverAddress) {
@@ -168,3 +146,25 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	}
 		
 }
+
+//class TimeWindow extends Thread{
+//protected TimeWindow(){
+//	
+//}
+//
+//@Override
+//public void run(){
+//	try {
+//		while(!this.isInterrupted()) {	
+//			Thread.sleep(TIME_WINDOW);
+//		
+////			if (executeListeningThread())
+////				this.interrupt();
+//		}
+//	} 
+//	catch (InterruptedException e) {
+//		logger.error(e.getStackTrace());
+//	}
+//}
+//}
+

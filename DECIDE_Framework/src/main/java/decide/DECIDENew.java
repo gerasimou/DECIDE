@@ -31,8 +31,8 @@ public class DECIDENew implements Cloneable, Serializable{
 	private LocalControlNew 			localControl;
 	private SelectionNew				selection;
 	
-	/** QV handler */
-	private AttributeEvaluatorNew propertyEvaluator;
+//	/** QV handler */
+//	private AttributeEvaluatorNew propertyEvaluator;
 	
 	/** configuration */
 	private ConfigurationsCollectionNew 	configurationsCollection;
@@ -67,13 +67,13 @@ public class DECIDENew implements Cloneable, Serializable{
 	public DECIDENew(LocalCapabilityAnalysisNew lca, CLAReceiptNew claReceipt, SelectionNew selection, LocalControlNew localControl,
 			ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaries, EnvironmentNew  environment) {
 		try {
-			//if a PropertyEvaluator instance exists -> use it, otherwise instantiate a PrismQV (default) instance
-			if (lca!=null)
-				this.propertyEvaluator = lca.getAttributeEvaluator();
-			else if (localControl!=null)
-				this.propertyEvaluator = localControl.getAttributeEvaluator();
-			else
-				this.propertyEvaluator	= new PrismQVNew();
+//			//if a PropertyEvaluator instance exists -> use it, otherwise instantiate a PrismQV (default) instance
+//			if (lca!=null)
+//				this.propertyEvaluator = lca.getAttributeEvaluator();
+//			else if (localControl!=null)
+//				this.propertyEvaluator = localControl.getAttributeEvaluator();
+//			else
+//				this.propertyEvaluator	= new PrismQVNew();
 			
 			//if CLAReceipt is null -> instantiate the default handler
 			if (lca == null)
@@ -104,7 +104,7 @@ public class DECIDENew implements Cloneable, Serializable{
 			this.environment					= environment;
 			this.peerReceiversMap					= new ConcurrentHashMap<>();
 			
-			long hrTimeWindow = Long.parseLong(Utility.getProperty("HEARTBEAT_TIME_WINDOW"));
+			long hrTimeWindow = Long.parseLong(Utility.getProperty(DECIDEConstants.HEARTBEAT_TIME_WINDOW));
 			this.heartbeat = new HeartbeatDECIDE(hrTimeWindow);
 			
 		}
@@ -170,7 +170,7 @@ public class DECIDENew implements Cloneable, Serializable{
 	 * Run <b>DECIDE</b> protocol
 	 */
 	public void run(){
-		long decideLoopTimeWindow = Long.parseLong(Utility.getProperty("DECIDE_LOOP_TIME_WINDOW"));
+		long decideLoopTimeWindow = Long.parseLong(Utility.getProperty(DECIDEConstants.DECIDE_LOOP_TIME_WINDOW));
 		//boolean initialRun = true;
 		boolean solutionFound = false;
 		
@@ -232,7 +232,7 @@ public class DECIDENew implements Cloneable, Serializable{
 						localControl.setStatus(StatusRobot.IDLE);
 					}
 					else {
-						logger.info("[Component "+KnowledgeNew.getID()+ " has responsibilities]" + KnowledgeNew.getResponsibilities().toString());
+						logger.info("[Component "+KnowledgeNew.getID()+ " has responsibilities]" + KnowledgeNew.getResponsibilitiesToString());
 						if (!localControl.checkStatus(StatusRobot.OFFLINE)) {
 							localControl.setStatus(StatusRobot.STABLE);
 							logger.info("[Component "+localControl.getStatus()+" NewCommand ");

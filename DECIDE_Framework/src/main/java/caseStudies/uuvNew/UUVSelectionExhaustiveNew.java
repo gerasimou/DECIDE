@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import decide.KnowledgeNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
@@ -19,6 +18,7 @@ import decide.component.requirements.reqNew.LocalConstraintNew;
 import decide.configuration.ConfigurationNew;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.selection.SelectionNew;
+
 
 public class UUVSelectionExhaustiveNew extends SelectionNew {
 
@@ -77,15 +77,12 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			LocalConstraintNew lc1 	= new LocalConstraintNew (RequirementType.LOCAL_CONSTRAINT, "measurements", measurements) {
 				@Override
 				public boolean isSatisfied(ConfigurationNew configuration) {
-					DECIDEAttribute attribute = configuration.getAttributeByName("attr0");
-					return (double)attribute.getVerificationResult() >= (double)this.getThreshold();
+					return (double) configuration.getVerificationResult("measurements") <= (double)this.getThreshold();
 				}
 				
 				@Override
 				public Number evaluate(ConfigurationNew configuration) {
-					DECIDEAttribute attribute = configuration.getAttributeByName("attr0");
-					return (double)attribute.getVerificationResult();
-				}
+					return (double) configuration.getVerificationResult("measurements");				}
 			}; 
 			
 			
@@ -94,20 +91,18 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			LocalConstraintNew lc2 	= new LocalConstraintNew (RequirementType.LOCAL_CONSTRAINT, "energy", energy) {
 				@Override
 				public boolean isSatisfied(ConfigurationNew configuration) {
-					DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-					return (double)attribute.getVerificationResult() <= (double)this.getThreshold();
+					return (double) configuration.getVerificationResult("energy") <= (double)this.getThreshold();
 				}
 				
 				@Override
 				public Number evaluate(ConfigurationNew configuration) {
-					DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-					return (double)attribute.getVerificationResult();
+					return (double) configuration.getVerificationResult("energy");	
 				}
 			}; 
 			
 			
 			//add both constraints to the list of responsibilites in Knowledge
-			KnowledgeNew.updateResponsibility(Stream.of(lc1, lc2).collect(Collectors.toList()));
+			KnowledgeNew.updateResponsibilities(Stream.of(lc1, lc2).collect(Collectors.toList()));
 			
 			
 			return true; //feasible solution has been found and my responibilities have been selected

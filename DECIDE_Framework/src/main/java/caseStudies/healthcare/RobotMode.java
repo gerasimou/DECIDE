@@ -5,6 +5,7 @@ import java.util.Map;
 import decide.configuration.ConfigurationNew;
 import decide.configuration.ModeNew;
 
+
 public class RobotMode extends ModeNew {
 
 	/**

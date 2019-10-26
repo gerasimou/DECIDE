@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.DECIDEAttribute;
+import decide.component.requirements.DECIDEAttributeCollection;
 import decide.environment.EnvironmentNew;
 import decide.evaluator.AttributeEvaluatorNew;
 
@@ -57,33 +58,8 @@ public abstract class ConfigurationsCollectionNew {
 	}
 	
 	
-	protected abstract void initModes();
+	protected abstract void initModes(DECIDEAttributeCollection attributeCollection);
 	
-	
-	/**
-	 * Identify and select the optimal configuration based for
-	 * the local control
-	 */
-//	public abstract boolean findOptimalLocalConfiguration();
-	
-		
-//	/**
-//	 * Add new configuration to this map
-//	 * @param key
-//	 * @param value
-//	 */
-//	public void insertOptimalConfiguration(String key, ConfigurationNew value){
-//		this.optimalConfigurationMap.put(key, value);
-//	}
-
-	/**
-	 * Set optimal configuration key
-	 * @param String key
-	 */
-	public void setOptimalConfigurationKey(String optimalConfigurationKey) {
-		this.optimalConfigurationKey = optimalConfigurationKey;
-	}
-
 	
 	public CapabilitySummaryNew[] getCapabilitySummariesArray() {
 		return capabilitySummaryMapForModes.values().toArray(new CapabilitySummaryNew[capabilitySummaryMapForModes.size()]);
@@ -97,34 +73,6 @@ public abstract class ConfigurationsCollectionNew {
 	 */
 	public void insertCapabilitySummary(String key, CapabilitySummaryNew value){
 		this.capabilitySummaryMapForModes.put(key, value);
-	}
-	
-	
-//	/**
-//	 * Retrieve optimal configuration
-//	 * @return Configuration
-//	 */
-//	public ConfigurationNew getOptimalConfiguration() {
-//		return this.optimalConfigurationMap.get(optimalConfigurationKey);
-//	}
-	
-	
-//	/**
-//	 * Empty Optimal Configuration Map
-//	 */
-//	public void clearOptimalConfigurationMap()
-//	{
-//		if(!optimalConfigurationMap.isEmpty())
-//		optimalConfigurationMap.clear();
-//	}
-	
-	
-	/**
-	 * Retrieve optimal configuration key
-	 * @return String
-	 */
-	public String getOptimalConfigurationKey() {
-		return optimalConfigurationKey;
 	}
 
 	
@@ -251,76 +199,27 @@ public abstract class ConfigurationsCollectionNew {
 	}	
 	
 	
-	public void analyseConfigurations(AttributeEvaluatorNew evaluator, EnvironmentNew environment, boolean adjustEnvironment) {
+	public void analyseConfigurations(EnvironmentNew environment, boolean adjustEnvironment) {
 		ConfigurationNew 	config 			= null;
 		
 		//for all configurations
 		while ((config = getNextConfiguration()) != null){
 			for (DECIDEAttribute attribute : config.getAttributes()) {
 				//1) Construct the full model using configuration information and environment information
-				String model = attribute.getModelTemplate() + config.getModel() + environment.getModel(adjustEnvironment, config, attribute);
-				
-				//2) Run the analysis (e.g., by invoking Prism)
+				String model = attribute.getModelTemplate(config) + config.getModel() + environment.getModel(adjustEnvironment, config, attribute);
+			
+				//2) Get the evaluator for this attribute
+				AttributeEvaluatorNew evaluator = attribute.getAttributeEvaluator();
+			
+				//3) Run the analysis (e.g., by invoking Prism)
 				Object verResult = evaluator.run(model, attribute.getProperty());
 				
-				//3) Assign the verification result to this attribute
-				attribute.setVerificationResult(verResult);
+				//4) Assign the verification result to this configuration's attribute
+				config.setVerificationResult(attribute, verResult);
+//				attribute.setVerificationResult(verResult);
 			}
 		}
 	}
-
-	
-	
-
-	
-//public abstract boolean findBestforSystemReqyirements(CLAReceipt cla);
-
-
-//	public Configuration getNextOptimalConfiguration(){
-//	if (!optimalConfigIteratorsInitialised){
-//		optimalConfigIteratorsInitialised	= true;
-//		this.optimalConfigurationMapIterator = optimalConfigurationMap.entrySet().iterator();
-//	}
-//	if (optimalConfigurationMapIterator.hasNext())
-//		return optimalConfigurationMapIterator.next().getValue();
-//	else{
-//		//reset iterator  flag
-//		optimalConfigIteratorsInitialised = false;		    
-//	    return null;
-//	}
-//}
-	
-//	/**
-//	 * Set capability summary array for sharing CLA 
-//	 */
-//	@Deprecated
-//	public void setCapabilitySummaryArray() {
-//		if(!capabilitySummaryMap.isEmpty())
-//		capabilitySummariesArray = capabilitySummaryMap.values().toArray(new CapabilitySummary[capabilitySummaryMap.size()]);
-//		else
-//			capabilitySummariesArray = null;
-//	}
-//
-//	
-//	/**
-//	 * Retrieve the iterator for this map
-//	 * @return
-//	 */
-//	public Iterator<? extends Entry<String, CapabilitySummary>> getCapabilitySummaryMapIterator() {
-//		//if it is the first time or reached the end of the collection => reset the iterator
-//		if (capabilitySummaryMapIterator==null || !capabilitySummaryMapIterator.hasNext())
-//			resetCapabilitySummaryMapIterator();
-//		return capabilitySummaryMapIterator;
-//	}
-//
-//	
-//	
-//	@Deprecated
-//	public Object  getCapabilitySummary()
-//	{
-//		//return capabilitySummaryMap.values().toArray(new CapabilitySummary [capabilitySummaryMap.size()]);
-//		return capabilitySummaryMap.values().toArray();
-//	}
 }
 
 

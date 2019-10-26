@@ -1,26 +1,20 @@
 package caseStudies.healthcare;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluatorNew;
 import decide.localControl.LocalControlNew;
 
 
 public class RobotLocalControl extends LocalControlNew {
 
-//    /** Local map stores received information from robot*/
-//	protected Map<String, Object> receivedEnvironmentMap;
 
-	
 	/**
 	 * Class constructor
 	 */
-	public RobotLocalControl(AttributeEvaluatorNew attributeEvaluator) {
+	public RobotLocalControl() {
 		super();
-		this.attributeEvaluator 	= attributeEvaluator;
 		receivedEnvironmentMap	= new ConcurrentHashMap<>();
 	}
 
@@ -56,7 +50,7 @@ public class RobotLocalControl extends LocalControlNew {
 	   receivedEnvironmentMap.forEach((k, v) -> environment.updateEnvironmentElement(k, v));
 		
 		//2) Carry out analysis based on the given attribute evaluator
-		modesCollection.analyseConfigurations(getAttributeEvaluator(), environment, false);
+		modesCollection.analyseConfigurations(environment, false);
 		
 
 		//TODO: Here we need to check both the satisfiability of the local constraints and the assigned responsibilities

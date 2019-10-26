@@ -1,6 +1,8 @@
 package caseStudies.healthcare;
 
 import java.util.List;
+
+import decide.component.requirements.DECIDEAttributeCollection;
 import decide.configuration.ConfigurationNew;
 
 
@@ -14,7 +16,9 @@ public class RobotConfiguration extends ConfigurationNew {
 	/**
 	 * RobotConfiguration constructor
 	 */
-	public RobotConfiguration(double probFull) {
+	public RobotConfiguration(DECIDEAttributeCollection attributeCollection, double probFull) {
+		super (attributeCollection);
+
 		//assign probabilities for this configuration
 		this.pfull 	= probFull;	
 	}

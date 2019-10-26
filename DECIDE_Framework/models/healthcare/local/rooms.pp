@@ -8,7 +8,7 @@ ctmc
 
 // Model parameters
 
-const double t; // Time threshold constant for time-related PCTL property
+//const double t; // Time threshold constant for time-related PCTL property
 const mf =100; // Used for calculation of state values in rooms
 const GO=0; // Initial state
 const travel_time;

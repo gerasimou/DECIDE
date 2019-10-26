@@ -7,7 +7,6 @@ import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollectionNew;
 import decide.configuration.ModeNew;
 import decide.environment.EnvironmentNew;
-import decide.evaluator.AttributeEvaluatorNew;
 import decide.localControl.LocalControlNew;
 
 
@@ -16,16 +15,16 @@ public class UUVLocalControlNew extends LocalControlNew {
 	/** Logging system events*/
     final Logger logger = Logger.getLogger(UUVLocalControlNew.class);
     
-    final UUVConfigurationNew idleConfig = new UUVConfigurationNew(0, 0);
+    final UUVConfigurationNew idleConfig = new UUVConfigurationNew(new UUVAttributesCollection(), 0, 0);
 
     
 	
 	/**
 	 * Class constructor
 	 */
-	public UUVLocalControlNew(AttributeEvaluatorNew attributeEvaluator) {
+	public UUVLocalControlNew() {
 		super();
-		this.attributeEvaluator 		= attributeEvaluator;
+//		this.attributeEvaluator 		= attributeEvaluator;
 		receivedEnvironmentMap			= new ConcurrentHashMap<>();
 		receivedEnvironmentMapUpdated	= true;
 	}
@@ -72,7 +71,7 @@ public class UUVLocalControlNew extends LocalControlNew {
 	   receivedEnvironmentMap.forEach((k, v) -> environment.updateEnvironmentElement(k, v));
 
 		//2) Carry out analysis based on the given attribute evaluator
-	   configurationsCollection.analyseConfigurations(getAttributeEvaluator(), environment, false);
+	   configurationsCollection.analyseConfigurations(environment, false);
 
 		//TODO: Here we need to check both the satisfiability of the local constraints and the assigned responsibilities
 	   UUVConfigurationNew bestConfig	= null;

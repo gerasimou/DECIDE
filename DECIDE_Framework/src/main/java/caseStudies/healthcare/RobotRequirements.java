@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.LocalConstraintNew;
@@ -38,14 +37,16 @@ public class RobotRequirements {
 		LocalConstraintNew localConst1 = new LocalConstraintNew(RequirementType.LOCAL_CONSTRAINT, "time-left", TLEFT) {
 			@Override
 			public boolean isSatisfied(ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-				return (double)attribute.getVerificationResult() > (double)this.getThreshold();
+				return (double)configuration.getVerificationResult("attr1") > (double)this.getThreshold();
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+//				return (double)attribute.getVerificationResult() > (double)this.getThreshold();
 			}
 
 			@Override
 			public Number evaluate (ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-				return (double)attribute.getVerificationResult();
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+//				return (double)attribute.getVerificationResult();
+				return (double)configuration.getVerificationResult("attr1");
 			}
 		}; 
 		
@@ -58,8 +59,9 @@ public class RobotRequirements {
 		LocalObjectiveNew localObj1 = new LocalObjectiveNew(RequirementType.COMPONENT_OBJECTIVE, "local-utility", true) {
 			@Override
 			public Object evaluate(ConfigurationNew configuration) {
-				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
-				return (double) attribute.getVerificationResult();
+//				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
+//				return (double) attribute.getVerificationResult();
+				return (double)configuration.getVerificationResult("attr1");
 			}
 		};				
 	
