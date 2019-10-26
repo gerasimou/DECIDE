@@ -105,7 +105,7 @@ public abstract class ConfigurationNew implements Serializable{
 	 * @return
 	 */
 	public Object getVerificationResult(String key) {
-		DECIDEAttribute attribute = attributesStringMap.get(key);
+		DECIDEAttribute attribute = attributesStringMap.get(key.toUpperCase());
 		return attributesMap.get(attribute);
 //		for (DECIDEAttribute attribute : attributesMap.keySet()) {
 //			if (attribute.getAttributeName().equals(key)) {

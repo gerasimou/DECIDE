@@ -136,7 +136,7 @@ public class UUV extends ComponentNew {
 			public Object evaluate(ConfigurationNew configuration) {
 //				DECIDEAttribute attribute = configuration.getAttributeByName("attr1");
 				double speed = ((UUVConfigurationNew)configuration).getSpeed();
-				double attr1VerResult = (double)configuration.getVerificationResult("attr1");
+				double attr1VerResult = (double)configuration.getVerificationResult("energy");
 				return (1 * attr1VerResult + 100.0 / speed);
 			}
 		};						

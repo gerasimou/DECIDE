@@ -33,7 +33,7 @@ public class DECIDEConstants {
 
 	  public static final String LOCAL_CONTROL_TIME_WINDOW	= "LOCAL_CONTROL_TIME_WINDOW";
 	  
-	  public static final String a_CONFIDENCE = "a-CONFIDENCE";
+	  public static final String a_CONFIDENCE = "a_CONFIDENCE";
 	  
 	  public static final String HEARTBEAT_TIME_WINDOW = "HEARTBEAT_TIME_WINDOW";
 	  
