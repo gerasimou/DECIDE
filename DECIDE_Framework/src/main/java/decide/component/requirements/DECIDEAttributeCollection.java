@@ -10,9 +10,9 @@ import decide.DecideException;
 
 public abstract class DECIDEAttributeCollection extends ConcurrentHashMap<String, DECIDEAttribute>{
 
-	/**List of model template files in the config.properties file as many as the attributes 
-	 * e.g., MODELS_FILES = M1.pm,M2.pm **/
-	protected String MODELS_FILES 	= Utility.getProperty(DECIDEConstants.MODELS_FILE_KEYWORD);
+//	/**List of model template files in the config.properties file as many as the attributes 
+//	 * e.g., MODELS_FILES = M1.pm,M2.pm **/
+//	protected String MODELS_FILES 	= Utility.getProperty(DECIDEConstants.MODELS_FILE_KEYWORD);
 	
 	/**File with list of properties as many as the attributes**/
 	protected String PROPERTIES_FILE	= Utility.getProperty(DECIDEConstants.PROPERTIES_FILE_KEYWORD);
@@ -49,31 +49,36 @@ public abstract class DECIDEAttributeCollection extends ConcurrentHashMap<String
 	}
 
 	
-	/**
-	 * Initialise attributes by parsing the <b>model file</b> and <b>properties file</b> properties
-	 * defined in the configuration script
-	 */
-	private void initAttributesOLD() {
-		try {
-			String[] modelsFiles = MODELS_FILES.replaceAll(" ", "").split(",");
-			
-			String[] properties = Utility.readFile(PROPERTIES_FILE).replaceAll("(?m)^[ \t]*\r?\n", "").split("\n");
-			
-			//check if we have the same number of models and properties in the configuration file
-			if (modelsFiles.length != properties.length)
-				throw new DecideException("Inconsistent number of models (" + modelsFiles.length + 
-											") and properties (" + properties.length + ")");
-			
-			//initialise attributes list
-			for (int i=0; i<modelsFiles.length; i++) {
-				put("attr"+i, new DECIDEAttribute("attr"+i, modelsFiles[i], properties[i], DECIDEAttributeType.BOTH));
-			}
-		}
-		catch (DecideException de) {
-			de.printStackTrace();
-		}
-	}
+//	/**
+//	 * Initialise attributes by parsing the <b>model file</b> and <b>properties file</b> properties
+//	 * defined in the configuration script
+//	 */
+//	private void initAttributesOLD() {
+//		try {
+//			String[] modelsFiles = MODELS_FILES.replaceAll(" ", "").split(",");
+//			
+//			String[] properties = Utility.readFile(PROPERTIES_FILE).replaceAll("(?m)^[ \t]*\r?\n", "").split("\n");
+//			
+//			//check if we have the same number of models and properties in the configuration file
+//			if (modelsFiles.length != properties.length)
+//				throw new DecideException("Inconsistent number of models (" + modelsFiles.length + 
+//											") and properties (" + properties.length + ")");
+//			
+//			//initialise attributes list
+//			for (int i=0; i<modelsFiles.length; i++) {
+//				put("attr"+i, new DECIDEAttribute("attr"+i, modelsFiles[i], properties[i], DECIDEAttributeType.BOTH));
+//			}
+//		}
+//		catch (DecideException de) {
+//			de.printStackTrace();
+//		}
+//	}
+
 	
+	@Override
+	public DECIDEAttribute get (Object key) {
+		return super.get(key.toString().toUpperCase());
+	}
 	
 	public abstract void setEvaluatorPerAttribute();
 	

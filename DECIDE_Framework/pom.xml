@@ -184,7 +184,19 @@
 		          		</execution>		        	
 	          		</executions>
 		      </plugin>
-
+		      
+		      
+		    <!-- Testing plugin -->
+		    <plugin>
+		    	<groupId>org.apache.maven.plugins</groupId>
+		    	<artifactId>maven-surefire-plugin</artifactId>
+   	            <version>2.20</version>
+	            <configuration>
+	            	<skipTests>true</skipTests>
+	                <argLine>-Djava.library.path=${project.basedir}/repo/prism</argLine>
+	            </configuration>
+		    </plugin>
+			
   			
 			<!-- Clean plugin  -->
 			<plugin>

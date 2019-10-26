@@ -105,9 +105,10 @@ public class DECIDEAttribute {
 	 * Get the name of this attribute
 	 * @return
 	 */
-	public String getAttributeName () {
+	public String getAttributeName () { 
 		return this.name;
 	}
+	
 	
 	
 	/**
