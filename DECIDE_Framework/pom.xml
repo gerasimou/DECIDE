@@ -12,7 +12,7 @@
   
   	<!--  Properties -->
 	<properties>
-		<jdk.version>1.8</jdk.version>
+		<jdk.version>1.11</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<log4j.configuration>./resources/log4j.properties</log4j.configuration>
 	</properties>
@@ -21,6 +21,7 @@
   	<!-- Repositories -->
 	<repositories>
 		<repository>
+			<name>Local repository</name>
 	   		<id>localRepository</id>
         	<url>file://${project.basedir}/libs</url>
 	 	</repository>
@@ -49,16 +50,23 @@
 		<dependency>
 			<groupId>org.modelChecker.prism</groupId>
 			<artifactId>prism</artifactId>
-			<version>4.2.1</version>
+			<version>4.5</version>
 			<type>jar</type>
 		</dependency>
 		
-	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.18.6</version>
-		<scope>provided</scope>
-	</dependency>	
+ 		<dependency>
+			<groupId>org.modelChecker</groupId>
+			<artifactId>jas</artifactId>
+			<version>4.5</version>
+			<type>jar</type>
+		</dependency>
+				
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.6</version>
+			<scope>provided</scope>
+		</dependency>	
 		
 	</dependencies>
 	

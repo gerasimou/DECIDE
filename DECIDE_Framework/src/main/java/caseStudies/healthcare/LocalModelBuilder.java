@@ -78,8 +78,8 @@ public class LocalModelBuilder {
 	public void shutDown() {
 		try {
 			m_prism.closeDown();
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+		} catch (Exception | NoClassDefFoundError e) {
+			System.err.println("Error: " + e.getMessage());
 			System.exit(1);
 		}
 	}

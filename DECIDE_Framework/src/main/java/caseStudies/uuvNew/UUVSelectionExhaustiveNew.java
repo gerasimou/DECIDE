@@ -77,7 +77,7 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			LocalConstraintNew lc1 	= new LocalConstraintNew (RequirementType.LOCAL_CONSTRAINT, "measurements", measurements) {
 				@Override
 				public boolean isSatisfied(ConfigurationNew configuration) {
-					return (double) configuration.getVerificationResult("measurements") <= (double)this.getThreshold();
+					return (double) configuration.getVerificationResult("measurements") >= (double)this.getThreshold();
 				}
 				
 				@Override

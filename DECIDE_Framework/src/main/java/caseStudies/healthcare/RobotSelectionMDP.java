@@ -42,7 +42,7 @@ public class RobotSelectionMDP extends SelectionNew {
 		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
 			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
 			for (int i=0; i<robotCapabilities.length;i++) {
-				Double utility = (Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
+				Double utility = 1.0;//(Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
 				res += encodeUtility(entry.getKey(),i+1,utility)+"\n";
 			}
 		}
@@ -83,7 +83,7 @@ public class RobotSelectionMDP extends SelectionNew {
 	
 	public String preprocessAllocationModel (String[] args, RobotCapabilitySummaryCollection c) {
 		String res = m_mdp_gen.preprocess(args);
-//		res += encodeUtilities(c);
+		res += encodeUtilities(c);
 		res += encodeCapabilities(c);
 		return res;
 	}

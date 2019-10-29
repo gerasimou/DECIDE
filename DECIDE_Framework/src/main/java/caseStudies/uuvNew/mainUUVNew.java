@@ -27,6 +27,8 @@ public class mainUUVNew {
 		Utility.setConfigurationFile(configurationFile);
 		
 		//create the set of UUV attributes
+		
+		
 		DECIDEAttributeCollection uuvAttributes = new UUVAttributesCollection();
 		
 		//create a new robot configuration instance

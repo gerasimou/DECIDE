@@ -60,6 +60,14 @@ endmodule
 
 
 
+// Start of utility collection -------------- 
+rewards"utility"
+[r2c1t2] true : 1.0; 
+[r2c2t2] true : 1.0; 
+[r1c1t2] true : 1.0; 
+[r1c2t2] true : 1.0; 
+endrewards
+// End of utility collection -------------- 
 // Start of capability summary collection -------------- 
 const timer2c1t1=5; 	const costr2c1t1=4; 	const timer2c1t2=10; 	const costr2c1t2=11; 	const delayr2c1=5; 
 const timer2c2t1=3; 	const costr2c2t1=3; 	const timer2c2t2=11; 	const costr2c2t2=12; 	const delayr2c2=3; 

@@ -31,3 +31,12 @@ P>=0.095[F<=t "end"]
 //#Utility
 //Utility, models/healthcare/local/rooms.pp, LOCAL_CONTROL
 R{"u"}=? [ F "end" ]
+
+
+//#Utility
+//Utility-global-allocation, models/healthcare/local/rooms.pp, LOCAL_CONTROL
+R{"utility"}max=? [ C ]
+
+//Utility-global-allocation-2, models/healthcare/local/rooms.pp, LOCAL_CONTROL
+R{"utility"}max=? [ F (allocatedt1=0 & allocatedt2=0) ]
+

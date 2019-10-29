@@ -16,8 +16,7 @@ import prism.Result;
 import prism.Preprocessor;
 
 
-public class MDPAdversaryGeneration
-{
+public class MDPAdversaryGeneration {
 
 
 	public String[] getM_pp_in_args() {
@@ -71,90 +70,90 @@ public class MDPAdversaryGeneration
 	private PrismPolicyReader m_pr;
 
 		
-public MDPAdversaryGeneration(String[] ppArgs, String modelExportFile, String propertiesFile, String advExportFile) {
-	m_pp_in_args = ppArgs;
-	m_out_model_file = modelExportFile;
-	m_in_properties_file = propertiesFile;
-	m_out_adv_file = advExportFile;	
+	public MDPAdversaryGeneration(String[] ppArgs, String modelExportFile, String propertiesFile, String advExportFile) {
+		m_pp_in_args = ppArgs;
+		m_out_model_file = modelExportFile;
+		m_in_properties_file = propertiesFile;
+		m_out_adv_file = advExportFile;	
+		
+		try {
+			// Create a log for PRISM output (hidden or stdout)
+			PrismLog mainLog = new PrismDevNullLog();
+			//PrismLog mainLog = new PrismFileLog("stdout");
 	
-	try {
-		// Create a log for PRISM output (hidden or stdout)
-		PrismLog mainLog = new PrismDevNullLog();
-		//PrismLog mainLog = new PrismFileLog("stdout");
-
-		// Init Prism 
-		m_prism = new Prism(mainLog);
-		m_prism.initialise();
-	} catch (PrismException e) {
-		System.out.println("Error: " + e.getMessage());
-		System.exit(1);
-	}
-	
-	m_pr = new PrismPolicyReader(m_out_adv_file);
-}
-
-
-public void shutDown() {
-	try {
-		m_prism.closeDown();
-	} catch (Exception e) {
-		System.out.println("Error: " + e.getMessage());
-		System.exit(1);
-	}
-}
-
-public String preprocess(String[] args) {
-	try {
-		Preprocessor pp = new Preprocessor(m_prism, new File(args[0]));
-		pp.setParameters(args);
-		String s = pp.preprocess();
-		if (s == null) {
-			System.out.println("Error: No preprocessing information.");
-		} else {
-//			System.out.print(s);
-			return s;
+			// Init Prism 
+			m_prism = new Prism(mainLog);
+			m_prism.initialise();
+		} catch (PrismException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		}
-	} catch (PrismException e) {
-		System.err.println("Error: " + e.getMessage());
-		return e.getMessage();
+		
+		m_pr = new PrismPolicyReader(m_out_adv_file);
 	}
-	return "";
-}
-
-public void run()
-{
-	try {
-			
-		// Parse and load a PRISM model from a file
-		ModulesFile modulesFile = m_prism.parseModelFile(new File(m_out_model_file));
-		m_prism.loadPRISMModel(modulesFile);
-		// Parse and load a properties model for the model
-		PropertiesFile propertiesFile = m_prism.parsePropertiesFile(modulesFile, new File(m_in_properties_file));
-
-		// Configure PRISM to export an optimal adversary to a file when model checking an MDP 
-		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "MDP");
-		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, m_out_adv_file);
-		
-		// Model check the first property from the file
-//		System.out.println(propertiesFile.getPropertyObject(1));
-		
-		Result result = m_prism.modelCheck(propertiesFile, propertiesFile.getPropertyObject(1));
-//		System.out.println(result.getResult());
-
-        m_pr.readPolicy();  
+	
+	
+	public void shutDown() {
+		try {
+			m_prism.closeDown();
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+	}
+	
+	public String preprocess(String[] args) {
+		try {
+			Preprocessor pp = new Preprocessor(m_prism, new File(args[0]));
+			pp.setParameters(args);
+			String s = pp.preprocess();
+			if (s == null) {
+				System.out.println("Error: No preprocessing information.");
+			} else {
+	//			System.out.print(s);
+				return s;
+			}
+		} catch (PrismException e) {
+			System.err.println("Error: " + e.getMessage());
+			return e.getMessage();
+		}
+		return "";
+	}
+	
+	
+	public void run() {
+		try {
 				
-	} catch (FileNotFoundException e) {
-		System.out.println("Error: " + e.getMessage());
-		System.exit(1);
-	} catch (PrismException e) {
-		System.out.println("Error: " + e.getMessage());
-		System.exit(1);
+			// Parse and load a PRISM model from a file
+			ModulesFile modulesFile = m_prism.parseModelFile(new File(m_out_model_file));
+			m_prism.loadPRISMModel(modulesFile);
+			// Parse and load a properties model for the model
+			PropertiesFile propertiesFile = m_prism.parsePropertiesFile(modulesFile, new File(m_in_properties_file));
+	
+			// Configure PRISM to export an optimal adversary to a file when model checking an MDP 
+			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "DTMC");
+			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, m_out_adv_file);
+			
+			// Model check the first property from the file
+	//		System.out.println(propertiesFile.getPropertyObject(1));
+			
+			Result result = m_prism.modelCheck(propertiesFile, propertiesFile.getPropertyObject(1));
+	//		System.out.println(result.getResult());
+	
+	        m_pr.readPolicy();  
+					
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		} catch (PrismException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
 	}
-}
-
-public ArrayList<String> getPlan(){
-	return m_pr.getPlan();
-}
+	
+	public ArrayList<String> getPlan(){
+		return m_pr.getPlan();
+	}
 
 
 }

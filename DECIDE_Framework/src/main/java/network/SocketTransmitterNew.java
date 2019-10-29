@@ -88,7 +88,7 @@ public class SocketTransmitterNew extends TransmitterDECIDE implements Runnable,
 	//				}
 					
 						System.out.println("Received:\t" + line);
-						Thread.sleep(15000);
+						Thread.sleep(100);
 						
 						double r1 = rand.nextInt(500)/100.0;
 						double r2 = rand.nextInt(400)/100.0;
