@@ -70,11 +70,11 @@ function initAndRun() {
 	cd ${COMP_DIR}; 
 
 	if [[ "$OSTYPE" == "linux-gnu" ]]; then
-		export LD_LIBRARY_PATH=repo/prism:$LD_LIBRARY_PATH
+		export LD_LIBRARY_PATH=repo/prism-4.5:$LD_LIBRARY_PATH
 		echo $LD_LIBRARY_PATH
 		PRISM_JAVA="$JAVA_HOME"/bin/java
 	elif [[ "$OSTYPE" == "darwin"* ]]; then
-		export DYLD_LIBRARY_PATH=repo/prism:$DYLD_LIBRARY_PATH
+		export DYLD_LIBRARY_PATH=repo/prism-4.5:$DYLD_LIBRARY_PATH
 		echo $DYLD_LIBRARY_PATH
 		PRISM_JAVA=`/usr/libexec/java_home`"/bin/java" 
 	else 
