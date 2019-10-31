@@ -47,20 +47,23 @@ public class RobotAttributeCollection extends DECIDEAttributeCollection {
 		get("Servicing-Time").setAttributeEvaluator(binaryEvaluator);
 
 		//Assign evaluator for property travelling travel, ui = pmc(Mi, Rutility[F end]) - Normal Prism
-		get("Utility").setAttributeEvaluator(binaryEvaluator);
+		get("Utility").setAttributeEvaluator(prismEvaluator);
 	}
 	
 	
 	public void changeTemplate() {
-		DECIDEAttribute attr = get("Servicing-Time");
-//		attr.
+		DECIDEAttribute servTimeAttr = get("Servicing-Time");
+		
+		DECIDEAttribute servTimeAttrV2 = new ServiceTimeRobotAttribute(servTimeAttr.getAttributeName(), servTimeAttr.getModelFileName(), servTimeAttr.getProperty(), servTimeAttr.getAttributeType());
+		put("Servicing-Time", servTimeAttrV2);
 	}
 
 }
 
-class RobotAttribute extends DECIDEAttribute {
+
+class ServiceTimeRobotAttribute extends DECIDEAttribute {
 	
-	public RobotAttribute(String attributeName, String modelFilename, String property, DECIDEAttributeType attributeType) {
+	public ServiceTimeRobotAttribute(String attributeName, String modelFilename, String property, DECIDEAttributeType attributeType) {
 		super(attributeName, modelFilename, property, attributeType);
 	}
 	

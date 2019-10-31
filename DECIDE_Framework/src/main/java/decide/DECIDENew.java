@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import auxiliary.Utility;
 import caseStudies.uuvNew.UUVLocalControlNew;
@@ -44,7 +45,7 @@ public class DECIDENew implements Cloneable, Serializable{
 	private EnvironmentNew					environment;
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(DECIDENew.class);
+    final static Logger logger = LogManager.getLogger(DECIDENew.class);
 	
     /** Keeping track of peers status*/
     private Map<ReceiverDECIDENew, Long> peerReceiversMap;
@@ -194,6 +195,9 @@ public class DECIDENew implements Cloneable, Serializable{
 					//share local capability analysis results with peers
 					logger.info("Sending to peers " + Arrays.toString(configurationsCollection.getCapabilitySummariesArray())+"]");
 					lca.shareCapabilitySummary(configurationsCollection.getCapabilitySummariesArray());
+					
+					//add my capability summary to the CS collection (no need to do it anymore in the selection class)
+					capabilitySummaryCollection.put(lca.getTransmitterToOtherDECIDE().getServerAddress(), configurationsCollection.getCapabilitySummariesArray());
 						
 					//wait for some time for new CLAs from peers
 					Thread.sleep(2000);	
@@ -298,7 +302,7 @@ public class DECIDENew implements Cloneable, Serializable{
 	 */
 	public void setTransmitterToOtherDECIDE(TransmitterDECIDE client){
 		lca.setTransmitterToOtherDECIDE(client);
-		
+//		
 		//start the heartbeat
 		heartbeat.setHeartbeatTransmitterToOtherDECIDE(client);
 		Thread t = new Thread(heartbeat, "Heartbeat");

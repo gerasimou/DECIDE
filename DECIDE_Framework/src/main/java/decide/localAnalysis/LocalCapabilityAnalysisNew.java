@@ -3,9 +3,8 @@ package decide.localAnalysis;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import auxiliary.Utility;
 import decide.DECIDEConstants;
 import decide.capabilitySummary.CapabilitySummaryNew;
@@ -27,7 +26,7 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	protected static Map<String, Double> confidenceMap;
 	
 	/** Logging system events*/
-    final protected Logger logger = Logger.getLogger(this.getClass());
+    final protected Logger logger = LogManager.getLogger(this.getClass());
 	
 	
 	
@@ -52,6 +51,10 @@ public abstract class LocalCapabilityAnalysisNew implements Serializable{
 	 */
 	public void setTransmitterToOtherDECIDE(TransmitterDECIDE client){
 		this.transmitter = client;
+	}
+	
+	public TransmitterDECIDE getTransmitterToOtherDECIDE(){
+		return this.transmitter; 
 	}
 
 	

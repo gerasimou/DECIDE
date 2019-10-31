@@ -8,13 +8,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.apache.log4j.Logger;
 
 public class ClientSocketDECIDE implements Runnable, Serializable {
 
 	/** Class logger*/
-	private final static Logger logger = Logger.getLogger(ClientSocketDECIDE.class);
+	private final static Logger logger = LogManager.getLogger(ClientSocketDECIDE.class);
 	
 	/** client socket*/
 	private Socket socket;

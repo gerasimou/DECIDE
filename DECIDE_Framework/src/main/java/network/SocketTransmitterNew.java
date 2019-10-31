@@ -9,15 +9,16 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.Random;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.apache.log4j.Logger;
 
 import decide.StatusComponent;
 
 public class SocketTransmitterNew extends TransmitterDECIDE implements Runnable, Serializable {
 
 	/** Class logger*/
-	private final static Logger logger = Logger.getLogger(SocketTransmitterNew.class);
+	private final static Logger logger = LogManager.getLogger(SocketTransmitterNew.class);
 	
 	/** client socket*/
 	private Socket socket;

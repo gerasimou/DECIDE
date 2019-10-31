@@ -6,9 +6,8 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.util.Objects;
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import decide.StatusComponent;
 import decide.receipt.CLAReceiptNew;
 
@@ -25,7 +24,7 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(MulticastReceiverNew.class);
+    final static Logger logger = LogManager.getLogger(MulticastReceiverNew.class);
     
 	
     /** Heartbeat string*/

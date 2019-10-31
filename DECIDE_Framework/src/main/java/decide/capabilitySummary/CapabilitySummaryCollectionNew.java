@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Capability summary class
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
 public abstract class CapabilitySummaryCollectionNew extends ConcurrentHashMap<String, CapabilitySummaryNew[]> implements Serializable{
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(CapabilitySummaryCollectionNew.class);
+    final static Logger logger = LogManager.getLogger(CapabilitySummaryCollectionNew.class);
 
 
     

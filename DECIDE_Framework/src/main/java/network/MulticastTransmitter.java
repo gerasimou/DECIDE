@@ -6,8 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import decide.StatusComponent;
 
 
@@ -20,7 +20,7 @@ public class MulticastTransmitter extends TransmitterDECIDE{
 	private InetAddress address;
 		
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(MulticastTransmitter.class);
+    final static Logger logger = LogManager.getLogger(MulticastTransmitter.class);
 	
     
     

@@ -8,10 +8,15 @@ import decide.selection.mdp.MDPAdversaryGeneration;
 import decide.selection.mdp.TextFileHandler;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+
+import caseStudies.uuvNew.UUVCapabilitySummaryCollectionNew;
 
 
 
@@ -125,7 +130,28 @@ public class RobotSelectionMDP extends SelectionNew {
 //	@Override
 	public boolean execute(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaryCollection) {
 		// TODO: This method is here just to avoid compilation errors, for the time being
-		return false;
+		
+		
+		//Generate 
+		List<String> keysList = new ArrayList<>();
+		Set<String> keys = capabilitySummaryCollection.keySet();
+		for (String key : keys) {
+			keysList.add(key); 
+		}
+		keysList.sort(Comparator.comparing( String::toString ));
+		
+
+		CapabilitySummaryCollectionNew capabilitySummaryCollectionOrdered = new RobotCapabilitySummaryCollection();
+		Map<String, Integer> robotIDIPMap = new HashMap<>();
+		int robotID = 1;
+		for (String key : keys) {
+			robotIDIPMap.put(key, robotID);
+			capabilitySummaryCollectionOrdered.put ("r"+robotID, capabilitySummaryCollection.get(key));
+			robotID++;
+		}
+		
+		
+		return execute(capabilitySummaryCollectionOrdered);
 	}
 	
 	public boolean execute(CapabilitySummaryCollectionNew capabilitySummaryCollection) {
@@ -163,11 +189,11 @@ public class RobotSelectionMDP extends SelectionNew {
 		
 //		String workPath = "/Users/javier/Desktop/haiq-bin-old/dist-bin/GlobalAlloc-v3/";
 		String workPath = "models/healthcare/global/";
-		String[] ppArgs = {workPath+"gallocsp.pp", "2", "2", "2"};
+		String[] ppArgs = {workPath+"gallocsp.pp", "2", "2", "2"}; //#robots, #capabilities (p3_full discretisation), #room types
 		String allocationModelFile = workPath+"allocmodel.prism";
 		String propsFile = workPath+"gallocsp.props";
 		String advFile = workPath+"adv.tra";
-		RobotSelectionMDP sel = new RobotSelectionMDP(ppArgs,allocationModelFile, propsFile, advFile);
+		RobotSelectionMDP sel = new RobotSelectionMDP(ppArgs, allocationModelFile, propsFile, advFile);
 		sel.execute(col);
 		
 //        System.out.println(sel.getPlan().toString());

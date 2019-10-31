@@ -1,7 +1,8 @@
 package caseStudies.uuvNew;
 
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import decide.KnowledgeNew;
 import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollectionNew;
@@ -13,7 +14,7 @@ import decide.localControl.LocalControlNew;
 public class UUVLocalControlNew extends LocalControlNew {
 
 	/** Logging system events*/
-    final Logger logger = Logger.getLogger(UUVLocalControlNew.class);
+    final Logger logger = LogManager.getLogger(UUVLocalControlNew.class);
     
     final UUVConfigurationNew idleConfig = new UUVConfigurationNew(new UUVAttributesCollection(), 0, 0);
 

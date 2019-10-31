@@ -7,7 +7,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import decide.StatusComponent;
 
@@ -15,7 +16,7 @@ import decide.StatusComponent;
 public class SocketReceiverNew extends ReceiverDECIDENew{
 	
 	/** Class logger*/
-	private final static Logger logger = Logger.getLogger(SocketReceiverNew.class);
+	private final static Logger logger = LogManager.getLogger(SocketReceiverNew.class);
 
 	/** server handler*/
 	private ServerSocket serverSocket;

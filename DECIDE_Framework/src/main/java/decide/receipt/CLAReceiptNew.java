@@ -5,7 +5,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import auxiliary.Utility;
 import decide.DECIDEConstants;
 import decide.StatusComponent;
@@ -25,7 +26,7 @@ public abstract class CLAReceiptNew implements Serializable, NetworkUser{
 	protected Map<String, ReceiverDECIDENew> receiversMap;
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(CLAReceiptNew.class);
+    final static Logger logger = LogManager.getLogger(CLAReceiptNew.class);
 
 	/** flag indicating whether a new capability summary has been received*/
 	protected volatile boolean receivedNewCapabilitySummary = false;

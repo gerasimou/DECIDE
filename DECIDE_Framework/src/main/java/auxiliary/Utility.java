@@ -17,12 +17,13 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Utility {
 
 	// assumes the current class is called logger
-	private final static Logger logger = Logger.getLogger(Utility.class);
+	private final static Logger logger = LogManager.getLogger(Utility.class);
 
 	private static String fileName = "resources/uuv/config.properties";
 	private static Properties properties;

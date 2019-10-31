@@ -2,7 +2,8 @@ package _main;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import auxiliary.Utility;
 import caseStudies.uuvNew.UUVAttributesCollection;
@@ -33,7 +34,7 @@ import decide.selection.SelectionNew;
 
 public class mainDECIDE {
 
-	static Logger logger = Logger.getLogger(mainDECIDE.class);
+	static Logger logger = LogManager.getLogger(mainDECIDE.class);
 	/**
 	 * Log system events to console or file
 	 * @param String log

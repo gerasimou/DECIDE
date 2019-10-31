@@ -6,7 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import decide.capabilitySummary.CapabilitySummaryNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.DECIDEAttributeCollection;
@@ -20,7 +21,7 @@ public abstract class ConfigurationsCollectionNew {
 	protected int numOfModes;
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(ConfigurationsCollectionNew.class);
+    final static Logger logger = LogManager.getLogger(ConfigurationsCollectionNew.class);
 	
 	/** a collection of modes */
 	protected Collection<ModeNew> modesCollection;

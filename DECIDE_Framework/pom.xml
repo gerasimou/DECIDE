@@ -12,9 +12,9 @@
   
   	<!--  Properties -->
 	<properties>
-		<jdk.version>1.11</jdk.version>
+		<jdk.version>11</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<log4j.configuration>./resources/log4j.properties</log4j.configuration>
+		<!-- <log4j.configuration>./resources/log4j.properties</log4j.configuration> -->
 	</properties>
 	
 
@@ -41,11 +41,16 @@
 
 		<!--  log4j -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>2.12.1</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.11.2</version>
+		</dependency>
+		
 		<!--  PRISM model checker -->
 		<dependency>
 			<groupId>org.modelChecker.prism</groupId>
@@ -92,7 +97,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.0</version>
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
@@ -201,7 +206,7 @@
    	            <version>2.20</version>
 	            <configuration>
 	            	<skipTests>true</skipTests>
-	                <argLine>-Djava.library.path=${project.basedir}/repo/prism</argLine>
+	                <argLine>-Djava.library.path=${project.basedir}/repo/prism-4.5</argLine>
 	            </configuration>
 		    </plugin>
 			

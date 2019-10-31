@@ -1,6 +1,7 @@
 package caseStudies.healthcare;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import _main.mainDECIDE;
 import auxiliary.Utility;
@@ -23,7 +24,7 @@ import java.io.File;
 
 public class mainHealthcare {
 
-	static Logger logger = Logger.getLogger(mainDECIDE.class);
+	static Logger logger = LogManager.getLogger(mainDECIDE.class);
 	
 	
 	/**
@@ -75,8 +76,13 @@ public class mainHealthcare {
 
 		
 		//create selection part
-//		SelectionNew selection 		= new RobotSelectionMDP();
-		SelectionNew selection 		= new RobotSelectionExhaustive();
+		String workPath = "models/healthcare/global/";
+		String[] ppArgs = {workPath+"gallocsp.pp", "2", "2", "2"}; //#robots, #capabilities (p3_full discretisation), #room types
+		String allocationModelFile = workPath+"allocmodel.prism";
+		String propsFile = workPath+"gallocsp.props";
+		String advFile = workPath+"adv.tra";
+		SelectionNew selection 		= new RobotSelectionMDP(ppArgs, allocationModelFile, propsFile, advFile);
+//		SelectionNew selection 		= new RobotSelectionExhaustive();
 		
 		//crate local control
 		LocalControlNew localControl = new RobotLocalControl();

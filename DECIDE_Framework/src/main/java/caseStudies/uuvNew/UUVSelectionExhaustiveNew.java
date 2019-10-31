@@ -1,13 +1,12 @@
 package caseStudies.uuvNew;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import decide.KnowledgeNew;
 import decide.capabilitySummary.CapabilitySummaryCollectionNew;
 import decide.capabilitySummary.CapabilitySummaryNew;
@@ -22,7 +21,7 @@ import decide.selection.SelectionNew;
 
 public class UUVSelectionExhaustiveNew extends SelectionNew {
 
-    final Logger logger = Logger.getLogger(UUVSelectionExhaustiveNew.class);
+    final Logger logger = LogManager.getLogger(UUVSelectionExhaustiveNew.class);
 
 	
 	public UUVSelectionExhaustiveNew() {
@@ -33,8 +32,8 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 	@Override
 	public boolean execute(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaryCollection) {
 		//add my local capability summary results: index 0
-		CapabilitySummaryNew[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
-		capabilitySummaryCollection.put("mine", myCapabilitySummaries);
+//		CapabilitySummaryNew[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
+//		capabilitySummaryCollection.put("mine", myCapabilitySummaries);
 
 		//add peers capability summaries
 		Map<String, CapabilitySummaryNew[]> capabilitySummaries = capabilitySummaryCollection.getCapabilitySummaries();

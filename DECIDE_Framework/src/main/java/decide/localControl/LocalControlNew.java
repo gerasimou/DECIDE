@@ -3,7 +3,8 @@ package decide.localControl;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import auxiliary.Utility;
 import decide.DECIDEConstants;
 import decide.StatusRobot;
@@ -59,7 +60,7 @@ public abstract class LocalControlNew implements Serializable, NetworkUser{
 //	private Thread serverThread;
 	
 	/** Logging system events*/
-    final static Logger logger = Logger.getLogger(LocalControlNew.class);
+    final static Logger logger = LogManager.getLogger(LocalControlNew.class);
 	
 //	/** Property Evaluator handler */
 //	protected AttributeEvaluatorNew attributeEvaluator;

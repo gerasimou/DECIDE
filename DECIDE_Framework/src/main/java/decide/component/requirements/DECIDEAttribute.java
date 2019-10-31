@@ -119,5 +119,14 @@ public class DECIDEAttribute {
 		return this.attrType;
 	}
 	
+	
+	/**
+	 * Get Model Filename
+	 * @return
+	 */
+	public String getModelFileName() {
+		return this.MODEL_FILENAME;
+	}
+	
 
 }
