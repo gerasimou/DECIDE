@@ -132,7 +132,7 @@ public void run()
 		PropertiesFile propertiesFile = m_prism.parsePropertiesFile(modulesFile, new File(m_in_properties_file));
 
 		// Configure PRISM to export an optimal adversary to a file when model checking an MDP 
-		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "MDP");
+		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "DTMC");
 		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, m_out_adv_file);
 		
 		// Model check the first property from the file

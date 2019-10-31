@@ -30,26 +30,26 @@ public class RobotSelectionMDP extends SelectionNew {
 	}
 	
 	// NOTE: only rooms of type 2 have associated utility for the optional task
-	public String encodeUtility(String robotId, int capabilityIndex, Double value) {
-		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t2] true : "+Double.toString(value)+"; ");
-	}
-
-	public String encodeUtilities(RobotCapabilitySummaryCollection c) {
-		String res="// Start of utility collection -------------- \n";
-		res += "rewards\"utility\"\n";
-		
-		Map<String, CapabilitySummaryNew[]> capabilities = (Map<String, CapabilitySummaryNew[]>) c.getCapabilitySummaries();
-		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
-			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
-			for (int i=0; i<robotCapabilities.length;i++) {
-				Double utility = (Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
-				res += encodeUtility(entry.getKey(),i+1,utility)+"\n";
-			}
-		}
-		res +="endrewards\n";
-		res +="// End of utility collection -------------- \n";
-		return res;
-	}
+//	public String encodeUtility(String robotId, int capabilityIndex, Double value) {
+//		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t2] true : "+Double.toString(value)+"; ");
+//	}
+//
+//	public String encodeUtilities(RobotCapabilitySummaryCollection c) {
+//		String res="// Start of utility collection -------------- \n";
+//		res += "rewards\"utility\"\n";
+//		
+//		Map<String, CapabilitySummaryNew[]> capabilities = (Map<String, CapabilitySummaryNew[]>) c.getCapabilitySummaries();
+//		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
+//			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
+//			for (int i=0; i<robotCapabilities.length;i++) {
+//				Double utility = (Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
+//				res += encodeUtility(entry.getKey(),i+1,utility)+"\n";
+//			}
+//		}
+//		res +="endrewards\n";
+//		res +="// End of utility collection -------------- \n";
+//		return res;
+//	}
 	
 	public String encodeCapabilityElement(String label, String robotId, int capabilityIndex, int roomType, Double value) {
 		String roomTypeString = roomType < 0 ? "" : "t"+Integer.toString(roomType);			
@@ -83,7 +83,7 @@ public class RobotSelectionMDP extends SelectionNew {
 	
 	public String preprocessAllocationModel (String[] args, RobotCapabilitySummaryCollection c) {
 		String res = m_mdp_gen.preprocess(args);
-		res += encodeUtilities(c);
+//		res += encodeUtilities(c);
 		res += encodeCapabilities(c);
 		return res;
 	}

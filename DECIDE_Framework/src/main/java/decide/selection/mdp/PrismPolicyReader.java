@@ -1,6 +1,5 @@
 package decide.selection.mdp;
 
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
 
 
 public class PrismPolicyReader {
@@ -60,18 +60,11 @@ public class PrismPolicyReader {
         }
     }
 
-
-    // Checks if a state id is mapped from something in the data structure
-    public static boolean isHit( Map<String, LinkedList<String>> l, String s){
-    	for (Map.Entry<String, LinkedList<String>> e : l.entrySet()){
-    		if (e.getValue().contains(s))
-    			return true;
-    	}
-    	return false;
-    }
+  
     
     /**
      * Reads an adversary/strategy file into a policy
+     * Fixed!! (feb 25), initial state was incorrectly detected and method would return wrong policy
      * @return
      */
     public boolean readPolicy() {
@@ -104,7 +97,7 @@ public class PrismPolicyReader {
 
                 String[] elements = line.split(" ");
                 startState=elements[0];
-                endState = elements[2];
+                endState = elements[1];
                 String action = "";
 
                 if (elements.length == 4) {
@@ -131,6 +124,7 @@ public class PrismPolicyReader {
             }
 
             bufferedReader.close(); 
+
             this.extractPolicy (stateActionMap, startEndStateMap);
         }
         catch(FileNotFoundException ex) {
@@ -150,4 +144,8 @@ public class PrismPolicyReader {
         return m_plan;
     }
     
+
+    
+
+   
 }
