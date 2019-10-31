@@ -69,6 +69,8 @@ public class mainUUVNew {
 		//init knowledge
 		KnowledgeNew.initKnowledgeNew(aComponent);
 		
+		((UUVSelectionExhaustiveNew)selection).setMyAddress(lca.getTransmitterToOtherDECIDE().getServerAddress());
+		
 		//start executing		
 		aComponent.run();		
 

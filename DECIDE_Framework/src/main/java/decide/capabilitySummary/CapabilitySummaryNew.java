@@ -2,6 +2,7 @@ package decide.capabilitySummary;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.EqualsAndHashCode;
@@ -48,5 +49,21 @@ public abstract class CapabilitySummaryNew extends ConcurrentHashMap<String, Obj
 		return values();
 	}
 	
+	
+	@Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Map))
+            return false;
+        Map<?,?> m = (Map<?,?>) o;
+        
+        for (String k : keySet()) {
+			if (!m.containsKey(k))
+				return false;
+			if (get(k) != m.get(k))
+				return false;
+		}
+        
+        return true;
+	}
 }
 

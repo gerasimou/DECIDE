@@ -20,6 +20,8 @@ import decide.selection.SelectionNew;
 
 
 public class UUVSelectionExhaustiveNew extends SelectionNew {
+	
+	private String myAddress;
 
     final Logger logger = LogManager.getLogger(UUVSelectionExhaustiveNew.class);
 
@@ -69,7 +71,17 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			bestSolution.forEach(bestSolutionStr::append);
 			logger.info("Best solution found: " + bestSolutionStr);
 			
-			CapabilitySummaryNew myCS = bestSolution.get(0);
+			CapabilitySummaryNew myCS = null;//bestSolution.get(0);
+			for (CapabilitySummaryNew cs : capabilitySummaryCollection.get(myAddress)) {
+				for (CapabilitySummaryNew csBest : bestSolution) {
+					if (cs.equals(csBest)) {
+						myCS = cs;
+						logger.info("My responsibilties found :" + myCS);
+						break;
+					}
+				}
+			}
+			
 			
 			//generate measurements constraint
 			double measurements 	= (double) myCS.getCapabilitySummaryElement("measurements");
@@ -167,5 +179,10 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			utility	= (double )objective.evaluate(cs);
 		}
 		return utility;
+	}
+	
+	
+	public void setMyAddress (String address) {
+		this.myAddress = address;
 	}
 }
