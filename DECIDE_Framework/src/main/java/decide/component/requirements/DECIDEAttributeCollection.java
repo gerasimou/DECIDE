@@ -49,32 +49,6 @@ public abstract class DECIDEAttributeCollection extends ConcurrentHashMap<String
 	}
 
 	
-//	/**
-//	 * Initialise attributes by parsing the <b>model file</b> and <b>properties file</b> properties
-//	 * defined in the configuration script
-//	 */
-//	private void initAttributesOLD() {
-//		try {
-//			String[] modelsFiles = MODELS_FILES.replaceAll(" ", "").split(",");
-//			
-//			String[] properties = Utility.readFile(PROPERTIES_FILE).replaceAll("(?m)^[ \t]*\r?\n", "").split("\n");
-//			
-//			//check if we have the same number of models and properties in the configuration file
-//			if (modelsFiles.length != properties.length)
-//				throw new DecideException("Inconsistent number of models (" + modelsFiles.length + 
-//											") and properties (" + properties.length + ")");
-//			
-//			//initialise attributes list
-//			for (int i=0; i<modelsFiles.length; i++) {
-//				put("attr"+i, new DECIDEAttribute("attr"+i, modelsFiles[i], properties[i], DECIDEAttributeType.BOTH));
-//			}
-//		}
-//		catch (DecideException de) {
-//			de.printStackTrace();
-//		}
-//	}
-
-	
 	@Override
 	public DECIDEAttribute get (Object key) {
 		return super.get(key.toString().toUpperCase());

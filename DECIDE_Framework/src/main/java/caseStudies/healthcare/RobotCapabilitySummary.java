@@ -1,8 +1,8 @@
 package caseStudies.healthcare;
 
-import decide.capabilitySummary.CapabilitySummaryNew;
+import decide.capabilitySummary.CapabilitySummary;
 
-public class RobotCapabilitySummary extends CapabilitySummaryNew {
+public class RobotCapabilitySummary extends CapabilitySummary {
 
 	
 	/**

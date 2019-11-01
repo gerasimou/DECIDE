@@ -1,9 +1,9 @@
 package caseStudies.healthcare;
 
 import decide.component.requirements.DECIDEAttributeCollection;
-import decide.configuration.ConfigurationsCollectionNew;
+import decide.configuration.ConfigurationsCollection;
 
-public class RobotConfigurationCollection extends ConfigurationsCollectionNew {
+public class RobotConfigurationCollection extends ConfigurationsCollection {
 	
 	private final double STEP;
 

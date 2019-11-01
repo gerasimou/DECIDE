@@ -13,19 +13,19 @@ mdp
 #const CAPABILITIES# // CAPABILITIES: Number of capabilities/robot (currently fixed)
 #const NROOMTYPES# // Number of room types
 
-const NROOMST1=2;
-const NROOMST2=2;
+const NROOMST1=4;
+const NROOMST2=4;
 
-const Max_cost=80;
-const Max_time=80;
+const Max_cost=145;
+const Max_time=145;
 
 //-----------------------------------
 // Rooms 
 //-----------------------------------
 
 module rooms
- time: [0..100] init 0;
- cost: [0..100] init 0;
+ time: [0..Max_time] init 0;
+ cost: [0..Max_cost] init 0;
  #for i=1:NROOMTYPES#
   allocatedt#i#: [0..NROOMST#i#] init NROOMST#i#;
  #end#

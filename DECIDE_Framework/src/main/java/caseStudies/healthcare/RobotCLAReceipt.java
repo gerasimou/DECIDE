@@ -1,11 +1,11 @@
 package caseStudies.healthcare;
 
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.receipt.CLAReceiptNew;
+import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.receipt.CLAReceipt;
 
-public class RobotCLAReceipt extends CLAReceiptNew {
+public class RobotCLAReceipt extends CLAReceipt {
 
-	public RobotCLAReceipt(CapabilitySummaryCollectionNew capabilitySummaryCollection) {
+	public RobotCLAReceipt(CapabilitySummaryCollection capabilitySummaryCollection) {
 		super (capabilitySummaryCollection);
 	}
 

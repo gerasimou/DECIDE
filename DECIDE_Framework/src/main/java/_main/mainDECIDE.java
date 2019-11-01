@@ -6,28 +6,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import auxiliary.Utility;
-import caseStudies.uuvNew.UUVAttributesCollection;
-import caseStudies.uuvNew.UUVCLAReceiptNew;
-import caseStudies.uuvNew.UUVCapabilitySummaryCollectionNew;
-import caseStudies.uuvNew.UUVConfigurationsCollectionNew;
-import caseStudies.uuvNew.UUVEnvironmentNew;
-import caseStudies.uuvNew.UUVLocalCapabilityAnalysisNew;
-import caseStudies.uuvNew.UUVLocalControlNew;
-import caseStudies.uuvNew.UUV;
-import caseStudies.uuvNew.UUVSelectionExhaustiveNew;
-import decide.DECIDENew;
+import caseStudies.uuv.UUV;
+import caseStudies.uuv.UUVAttributesCollection;
+import caseStudies.uuv.UUVCLAReceipt;
+import caseStudies.uuv.UUVCapabilitySummaryCollection;
+import caseStudies.uuv.UUVConfigurationsCollection;
+import caseStudies.uuv.UUVEnvironment;
+import caseStudies.uuv.UUVLocalCapabilityAnalysis;
+import caseStudies.uuv.UUVLocalControl;
+import caseStudies.uuv.UUVSelectionExhaustiveNew;
+import decide.DECIDE;
 import decide.KnowledgeNew;
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
+import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.component.ComponentFactory;
-import decide.component.ComponentNew;
+import decide.component.Component;
 import decide.component.requirements.DECIDEAttributeCollection;
-import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.EnvironmentNew;
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluatorNew;
-import decide.localAnalysis.LocalCapabilityAnalysisNew;
-import decide.localControl.LocalControlNew;
+import decide.localAnalysis.LocalCapabilityAnalysis;
+import decide.localControl.LocalControl;
 import decide.qv.prism.PrismQVNew;
-import decide.receipt.CLAReceiptNew;
+import decide.receipt.CLAReceipt;
 import decide.selection.SelectionNew;
 
 
@@ -63,36 +63,36 @@ public class mainDECIDE {
 		final int NUM_OF_SENSORS		= 3;
 		final double SPEED_MAX 			= 5.0;
 		final double STEP	  			= 0.2;
-		ConfigurationsCollectionNew configurationCollections = new UUVConfigurationsCollectionNew(uuvAttributes, NUM_OF_SENSORS, SPEED_MAX, STEP);
+		ConfigurationsCollection configurationCollections = new UUVConfigurationsCollection(uuvAttributes, NUM_OF_SENSORS, SPEED_MAX, STEP);
 		
 		//create a new robot environment instance
-		EnvironmentNew   environment	= new UUVEnvironmentNew();
+		Environment   environment	= new UUVEnvironment();
 
 		//create capability summary collection
-		CapabilitySummaryCollectionNew capabilitySummaryCollection = new UUVCapabilitySummaryCollectionNew();
+		CapabilitySummaryCollection capabilitySummaryCollection = new UUVCapabilitySummaryCollection();
 		
 //		//create new attribute evaluator
 //		AttributeEvaluatorNew attributeEvaluator = new PrismQVNew();
 
 		//create local capability analysis
-		LocalCapabilityAnalysisNew lca 	= new UUVLocalCapabilityAnalysisNew();
+		LocalCapabilityAnalysis lca 	= new UUVLocalCapabilityAnalysis();
 
 		//create cla receipt
-		CLAReceiptNew claReceipt		= new UUVCLAReceiptNew(capabilitySummaryCollection);
+		CLAReceipt claReceipt		= new UUVCLAReceipt(capabilitySummaryCollection);
 
 		//create selection part
 		SelectionNew selection 			= new UUVSelectionExhaustiveNew();
 
 		//crate local control
-		LocalControlNew localControl 	= new UUVLocalControlNew();
+		LocalControl localControl 	= new UUVLocalControl();
 
 	
 		//create new DECIDE
-		DECIDENew decide  = new DECIDENew (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
+		DECIDE decide  = new DECIDE (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
 
 		
 		//create a new component
-		ComponentNew aComponent = ComponentFactory.makeNewComponentMulticastNew(UUV.class, configurationFile, decide);
+		Component aComponent = ComponentFactory.makeNewComponentMulticastNew(UUV.class, configurationFile, decide);
 
 		//init knowledge
 		KnowledgeNew.initKnowledgeNew(aComponent);

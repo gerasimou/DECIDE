@@ -1,8 +1,8 @@
 package caseStudies.healthcare;
 
-import decide.component.ComponentNew;
+import decide.component.Component;
 
-public class Robot extends ComponentNew {
+public class Robot extends Component {
 
 	public Robot() {
 		// TODO Auto-generated constructor stub

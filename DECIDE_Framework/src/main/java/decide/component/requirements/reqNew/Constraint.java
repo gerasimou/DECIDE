@@ -5,7 +5,7 @@ import java.util.List;
 
 import decide.component.requirements.RequirementType;
 
-public abstract class Constraint extends RequirementNew {
+public abstract class Constraint extends Requirement {
 	
 
 	/** constraint threshold */

@@ -3,10 +3,10 @@ package caseStudies.healthcare;
 import java.util.List;
 
 import decide.component.requirements.DECIDEAttributeCollection;
-import decide.configuration.ConfigurationNew;
+import decide.configuration.Configuration;
 
 
-public class RobotConfiguration extends ConfigurationNew {
+public class RobotConfiguration extends Configuration {
 	
 	private double pfull;	//probability of doing task 3 of room type 2 in full mode [0, 1)
 	private int n1;			//number of rooms of type 1 assigned to this robot; to be determined by the selection algorithm (not part of the model)
@@ -25,7 +25,7 @@ public class RobotConfiguration extends ConfigurationNew {
 
 	
 	@Override
-	public String getModel() {
+	public String getConfigurationModel() {
 		StringBuilder model = new StringBuilder("\n\n//Congifuration Variables\n");
 
     		//add configuration parameters

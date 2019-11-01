@@ -2,7 +2,7 @@ package decide.component.requirements.reqNew;
 
 import java.util.List;
 
-import decide.capabilitySummary.CapabilitySummaryNew;
+import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.RequirementType;
 
 
@@ -14,5 +14,5 @@ public abstract class GlobalObjectiveNew extends ObjectiveNew{
 		super(reqType, id, maximisation);
 	}
 
-	public abstract Object evaluate (List<CapabilitySummaryNew> capabilitySummaries);
+	public abstract Object evaluate (List<CapabilitySummary> capabilitySummaries);
 }

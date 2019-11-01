@@ -1,8 +1,8 @@
 package caseStudies.healthcare;
 
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.configuration.ConfigurationsCollectionNew;
+import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.capabilitySummary.CapabilitySummary;
+import decide.configuration.ConfigurationsCollection;
 import decide.selection.SelectionNew;
 import decide.selection.mdp.MDPAdversaryGeneration;
 import decide.selection.mdp.TextFileHandler;
@@ -13,10 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-
-import caseStudies.uuvNew.UUVCapabilitySummaryCollectionNew;
 
 
 
@@ -35,20 +32,21 @@ public class RobotSelectionMDP extends SelectionNew {
 	}
 	
 	// NOTE: only rooms of type 2 have associated utility for the optional task
-	public String encodeUtility(String robotId, int capabilityIndex, Double value) {
-		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t2] true : "+Double.toString(value)+"; ");
+	public String encodeUtility(String robotId, int capabilityIndex, int roomTypeID, Double value) {
+		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t"+ roomTypeID+"] true : "+Double.toString(value)+"; ");
 	}
 
 	public String encodeUtilities(RobotCapabilitySummaryCollection c) {
 		String res="// Start of utility collection -------------- \n";
 		res += "rewards\"utility\"\n";
 		
-		Map<String, CapabilitySummaryNew[]> capabilities = (Map<String, CapabilitySummaryNew[]>) c.getCapabilitySummaries();
-		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
-			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
+		Map<String, CapabilitySummary[]> capabilities = (Map<String, CapabilitySummary[]>) c.getCapabilitySummaries();
+		for (Map.Entry<String, CapabilitySummary[]> entry : capabilities.entrySet()) {
+			CapabilitySummary[] robotCapabilities = entry.getValue();
 			for (int i=0; i<robotCapabilities.length;i++) {
 				Double utility = 1.0;//(Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
-				res += encodeUtility(entry.getKey(),i+1,utility)+"\n";
+				res += encodeUtility(entry.getKey(),i+1,1,utility)+"\n";
+				res += encodeUtility(entry.getKey(),i+1,2,utility)+"\n";
 			}
 		}
 		res +="endrewards\n";
@@ -64,10 +62,10 @@ public class RobotSelectionMDP extends SelectionNew {
 	public String encodeCapabilities(RobotCapabilitySummaryCollection c) {
 
 		String res="// Start of capability summary collection -------------- \n";
-		Map<String, CapabilitySummaryNew[]> capabilities = (Map<String, CapabilitySummaryNew[]>) c.getCapabilitySummaries();
+		Map<String, CapabilitySummary[]> capabilities = (Map<String, CapabilitySummary[]>) c.getCapabilitySummaries();
 		
-		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
-			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
+		for (Map.Entry<String, CapabilitySummary[]> entry : capabilities.entrySet()) {
+			CapabilitySummary[] robotCapabilities = entry.getValue();
 			for (int i=0; i<robotCapabilities.length;i++) {
 				Double timeRoom1 = (Double)robotCapabilities[i].getCapabilitySummaryElement("timeRoom1");
 				Double costRoom1 = (Double)robotCapabilities[i].getCapabilitySummaryElement("costRoom1");
@@ -127,11 +125,8 @@ public class RobotSelectionMDP extends SelectionNew {
     	return m_mdp_gen.getPlan();
     }
     
-//	@Override
-	public boolean execute(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaryCollection) {
-		// TODO: This method is here just to avoid compilation errors, for the time being
-		
-		
+    @Override
+	public boolean execute(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
 		//Generate 
 		List<String> keysList = new ArrayList<>();
 		Set<String> keys = capabilitySummaryCollection.keySet();
@@ -141,20 +136,28 @@ public class RobotSelectionMDP extends SelectionNew {
 		keysList.sort(Comparator.comparing( String::toString ));
 		
 
-		CapabilitySummaryCollectionNew capabilitySummaryCollectionOrdered = new RobotCapabilitySummaryCollection();
-		Map<String, Integer> robotIDIPMap = new HashMap<>();
+		CapabilitySummaryCollection capabilitySummaryCollectionOrdered = new RobotCapabilitySummaryCollection();
+		Map<Integer, String> robotIDIPMap = new HashMap<>();
 		int robotID = 1;
 		for (String key : keys) {
-			robotIDIPMap.put(key, robotID);
+			robotIDIPMap.put(robotID, key);
 			capabilitySummaryCollectionOrdered.put ("r"+robotID, capabilitySummaryCollection.get(key));
 			robotID++;
 		}
 		
 		
-		return execute(capabilitySummaryCollectionOrdered);
+		execute(capabilitySummaryCollectionOrdered);
+		
+		for (String robotId : m_allocations.keySet()) {
+			System.out.println(robotId);
+			System.out.println(robotIDIPMap.get(Integer.parseInt(robotId)) +"\t"+ m_allocations.get(robotId));
+		}
+		
+		return true;
 	}
 	
-	public boolean execute(CapabilitySummaryCollectionNew capabilitySummaryCollection) {
+	
+	public boolean execute(CapabilitySummaryCollection capabilitySummaryCollection) {
 		//TODO: here we need to make the distribution of tasks based on the capability summaries
 		//Here we need to invoke the MDP policy synthesis developed by Javier
 		String allocationModelCode = preprocessAllocationModel( m_mdp_gen.getM_pp_in_args(), (RobotCapabilitySummaryCollection)capabilitySummaryCollection);
@@ -164,6 +167,7 @@ public class RobotSelectionMDP extends SelectionNew {
 		return false;
 	}
 
+	
 	// Class test
 	public static void main(String[] args)
 	{
@@ -173,16 +177,16 @@ public class RobotSelectionMDP extends SelectionNew {
 		RobotCapabilitySummaryCollection col= new RobotCapabilitySummaryCollection();
 		
 		RobotCapabilitySummary[] r1 = new RobotCapabilitySummary[2];
-		r1[0] =  new RobotCapabilitySummary(10, 10, 3, 3, 5);//, 9);
-		r1[1] =  new RobotCapabilitySummary(11, 12, 4, 5, 3);//, 8);
+		r1[0] =  new RobotCapabilitySummary(18, 18, 3, 3, 11);//, 9);
+		r1[1] =  new RobotCapabilitySummary(18, 18, 2, 2, 3);//, 8);
 
 		RobotCapabilitySummary[] r2 = new RobotCapabilitySummary[2];
-		r2[0] =  new RobotCapabilitySummary(5, 4, 10, 11, 5);//, 98);
-		r2[1] =  new RobotCapabilitySummary(3, 3, 11, 12, 3);//, 89);
+		r2[0] =  new RobotCapabilitySummary(5, 4, 20, 21, 5);//, 98);
+		r2[1] =  new RobotCapabilitySummary(3, 3, 20, 22, 3);//, 89);
 		
 		
-		col.addCapabilitySummary("r1", r1);
-		col.addCapabilitySummary("r2", r2);
+		col.addCapabilitySummary("r1", r2);
+		col.addCapabilitySummary("r2", r1);
 		
 		
 	// Create a Robot MDP selection object to run a test
@@ -194,7 +198,7 @@ public class RobotSelectionMDP extends SelectionNew {
 		String propsFile = workPath+"gallocsp.props";
 		String advFile = workPath+"adv.tra";
 		RobotSelectionMDP sel = new RobotSelectionMDP(ppArgs, allocationModelFile, propsFile, advFile);
-		sel.execute(col);
+		sel.execute(null, col);
 		
 //        System.out.println(sel.getPlan().toString());
 		System.out.println(sel.getAllocations().toString());

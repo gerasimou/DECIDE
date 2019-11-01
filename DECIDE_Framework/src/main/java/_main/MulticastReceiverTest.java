@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auxiliary.Utility;
-import caseStudies.uuvNew.UUVCLAReceiptNew;
-import caseStudies.uuvNew.UUVCapabilitySummaryCollectionNew;
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.receipt.CLAReceiptNew;
+import caseStudies.uuv.UUVCLAReceipt;
+import caseStudies.uuv.UUVCapabilitySummaryCollection;
+import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.receipt.CLAReceipt;
 import network.ComponentTypeDECIDE;
 import network.MulticastReceiverNew;
 import network.ReceiverDECIDENew;
@@ -25,10 +25,10 @@ public class MulticastReceiverTest {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 
 		//create capability summary collection
-		CapabilitySummaryCollectionNew capabilitySummaryCollection = new UUVCapabilitySummaryCollectionNew();
+		CapabilitySummaryCollection capabilitySummaryCollection = new UUVCapabilitySummaryCollection();
 
 		//create cla receipt
-		CLAReceiptNew claReceipt		= new UUVCLAReceiptNew(capabilitySummaryCollection);
+		CLAReceipt claReceipt		= new UUVCLAReceipt(capabilitySummaryCollection);
 
 		//dummy multicast receiver
 		String peerAddress 	= "224.224.224.221";

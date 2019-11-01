@@ -1,7 +1,7 @@
 package decide.component.requirements;
 
 import auxiliary.Utility;
-import decide.configuration.ConfigurationNew;
+import decide.configuration.Configuration;
 import decide.evaluator.AttributeEvaluatorNew;
 
 public class DECIDEAttribute {
@@ -32,6 +32,7 @@ public class DECIDEAttribute {
 		PROPERTY		= property;
 		name			= attributeName;
 		attrType		= attributeType;
+		attrEvaluator	= null;
 	}
 
 	
@@ -57,7 +58,7 @@ public class DECIDEAttribute {
 	 * Return model template for verification
 	 * @return
 	 */
-	public String getModelTemplate(ConfigurationNew configuration) {
+	public String getModelTemplate(Configuration configuration) {
 		return this.modelTemplate +"\n";
 	}
 	

@@ -3,12 +3,12 @@ package decide;
 import java.util.ArrayList;
 import java.util.List;
 
-import decide.component.ComponentNew;
+import decide.component.Component;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
-import decide.component.requirements.reqNew.LocalConstraintNew;
+import decide.component.requirements.reqNew.LocalConstraint;
 import decide.component.requirements.reqNew.LocalObjectiveNew;
-import decide.component.requirements.reqNew.RequirementNew;
+import decide.component.requirements.reqNew.Requirement;
 
 
 public class KnowledgeNew {
@@ -19,10 +19,10 @@ public class KnowledgeNew {
 	
 
 	private static List<GlobalConstraintNew> globalConstraints;
-	private static List<LocalConstraintNew>  localConstraints;
+	private static List<LocalConstraint>  localConstraints;
 	private static List<GlobalObjectiveNew>  globalObjectives;
 	private static List<LocalObjectiveNew>   localObjectives;
-	private static List<LocalConstraintNew> responsibilitiesList;
+	private static List<LocalConstraint> responsibilitiesList;
 
 	
 	/** 
@@ -31,16 +31,16 @@ public class KnowledgeNew {
 	private KnowledgeNew() {}
 		
 	
-	public static void initKnowledgeNew(ComponentNew component){
+	public static void initKnowledgeNew(Component component){
 		ID  = component.getID();
 		responsibilitiesList = new ArrayList<>();
 		
 		globalConstraints 	= new ArrayList<GlobalConstraintNew>();
-		localConstraints 	= new ArrayList<LocalConstraintNew>();
+		localConstraints 	= new ArrayList<LocalConstraint>();
 		globalObjectives	= new ArrayList<GlobalObjectiveNew>();
 		localObjectives		= new ArrayList<LocalObjectiveNew>();
 		
-		for (RequirementNew req : component.getGlobalRequirements()) {
+		for (Requirement req : component.getGlobalRequirements()) {
 			if (req instanceof GlobalConstraintNew)
 				globalConstraints.add((GlobalConstraintNew)req);
 			else
@@ -48,9 +48,9 @@ public class KnowledgeNew {
 			
 		}
 		
-		for (RequirementNew req : component.getLocalRequirements()) {
-			if (req instanceof LocalConstraintNew)
-				localConstraints.add((LocalConstraintNew)req);
+		for (Requirement req : component.getLocalRequirements()) {
+			if (req instanceof LocalConstraint)
+				localConstraints.add((LocalConstraint)req);
 			else
 				localObjectives.add((LocalObjectiveNew)req);			
 		}
@@ -69,7 +69,7 @@ public class KnowledgeNew {
 		return globalConstraints;
 	}
 	
-	public static List<LocalConstraintNew> getLocalConstraints(){
+	public static List<LocalConstraint> getLocalConstraints(){
 		return localConstraints;
 	}
 	
@@ -82,13 +82,13 @@ public class KnowledgeNew {
 	}
 	
 	
-	public static void updateResponsibilities (List<LocalConstraintNew> responsibilites) {
+	public static void updateResponsibilities (List<LocalConstraint> responsibilites) {
 		responsibilitiesList.clear();
 		responsibilitiesList.addAll(responsibilites);
 	}
 	
 	
-	public static List<LocalConstraintNew> getResponsibilities(){
+	public static List<LocalConstraint> getResponsibilities(){
 		return responsibilitiesList;
 	}
 
@@ -99,7 +99,7 @@ public class KnowledgeNew {
 	
 	
 	public static boolean hasNullResponsibilities() {
-		for (LocalConstraintNew responsibility : responsibilitiesList) {
+		for (LocalConstraint responsibility : responsibilitiesList) {
 			if ((double)responsibility.getThreshold() != 0)
 				return false;
 		}
@@ -109,7 +109,7 @@ public class KnowledgeNew {
 	
 	public static String getResponsibilitiesToString() {
 		StringBuilder respStr = new StringBuilder();
-		for (LocalConstraintNew responsibility : responsibilitiesList) {
+		for (LocalConstraint responsibility : responsibilitiesList) {
 			respStr.append(responsibility.toString());
 		}
 		return respStr.toString();

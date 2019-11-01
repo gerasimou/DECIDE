@@ -6,8 +6,8 @@ import decide.KnowledgeNew;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.DECIDEAttributeCollection;
 import decide.component.requirements.DECIDEAttributeType;
-import decide.component.requirements.reqNew.LocalConstraintNew;
-import decide.configuration.ConfigurationNew;
+import decide.component.requirements.reqNew.LocalConstraint;
+import decide.configuration.Configuration;
 import decide.evaluator.AttributeEvaluatorNew;
 import decide.evaluator.BinaryEvaluator;
 import decide.qv.prism.PrismQVNew;
@@ -69,8 +69,8 @@ class ServiceTimeRobotAttribute extends DECIDEAttribute {
 	
 	
 	@Override
-	public String getModelTemplate(ConfigurationNew configuration) {
-		List<LocalConstraintNew> responsibilitiesList = KnowledgeNew.getResponsibilities();
+	public String getModelTemplate(Configuration configuration) {
+		List<LocalConstraint> responsibilitiesList = KnowledgeNew.getResponsibilities();
 		
 		
 		

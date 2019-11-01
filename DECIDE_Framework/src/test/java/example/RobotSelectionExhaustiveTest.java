@@ -16,18 +16,18 @@ import caseStudies.healthcare.RobotCapabilitySummary;
 import caseStudies.healthcare.RobotCapabilitySummaryCollection;
 import caseStudies.healthcare.RobotConfigurationCollection;
 import caseStudies.healthcare.RobotSelectionExhaustive;
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.capabilitySummary.CapabilitySummaryNew;
+import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.DECIDEAttributeCollection;
-import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.EnvironmentNew;
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
 
 
 public class RobotSelectionExhaustiveTest {
 
-	static ConfigurationsCollectionNew configurationsCollection;	
-	static EnvironmentNew environment;
-	static CapabilitySummaryCollectionNew capabilitySummaryCollection;
+	static ConfigurationsCollection configurationsCollection;	
+	static Environment environment;
+	static CapabilitySummaryCollection capabilitySummaryCollection;
 	static RobotSelectionExhaustive selectionExhaustive;
 	
 	
@@ -55,11 +55,11 @@ public class RobotSelectionExhaustiveTest {
 		capabilitySummaryCollection = new RobotCapabilitySummaryCollection();
 			
 		//capability summary of peer 2
-		CapabilitySummaryNew[] cs2 = new RobotCapabilitySummary[] {new RobotCapabilitySummary(0, 0, 0, 0, 0), new RobotCapabilitySummary(3.1, 3.2, 3.3, 3.4, 3.5), new RobotCapabilitySummary(4.1, 4.2, 4.3, 4.4, 4.5)};
+		CapabilitySummary[] cs2 = new RobotCapabilitySummary[] {new RobotCapabilitySummary(0, 0, 0, 0, 0), new RobotCapabilitySummary(3.1, 3.2, 3.3, 3.4, 3.5), new RobotCapabilitySummary(4.1, 4.2, 4.3, 4.4, 4.5)};
 		capabilitySummaryCollection.addCapabilitySummary("2", cs2);
 
 		//capability summary of peer 3
-		CapabilitySummaryNew[] cs3 = new RobotCapabilitySummary[] {new RobotCapabilitySummary(0, 0, 0, 0, 0), new RobotCapabilitySummary(5.1, 5.2, 5.3, 5.4, 5.5), new RobotCapabilitySummary(6.1, 6.2, 6.3, 6.4, 6.5)};
+		CapabilitySummary[] cs3 = new RobotCapabilitySummary[] {new RobotCapabilitySummary(0, 0, 0, 0, 0), new RobotCapabilitySummary(5.1, 5.2, 5.3, 5.4, 5.5), new RobotCapabilitySummary(6.1, 6.2, 6.3, 6.4, 6.5)};
 		capabilitySummaryCollection.addCapabilitySummary("3", cs3);
 		
 		

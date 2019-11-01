@@ -1,7 +1,7 @@
 package decide.component.requirements.reqNew;
 
 import decide.component.requirements.RequirementType;
-import decide.configuration.ConfigurationNew;
+import decide.configuration.Configuration;
 
 
 
@@ -12,5 +12,5 @@ public abstract class LocalObjectiveNew extends ObjectiveNew{
 		super(reqType, id, maximisation);
 	}
 
-	public abstract Object evaluate(ConfigurationNew configuration);
+	public abstract Object evaluate(Configuration configuration);
 }

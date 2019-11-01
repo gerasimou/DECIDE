@@ -1,7 +1,7 @@
 package decide.evaluator;
 
-import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.EnvironmentNew;
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
 
 public class ModelChecker implements QVNew {
 

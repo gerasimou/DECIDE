@@ -5,32 +5,32 @@ import java.util.List;
 import java.util.Map;
 
 import decide.KnowledgeNew;
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
-import decide.capabilitySummary.CapabilitySummaryNew;
+import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
-import decide.configuration.ConfigurationsCollectionNew;
+import decide.configuration.ConfigurationsCollection;
 import decide.selection.SelectionNew;
 
 
 public class RobotSelectionExhaustive extends SelectionNew {
 
 	@Override
-	public boolean execute(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaryCollection) {
+	public boolean execute(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
 				
 		//add my local capability summary results: index 0
-		CapabilitySummaryNew[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
+		CapabilitySummary[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
 		capabilitySummaryCollection.put("mine", myCapabilitySummaries);
 		
 		//add peers capability summaries
-		Map<String, CapabilitySummaryNew[]> capabilitySummaries = capabilitySummaryCollection.getCapabilitySummaries();
+		Map<String, CapabilitySummary[]> capabilitySummaries = capabilitySummaryCollection.getCapabilitySummaries();
 		
 		//generate all possible combinations
-		List<List<CapabilitySummaryNew>> combinationsCS = generateAllCombinations(new ArrayList <CapabilitySummaryNew[]>(capabilitySummaries.values()));
+		List<List<CapabilitySummary>> combinationsCS = generateAllCombinations(new ArrayList <CapabilitySummary[]>(capabilitySummaries.values()));
 		
 		//find feasible solutions, i.e., those that satisfy global constraints
-		List<List<CapabilitySummaryNew>>  feasibleSolutions = new ArrayList<>();
-		for (List<CapabilitySummaryNew> cs : combinationsCS) {
+		List<List<CapabilitySummary>>  feasibleSolutions = new ArrayList<>();
+		for (List<CapabilitySummary> cs : combinationsCS) {
 			boolean feasible = evaluteGlobalConstraints(cs);
 			if (feasible)
 				feasibleSolutions.add(cs);
@@ -38,9 +38,9 @@ public class RobotSelectionExhaustive extends SelectionNew {
 		
 		//if feasible solutions exist, select the solution that minimises/maximises a cost/utility function
 		double bestUtility 						= Double.MIN_NORMAL;
-		List<CapabilitySummaryNew> bestSolution = null;
+		List<CapabilitySummary> bestSolution = null;
 		
-		for (List<CapabilitySummaryNew> cs : feasibleSolutions) {
+		for (List<CapabilitySummary> cs : feasibleSolutions) {
 			double utility = evaluteGlobalUtility(cs);
 			if (utility > bestUtility) {
 				bestUtility = utility;
@@ -66,21 +66,21 @@ public class RobotSelectionExhaustive extends SelectionNew {
 	 * @param cs
 	 * @return
 	 */
-	private List<List<CapabilitySummaryNew>> generateAllCombinations (List<CapabilitySummaryNew[]> cs){
+	private List<List<CapabilitySummary>> generateAllCombinations (List<CapabilitySummary[]> cs){
 	
-		List<List<CapabilitySummaryNew>> combinations = new ArrayList<>();
-		for (CapabilitySummaryNew[] peerCS : cs) {
-			List<List<CapabilitySummaryNew>> temp2 = new ArrayList<>();
+		List<List<CapabilitySummary>> combinations = new ArrayList<>();
+		for (CapabilitySummary[] peerCS : cs) {
+			List<List<CapabilitySummary>> temp2 = new ArrayList<>();
 			
-			for (CapabilitySummaryNew csElement : peerCS) {
+			for (CapabilitySummary csElement : peerCS) {
 				if (combinations.size() <= 0) {
-					List<CapabilitySummaryNew> list = new ArrayList<>();
+					List<CapabilitySummary> list = new ArrayList<>();
 					list.add(csElement);
 					temp2.add(list);
 				}
 				else {
-					for (List<CapabilitySummaryNew> list : combinations) {
-						List<CapabilitySummaryNew> list2 = new ArrayList<>(list);
+					for (List<CapabilitySummary> list : combinations) {
+						List<CapabilitySummary> list2 = new ArrayList<>(list);
 						list2.add(csElement);
 						temp2.add(list2);
 					}
@@ -93,7 +93,7 @@ public class RobotSelectionExhaustive extends SelectionNew {
 	}
 
 
-	public boolean evaluteGlobalConstraints (List<CapabilitySummaryNew> cs) {
+	public boolean evaluteGlobalConstraints (List<CapabilitySummary> cs) {
 		boolean allConstraintsSatisfied = true;
 		List<GlobalConstraintNew> globalConstraints = KnowledgeNew.getGlobalConstraints();
 		for (GlobalConstraintNew constraint : globalConstraints) {
@@ -104,7 +104,7 @@ public class RobotSelectionExhaustive extends SelectionNew {
 	}
 
 	
-	public double evaluteGlobalUtility (List<CapabilitySummaryNew> cs) {
+	public double evaluteGlobalUtility (List<CapabilitySummary> cs) {
 		double utility = Double.MIN_NORMAL;
 		List<GlobalObjectiveNew> globalObjectives = KnowledgeNew.getGlobalObjectives();
 		for (GlobalObjectiveNew objective : globalObjectives) {
@@ -124,16 +124,16 @@ public class RobotSelectionExhaustive extends SelectionNew {
 	 * @return
 	 */
 	@Deprecated
-	public List<List<CapabilitySummaryNew>>  getAllCombinations(ConfigurationsCollectionNew configurationsCollection, CapabilitySummaryCollectionNew capabilitySummaryCollection) {
+	public List<List<CapabilitySummary>>  getAllCombinations(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
 		
 		//add my local capability summary results: index 0
-		CapabilitySummaryNew[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
+		CapabilitySummary[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
 		capabilitySummaryCollection.put("mine", myCapabilitySummaries);
 		
 		//add peers capability summaries
-		Map<String, CapabilitySummaryNew[]> capabilitySummaries = capabilitySummaryCollection.getCapabilitySummaries();
+		Map<String, CapabilitySummary[]> capabilitySummaries = capabilitySummaryCollection.getCapabilitySummaries();
 		
-		return generateAllCombinations(new ArrayList <CapabilitySummaryNew[]>(capabilitySummaries.values()));
+		return generateAllCombinations(new ArrayList <CapabilitySummary[]>(capabilitySummaries.values()));
 	}
 	
 	

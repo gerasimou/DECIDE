@@ -9,7 +9,7 @@ import java.net.MulticastSocket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import decide.StatusComponent;
-import decide.receipt.CLAReceiptNew;
+import decide.receipt.CLAReceipt;
 
 
 public class MulticastReceiverNew extends ReceiverDECIDENew{		
@@ -104,7 +104,7 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 			logger.info("Received from:"+serverAddress+", " + receivedObject+",[Status: "+getAtomicPeerStatus()+"]");
 	
 		//this DECIDE peer is known to use
-		if ( (networkUser instanceof CLAReceiptNew)) {// && ( ((CLAReceiptNew)networkUser).isKnownReceiver(serverAddress)) ) {
+		if ( (networkUser instanceof CLAReceipt)) {// && ( ((CLAReceiptNew)networkUser).isKnownReceiver(serverAddress)) ) {
     		setAtomicPeerStatus(StatusComponent.CHANGE);
 	    	networkUser.receive(serverAddress, receivedObject);
 	    	setTimeStamp(System.currentTimeMillis());

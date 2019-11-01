@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import auxiliary.Utility;
-import decide.DECIDENew;
+import decide.DECIDE;
 import network.TransmitterDECIDE;
 import network.ComponentTypeDECIDE;
 import network.MulticastReceiverNew;
@@ -27,7 +27,7 @@ public class ComponentFactory {
 	 * @param decide
 	 * @return
 	 */
-	public static ComponentNew makeNewComponentMulticastNew(Class componentClass, String configurationFile, DECIDENew decide){
+	public static Component makeNewComponentMulticastNew(Class componentClass, String configurationFile, DECIDE decide){
 		Utility.setup();
 
 		try {
@@ -116,7 +116,7 @@ public class ComponentFactory {
 			decide.setReceiverFromRobot(robotReceiver);
 			
 			
-			ComponentNew comp = (ComponentNew) componentClass.newInstance();
+			Component comp = (Component) componentClass.newInstance();
 			comp.setID(componentID);
 			comp.setDECIDE(decide);
 			return comp;

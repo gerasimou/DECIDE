@@ -2,12 +2,12 @@ package caseStudies.healthcare;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.EnvironmentNew;
-import decide.localControl.LocalControlNew;
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
+import decide.localControl.LocalControl;
 
 
-public class RobotLocalControl extends LocalControlNew {
+public class RobotLocalControl extends LocalControl {
 
 
 	/**
@@ -43,7 +43,7 @@ public class RobotLocalControl extends LocalControlNew {
 	 * enables the robot to adapt and still satisfy its local requirements and the responsibilities assigned
 	 */
 	@Override
-	public void execute(ConfigurationsCollectionNew modesCollection, EnvironmentNew environment) {
+	public void execute(ConfigurationsCollection modesCollection, Environment environment) {
 		//1) Update environment map based in "receivedEnvironmentMap", this enable us to 
 		//   do some preprocessing/analysis of the data received by the robot (e.g., add ML for prediction)
 		//e.g., to simply update the environment based on the received values (provided that the received information and those expected by the environment match)

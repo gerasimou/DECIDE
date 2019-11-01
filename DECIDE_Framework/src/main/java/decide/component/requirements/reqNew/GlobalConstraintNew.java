@@ -2,7 +2,7 @@ package decide.component.requirements.reqNew;
 
 import java.util.List;
 
-import decide.capabilitySummary.CapabilitySummaryNew;
+import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.RequirementType;
 
 
@@ -16,10 +16,10 @@ public abstract class GlobalConstraintNew extends Constraint {
 	}
 	
 	
-	public abstract Number evaluate (List<CapabilitySummaryNew> capabilitySummaries);
+	public abstract Number evaluate (List<CapabilitySummary> capabilitySummaries);
 
 //	public abstract Number evaluate(ConfigurationNew configuration);
 
-	public abstract boolean isSatisfied (List<CapabilitySummaryNew> capabilitySummaries);
+	public abstract boolean isSatisfied (List<CapabilitySummary> capabilitySummaries);
 
 }

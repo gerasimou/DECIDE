@@ -3,12 +3,12 @@ package caseStudies.healthcare;
 
 import auxiliary.Utility;
 import decide.component.requirements.DECIDEAttribute;
-import decide.configuration.ConfigurationNew;
-import decide.environment.EnvironmentNew;
-import decide.localAnalysis.LocalCapabilityAnalysisNew;
+import decide.configuration.Configuration;
+import decide.environment.Environment;
+import decide.localAnalysis.LocalCapabilityAnalysis;
 
 
-public class RobotEnvironment extends EnvironmentNew {
+public class RobotEnvironment extends Environment {
 
 	public RobotEnvironment() {
 		//Nothing to do here
@@ -16,7 +16,7 @@ public class RobotEnvironment extends EnvironmentNew {
 
 	
 	@Override
-	public String getEnvironmentModelParameters() {
+	public String getEnvironmentModel() {
 		StringBuilder envModelParams = new StringBuilder("\n\n//Environment Variables\n");
 		
 		//append p2iretry command with its value
@@ -30,10 +30,10 @@ public class RobotEnvironment extends EnvironmentNew {
 
 	
 	@Override
-	protected void adjustEnvironment (ConfigurationNew configuration, DECIDEAttribute attribute) {
+	protected void adjustEnvironment (Configuration configuration, DECIDEAttribute attribute) {
 		double stDeviation = 0.1;
 		double p2iretryValue = (double) environmentMap.get("p2iretry");
-		double confidenceValue = LocalCapabilityAnalysisNew.getConfidenceValue("1");
+		double confidenceValue = LocalCapabilityAnalysis.getConfidenceValue("1");
 		environmentMap.put("p2iretry", Math.max(0.1, p2iretryValue + confidenceValue * stDeviation));
 	}
 

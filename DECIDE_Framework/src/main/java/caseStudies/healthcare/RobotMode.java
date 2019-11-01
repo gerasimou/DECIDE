@@ -2,11 +2,11 @@ package caseStudies.healthcare;
 
 import java.util.Map;
 
-import decide.configuration.ConfigurationNew;
-import decide.configuration.ModeNew;
+import decide.configuration.Configuration;
+import decide.configuration.Mode;
 
 
-public class RobotMode extends ModeNew {
+public class RobotMode extends Mode {
 
 	/**
 	 * RobotMode constructor
@@ -26,8 +26,8 @@ public class RobotMode extends ModeNew {
 		double bestUtility 		= Double.MIN_NORMAL;
 		bestConfigurationKey		= null;
 		
-		for (Map.Entry<String, ConfigurationNew> entry : configurationsMap.entrySet()){
-			ConfigurationNew config = entry.getValue();
+		for (Map.Entry<String, Configuration> entry : configurationsMap.entrySet()){
+			Configuration config = entry.getValue();
 			
 			//1) determine if the configuration satisfies *local* constraints
 			boolean satisfied = config.evaluateLocalConstraints();

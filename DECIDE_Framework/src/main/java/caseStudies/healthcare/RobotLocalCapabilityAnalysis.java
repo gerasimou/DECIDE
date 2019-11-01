@@ -1,14 +1,14 @@
 package caseStudies.healthcare;
 
-import decide.capabilitySummary.CapabilitySummaryNew;
-import decide.configuration.ConfigurationNew;
-import decide.configuration.ConfigurationsCollectionNew;
-import decide.configuration.ModeNew;
-import decide.environment.EnvironmentNew;
-import decide.localAnalysis.LocalCapabilityAnalysisNew;
+import decide.capabilitySummary.CapabilitySummary;
+import decide.configuration.Configuration;
+import decide.configuration.ConfigurationsCollection;
+import decide.configuration.Mode;
+import decide.environment.Environment;
+import decide.localAnalysis.LocalCapabilityAnalysis;
 
 
-public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
+public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysis {
 
 	
 	/**
@@ -27,7 +27,7 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 	 * 3) assemble capability summary (one result per mode)
 	 */
 	@Override
-	public void execute(ConfigurationsCollectionNew configurationsCollection, EnvironmentNew environment) {
+	public void execute(ConfigurationsCollection configurationsCollection, Environment environment) {
 		//1) Carry out DECIDE-based quantitative verification
 		configurationsCollection.analyseConfigurations(environment, true);		
 
@@ -38,10 +38,10 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 		configurationsCollection.findBestPerMode();
 		
 		//3) Assemble capability summary
-		ModeNew mode = null;
+		Mode mode = null;
 		while ( (mode = configurationsCollection.getNextMode()) != null) {
-			ConfigurationNew bestConfig 	= mode.getBestConfiguration();
-			CapabilitySummaryNew cs		= new RobotCapabilitySummary((double)bestConfig.getVerificationResult("Room-Type1-Cost"),
+			Configuration bestConfig 	= mode.getBestConfiguration();
+			CapabilitySummary cs		= new RobotCapabilitySummary((double)bestConfig.getVerificationResult("Room-Type1-Cost"),
 																		(double)bestConfig.getVerificationResult("Room-Type1-Time"),
 																		(double)bestConfig.getVerificationResult("Room-Type2-Cost"),
 																		(double)bestConfig.getVerificationResult("Room-Type2-Time"),
@@ -52,7 +52,7 @@ public class RobotLocalCapabilityAnalysis extends LocalCapabilityAnalysisNew {
 
 	
 	@Override
-	public void shareCapabilitySummary(CapabilitySummaryNew[] csArray) { 
+	public void shareCapabilitySummary(CapabilitySummary[] csArray) { 
 		transmitter.send(csArray);
 	}
 

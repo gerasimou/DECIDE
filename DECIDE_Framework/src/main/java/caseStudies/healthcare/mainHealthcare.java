@@ -5,18 +5,18 @@ import org.apache.logging.log4j.Logger;
 
 import _main.mainDECIDE;
 import auxiliary.Utility;
-import decide.DECIDENew;
+import decide.DECIDE;
 import decide.DecideException;
 import decide.KnowledgeNew;
-import decide.capabilitySummary.CapabilitySummaryCollectionNew;
+import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.component.ComponentFactory;
-import decide.component.ComponentNew;
+import decide.component.Component;
 import decide.component.requirements.DECIDEAttributeCollection;
-import decide.configuration.ConfigurationsCollectionNew;
-import decide.environment.EnvironmentNew;
-import decide.localAnalysis.LocalCapabilityAnalysisNew;
-import decide.localControl.LocalControlNew;
-import decide.receipt.CLAReceiptNew;
+import decide.configuration.ConfigurationsCollection;
+import decide.environment.Environment;
+import decide.localAnalysis.LocalCapabilityAnalysis;
+import decide.localControl.LocalControl;
+import decide.receipt.CLAReceipt;
 import decide.selection.SelectionNew;
 
 import java.io.File;
@@ -56,23 +56,23 @@ public class mainHealthcare {
 		//create a new robot configuration instance
 		final double P3_FULL_MAX	= 1.0;
 		final double STEP			= 0.1;
-		ConfigurationsCollectionNew configurationCollections = new RobotConfigurationCollection(robotAttributes, P3_FULL_MAX, STEP);
+		ConfigurationsCollection configurationCollections = new RobotConfigurationCollection(robotAttributes, P3_FULL_MAX, STEP);
 
 		
 		//create a new robot environment instance
-		EnvironmentNew environment = new RobotEnvironment();
+		Environment environment = new RobotEnvironment();
 
 		
 		//create capability summary collection
-		CapabilitySummaryCollectionNew capabilitySummaryCollection = new RobotCapabilitySummaryCollection();
+		CapabilitySummaryCollection capabilitySummaryCollection = new RobotCapabilitySummaryCollection();
 		
 		
 		//create local capability analysis
-		LocalCapabilityAnalysisNew lca 	= new RobotLocalCapabilityAnalysis();
+		LocalCapabilityAnalysis lca 	= new RobotLocalCapabilityAnalysis();
 		
 		
 		//create cla receipt
-		CLAReceiptNew claReceipt		= new RobotCLAReceipt(capabilitySummaryCollection);
+		CLAReceipt claReceipt		= new RobotCLAReceipt(capabilitySummaryCollection);
 
 		
 		//create selection part
@@ -85,12 +85,12 @@ public class mainHealthcare {
 //		SelectionNew selection 		= new RobotSelectionExhaustive();
 		
 		//crate local control
-		LocalControlNew localControl = new RobotLocalControl();
+		LocalControl localControl = new RobotLocalControl();
 
-		DECIDENew decide  = new DECIDENew (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
+		DECIDE decide  = new DECIDE (lca, claReceipt, selection, localControl, configurationCollections, capabilitySummaryCollection, environment);
 
 		//create a new component
-		ComponentNew aComponent = ComponentFactory.makeNewComponentMulticastNew(Robot.class, configurationFile, decide);
+		Component aComponent = ComponentFactory.makeNewComponentMulticastNew(Robot.class, configurationFile, decide);
 
 		//init knowledge
 		//TODO
