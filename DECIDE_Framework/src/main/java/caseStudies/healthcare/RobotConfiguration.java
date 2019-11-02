@@ -29,7 +29,7 @@ public class RobotConfiguration extends Configuration {
 		StringBuilder model = new StringBuilder("\n\n//Congifuration Variables\n");
 
     		//add configuration parameters
-		model.append("const double p3ifull = "  + pfull  +";\n");		
+		model.append("const double rt2p3ifull = "  + pfull  +";\n");		
 		
 		return model.toString();
 	}

@@ -7,7 +7,7 @@ import decide.component.requirements.RequirementType;
 
 
 
-public abstract class GlobalObjectiveNew extends ObjectiveNew{
+public abstract class GlobalObjectiveNew extends Objective{
 	
 	/** */ 
 	public GlobalObjectiveNew(RequirementType reqType ,String id, boolean maximisation) {

@@ -4,10 +4,10 @@ import decide.component.requirements.RequirementType;
 
 
 
-public abstract class ObjectiveNew extends Requirement{
+public abstract class Objective extends Requirement{
 	
 	/** */ 
-	public ObjectiveNew(RequirementType reqType ,String id, boolean maximisation) {
+	public Objective(RequirementType reqType ,String id, boolean maximisation) {
 		super(reqType, id);
 	}
 

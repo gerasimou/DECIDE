@@ -4,7 +4,7 @@ import auxiliary.Utility;
 import decide.configuration.Configuration;
 import decide.evaluator.AttributeEvaluatorNew;
 
-public class DECIDEAttribute {
+public class DECIDEAttribute{
 	
 	/** Stochastic model & properties filenames*/
 	protected final String MODEL_FILENAME;
@@ -13,7 +13,7 @@ public class DECIDEAttribute {
 	protected final String PROPERTY;
 	
 	/** */
-	protected String modelTemplate;
+//	protected String modelTemplate;
 	
 	/** */
 	protected AttributeEvaluatorNew attrEvaluator;
@@ -23,56 +23,36 @@ public class DECIDEAttribute {
 	
 	/** */
 	protected final DECIDEAttributeType attrType;
+	
+	protected ModelTemplateDelegate modelTemplateDelegate;
 
 
 	
 	public DECIDEAttribute (String attributeName, String modelFilename, String property, DECIDEAttributeType attributeType) {//, AttributeEvaluatorNew evaluator) {
-		MODEL_FILENAME 	= modelFilename;
-		modelTemplate	= Utility.readFile(MODEL_FILENAME);
-		PROPERTY		= property;
-		name			= attributeName;
-		attrType		= attributeType;
-		attrEvaluator	= null;
+		MODEL_FILENAME 			= modelFilename;
+//		modelTemplate			= Utility.readFile(MODEL_FILENAME);
+		PROPERTY				= property;
+		name					= attributeName;
+		attrType				= attributeType;
+		attrEvaluator			= null;
+		modelTemplateDelegate	= new DefaultModelTemplateDelegate(Utility.readFile(MODEL_FILENAME));
 	}
 
-	
-//	/**
-//	 * Set the verification result for this attribute
-//	 * @param result
-//	 */
-//	public void setVerificationResult (Object result) {
-//		this.result = result;
-//	}
-//	
-//	
-//	/**
-//	 * Get verification result
-//	 * @return
-//	 */
-//	public Object getVerificationResult() {
-//		return this.result;
-//	}
-	
 	
 	/**
 	 * Return model template for verification
 	 * @return
 	 */
 	public String getModelTemplate(Configuration configuration) {
-		return this.modelTemplate +"\n";
+//		return this.modelTemplate +"\n";
+		return modelTemplateDelegate.getModelTemplate(configuration);
 	}
-	
 
-	/**
-	 * Set the model template for this attribute. 
-	 * This functionality enables to amend the model for this attribute dynamically,
-	 * as we do in the healthcare case study
-	 * 
-	 * @param modelTemplate
-	 */
-	public void setModelTemplate (String modelTemplate) {
-		this.modelTemplate = modelTemplate;
+	
+	public String getModelTemplate() {
+		return modelTemplateDelegate.getModelTemplate(null);
 	}
+
 	
 	
 	/**
@@ -129,5 +109,21 @@ public class DECIDEAttribute {
 		return this.MODEL_FILENAME;
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public void setModelTemplateDelegate (ModelTemplateDelegate mtDelegate) {
+		modelTemplateDelegate = mtDelegate;
+	}
+	
+	
+	/**
+	 * 
+	 * @param modelTemplate
+	 */
+	public void setModelTemplate (String modelTemplate) {
+		modelTemplateDelegate.setModelTemplate(modelTemplate);
+	}
 
 }

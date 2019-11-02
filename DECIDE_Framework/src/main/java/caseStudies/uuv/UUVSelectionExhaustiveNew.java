@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import decide.KnowledgeNew;
+import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.RequirementType;
@@ -113,7 +113,7 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 			
 			
 			//add both constraints to the list of responsibilites in Knowledge
-			KnowledgeNew.updateResponsibilities(Stream.of(lc1, lc2).collect(Collectors.toList()));
+			Knowledge.updateResponsibilities(Stream.of(lc1, lc2).collect(Collectors.toList()));
 			
 			
 			return true; //feasible solution has been found and my responibilities have been selected
@@ -121,7 +121,7 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 		
 		else {
 			
-			KnowledgeNew.clearResponsibilities();
+			Knowledge.clearResponsibilities();
 				
 			//otherwise, no feasible solution has been found 
 			return false;
@@ -163,7 +163,7 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 	
 	public boolean evaluteGlobalConstraints (List<CapabilitySummary> cs) {
 		boolean allConstraintsSatisfied = true;
-		List<GlobalConstraintNew> globalConstraints = KnowledgeNew.getGlobalConstraints();
+		List<GlobalConstraintNew> globalConstraints = Knowledge.getGlobalConstraints();
 		for (GlobalConstraintNew constraint : globalConstraints) {
 			boolean constraintSatisifed	=(boolean)constraint.isSatisfied(cs);
 			allConstraintsSatisfied 	= allConstraintsSatisfied && constraintSatisifed; 
@@ -174,7 +174,7 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 	
 	public double evaluteGlobalUtility (List<CapabilitySummary> cs) {
 		double utility = Double.MIN_NORMAL;
-		List<GlobalObjectiveNew> globalObjectives = KnowledgeNew.getGlobalObjectives();
+		List<GlobalObjectiveNew> globalObjectives = Knowledge.getGlobalObjectives();
 		for (GlobalObjectiveNew objective : globalObjectives) {
 			utility	= (double )objective.evaluate(cs);
 		}

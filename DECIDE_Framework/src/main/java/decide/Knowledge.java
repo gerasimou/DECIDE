@@ -7,11 +7,11 @@ import decide.component.Component;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.component.requirements.reqNew.LocalConstraint;
-import decide.component.requirements.reqNew.LocalObjectiveNew;
+import decide.component.requirements.reqNew.LocalObjective;
 import decide.component.requirements.reqNew.Requirement;
 
 
-public class KnowledgeNew {
+public class Knowledge {
 		
 	/** this components ID */
 	private static String ID;
@@ -21,14 +21,14 @@ public class KnowledgeNew {
 	private static List<GlobalConstraintNew> globalConstraints;
 	private static List<LocalConstraint>  localConstraints;
 	private static List<GlobalObjectiveNew>  globalObjectives;
-	private static List<LocalObjectiveNew>   localObjectives;
+	private static List<LocalObjective>   localObjectives;
 	private static List<LocalConstraint> responsibilitiesList;
 
 	
 	/** 
 	 * Class <b>private</b> constructor
 	 */
-	private KnowledgeNew() {}
+	protected Knowledge() {}
 		
 	
 	public static void initKnowledgeNew(Component component){
@@ -38,7 +38,7 @@ public class KnowledgeNew {
 		globalConstraints 	= new ArrayList<GlobalConstraintNew>();
 		localConstraints 	= new ArrayList<LocalConstraint>();
 		globalObjectives	= new ArrayList<GlobalObjectiveNew>();
-		localObjectives		= new ArrayList<LocalObjectiveNew>();
+		localObjectives		= new ArrayList<LocalObjective>();
 		
 		for (Requirement req : component.getGlobalRequirements()) {
 			if (req instanceof GlobalConstraintNew)
@@ -52,7 +52,7 @@ public class KnowledgeNew {
 			if (req instanceof LocalConstraint)
 				localConstraints.add((LocalConstraint)req);
 			else
-				localObjectives.add((LocalObjectiveNew)req);			
+				localObjectives.add((LocalObjective)req);			
 		}
 		
 		ID 						= component.getID();
@@ -77,7 +77,7 @@ public class KnowledgeNew {
 		return globalObjectives;
 	}
 	
-	public static List<LocalObjectiveNew> getLocalObjectives(){
+	public static List<LocalObjective> getLocalObjectives(){
 		return localObjectives;
 	}
 	

@@ -75,6 +75,22 @@ public class LocalModelBuilder {
 	}
 	
 	
+	public LocalModelBuilder() {		
+		try {
+			// Create a log for PRISM output (hidden or stdout)
+//			PrismLog mainLog = new PrismDevNullLog();
+			PrismLog mainLog = new PrismDevNullLog();// FileLog("stdout");
+
+			// Init Prism 
+			m_prism = new Prism(mainLog);
+			m_prism.initialise();
+		} catch (PrismException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+	}
+	
+	
 	public void shutDown() {
 		try {
 			m_prism.closeDown();
@@ -85,9 +101,16 @@ public class LocalModelBuilder {
 	}
 	
 	
+	public String preprocess(String[] ppArgs) {
+		m_pp_in_args = ppArgs;
+		return preprocess();
+	}
+	
 	public String preprocess() {
 		try {
 			Preprocessor pp = new Preprocessor(m_prism, new File(m_pp_in_args[0]));
+			
+			String[] t = new String[]{m_pp_in_args[1], m_pp_in_args[2]};
 			pp.setParameters(m_pp_in_args);
 			String s = pp.preprocess();
 			if (s == null) {

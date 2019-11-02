@@ -14,12 +14,12 @@ import decide.qv.prism.PrismAPINew;
  */
 public class BinaryEvaluator implements AttributeEvaluatorNew{
 	
-	private double ub;
-	private double maxSteps;
-	private String parameterName;
+	protected double ub;
+	protected double maxSteps;
+	protected String parameterName;
 
 	/** PrismAPI handler */
-	private PrismAPINew prism;
+	protected PrismAPINew prism;
 	protected String RQV_OUTPUT_FILENAME	= Utility.getProperty(DECIDEConstants.PRISM_OUTPUT_FILENAME);
 
 	
@@ -61,7 +61,7 @@ public class BinaryEvaluator implements AttributeEvaluatorNew{
 	
 	// To be substituted by model checking invocation of property
 	// P>=0.095[F<=t "end"]
-	private boolean eval (String model, String property, double parameterValue){
+	protected boolean eval (String model, String property, double parameterValue){
 		String finalModel = model +"\n\n"+ "const double " + parameterName +" = " + parameterValue +";"; 
 		double result = prism.run(finalModel, property);
 		if (result == 1.0)

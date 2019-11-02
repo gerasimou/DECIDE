@@ -12,13 +12,13 @@ public class mainHealthcareRobot {
 		int port		= 9201;
 
 		HealthcareRobotTransmitter client = new HealthcareRobotTransmitter(address, port, ComponentTypeDECIDE.ROBOT);
-//		Thread t = new Thread(client, "UUV Client");
+		Thread t = new Thread(client, "UUV Client");
 		
-//		t.start();
+		t.start();
 		
-		for (int i=0; i<10; i++) {
-			System.out.println(client.getMsg());
-		}
+//		for (int i=0; i<10; i++) {
+//			System.out.println(client.getMsg());
+//		}
 	}
 
 }

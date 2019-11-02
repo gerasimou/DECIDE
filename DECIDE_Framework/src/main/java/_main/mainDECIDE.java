@@ -16,7 +16,7 @@ import caseStudies.uuv.UUVLocalCapabilityAnalysis;
 import caseStudies.uuv.UUVLocalControl;
 import caseStudies.uuv.UUVSelectionExhaustiveNew;
 import decide.DECIDE;
-import decide.KnowledgeNew;
+import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.component.ComponentFactory;
 import decide.component.Component;
@@ -95,7 +95,7 @@ public class mainDECIDE {
 		Component aComponent = ComponentFactory.makeNewComponentMulticastNew(UUV.class, configurationFile, decide);
 
 		//init knowledge
-		KnowledgeNew.initKnowledgeNew(aComponent);
+		Knowledge.initKnowledgeNew(aComponent);
 		
 		//start executing		
 		aComponent.run();		

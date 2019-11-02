@@ -24,6 +24,17 @@ public class RobotEnvironment extends Environment {
 		Double value	= (double)environmentMap.get(key);
 		envModelParams.append("const double " + key +" = " + value +";\n");
 
+		//append v_i command with its value
+		String keyV 	= "v_i";
+		Double valueV	= (double)environmentMap.get(keyV);
+		envModelParams.append("const double " + keyV +" = " + valueV +";\n");
+
+		//append d_i command with its value
+		String keyD 	= "d_i";
+		Double valueD	= (double)environmentMap.get(keyV);
+		envModelParams.append("const double " + keyD +" = " + valueD +";\n");
+
+		
 		//return the model
 		return envModelParams.toString();
 	}
@@ -41,7 +52,8 @@ public class RobotEnvironment extends Environment {
 	@Override
 	protected void initEnvironment() {
 		environmentMap.put("p2iretry", Double.parseDouble(Utility.getProperty("p2i_retry")));
-		environmentMap.put("speedi",   Double.parseDouble(Utility.getProperty("speed_i")));
+		environmentMap.put("v_i",   Double.parseDouble(Utility.getProperty("v_i")));
+		environmentMap.put("d_i",   Double.parseDouble(Utility.getProperty("d_i")));
 		environmentMap.put("avTasks",  Utility.getProperty("avTasks").split(","));
 		environmentMap.put("trapped",  Boolean.parseBoolean(Utility.getProperty("trapped")));
 	}

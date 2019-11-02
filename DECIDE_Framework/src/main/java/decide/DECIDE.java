@@ -236,7 +236,7 @@ public class DECIDE implements Cloneable, Serializable{
 						localControl.setStatus(StatusRobot.IDLE);
 					}
 					else {
-						logger.info("[Component "+KnowledgeNew.getID()+ " has responsibilities]" + KnowledgeNew.getResponsibilitiesToString());
+						logger.info("[Component "+Knowledge.getID()+ " has responsibilities]" + Knowledge.getResponsibilitiesToString());
 						if (!localControl.checkStatus(StatusRobot.OFFLINE)) {
 							localControl.setStatus(StatusRobot.STABLE);
 							logger.info("[Component "+localControl.getStatus()+" NewCommand ");

@@ -7,7 +7,7 @@ import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.LocalConstraint;
-import decide.component.requirements.reqNew.LocalObjectiveNew;
+import decide.component.requirements.reqNew.LocalObjective;
 import decide.configuration.Configuration;
 
 
@@ -15,7 +15,7 @@ public class UUVRequirements {
 
 	private List<GlobalConstraintNew> globalConstraints;
 	private List<LocalConstraint> localConstraints;
-	private List<LocalObjectiveNew> localObjectives;
+	private List<LocalObjective> localObjectives;
 	
 	
 	public UUVRequirements() {
@@ -75,7 +75,7 @@ public class UUVRequirements {
 		//R6: If R1-R3 & R4 – R5 are satisfied by multiple configurations, the UUV should use one of these configurations 
 		//that maximises its speed and minimises the local energy consumption , i.e., U = w_1 x e + w_2 x sp	
 		
-		LocalObjectiveNew localObj1 = new LocalObjectiveNew(RequirementType.COMPONENT_OBJECTIVE, "local-utility", true) {
+		LocalObjective localObj1 = new LocalObjective(RequirementType.COMPONENT_OBJECTIVE, "local-utility", true) {
 			@Override
 			public Object evaluate(Configuration configuration) {
 //				DECIDEAttribute attribute = configuration.getAttributeByName("attr2");

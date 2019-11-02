@@ -93,6 +93,28 @@ public class MDPAdversaryGeneration {
 	}
 	
 	
+	public MDPAdversaryGeneration(String modelExportFile, String propertiesFile, String advExportFile) {
+		m_out_model_file = modelExportFile;
+		m_in_properties_file = propertiesFile;
+		m_out_adv_file = advExportFile;	
+		
+		try {
+			// Create a log for PRISM output (hidden or stdout)
+			PrismLog mainLog = new PrismDevNullLog();
+			//PrismLog mainLog = new PrismFileLog("stdout");
+	
+			// Init Prism 
+			m_prism = new Prism(mainLog);
+			m_prism.initialise();
+		} catch (PrismException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+		
+		m_pr = new PrismPolicyReader(m_out_adv_file);
+	}
+	
+	
 	public void shutDown() {
 		try {
 			m_prism.closeDown();
@@ -121,26 +143,27 @@ public class MDPAdversaryGeneration {
 	}
 	
 	
-	public void run() {
+	public void run()
+	{
 		try {
-				
-			// Parse and load a PRISM model from a file
-			ModulesFile modulesFile = m_prism.parseModelFile(new File(m_out_model_file));
-			m_prism.loadPRISMModel(modulesFile);
-			// Parse and load a properties model for the model
-			PropertiesFile propertiesFile = m_prism.parsePropertiesFile(modulesFile, new File(m_in_properties_file));
-	
-			// Configure PRISM to export an optimal adversary to a file when model checking an MDP 
-			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "MDP");
-			m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, m_out_adv_file);
 			
-			// Model check the first property from the file
-	//		System.out.println(propertiesFile.getPropertyObject(1));
-			
-			Result result = m_prism.modelCheck(propertiesFile, propertiesFile.getPropertyObject(1));
-	//		System.out.println(result.getResult());
-	
-	        m_pr.readPolicy();  
+		// Parse and load a PRISM model from a file
+		ModulesFile modulesFile = m_prism.parseModelFile(new File(m_out_model_file));
+		m_prism.loadPRISMModel(modulesFile);
+		// Parse and load a properties model for the model
+		PropertiesFile propertiesFile = m_prism.parsePropertiesFile(modulesFile, new File(m_in_properties_file));
+
+		// Configure PRISM to export an optimal adversary to a file when model checking an MDP 
+		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV, "DTMC");
+		m_prism.getSettings().set(PrismSettings.PRISM_EXPORT_ADV_FILENAME, m_out_adv_file);
+		
+		// Model check the first property from the file
+//		System.out.println(propertiesFile.getPropertyObject(1));
+		
+		Result result = m_prism.modelCheck(propertiesFile, propertiesFile.getPropertyObject(0));
+//		System.out.println(result.getResult());
+
+        m_pr.readPolicy();  
 					
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e.getMessage());

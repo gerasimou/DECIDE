@@ -21,38 +21,39 @@ public class RobotSelectionMDP extends SelectionNew {
 
 	private MDPAdversaryGeneration m_mdp_gen;
 	private HashMap<String, LinkedList<RobotAssignment>> m_allocations;
-	
-	public RobotSelectionMDP(String[] ppArgs, String modelExportFile, String propertiesFile, String advExportFile) {
+		
+
+	public RobotSelectionMDP(String modelExportFile, String propertiesFile, String advExportFile) {
 		super();
-		m_mdp_gen = new MDPAdversaryGeneration(ppArgs, modelExportFile, propertiesFile, advExportFile);
-	}
+		m_mdp_gen = new MDPAdversaryGeneration(modelExportFile, propertiesFile, advExportFile);
+	}	
+	
+	
 
 	public void shutDown() {
 		m_mdp_gen.shutDown();
 	}
 	
-	// NOTE: only rooms of type 2 have associated utility for the optional task
-	public String encodeUtility(String robotId, int capabilityIndex, int roomTypeID, Double value) {
-		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t"+ roomTypeID+"] true : "+Double.toString(value)+"; ");
-	}
-
-	public String encodeUtilities(RobotCapabilitySummaryCollection c) {
-		String res="// Start of utility collection -------------- \n";
-		res += "rewards\"utility\"\n";
-		
-		Map<String, CapabilitySummary[]> capabilities = (Map<String, CapabilitySummary[]>) c.getCapabilitySummaries();
-		for (Map.Entry<String, CapabilitySummary[]> entry : capabilities.entrySet()) {
-			CapabilitySummary[] robotCapabilities = entry.getValue();
-			for (int i=0; i<robotCapabilities.length;i++) {
-				Double utility = 1.0;//(Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
-				res += encodeUtility(entry.getKey(),i+1,1,utility)+"\n";
-				res += encodeUtility(entry.getKey(),i+1,2,utility)+"\n";
-			}
-		}
-		res +="endrewards\n";
-		res +="// End of utility collection -------------- \n";
-		return res;
-	}
+//	public String encodeUtility(String robotId, int capabilityIndex, Double value) {
+//		return ("["+robotId+"c"+Integer.toString(capabilityIndex)+"t2] true : "+Double.toString(value)+"; ");
+//	}
+//
+//	public String encodeUtilities(RobotCapabilitySummaryCollection c) {
+//		String res="// Start of utility collection -------------- \n";
+//		res += "rewards\"utility\"\n";
+//		
+//		Map<String, CapabilitySummaryNew[]> capabilities = (Map<String, CapabilitySummaryNew[]>) c.getCapabilitySummaries();
+//		for (Map.Entry<String, CapabilitySummaryNew[]> entry : capabilities.entrySet()) {
+//			CapabilitySummaryNew[] robotCapabilities = entry.getValue();
+//			for (int i=0; i<robotCapabilities.length;i++) {
+//				Double utility = (Double)robotCapabilities[i].getCapabilitySummaryElement("utility");
+//				res += encodeUtility(entry.getKey(),i+1,utility)+"\n";
+//			}
+//		}
+//		res +="endrewards\n";
+//		res +="// End of utility collection -------------- \n";
+//		return res;
+//	}
 	
 	public String encodeCapabilityElement(String label, String robotId, int capabilityIndex, int roomType, Double value) {
 		String roomTypeString = roomType < 0 ? "" : "t"+Integer.toString(roomType);			
@@ -86,7 +87,7 @@ public class RobotSelectionMDP extends SelectionNew {
 	
 	public String preprocessAllocationModel (String[] args, RobotCapabilitySummaryCollection c) {
 		String res = m_mdp_gen.preprocess(args);
-		res += encodeUtilities(c);
+//		res += encodeUtilities(c);
 		res += encodeCapabilities(c);
 		return res;
 	}
@@ -125,52 +126,64 @@ public class RobotSelectionMDP extends SelectionNew {
     	return m_mdp_gen.getPlan();
     }
     
+       
+    
     @Override
 	public boolean execute(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
+    	String numRobots 		=  1+"";
+    	String numCapabilities 	=  2+"";
+    	String numRoomTypes		=  2+"";
+    	String RRoomsT1			= RobotKnowledge.getREMAININGROOMST1() +"";
+    	String RRoomsT2			= RobotKnowledge.getREMAININGROOMST2() +"";
+    	
+		String[] ppArgs = {"models/healthcare/global/gallocsp.pp", numRobots, numCapabilities, numRoomTypes, RRoomsT1, RRoomsT2}; //#robots, #capabilities (p3_full discretisation), #room types
+
+		m_mdp_gen.setM_pp_in_args(ppArgs);
+
+		
 		//Generate 
 		List<String> keysList = new ArrayList<>();
 		Set<String> keys = capabilitySummaryCollection.keySet();
+//		System.out.println("Keys: "+ keys);
 		for (String key : keys) {
 			keysList.add(key); 
 		}
 		keysList.sort(Comparator.comparing( String::toString ));
-		
+//		System.out.println("Keys sorted: "+ keysList);
 
 		CapabilitySummaryCollection capabilitySummaryCollectionOrdered = new RobotCapabilitySummaryCollection();
 		Map<Integer, String> robotIDIPMap = new HashMap<>();
 		int robotID = 1;
-		for (String key : keys) {
+		for (String key : keysList) {
 			robotIDIPMap.put(robotID, key);
 			capabilitySummaryCollectionOrdered.put ("r"+robotID, capabilitySummaryCollection.get(key));
 			robotID++;
 		}
 		
 		
-		execute(capabilitySummaryCollectionOrdered);
+		//TODO: here we need to make the distribution of tasks based on the capability summaries
+		//Here we need to invoke the MDP policy synthesis developed by Javier
+		String allocationModelCode = preprocessAllocationModel( m_mdp_gen.getM_pp_in_args(), (RobotCapabilitySummaryCollection)capabilitySummaryCollectionOrdered);
+		exportAllocationModel(allocationModelCode, m_mdp_gen.getM_out_model_file());
+		m_mdp_gen.run();
+		m_allocations = generateAllocations(m_mdp_gen.getAdv());
+		
 		
 		for (String robotId : m_allocations.keySet()) {
-			System.out.println(robotId);
+//			System.out.println(robotId);
 			System.out.println(robotIDIPMap.get(Integer.parseInt(robotId)) +"\t"+ m_allocations.get(robotId));
 		}
 		
 		return true;
 	}
-	
-	
-	public boolean execute(CapabilitySummaryCollection capabilitySummaryCollection) {
-		//TODO: here we need to make the distribution of tasks based on the capability summaries
-		//Here we need to invoke the MDP policy synthesis developed by Javier
-		String allocationModelCode = preprocessAllocationModel( m_mdp_gen.getM_pp_in_args(), (RobotCapabilitySummaryCollection)capabilitySummaryCollection);
-		exportAllocationModel(allocationModelCode, m_mdp_gen.getM_out_model_file());
-		m_mdp_gen.run();
-		m_allocations = generateAllocations(m_mdp_gen.getAdv());
-		return false;
-	}
 
+    
+    
+    
+    
 	
 	// Class test
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		
 	// Create a capability analysis collection to extract info for Prism model
 		
@@ -185,8 +198,8 @@ public class RobotSelectionMDP extends SelectionNew {
 		r2[1] =  new RobotCapabilitySummary(3, 3, 20, 22, 3);//, 89);
 		
 		
-		col.addCapabilitySummary("r1", r2);
-		col.addCapabilitySummary("r2", r1);
+		col.addCapabilitySummary("r1", r1);
+		col.addCapabilitySummary("r2", r2);
 		
 		
 	// Create a Robot MDP selection object to run a test
@@ -197,18 +210,16 @@ public class RobotSelectionMDP extends SelectionNew {
 		String allocationModelFile = workPath+"allocmodel.prism";
 		String propsFile = workPath+"gallocsp.props";
 		String advFile = workPath+"adv.tra";
-		RobotSelectionMDP sel = new RobotSelectionMDP(ppArgs, allocationModelFile, propsFile, advFile);
+		RobotSelectionMDP sel = new RobotSelectionMDP(allocationModelFile, propsFile, advFile);
+		sel.m_mdp_gen.setM_pp_in_args(ppArgs);
 		sel.execute(null, col);
 		
 //        System.out.println(sel.getPlan().toString());
-		System.out.println(sel.getAllocations().toString());
+//		System.out.println(sel.getAllocations().toString());
 		sel.shutDown();
 		
 		
 	}
 	
 }
-
-
-
 

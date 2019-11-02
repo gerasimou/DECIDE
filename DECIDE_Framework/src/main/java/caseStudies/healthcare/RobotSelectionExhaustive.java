@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import decide.KnowledgeNew;
+import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
@@ -95,7 +95,7 @@ public class RobotSelectionExhaustive extends SelectionNew {
 
 	public boolean evaluteGlobalConstraints (List<CapabilitySummary> cs) {
 		boolean allConstraintsSatisfied = true;
-		List<GlobalConstraintNew> globalConstraints = KnowledgeNew.getGlobalConstraints();
+		List<GlobalConstraintNew> globalConstraints = Knowledge.getGlobalConstraints();
 		for (GlobalConstraintNew constraint : globalConstraints) {
 			boolean constraintSatisifed	=(boolean)constraint.isSatisfied(cs);
 			allConstraintsSatisfied 	= allConstraintsSatisfied && constraintSatisifed; 
@@ -106,7 +106,7 @@ public class RobotSelectionExhaustive extends SelectionNew {
 	
 	public double evaluteGlobalUtility (List<CapabilitySummary> cs) {
 		double utility = Double.MIN_NORMAL;
-		List<GlobalObjectiveNew> globalObjectives = KnowledgeNew.getGlobalObjectives();
+		List<GlobalObjectiveNew> globalObjectives = Knowledge.getGlobalObjectives();
 		for (GlobalObjectiveNew objective : globalObjectives) {
 			utility	= (double )objective.evaluate(cs);
 		}

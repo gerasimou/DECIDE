@@ -3,7 +3,7 @@ package caseStudies.uuv;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import decide.KnowledgeNew;
+import decide.Knowledge;
 import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollection;
 import decide.configuration.Mode;
@@ -78,7 +78,7 @@ public class UUVLocalControl extends LocalControl {
 	   UUVConfiguration bestConfig	= null;
 	   
 	   //If the robot DOES NOT HAVE responsibilities --> IDLE
-	   if (KnowledgeNew.hasNullResponsibilities()) {
+	   if (Knowledge.hasNullResponsibilities()) {
 		   bestConfig = idleConfig; 
 	   }
 	   else {

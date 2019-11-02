@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import decide.KnowledgeNew;
+import decide.Knowledge;
 import decide.component.requirements.DECIDEAttribute;
 import decide.component.requirements.DECIDEAttributeCollection;
 import decide.component.requirements.reqNew.LocalConstraint;
-import decide.component.requirements.reqNew.LocalObjectiveNew;
+import decide.component.requirements.reqNew.LocalObjective;
 
 
 public abstract class Configuration implements Serializable{
@@ -105,6 +105,7 @@ public abstract class Configuration implements Serializable{
 	 * @return
 	 */
 	public Object getVerificationResult(String key) {
+//		System.out.println(attributesStringMap);
 		DECIDEAttribute attribute = attributesStringMap.get(key.toUpperCase());
 		return attributesMap.get(attribute);
 //		for (DECIDEAttribute attribute : attributesMap.keySet()) {
@@ -139,7 +140,7 @@ public abstract class Configuration implements Serializable{
 	 */
 	public boolean evaluateLocalConstraints() {
 		boolean satisfied = true;
-		List<LocalConstraint> localConstraints = KnowledgeNew.getLocalConstraints();
+		List<LocalConstraint> localConstraints = Knowledge.getLocalConstraints();
 		for (LocalConstraint constraint : localConstraints) {
 			
 			//get the verification results for this constraint
@@ -159,8 +160,8 @@ public abstract class Configuration implements Serializable{
 	 * to <i>localRequirementResults</i> list
 	 */
 	public void evaluateLocalObjectives() {
-		List<LocalObjectiveNew> localObjectives = KnowledgeNew.getLocalObjectives();
-		for (LocalObjectiveNew objective : localObjectives) {
+		List<LocalObjective> localObjectives = Knowledge.getLocalObjectives();
+		for (LocalObjective objective : localObjectives) {
 			
 			//get the verification results for this objective
 			localRequirementsResults.put(objective.getID(), objective.evaluate(this));
@@ -174,7 +175,7 @@ public abstract class Configuration implements Serializable{
 	 */
 	public boolean evaluateResponsibilities() {
 		boolean satisfied = true;
-		List<LocalConstraint> responsibilities = KnowledgeNew.getResponsibilities();
+		List<LocalConstraint> responsibilities = Knowledge.getResponsibilities();
 		
 		for (LocalConstraint responsibility : responsibilities) {
 			

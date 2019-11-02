@@ -1,3 +1,4 @@
+
 //#Room Type 1 Cost
 //Room-Type1-Cost, models/healthcare/local/t1room.prism, LCA 
 R{"c"}=? [ F "end" ]
@@ -5,7 +6,7 @@ R{"c"}=? [ F "end" ]
 
 //#Room Type 1 Completion time
 //Room-Type1-time, models/healthcare/local/t1room.prism, LCA
-P>=0.095[F<=t "end"]
+P>=0.95[F<=t "end"]
 
 
 //#Room Type 2 Cost
@@ -15,19 +16,19 @@ R{"c"}=? [ F "end" ]
 
 //#Room Type 2 Completion time
 //Room-Type2-Time, models/healthcare/local/t2room.prism, LCA
-P>=0.095[F<=t "end"] 
+P>=0.95[F<=t "end"] 
 
 
 //#Travelling Completion time
 //Travelling-Time, models/healthcare/local/travel.prism, LCA
-P>=0.095[F<=t "end"] 
+P>=0.95[F<=t "end"] 
 
 
 //#Servicing completion time (local control)
-//Servicing-Time, models/healthcare/local/rooms.pp, LOCAL_CONTROL
-P>=0.095[F<=t "end"] 
+//Servicing-Time, models/healthcare/local/rooms.pp, BOTH
+P>=0.95[F<=t "end"] 
 
 
 //#Utility
-//Utility, models/healthcare/local/rooms.pp, LOCAL_CONTROL
+//Utility, models/healthcare/local/rooms.pp, BOTH
 R{"u"}=? [ F "end" ]

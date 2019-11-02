@@ -5,10 +5,10 @@ import decide.configuration.Configuration;
 
 
 
-public abstract class LocalObjectiveNew extends ObjectiveNew{
+public abstract class LocalObjective extends Objective{
 	
 	/** */ 
-	public LocalObjectiveNew(RequirementType reqType ,String id, boolean maximisation) {
+	public LocalObjective(RequirementType reqType ,String id, boolean maximisation) {
 		super(reqType, id, maximisation);
 	}
 

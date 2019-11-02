@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import auxiliary.Utility;
 import decide.DECIDEConstants;
-import decide.DecideException;
 
 
 public abstract class DECIDEAttributeCollection extends ConcurrentHashMap<String, DECIDEAttribute>{
@@ -46,6 +45,9 @@ public abstract class DECIDEAttributeCollection extends ConcurrentHashMap<String
 		
 		//set evaluator for each attribute
 		setEvaluatorPerAttribute();
+		
+		//customise model template for each attribute
+		customiseModelTemplatePerAttribute();
 	}
 
 	
@@ -54,7 +56,16 @@ public abstract class DECIDEAttributeCollection extends ConcurrentHashMap<String
 		return super.get(key.toString().toUpperCase());
 	}
 	
+	
+	@Override
+	public DECIDEAttribute put(String key, DECIDEAttribute value) {
+		return super.put(key.toUpperCase(), value);
+	}
+
+	
 	public abstract void setEvaluatorPerAttribute();
+	
+	public abstract void customiseModelTemplatePerAttribute();
 	
 	
 	public abstract void setInternalModelFile();

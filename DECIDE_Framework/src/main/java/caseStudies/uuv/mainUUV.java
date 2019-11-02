@@ -4,7 +4,7 @@ import java.io.File;
 
 import auxiliary.Utility;
 import decide.DECIDE;
-import decide.KnowledgeNew;
+import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.component.Component;
 import decide.component.ComponentFactory;
@@ -65,7 +65,7 @@ public class mainUUV {
 		Component aComponent = ComponentFactory.makeNewComponentMulticastNew(UUV.class, configurationFile, decide);
 
 		//init knowledge
-		KnowledgeNew.initKnowledgeNew(aComponent);
+		Knowledge.initKnowledgeNew(aComponent);
 		
 		((UUVSelectionExhaustiveNew)selection).setMyAddress(lca.getTransmitterToOtherDECIDE().getServerAddress());
 		

@@ -25,6 +25,12 @@ public class UUVAttributesCollection extends DECIDEAttributeCollection {
 		}		
 	}
 
+
+	@Override
+	public void customiseModelTemplatePerAttribute() {
+		// Nothing TODO 
+	}
+
 	
 
 }
