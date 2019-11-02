@@ -3,7 +3,7 @@ package decide.qv.prism;
 import parser.ast.ModulesFile;
 import parser.ast.PropertiesFile;
 import prism.Prism;
-import prism.PrismFileLog;
+import prism.PrismDevNullLog;
 import prism.PrismLog;
 import prism.Result;
 
@@ -23,11 +23,11 @@ public class PrismAPINew{
 	/**
 	 * Class constructor
 	 */
-	public PrismAPINew(final String outputFileName){
-		try {
+	public PrismAPINew(){
+		try {PrismDevNullLog
 			// initialise PRISM
-			mainLog				= new PrismFileLog(outputFileName, false);
-			prism 				= new Prism(mainLog, mainLog);
+			mainLog				= new PrismDevNullLog();// FileLog(outputFileName, false);
+			prism 				= new Prism (mainLog);
 			prism.initialise();
 //			prism.setLinEqMethod(1);
 //			prism.setMaxIters(100000);

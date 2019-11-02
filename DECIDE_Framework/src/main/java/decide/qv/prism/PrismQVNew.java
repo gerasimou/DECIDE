@@ -13,7 +13,7 @@ public class PrismQVNew implements QVNew {
 	/** Stochastic model & properties filenames*/
 //	protected String MODEL_FILENAME 		= Utility.getProperty("MODEL_FILE");
 //	protected String PROPERTIES_FILENAME 	= Utility.getProperty("PROPERTIES_FILE");
-	protected String PRISM_OUTPUT_FILENAME	= Utility.getProperty(DECIDEConstants.PRISM_OUTPUT_FILENAME);
+//	protected String PRISM_OUTPUT_FILENAME	= Utility.getProperty(DECIDEConstants.PRISM_OUTPUT_FILENAME);
 
 //	/** # of CSL properties */
 //	private int NUM_OF_PROPERTIES;	
@@ -26,7 +26,7 @@ public class PrismQVNew implements QVNew {
 		super();
 		
 		//init prism instance
-		this.prism = new PrismAPINew(PRISM_OUTPUT_FILENAME);		
+		this.prism = new PrismAPINew();		
 	}	
 	
 	

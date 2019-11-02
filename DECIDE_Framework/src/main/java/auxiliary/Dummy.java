@@ -56,7 +56,7 @@ public class Dummy {
 
 	
 	private static void runPrismAPINew() {
-		PrismAPINew api = new PrismAPINew("output_PRISM.txt");
+		PrismAPINew api = new PrismAPINew();
 		
 		String modelString 	= Utility.readFile("models/die/die.pm");		
 		String property		= "P=? [ F s=7 & d=5]";		

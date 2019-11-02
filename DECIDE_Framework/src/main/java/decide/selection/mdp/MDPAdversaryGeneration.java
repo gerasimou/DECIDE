@@ -71,25 +71,8 @@ public class MDPAdversaryGeneration {
 
 		
 	public MDPAdversaryGeneration(String[] ppArgs, String modelExportFile, String propertiesFile, String advExportFile) {
+		this(modelExportFile, propertiesFile, advExportFile);
 		m_pp_in_args = ppArgs;
-		m_out_model_file = modelExportFile;
-		m_in_properties_file = propertiesFile;
-		m_out_adv_file = advExportFile;	
-		
-		try {
-			// Create a log for PRISM output (hidden or stdout)
-			PrismLog mainLog = new PrismDevNullLog();
-			//PrismLog mainLog = new PrismFileLog("stdout");
-	
-			// Init Prism 
-			m_prism = new Prism(mainLog);
-			m_prism.initialise();
-		} catch (PrismException e) {
-			System.out.println("Error: " + e.getMessage());
-			System.exit(1);
-		}
-		
-		m_pr = new PrismPolicyReader(m_out_adv_file);
 	}
 	
 	

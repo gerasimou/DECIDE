@@ -20,8 +20,6 @@ public class BinaryEvaluator implements AttributeEvaluatorNew{
 
 	/** PrismAPI handler */
 	protected PrismAPINew prism;
-	protected String RQV_OUTPUT_FILENAME	= Utility.getProperty(DECIDEConstants.PRISM_OUTPUT_FILENAME);
-
 	
 	
 	
@@ -31,7 +29,7 @@ public class BinaryEvaluator implements AttributeEvaluatorNew{
 		this. parameterName = parameterName;
 		
 		//init prism instance
-		this.prism = new PrismAPINew(RQV_OUTPUT_FILENAME);		
+		this.prism = new PrismAPINew();		
 	}
 	
 	

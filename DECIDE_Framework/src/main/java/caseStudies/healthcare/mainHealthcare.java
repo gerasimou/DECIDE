@@ -27,23 +27,7 @@ public class mainHealthcare {
 	static Logger logger = LogManager.getLogger(mainDECIDE.class);
 	
 	
-	/**
-	 * Log system events to console or file
-	 * @param String log
-	 */
-	private static void logEvents(String parameter){
-		if(logger.isDebugEnabled())
-			logger.debug("[debug] : " + parameter);
-		else
-			logger.info("[info] : " + parameter);
-
-		//logger.error("This is error : " + parameter);
-	}
-		
-	
-	
 	public static void main(String[] args) throws DecideException {	
-		logEvents("Starting DECIDE simulation");
 			
 		//setup configuration file, it can also be provided as an argument
 		String configurationFile = "resources" + File.separator + "healthcare" +File.separator +"config.properties";
@@ -76,7 +60,6 @@ public class mainHealthcare {
 
 		
 		//create selection part
-		
 		String modelExportFile 	= "models/healthcare/global/allocmodel.prism";
 		String propertiesFile 	= "models/healthcare/global/gallocsp.props";
 		String advExportFile 	= "models/healthcare/global/adv.tra";
@@ -97,9 +80,7 @@ public class mainHealthcare {
 		RobotKnowledge.initRobotKnowledge();
 
 		//start executing		
-		aComponent.run();		
-
-		
+		aComponent.run();			
 	}
 
 }
