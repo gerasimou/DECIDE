@@ -10,17 +10,17 @@ import decide.capabilitySummary.CapabilitySummary;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.configuration.ConfigurationsCollection;
-import decide.selection.SelectionNew;
+import decide.selection.Selection;
 
 
-public class RobotSelectionExhaustive extends SelectionNew {
+public class RobotSelectionExhaustive extends Selection {
 
 	@Override
-	public boolean execute(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
+	public boolean execute(CapabilitySummaryCollection capabilitySummaryCollection) {
 				
 		//add my local capability summary results: index 0
-		CapabilitySummary[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
-		capabilitySummaryCollection.put("mine", myCapabilitySummaries);
+//		CapabilitySummary[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
+//		capabilitySummaryCollection.put("mine", myCapabilitySummaries);
 		
 		//add peers capability summaries
 		Map<String, CapabilitySummary[]> capabilitySummaries = capabilitySummaryCollection.getCapabilitySummaries();

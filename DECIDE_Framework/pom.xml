@@ -4,7 +4,7 @@
   	<!--  Project specific -->
   	<groupId>org</groupId>
   	<artifactId>DECIDE</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>  	
+  	<version>0.0.9</version>  	
   	<name>DECIDE</name>
   	<packaging>jar</packaging>
   	<url>http://maven.apache.org</url>
@@ -115,7 +115,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4.1</version>
+				<version>3.1.1</version>
 				<configuration>
 					<!-- get all project dependencies -->
 					<descriptorRefs>
@@ -124,8 +124,9 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 					  <manifest>
-						<!-- <mainClass>example.uuv.mainUUV</mainClass> -->
-						<mainClass>caseStudies.uuvNew.mainUUVNew</mainClass>
+<!-- 						<mainClass>caseStudies.uuv.mainUUV</mainClass> -->
+						<mainClass>caseStudies.healthcare.mainHealthcare</mainClass>
+
 					  </manifest>
 					  <manifestEntries>
                 				<Class-Path>./resources/</Class-Path>

@@ -40,21 +40,6 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 	/** capability summaries received from peers*/
 	private CapabilitySummaryCollection capabilitySummaryCollection;
 	
-//	/** Time stamp to record peer activity*/
-//	protected long receivedTimeStamp;
-	
-//	/** ID pattern | 
-//	 * {C1,[199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]}  
-//	 * 		--> C1*/
-//	private Pattern idPattern = Pattern.compile("\\{(.*?)\\,");
-//	
-//	/** Capability pattern
-//	 * 	{C1,[199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]}  
-//	 * 	--> [199.18332939896374, 1, 449.77566639554857][153.21894802773718, 1, 307.3191855388467][346.4243336264962, 1, 759.54477487418]
-//	 */
-//	private Pattern capabilityPattern = Pattern.compile("\\[(.*?)\\]");
-
-	
 	
 	/**
 	 * Class constructor
@@ -66,7 +51,7 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 //		this.receivedTimeStamp				= 0;
 		this.robotStatus					= new AtomicReference<StatusRobot>(StatusRobot.MAJOR_LOCAL_CHANGE);
 		this.capabilitySummaryCollection	= capabilitySummaryCollection;		
-		this.receiversMap						= new ConcurrentHashMap<>();
+		this.receiversMap					= new ConcurrentHashMap<>();
 	}
 	
 

@@ -1,30 +1,29 @@
 package caseStudies.healthcare;
 
+import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import _main.mainDECIDE;
 import auxiliary.Utility;
 import decide.DECIDE;
 import decide.DecideException;
 import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummaryCollection;
-import decide.component.ComponentFactory;
 import decide.component.Component;
+import decide.component.ComponentFactory;
 import decide.component.requirements.DECIDEAttributeCollection;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localControl.LocalControl;
 import decide.receipt.CLAReceipt;
-import decide.selection.SelectionNew;
-
-import java.io.File;
+import decide.selection.Selection;
 
 
 public class mainHealthcare {
 
-	static Logger logger = LogManager.getLogger(mainDECIDE.class);
+	static Logger logger = LogManager.getLogger(mainHealthcare.class);
 	
 	
 	public static void main(String[] args) throws DecideException {	
@@ -63,7 +62,7 @@ public class mainHealthcare {
 		String modelExportFile 	= "models/healthcare/global/allocmodel.prism";
 		String propertiesFile 	= "models/healthcare/global/gallocsp.props";
 		String advExportFile 	= "models/healthcare/global/adv.tra";
-		SelectionNew selection 		= new RobotSelectionMDP(modelExportFile, propertiesFile, advExportFile);
+		Selection selection 		= new RobotSelectionMDP(modelExportFile, propertiesFile, advExportFile);
 //		SelectionNew selection 		= new RobotSelectionExhaustive();
 		
 		//crate local control

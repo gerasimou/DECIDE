@@ -3,7 +3,7 @@ package caseStudies.healthcare;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.configuration.ConfigurationsCollection;
-import decide.selection.SelectionNew;
+import decide.selection.Selection;
 import decide.selection.mdp.MDPAdversaryGeneration;
 import decide.selection.mdp.TextFileHandler;
 
@@ -17,7 +17,7 @@ import java.util.Set;
 
 
 
-public class RobotSelectionMDP extends SelectionNew {
+public class RobotSelectionMDP extends Selection {
 
 	private MDPAdversaryGeneration m_mdp_gen;
 	private HashMap<String, LinkedList<RobotAssignment>> m_allocations;
@@ -129,8 +129,8 @@ public class RobotSelectionMDP extends SelectionNew {
        
     
     @Override
-	public boolean execute(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
-    	String numRobots 		=  1+"";
+	public boolean execute(CapabilitySummaryCollection capabilitySummaryCollection) {
+    	String numRobots 		=  capabilitySummaryCollection.size() +"";
     	String numCapabilities 	=  2+"";
     	String numRoomTypes		=  2+"";
     	String RRoomsT1			= RobotKnowledge.getREMAININGROOMST1() +"";
@@ -212,7 +212,7 @@ public class RobotSelectionMDP extends SelectionNew {
 		String advFile = workPath+"adv.tra";
 		RobotSelectionMDP sel = new RobotSelectionMDP(allocationModelFile, propsFile, advFile);
 		sel.m_mdp_gen.setM_pp_in_args(ppArgs);
-		sel.execute(null, col);
+		sel.execute( col);
 		
 //        System.out.println(sel.getPlan().toString());
 //		System.out.println(sel.getAllocations().toString());

@@ -14,7 +14,7 @@ import decide.environment.Environment;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localControl.LocalControl;
 import decide.receipt.CLAReceipt;
-import decide.selection.SelectionNew;
+import decide.selection.Selection;
 
 public class mainUUV {
 
@@ -51,7 +51,7 @@ public class mainUUV {
 		CLAReceipt claReceipt		= new UUVCLAReceipt(capabilitySummaryCollection);
 
 		//create selection part
-		SelectionNew selection 			= new UUVSelectionExhaustiveNew();
+		Selection selection 			= new UUVSelectionExhaustiveNew();
 
 		//crate local control
 		LocalControl localControl 	= new UUVLocalControl();

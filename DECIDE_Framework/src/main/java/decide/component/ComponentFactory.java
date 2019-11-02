@@ -1,6 +1,7 @@
 package decide.component;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -116,12 +117,12 @@ public class ComponentFactory {
 			decide.setReceiverFromRobot(robotReceiver);
 			
 			
-			Component comp = (Component) componentClass.newInstance();
+			Component comp = (Component) componentClass.getDeclaredConstructor().newInstance();
 			comp.setID(componentID);
 			comp.setDECIDE(decide);
 			return comp;
 		} 
-		catch (InstantiationException | IllegalAccessException e) {
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 			System.exit(-1);
 			return null;

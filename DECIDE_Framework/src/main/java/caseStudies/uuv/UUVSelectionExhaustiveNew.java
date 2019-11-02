@@ -16,10 +16,10 @@ import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.component.requirements.reqNew.LocalConstraint;
 import decide.configuration.Configuration;
 import decide.configuration.ConfigurationsCollection;
-import decide.selection.SelectionNew;
+import decide.selection.Selection;
 
 
-public class UUVSelectionExhaustiveNew extends SelectionNew {
+public class UUVSelectionExhaustiveNew extends Selection {
 	
 	private String myAddress;
 
@@ -32,7 +32,7 @@ public class UUVSelectionExhaustiveNew extends SelectionNew {
 
 	
 	@Override
-	public boolean execute(ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaryCollection) {
+	public boolean execute(CapabilitySummaryCollection capabilitySummaryCollection) {
 		//add my local capability summary results: index 0
 //		CapabilitySummaryNew[] myCapabilitySummaries = configurationsCollection.getCapabilitySummariesArray();
 //		capabilitySummaryCollection.put("mine", myCapabilitySummaries);

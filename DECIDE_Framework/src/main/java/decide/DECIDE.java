@@ -10,18 +10,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import auxiliary.Utility;
-import caseStudies.uuv.UUVLocalControl;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import decide.evaluator.AttributeEvaluatorNew;
 import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localControl.LocalControl;
-import decide.qv.prism.PrismQVNew;
 import decide.receipt.CLAReceipt;
-import decide.selection.SelectionNew;
-import network.TransmitterDECIDE;
+import decide.selection.Selection;
 import network.ReceiverDECIDENew;
+import network.TransmitterDECIDE;
 
 
 public class DECIDE implements Cloneable, Serializable{
@@ -30,7 +27,7 @@ public class DECIDE implements Cloneable, Serializable{
 	private LocalCapabilityAnalysis 	lca;
 	private CLAReceipt				claReceipt;
 	private LocalControl 			localControl;
-	private SelectionNew				selection;
+	private Selection				selection;
 	
 //	/** QV handler */
 //	private AttributeEvaluatorNew propertyEvaluator;
@@ -65,7 +62,7 @@ public class DECIDE implements Cloneable, Serializable{
 	 * @param localControl
 	 * @throws DecideException 
 	 */
-	public DECIDE(LocalCapabilityAnalysis lca, CLAReceipt claReceipt, SelectionNew selection, LocalControl localControl,
+	public DECIDE(LocalCapabilityAnalysis lca, CLAReceipt claReceipt, Selection selection, LocalControl localControl,
 			ConfigurationsCollection configurationsCollection, CapabilitySummaryCollection capabilitySummaries, Environment  environment) {
 		try {
 //			//if a PropertyEvaluator instance exists -> use it, otherwise instantiate a PrismQV (default) instance
@@ -150,7 +147,7 @@ public class DECIDE implements Cloneable, Serializable{
 	 * @param selection
 	 * @throws DecideException 
 	 */
-	public DECIDE(SelectionNew selection, ConfigurationsCollection configurationsCollection, 
+	public DECIDE(Selection selection, ConfigurationsCollection configurationsCollection, 
 					CapabilitySummaryCollection capabilitySummaries, Environment  environment) throws DecideException{
 		this(null, null, selection, null, configurationsCollection, capabilitySummaries, environment);
 	}
@@ -229,7 +226,7 @@ public class DECIDE implements Cloneable, Serializable{
 					logger.info("CLAMode "+claReceipt.getStatus()+"]");
 										
 					//Run selection algorithm to partition mission goals among peers					
-					solutionFound = selection.execute(configurationsCollection, capabilitySummaryCollection);
+					solutionFound = selection.execute(capabilitySummaryCollection);
 					
 					if(!solutionFound) {
 						logger.info("Could not find feasible solution");
