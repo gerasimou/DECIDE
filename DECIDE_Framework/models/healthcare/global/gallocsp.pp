@@ -19,7 +19,7 @@ const NROOMST2=4;
 const Max_cost=300;
 const Max_time=300;
 
-const double WR = 1;
+const double Wr = 1;
 const double Zr = 1;
 
 formula done = #for k=1:NROOMTYPES# (allocatedt#k#=0) & #end# true;
