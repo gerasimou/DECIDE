@@ -2,14 +2,27 @@ package caseStudies.healthcare;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import caseStudies.uuv.UUVConfiguration;
+import decide.Knowledge;
+import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollection;
+import decide.configuration.Mode;
 import decide.environment.Environment;
 import decide.localControl.LocalControl;
 
 
 public class RobotLocalControl extends LocalControl {
 
+	/** Logging system events*/
+    final Logger logger = LogManager.getLogger(RobotLocalControl.class);
 
+    
+    final RobotConfiguration idleConfig = new RobotConfiguration( new RobotAttributeCollection(), 0);
+    
+	
 	/**
 	 * Class constructor
 	 */
@@ -28,13 +41,22 @@ public class RobotLocalControl extends LocalControl {
 	@Override
 	public void receive(String serverAddress, Object message) {
 		//1) extract data from message, e.g.,
-		//String [] receivedReadings = ((String)serverMessage).split(",");
+		String [] receivedMsg = ((String)message).split(",");
+		
+		logger.info("Received from robot: " + message + "");
+
 		
 		//2) do some processing/analysis
-		//
+//		if(receivedMsg.length !=3) {
+//			logger.error("Format error UUV sensor reading");
+//			return;
+//		}
+
 		
 		//3) update environment map
 		//e.g., receivedEnvironmentMap.put("r"+i, Double.parseDouble(receivedReadings[i-1].replaceAll("\\s+","")));
+//		receivedEnvironmentMap.pu
+		
 	}
 
 	
@@ -43,19 +65,58 @@ public class RobotLocalControl extends LocalControl {
 	 * enables the robot to adapt and still satisfy its local requirements and the responsibilities assigned
 	 */
 	@Override
-	public void execute(ConfigurationsCollection modesCollection, Environment environment) {
+	public void execute(ConfigurationsCollection configurationsCollection, Environment environment) {
 		//1) Update environment map based in "receivedEnvironmentMap", this enable us to 
 		//   do some preprocessing/analysis of the data received by the robot (e.g., add ML for prediction)
 		//e.g., to simply update the environment based on the received values (provided that the received information and those expected by the environment match)
 	   receivedEnvironmentMap.forEach((k, v) -> environment.updateEnvironmentElement(k, v));
 		
-		//2) Carry out analysis based on the given attribute evaluator
-		modesCollection.analyseConfigurations(environment, false);
 		
 
 		//TODO: Here we need to check both the satisfiability of the local constraints and the assigned responsibilities
 		//FIXME: What is the constraint to be solved once the distribution is made?
 		// n1 * t1 + n2 * t2 + t_travel < T_left
+		//TODO: Here we need to check both the satisfiability of the local constraints and the assigned responsibilities
+		RobotConfiguration bestConfig	= null;
+		
+	   //If the robot DOES NOT HAVE responsibilities --> IDLE
+	   if (Knowledge.hasNullResponsibilities()) {
+		   bestConfig = idleConfig; 
+	   }
+	   else {
+
+			//2) Carry out analysis based on the given attribute evaluator
+		   configurationsCollection.analyseConfigurations(environment, false);
+
+		   configurationsCollection.findBestPerModeforLocalControl();
+		   Mode mode 					= null;
+		   double bestUtility			= Double.MIN_VALUE;
+		   while ( (mode = configurationsCollection.getNextMode()) != null) {
+			   RobotConfiguration bestConfigForMode = (RobotConfiguration)mode.getBestConfiguration();
+			   if (bestConfigForMode != null) {
+				   double utility = ((RobotConfiguration)bestConfigForMode).getUtility();
+				   if (utility > bestUtility) {
+					   bestUtility 	= utility;
+					   bestConfig	= bestConfigForMode;
+				   }
+			   }
+		   }
+	   }
+	   
+	   // if a feasible and best configuration exists, then adopt it
+	   if (bestConfig != null) {
+		   double p3full = bestConfig.getP3Full();
+		   
+		   String configMessage = p3full +"";
+		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated);
+		   
+		   receivedEnvironmentMapUpdated = false;
+			logger.info("Robot meets its requirements and responsibilities");
+	   }
+	   else { //otherwise, flag that the component is affected by a major local change.
+		   robotStatus.set(StatusRobot.MAJOR_LOCAL_CHANGE);	
+		   logger.info("Robot does not meet its requirements or responsibilities (MAJOR LOCAL CHANGE)");
+	   }
 //		modesCollection.findBestPerModeforLocalControl();
 	}
 

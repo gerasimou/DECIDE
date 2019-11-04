@@ -1,12 +1,12 @@
-package caseStudies.uuvrobot;
+package caseStudies.uuv.robot;
 
 import java.io.IOException;
 import java.util.Random;
 
 import network.ComponentTypeDECIDE;
-import network.SocketTransmitterNew;
+import network.SocketTransmitter;
 
-public class UUVRobotTransmitter extends SocketTransmitterNew implements Runnable{
+public class UUVRobotTransmitter extends SocketTransmitter implements Runnable{
 
 	public UUVRobotTransmitter(String serverAddress, int port, ComponentTypeDECIDE networkType) {
 		super(serverAddress, port, networkType);

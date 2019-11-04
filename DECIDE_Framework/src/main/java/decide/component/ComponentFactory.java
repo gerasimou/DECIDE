@@ -12,10 +12,10 @@ import auxiliary.Utility;
 import decide.DECIDE;
 import network.TransmitterDECIDE;
 import network.ComponentTypeDECIDE;
-import network.MulticastReceiverNew;
+import network.MulticastReceiver;
 import network.MulticastTransmitter;
-import network.ReceiverDECIDENew;
-import network.SocketReceiverNew;
+import network.ReceiverDECIDE;
+import network.SocketReceiver;
 
 public class ComponentFactory {
 
@@ -45,7 +45,7 @@ public class ComponentFactory {
 			TransmitterDECIDE transmitterDECIDE = null;
 			
 			//receiver from other DECIDE components
-			List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
+			List<ReceiverDECIDE> peersList = new ArrayList<ReceiverDECIDE>();
 			
 			for (String feature : featuresList){
 				//get component's ID
@@ -66,7 +66,7 @@ public class ComponentFactory {
 				if (feature.contains("RECEIVING")){
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					peersList.add(new MulticastReceiverNew(peerAddress, peerPort, ComponentTypeDECIDE.PEER));
+					peersList.add(new MulticastReceiver(peerAddress, peerPort, ComponentTypeDECIDE.PEER));
 				}			
 			}
 						
@@ -80,7 +80,7 @@ public class ComponentFactory {
 			TransmitterDECIDE robotTransmitter = null;
 			
 			//Receiver from robot
-			ReceiverDECIDENew robotReceiver = null;
+			ReceiverDECIDE robotReceiver = null;
 			
 			// Set Robot communication 
 			String robotFeatures = Utility.getProperty(componentClass.getSimpleName().toUpperCase());
@@ -108,7 +108,7 @@ public class ComponentFactory {
 				if (feature.contains("RECEIVING")){
 					String peerAddress	= feature.split(":")[1];
 					int peerPort 		= Integer.parseInt(feature.split(":")[2]);
-					robotReceiver		= new SocketReceiverNew(peerAddress, peerPort, ComponentTypeDECIDE.PEER.ROBOT);
+					robotReceiver		= new SocketReceiver(peerAddress, peerPort, ComponentTypeDECIDE.PEER.ROBOT);
 				}			
 			}
 			

@@ -1,6 +1,7 @@
 package caseStudies.healthcare;
 
 import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.Knowledge;
 import decide.capabilitySummary.CapabilitySummary;
 import decide.configuration.ConfigurationsCollection;
 import decide.selection.Selection;
@@ -22,6 +23,9 @@ public class RobotSelectionMDP extends Selection {
 	private MDPAdversaryGeneration m_mdp_gen;
 	private HashMap<String, LinkedList<RobotAssignment>> m_allocations;
 		
+	private String myAddress;
+
+	
 
 	public RobotSelectionMDP(String modelExportFile, String propertiesFile, String advExportFile) {
 		super();
@@ -60,6 +64,7 @@ public class RobotSelectionMDP extends Selection {
 		return "const "+label+robotId+"c"+Integer.toString(capabilityIndex)+roomTypeString+"="+Integer.toString(value.intValue())+"; ";
 	}
 	
+	
 	public String encodeCapabilities(RobotCapabilitySummaryCollection c) {
 
 		String res="// Start of capability summary collection -------------- \n";
@@ -85,10 +90,22 @@ public class RobotSelectionMDP extends Selection {
 		return res;
 	}
 	
+	
+	public String encodeNumRooms(String[] args) {
+
+		String res="// Start of number of rooms -------------- \n";
+		res += "const int NROOMST1 = " + args[4] +";\n";
+		res += "const int NROOMST2 = " + args[5] +";\n";
+		
+		return res;
+	}
+	
+	
 	public String preprocessAllocationModel (String[] args, RobotCapabilitySummaryCollection c) {
 		String res = m_mdp_gen.preprocess(args);
 //		res += encodeUtilities(c);
 		res += encodeCapabilities(c);
+		res += encodeNumRooms(args);
 		return res;
 	}
 	
@@ -168,17 +185,31 @@ public class RobotSelectionMDP extends Selection {
 		m_mdp_gen.run();
 		m_allocations = generateAllocations(m_mdp_gen.getAdv());
 		
-		
-		for (String robotId : m_allocations.keySet()) {
-//			System.out.println(robotId);
-			System.out.println(robotIDIPMap.get(Integer.parseInt(robotId)) +"\t"+ m_allocations.get(robotId));
+		if (m_allocations.size() > 0) {// a feasible solution has been found
+			for (String robotId : m_allocations.keySet()) {
+//				System.out.println(robotId);
+				System.out.println(robotIDIPMap.get(Integer.parseInt(robotId)) +"\t"+ m_allocations.get(robotId));
+			}
+			
+//			robo
+			
+			return true;
+		}
+		else {//no feasible solution exists
+			Knowledge.clearResponsibilities();
+			
+			//otherwise, no feasible solution has been found 
+			return false;	
 		}
 		
-		return true;
+		
 	}
 
     
-    
+	public void setMyAddress (String address) {
+		this.myAddress = address;
+	}
+
     
     
 	

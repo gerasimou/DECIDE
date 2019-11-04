@@ -1,7 +1,7 @@
 package network;
 
 
-public abstract class ReceiverDECIDENew extends NetworkComponent implements Runnable {
+public abstract class ReceiverDECIDE extends NetworkComponent implements Runnable {
 
 	protected NetworkUser networkUser;
 			
@@ -11,7 +11,7 @@ public abstract class ReceiverDECIDENew extends NetworkComponent implements Runn
 
 	
 	
-	public ReceiverDECIDENew (String serverAddress, int serverPort, ComponentTypeDECIDE networkType) {
+	public ReceiverDECIDE (String serverAddress, int serverPort, ComponentTypeDECIDE networkType) {
     	super(serverAddress, serverPort, networkType);
 	}
 	

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import auxiliary.Utility;
+import caseStudies.uuv.UUVSelectionExhaustiveNew;
 import decide.DECIDE;
 import decide.DecideException;
 import decide.Knowledge;
@@ -78,6 +79,9 @@ public class mainHealthcare {
 		Knowledge.initKnowledgeNew(aComponent);
 		RobotKnowledge.initRobotKnowledge();
 
+		((RobotSelectionMDP)selection).setMyAddress(lca.getTransmitterToOtherDECIDE().getServerAddress());
+
+		
 		//start executing		
 		aComponent.run();			
 	}

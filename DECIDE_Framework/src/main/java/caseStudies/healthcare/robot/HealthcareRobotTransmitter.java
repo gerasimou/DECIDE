@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 import network.ComponentTypeDECIDE;
-import network.SocketTransmitterNew;
+import network.SocketTransmitter;
 
-public class HealthcareRobotTransmitter extends SocketTransmitterNew implements Runnable{
+public class HealthcareRobotTransmitter extends SocketTransmitter implements Runnable{
 
 	Random rand = new Random();
 

@@ -13,10 +13,10 @@ import org.apache.logging.log4j.Logger;
 import decide.StatusComponent;
 
 
-public class SocketReceiverNew extends ReceiverDECIDENew{
+public class SocketReceiver extends ReceiverDECIDE{
 	
 	/** Class logger*/
-	private final static Logger logger = LogManager.getLogger(SocketReceiverNew.class);
+	private final static Logger logger = LogManager.getLogger(SocketReceiver.class);
 
 	/** server handler*/
 	private ServerSocket serverSocket;
@@ -35,7 +35,7 @@ public class SocketReceiverNew extends ReceiverDECIDENew{
 	 * Class constructor
 	 * @param port number
 	 */
-	public SocketReceiverNew(String ipAddress, int port, ComponentTypeDECIDE networkType){
+	public SocketReceiver(String ipAddress, int port, ComponentTypeDECIDE networkType){
     	super(ipAddress, port, networkType);
 		
 		try {

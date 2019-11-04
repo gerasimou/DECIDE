@@ -1,4 +1,4 @@
-package caseStudies.uuvrobot;
+package caseStudies.uuv.robot;
 
 import network.ComponentTypeDECIDE;
 

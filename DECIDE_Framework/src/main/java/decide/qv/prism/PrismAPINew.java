@@ -47,8 +47,9 @@ public class PrismAPINew{
 		// and build the model
 		try {
 			modulesFile = prism.parseModelString(modelString);
-			modulesFile.setUndefinedConstants(null);			
-			prism.buildModel(modulesFile);
+			modulesFile.setUndefinedConstants(null);	
+			prism.loadPRISMModel(modulesFile);
+			prism.buildModel();
 		} 
 		catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());

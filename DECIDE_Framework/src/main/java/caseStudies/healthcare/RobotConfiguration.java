@@ -50,4 +50,10 @@ public class RobotConfiguration extends Configuration {
 	public double getUtility() {
 		return (double) localRequirementsResults.get("local-utility");//FIXME: Hardcoded for now
 	}
+	
+	
+	public double getP3Full(){
+		return this.pfull;
+	}
+
 }

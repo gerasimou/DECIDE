@@ -1,7 +1,7 @@
 package _main;
 
 import network.ComponentTypeDECIDE;
-import network.SocketReceiverNew;
+import network.SocketReceiver;
 
 public class mainServer {
 
@@ -10,6 +10,6 @@ public class mainServer {
 		
 		System.out.println("Starting DECIDE");
 		
-		new Thread(new SocketReceiverNew("127.0.0.1", 9990, ComponentTypeDECIDE.ROBOT)).start();
+		new Thread(new SocketReceiver("127.0.0.1", 9990, ComponentTypeDECIDE.ROBOT)).start();
 	}
 }

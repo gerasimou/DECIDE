@@ -10,8 +10,8 @@ import caseStudies.uuv.UUVCapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.receipt.CLAReceipt;
 import network.ComponentTypeDECIDE;
-import network.MulticastReceiverNew;
-import network.ReceiverDECIDENew;
+import network.MulticastReceiver;
+import network.ReceiverDECIDE;
 
 public class MulticastReceiverTest {
 
@@ -33,10 +33,10 @@ public class MulticastReceiverTest {
 		//dummy multicast receiver
 		String peerAddress 	= "224.224.224.221";
 		int peerPort		= 8881;
-		MulticastReceiverNew mrTest = new MulticastReceiverNew(peerAddress, peerPort, ComponentTypeDECIDE.PEER);
+		MulticastReceiver mrTest = new MulticastReceiver(peerAddress, peerPort, ComponentTypeDECIDE.PEER);
 
 		//receiver from other DECIDE components
-		List<ReceiverDECIDENew> peersList = new ArrayList<ReceiverDECIDENew>();
+		List<ReceiverDECIDE> peersList = new ArrayList<ReceiverDECIDE>();
 		peersList.add(mrTest);
 		
 

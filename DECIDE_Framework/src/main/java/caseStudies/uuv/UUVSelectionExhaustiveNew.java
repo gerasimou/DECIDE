@@ -1,21 +1,22 @@
 package caseStudies.uuv;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import decide.Knowledge;
-import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummary;
+import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.component.requirements.RequirementType;
 import decide.component.requirements.reqNew.GlobalConstraintNew;
 import decide.component.requirements.reqNew.GlobalObjectiveNew;
 import decide.component.requirements.reqNew.LocalConstraint;
 import decide.configuration.Configuration;
-import decide.configuration.ConfigurationsCollection;
 import decide.selection.Selection;
 
 

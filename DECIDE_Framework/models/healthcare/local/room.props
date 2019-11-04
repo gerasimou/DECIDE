@@ -25,10 +25,10 @@ P>=0.95[F<=t "end"]
 
 
 //#Servicing completion time (local control)
-//Servicing-Time, models/healthcare/local/rooms.pp, BOTH
+//Servicing-Time, models/healthcare/local/rooms.pp, LOCAL_CONTROL
 P>=0.95[F<=t "end"] 
 
 
 //#Utility
-//Utility, models/healthcare/local/rooms.pp, BOTH
+//Utility, models/healthcare/local/rooms.pp, LOCAL_CONTROL
 R{"u"}=? [ F "end" ]

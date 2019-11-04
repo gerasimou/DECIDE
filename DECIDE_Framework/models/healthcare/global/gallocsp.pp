@@ -13,8 +13,8 @@ mdp
 #const CAPABILITIES# // CAPABILITIES: Number of capabilities/robot (currently fixed)
 #const NROOMTYPES# // Number of room types
 
-const NROOMST1=4;
-const NROOMST2=4;
+//#const NROOMST1=4;
+//#const NROOMST2=4;
 
 const Max_cost=300;
 const Max_time=300;

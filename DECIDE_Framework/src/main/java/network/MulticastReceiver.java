@@ -12,7 +12,7 @@ import decide.StatusComponent;
 import decide.receipt.CLAReceipt;
 
 
-public class MulticastReceiverNew extends ReceiverDECIDENew{		
+public class MulticastReceiver extends ReceiverDECIDE{		
 	
 	/** Multicast socket */
 	private MulticastSocket receiverSocket;
@@ -24,7 +24,7 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 
 	
 	/** Logging system events*/
-    final static Logger logger = LogManager.getLogger(MulticastReceiverNew.class);
+    final static Logger logger = LogManager.getLogger(MulticastReceiver.class);
     
 	
     /** Heartbeat string*/
@@ -37,7 +37,7 @@ public class MulticastReceiverNew extends ReceiverDECIDENew{
 	 * @param serverAddress
 	 * @param port
 	 */
-	public MulticastReceiverNew (String serverAddress, int port, ComponentTypeDECIDE networkType) {
+	public MulticastReceiver (String serverAddress, int port, ComponentTypeDECIDE networkType) {
     	super(serverAddress, port, networkType);
 		
 

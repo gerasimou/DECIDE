@@ -12,7 +12,7 @@ public class mainHealthcareRobot {
 		int port		= 9201;
 
 		HealthcareRobotTransmitter client = new HealthcareRobotTransmitter(address, port, ComponentTypeDECIDE.ROBOT);
-		Thread t = new Thread(client, "UUV Client");
+		Thread t = new Thread(client, "Robot Client");
 		
 		t.start();
 		

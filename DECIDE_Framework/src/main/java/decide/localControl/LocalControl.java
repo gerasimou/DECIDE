@@ -13,7 +13,7 @@ import decide.environment.Environment;
 import decide.evaluator.AttributeEvaluatorNew;
 import network.TransmitterDECIDE;
 import network.NetworkUser;
-import network.ReceiverDECIDENew;
+import network.ReceiverDECIDE;
 
 
 public abstract class LocalControl implements Serializable, NetworkUser{
@@ -22,7 +22,7 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	protected TransmitterDECIDE transmitter;
 	
 	/** peers list */	
-	protected ReceiverDECIDENew  receiver;
+	protected ReceiverDECIDE  receiver;
 	
 //	/** monitor heartbeat frequency*/
 //	protected TimeWindow timeWindow = null;
@@ -106,7 +106,7 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	 * Assign this DECIDE instance server, i.e., where it can transmit
 	 * @param receiver
 	 */
-	public void setReceiverFromRobot(ReceiverDECIDENew  receiver){
+	public void setReceiverFromRobot(ReceiverDECIDE  receiver){
 		this.receiver = receiver;
 		this.receiver.setNetworkUser(this, 0);
 

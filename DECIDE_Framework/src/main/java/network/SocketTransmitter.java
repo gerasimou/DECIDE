@@ -14,10 +14,10 @@ import org.apache.logging.log4j.Logger;
 
 import decide.StatusComponent;
 
-public class SocketTransmitterNew extends TransmitterDECIDE implements Serializable {
+public class SocketTransmitter extends TransmitterDECIDE implements Serializable {
 
 	/** Class logger*/
-	private final static Logger logger = LogManager.getLogger(SocketTransmitterNew.class);
+	private final static Logger logger = LogManager.getLogger(SocketTransmitter.class);
 	
 	/** client socket*/
 	private Socket socket;
@@ -35,11 +35,11 @@ public class SocketTransmitterNew extends TransmitterDECIDE implements Serializa
 	 * @param serverAddress
 	 * @param port
 	 */
-	public SocketTransmitterNew(String serverAddress, int port, ComponentTypeDECIDE networkType) {
+	public SocketTransmitter(String serverAddress, int port, ComponentTypeDECIDE networkType) {
     	super(serverAddress, port, networkType);
 
 		
-//		init();
+		init();
 	}
 
 	
@@ -48,6 +48,8 @@ public class SocketTransmitterNew extends TransmitterDECIDE implements Serializa
 	 */
 	public void init(){
 		try {
+			logger.info("Connecting to server " + serverAddress +":"+ serverPort);
+
 			this.socket 	= new Socket(serverAddress, serverPort);
 			
 			inFromServer 	= new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -55,6 +57,8 @@ public class SocketTransmitterNew extends TransmitterDECIDE implements Serializa
 			outToServer		= new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true); 		
 			
 			setAtomicPeerStatus(StatusComponent.ALIVE);
+
+			logger.info("Connected to server " + serverAddress +":"+ serverPort);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();

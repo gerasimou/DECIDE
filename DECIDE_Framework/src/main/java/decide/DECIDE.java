@@ -17,7 +17,7 @@ import decide.localAnalysis.LocalCapabilityAnalysis;
 import decide.localControl.LocalControl;
 import decide.receipt.CLAReceipt;
 import decide.selection.Selection;
-import network.ReceiverDECIDENew;
+import network.ReceiverDECIDE;
 import network.TransmitterDECIDE;
 
 
@@ -45,9 +45,9 @@ public class DECIDE implements Cloneable, Serializable{
     final static Logger logger = LogManager.getLogger(DECIDE.class);
 	
     /** Keeping track of peers status*/
-    private Map<ReceiverDECIDENew, Long> peerReceiversMap;
+    private Map<ReceiverDECIDE, Long> peerReceiversMap;
     
-    private ReceiverDECIDENew robotReceiver;
+    private ReceiverDECIDE robotReceiver;
     
     
     private HeartbeatDECIDE heartbeat;
@@ -205,7 +205,7 @@ public class DECIDE implements Cloneable, Serializable{
 				long TIME_NOW = System.currentTimeMillis();
 		
 				logger.info("Checking if a peer is stale " + TIME_NOW);
-				for (ReceiverDECIDENew receiver :  peerReceiversMap.keySet()) {
+				for (ReceiverDECIDE receiver :  peerReceiversMap.keySet()) {
 					//if we haven't heard from this peer for 10s -> it has probably failed
 					if (receiver.hasMajorChange(TIME_NOW)) {
 						logger.info("Peer " + receiver.getServerAddress() + " is stale " + receiver.getTimeStamp());
@@ -250,21 +250,21 @@ public class DECIDE implements Cloneable, Serializable{
 				
 				
 				//Assess Robot Health
-				logger.info("Checking if robot is stale " + TIME_NOW);
-				if (robotReceiver.hasMajorChange(TIME_NOW)) {
-					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
-					
-					//1) Reset robot's environment map
-					localControl.robotIsStale();
-					
-					//2) flag the problem to trigger a new CLA selection
-					localControl.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
-				}
+//				logger.info("Checking if robot is stale " + TIME_NOW);
+//				if (robotReceiver.hasMajorChange(TIME_NOW)) {
+//					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
+//					
+//					//1) Reset robot's environment map
+//					localControl.robotIsStale();
+//					
+//					//2) flag the problem to trigger a new CLA selection
+//					localControl.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
+//				}
 			}
 		}
 		catch (Exception e){
-			logger.error("[error] : " + e.getMessage(),e);
-			
+			e.printStackTrace();
+			logger.error("[error] : " + e.getMessage(),e);			
 		}
 	}
 	
@@ -287,7 +287,7 @@ public class DECIDE implements Cloneable, Serializable{
 	 * Set the DECIDE listening server for remote client, i.e., where DECIDE can receive from the robot/component
 	 * @param receiver
 	 */
-	public void setReceiverFromRobot (ReceiverDECIDENew receiver){
+	public void setReceiverFromRobot (ReceiverDECIDE receiver){
 		localControl.setReceiverFromRobot(receiver);
 		robotReceiver = receiver;
 	}
@@ -311,9 +311,9 @@ public class DECIDE implements Cloneable, Serializable{
 	 * Set the DECIDE servers, i.e., where DECIDE can receive messages from other DECIDE
 	 * @param receiversList
 	 */
-	public void setReceiversFromOtherDECIDEs(List<ReceiverDECIDENew> receiversList){
+	public void setReceiversFromOtherDECIDEs(List<ReceiverDECIDE> receiversList){
 		claReceipt.setReceiversFromOtherDECIDEs(receiversList);
-		for (ReceiverDECIDENew receiver : receiversList) {
+		for (ReceiverDECIDE receiver : receiversList) {
 			peerReceiversMap.put (receiver, receiver.getTimeStamp());
 		}
 	}

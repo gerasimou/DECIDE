@@ -14,7 +14,7 @@ import decide.StatusRobot;
 import decide.capabilitySummary.CapabilitySummaryCollection;
 import decide.capabilitySummary.CapabilitySummary;
 import network.NetworkUser;
-import network.ReceiverDECIDENew;
+import network.ReceiverDECIDE;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public abstract class CLAReceipt implements Serializable, NetworkUser{
 	
 	/** peers list */	
-	protected Map<String, ReceiverDECIDENew> receiversMap;
+	protected Map<String, ReceiverDECIDE> receiversMap;
 	
 	/** Logging system events*/
     final static Logger logger = LogManager.getLogger(CLAReceipt.class);
@@ -58,7 +58,7 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 	/**
 	 * Return the list of servers, i.e., where I am listening to
 	 */
-	public Collection<ReceiverDECIDENew> getServersList() {
+	public Collection<ReceiverDECIDE> getServersList() {
 		return receiversMap.values();
 	}
 
@@ -66,10 +66,10 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 	/**
 	 * Set the list of servers, i.e., where I am listening to
 	 */
-	public void setReceiversFromOtherDECIDEs(List<ReceiverDECIDENew> receiversList){
+	public void setReceiversFromOtherDECIDEs(List<ReceiverDECIDE> receiversList){
 //		this.serversList = serverList;
 		//do initialisation
-		for (ReceiverDECIDENew receiver : receiversList){
+		for (ReceiverDECIDE receiver : receiversList){
 			receiversMap.put(receiver.getServerAddress(), receiver);
 			//assign the CLAReceipt handler
 			receiver.setNetworkUser(this, 0);
@@ -94,7 +94,7 @@ public abstract class CLAReceipt implements Serializable, NetworkUser{
 		robotStatus.set(StatusRobot.MAJOR_PEER_CHANGE);
 		
 		//3) If the server is offline or missing has encountered a major problem, set its flag to alive
-		ReceiverDECIDENew receiver = receiversMap.get(serverAddress);
+		ReceiverDECIDE receiver = receiversMap.get(serverAddress);
 		receiver.setAtomicPeerStatus(StatusComponent.ALIVE);
 		
 		//Only for test purpose

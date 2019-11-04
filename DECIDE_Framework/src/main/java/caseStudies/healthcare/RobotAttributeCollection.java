@@ -114,7 +114,10 @@ public class RobotAttributeCollection extends DECIDEAttributeCollection {
 			public String getModelTemplate(Configuration configuration) {
 				List<LocalConstraint> responsibilitiesList = Knowledge.getResponsibilities();
 				
-				String[] ppArgs 		= {roomsPPTemplate, "3", "5"};
+				int MYROOMST1 = RobotKnowledge.getMyRoomsT1();
+				int MYROOMST2 = RobotKnowledge.getMyRoomsT2();
+				
+				String[] ppArgs 		= {roomsPPTemplate, MYROOMST1 +"", MYROOMST2 +""};
 				String model			= lmb.preprocess(ppArgs);
 				
 				return model;
@@ -126,9 +129,12 @@ public class RobotAttributeCollection extends DECIDEAttributeCollection {
 		utilityAttr.setModelTemplateDelegate(new RobotPPModelTemplateDelegate("util", utilityAttr.getModelTemplate()+"\n"+ paramsRoomT1 +"\n"+ paramsRoomT2) {
 			@Override
 			public String getModelTemplate(Configuration configuration) {
-				List<LocalConstraint> responsibilitiesList = Knowledge.getResponsibilities();				
+				List<LocalConstraint> responsibilitiesList = Knowledge.getResponsibilities();		
 				
-				String[] ppArgs 		= {roomsPPTemplate, "3", "5"};
+				int MYROOMST1 = RobotKnowledge.getMyRoomsT1();
+				int MYROOMST2 = RobotKnowledge.getMyRoomsT2();
+				
+				String[] ppArgs 		= {roomsPPTemplate, MYROOMST1 +"", MYROOMST2 +""};
 				String model			= lmb.preprocess(ppArgs);
 				
 				return model;
