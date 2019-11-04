@@ -12,7 +12,7 @@ const mf =100; // Used for calculation of state values in rooms
 const GO=0; // Initial state
 
 // Are we there yet?
-label "end" = s=r#NRT1+NRT2#END;
+label "end" = s=r#NRT1+NRT2#=0?true:r#NRT1+NRT2#END;
 
 // Rooms Type 1 -----------
 
