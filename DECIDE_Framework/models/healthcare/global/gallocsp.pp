@@ -16,13 +16,15 @@ mdp
 const NROOMST1=4;
 const NROOMST2=4;
 
-const Max_cost=145;
-const Max_time=145;
+const Max_cost=300;
+const Max_time=300;
 
-const double wRs = 1;
-const double wRu = (#for i=1:NROOMTYPES# NROOMST#i# + #end# 0)/#NROBOTS#;
+const double WR = 1;
+const double Zr = 1;
 
 formula done = #for k=1:NROOMTYPES# (allocatedt#k#=0) & #end# true;
+
+formula NROOMS = #for k=1:NROOMTYPES# NROOMST#k# + #end# 0;
 
 //-----------------------------------
 // Rooms 
@@ -54,10 +56,10 @@ endmodule
 #for i=1:NROBOTS#
 
 module r#i#
- r#i#used: bool init false;
+ r#i#counter: [0..NROOMS] init 0;
  #for j=1:CAPABILITIES#
    #for k=1:NROOMTYPES#
- [r#i#c#j#t#k#] true -> (r#i#used'=true);
+ [r#i#c#j#t#k#] (r#i#counter<NROOMS) -> (r#i#counter'=r#i#counter+1);
    #end#
  #end#
 endmodule
@@ -66,13 +68,20 @@ endmodule
 //---------------------------------------
 // Global utility
 //---------------------------------------
+
+#for i=1:NROBOTS#
+ formula diffs#i# = #for j=1:NROBOTS# (max(r#i#counter, r#j#counter) - min(r#i#counter, r#j#counter)) + #end# 0;
+#end#
+
+formula diffs = (NROOMS * NROOMS) - (#for i=1:NROBOTS# diffs#i# + #end# 0);
+
 rewards "utility"
 #for i=1:NROBOTS#
  #for j=1:CAPABILITIES#
     #for k=1:NROOMTYPES#
-  [r#i#c#j#t#k#] true: wRs;
+  [r#i#c#j#t#k#] true: Wr;
    #end#
   #end#
-  done & r#i#used : wRu;
+  done : Zr * diffs;
 #end#
 endrewards
