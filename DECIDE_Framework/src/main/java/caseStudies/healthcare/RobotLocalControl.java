@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import auxiliary.Utility;
 import caseStudies.uuv.UUVConfiguration;
 import decide.Knowledge;
 import decide.StatusRobot;
@@ -29,6 +30,7 @@ public class RobotLocalControl extends LocalControl {
 	public RobotLocalControl() {
 		super();
 		receivedEnvironmentMap	= new ConcurrentHashMap<>();
+		receivedEnvironmentMapUpdated = true;
 	}
 
 	
@@ -41,22 +43,36 @@ public class RobotLocalControl extends LocalControl {
 	@Override
 	public void receive(String serverAddress, Object message) {
 		//1) extract data from message, e.g.,
+		// robot_name, [positionX, positionY], [speed], [Trapped], [piretry], ['room index, X coordinates, Y_coordinates, room type', status], distance
 		String [] receivedMsg = ((String)message).split(",");
+		String robotName 	= receivedMsg[0];
+		String position[]	= new String[] {receivedMsg[1]};
+		String speed		= receivedMsg[2];
+		String trapped		= receivedMsg[3];
+		String piRetry		= receivedMsg[4];
+		String roomStatus[]	= new String[] {receivedMsg[5]};
+		String distance		= receivedMsg[6];
 		
 		logger.info("Received from robot: " + message + "");
 
 		
 		//2) do some processing/analysis
-//		if(receivedMsg.length !=3) {
-//			logger.error("Format error UUV sensor reading");
-//			return;
-//		}
+		if(receivedMsg.length !=7) {
+			logger.error("Format error UUV sensor reading");
+			return;
+		}
 
 		
 		//3) update environment map
-		//e.g., receivedEnvironmentMap.put("r"+i, Double.parseDouble(receivedReadings[i-1].replaceAll("\\s+","")));
-//		receivedEnvironmentMap.pu
+//		e.g., receivedEnvironmentMap.put("r"+i, Double.parseDouble(receivedReadings[i-1].replaceAll("\\s+","")));
+		receivedEnvironmentMap.put ("p2iretry", Double.parseDouble(piRetry));
+		receivedEnvironmentMap.put ("v_i", 		Double.parseDouble(speed));
+		receivedEnvironmentMap.put ("d_i", 		Double.parseDouble(distance));
+		receivedEnvironmentMap.put ("trapped", 	Boolean.parseBoolean(trapped));
+		//not used
+//		receivedEnvironmentMap.put("avTasks",  Utility.getProperty("avTasks").split(","));
 		
+		receivedEnvironmentMapUpdated = true;
 	}
 
 	
@@ -107,7 +123,7 @@ public class RobotLocalControl extends LocalControl {
 	   if (bestConfig != null) {
 		   double p3full = bestConfig.getP3Full();
 		   
-		   String configMessage = p3full +"";
+		   String configMessage = "p3," + p3full +"";
 		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated);
 		   
 		   receivedEnvironmentMapUpdated = false;

@@ -42,12 +42,16 @@ public class HealthcareRobotTransmitter extends SocketTransmitter implements Run
 	
 	public String getMsg() {
 		//rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-		double p2iretry 	= 0.5 + (0.9 - 0.5) * rand.nextDouble();
-		double speedi   	= 0.1 + (2.0 - 0.1) * rand.nextDouble();
 		int[]  avTasks		= new int[] {1,2,3};
+		
+		String robotName		= "robot1";
+		String[] robotPosition	= new String[] {"10", "5.4"};
+		double speedi   	= 0.1 + (2.0 - 0.1) * rand.nextDouble();
 		boolean trapped		= false;
-		String[] position	= new String[] {"1", "5", "10", "1", "true"};
-
-		return p2iretry +","+ speedi +","+ Arrays.toString(avTasks) +","+ trapped +","+ Arrays.toString(position);
+		double p2iretry 	= 0.5 + (0.9 - 0.5) * rand.nextDouble();
+		String[] status 	= new String[] {"1", "8", "7", "2", "true"};
+		double distance		= 10;
+		
+		return robotName +","+ robotPosition +","+ speedi +","+ trapped +","+ p2iretry +","+ status +","+ distance;
 	}
 }

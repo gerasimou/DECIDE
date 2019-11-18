@@ -7,6 +7,7 @@ import decide.configuration.ConfigurationsCollection;
 import decide.selection.Selection;
 import decide.selection.mdp.MDPAdversaryGeneration;
 import decide.selection.mdp.TextFileHandler;
+import network.ReceiverDECIDE;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,6 +25,7 @@ public class RobotSelectionMDP extends Selection {
 	private HashMap<String, LinkedList<RobotAssignment>> m_allocations;
 		
 	private String myAddress;
+	private ReceiverDECIDE receiver;
 
 	
 
@@ -189,6 +191,17 @@ public class RobotSelectionMDP extends Selection {
 			for (String robotId : m_allocations.keySet()) {
 //				System.out.println(robotId);
 				System.out.println(robotIDIPMap.get(Integer.parseInt(robotId)) +"\t"+ m_allocations.get(robotId));
+				
+				String robotAssign = "";
+				int rooms = m_allocations.get(robotId).size();
+				for (int i=0; i<rooms; i++) {
+					RobotAssignment assignment = m_allocations.get(robotId).get(i);
+					robotAssign += assignment.getRoomId();
+					if (i < rooms-1)
+						robotAssign += ",";
+				}
+				
+				this.receiver.setReplyMessage(robotAssign, true);
 			}
 			
 //			robo
@@ -208,6 +221,10 @@ public class RobotSelectionMDP extends Selection {
     
 	public void setMyAddress (String address) {
 		this.myAddress = address;
+	}
+	
+	public void setMyReceiver (ReceiverDECIDE receiver) {
+		this.receiver = receiver;
 	}
 
     

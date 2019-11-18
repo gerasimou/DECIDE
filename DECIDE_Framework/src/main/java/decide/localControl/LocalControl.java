@@ -120,6 +120,11 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	}
 	
 	
+	public ReceiverDECIDE getReceiverFromRobot () {
+		return this.receiver;
+	}
+	
+	
 	/**
 	 * Share capability summary with peers
 	 */

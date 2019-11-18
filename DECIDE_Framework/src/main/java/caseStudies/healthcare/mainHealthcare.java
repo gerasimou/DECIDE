@@ -80,7 +80,7 @@ public class mainHealthcare {
 		RobotKnowledge.initRobotKnowledge();
 
 		((RobotSelectionMDP)selection).setMyAddress(lca.getTransmitterToOtherDECIDE().getServerAddress());
-
+		((RobotSelectionMDP)selection).setMyReceiver(localControl.getReceiverFromRobot());
 		
 		//start executing		
 		aComponent.run();			
