@@ -2,14 +2,14 @@ package caseStudies.healthcare.robot;
 
 import network.ComponentTypeDECIDE;
 
-public class mainHealthcareRobot {
+public class mainHealthcareRobot2 {
 
 	public static void main(String[] args) {
 		
 		System.out.println("Starting DECIDE Socket Client");
 
 		String address 	= "127.0.0.1";
-		int port		= 9201;
+		int port		= 9202;
 
 		HealthcareRobotTransmitter client = new HealthcareRobotTransmitter(address, port, ComponentTypeDECIDE.ROBOT);
 		Thread t = new Thread(client, "Robot Client");

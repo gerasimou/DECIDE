@@ -34,10 +34,12 @@ public abstract class ReceiverDECIDE extends NetworkComponent implements Runnabl
 	}
 
 	
-	public void setReplyMessage(String replyMessage, boolean receivedEnvironmentMapUpdated) {
+	public void setReplyMessage(String replyMessage, boolean receivedEnvironmentMapUpdated, int priority) {
+		if (priority < status)
+			return;
 		this.replyMessage = replyMessage;
-		if (receivedEnvironmentMapUpdated)
-			status			  = 1;
+//		if (receivedEnvironmentMapUpdated && priority > status)
+			status			  = priority;
 	}
 
 	

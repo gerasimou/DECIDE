@@ -197,7 +197,7 @@ public class DECIDE implements Cloneable, Serializable{
 					capabilitySummaryCollection.put(lca.getTransmitterToOtherDECIDE().getServerAddress(), configurationsCollection.getCapabilitySummariesArray());
 						
 					//wait for some time for new CLAs from peers
-					Thread.sleep(2000);	
+					Thread.sleep(4000);	
 				}
 				
 				
@@ -250,16 +250,16 @@ public class DECIDE implements Cloneable, Serializable{
 				
 				
 				//Assess Robot Health
-//				logger.info("Checking if robot is stale " + TIME_NOW);
-//				if (robotReceiver.hasMajorChange(TIME_NOW)) {
-//					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
-//					
-//					//1) Reset robot's environment map
-//					localControl.robotIsStale();
-//					
-//					//2) flag the problem to trigger a new CLA selection
-//					localControl.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
-//				}
+				logger.info("Checking if robot is stale " + TIME_NOW);
+				if (robotReceiver.hasMajorChange(TIME_NOW)) {
+					logger.info("Robot " + robotReceiver.getServerAddress() + " is stale " + robotReceiver.getTimeStamp());
+					
+					//1) Reset robot's environment map
+					localControl.robotIsStale();
+					
+					//2) flag the problem to trigger a new CLA selection
+					localControl.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
+				}
 			}
 		}
 		catch (Exception e){

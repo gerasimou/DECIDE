@@ -1,5 +1,9 @@
 package caseStudies.healthcare;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 import auxiliary.Utility;
 import decide.Knowledge;
 
@@ -15,6 +19,11 @@ public class RobotKnowledge extends Knowledge{
 	private static int MYROOMST2;
 	
 	
+	private static Map<String, LinkedList<RobotAssignment>> roomAllocations;
+	private static String myAddress;
+	private static String myLastServicedRoom;
+
+	
 	
 	public static void initRobotKnowledge (){
 		NROOMST1 			= Integer.parseInt(Utility.getProperty("NROOMST1"));
@@ -23,6 +32,8 @@ public class RobotKnowledge extends Knowledge{
 		REMAININGROOMST2 	= Integer.parseInt(Utility.getProperty("NROOMST2"));
 		MYROOMST1			= 0;
 		MYROOMST2			= 0;
+		roomAllocations		= new HashMap<String, LinkedList<RobotAssignment>>();
+		myLastServicedRoom	= "-1";
 	}
 
 	
@@ -70,6 +81,63 @@ public class RobotKnowledge extends Knowledge{
 		MYROOMST1 = roomsT1;
 		MYROOMST2 = roomsT2;
 	}
+	
+	
+	
+	public static void setMyAddress (String serverAddress) {
+		myAddress = serverAddress;
+	}
+	
+	
+	public static void setRoomAllocations (Map<String, LinkedList<RobotAssignment>> m_allocations) {
+		roomAllocations = m_allocations;
+//		List<RobotAssignment> myRooms = roomAllocations.get(myAddress);
+	}
+	
+	
+	public static boolean hasNullResponsibilities() {
+		if (MYROOMST1 + MYROOMST2 < 1)
+			return true;
+		return false;
+	}
+	
+	
+	public static void updateRoomServiced(String robotAddress,  String roomID) {
+		if (Integer.parseInt(roomID.strip()) < 0)
+			return; 
+		
+		String address;
+		if (robotAddress == null)
+			address = myAddress;
+		else
+			address = robotAddress;
+		
+		LinkedList<RobotAssignment> robotRooms = roomAllocations.get(address);
+		for (RobotAssignment room : robotRooms) {
+			if ( (room.getRoomId() == roomID) && (!room.isServiced()) ){
+				room.serviced();
+				if (room.getRoomType() == "1")
+					REMAININGROOMST1--;
+				else
+					REMAININGROOMST2--;
+				
+				if (address == myAddress) {
+					if (room.getRoomType() == "1")
+						MYROOMST1--;
+					else
+						MYROOMST2--;
+					
+					myLastServicedRoom = roomID;
+				}
+			}
+		}
+	}
+	
+	
+	public static String getMyLastServicedRoom() {
+		return myLastServicedRoom;
+	}
+
 
 	
 }

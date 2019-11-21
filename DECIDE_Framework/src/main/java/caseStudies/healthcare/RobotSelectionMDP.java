@@ -1,14 +1,5 @@
 package caseStudies.healthcare;
 
-import decide.capabilitySummary.CapabilitySummaryCollection;
-import decide.Knowledge;
-import decide.capabilitySummary.CapabilitySummary;
-import decide.configuration.ConfigurationsCollection;
-import decide.selection.Selection;
-import decide.selection.mdp.MDPAdversaryGeneration;
-import decide.selection.mdp.TextFileHandler;
-import network.ReceiverDECIDE;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,6 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import decide.Knowledge;
+import decide.capabilitySummary.CapabilitySummary;
+import decide.capabilitySummary.CapabilitySummaryCollection;
+import decide.selection.Selection;
+import decide.selection.mdp.MDPAdversaryGeneration;
+import decide.selection.mdp.TextFileHandler;
+import network.ReceiverDECIDE;
 
 
 
@@ -159,6 +158,7 @@ public class RobotSelectionMDP extends Selection {
 
 		m_mdp_gen.setM_pp_in_args(ppArgs);
 
+		String myRobotID = null;
 		
 		//Generate 
 		List<String> keysList = new ArrayList<>();
@@ -174,6 +174,10 @@ public class RobotSelectionMDP extends Selection {
 		Map<Integer, String> robotIDIPMap = new HashMap<>();
 		int robotID = 1;
 		for (String key : keysList) {
+			
+			if (key == myAddress)
+				myRobotID = robotID +"";
+
 			robotIDIPMap.put(robotID, key);
 			capabilitySummaryCollectionOrdered.put ("r"+robotID, capabilitySummaryCollection.get(key));
 			robotID++;
@@ -187,25 +191,44 @@ public class RobotSelectionMDP extends Selection {
 		m_mdp_gen.run();
 		m_allocations = generateAllocations(m_mdp_gen.getAdv());
 		
+		
+		Map<String, LinkedList<RobotAssignment>> roomAllocations = new HashMap<String, LinkedList<RobotAssignment>>(); 
+		
 		if (m_allocations.size() > 0) {// a feasible solution has been found
+			
+			//generate the list of room allocations in the form of <Peer IP, List of Allocated rooms> 
 			for (String robotId : m_allocations.keySet()) {
-//				System.out.println(robotId);
 				System.out.println(robotIDIPMap.get(Integer.parseInt(robotId)) +"\t"+ m_allocations.get(robotId));
-				
-				String robotAssign = "";
-				int rooms = m_allocations.get(robotId).size();
-				for (int i=0; i<rooms; i++) {
-					RobotAssignment assignment = m_allocations.get(robotId).get(i);
-					robotAssign += assignment.getRoomId();
-					if (i < rooms-1)
-						robotAssign += ",";
-				}
-				
-				this.receiver.setReplyMessage(robotAssign, true);
+				roomAllocations.put (robotIDIPMap.get(Integer.parseInt(robotId)), m_allocations.get(robotId));
 			}
 			
-//			robo
+				
+			//construct the command for the rooms that will be send to the robot
+			int myRoomsT1 = 0;
+			int myRoomsT2 = 0;
+			String robotAssign = "";
+			int rooms = m_allocations.get(myRobotID).size();
+			for (int i=0; i<rooms; i++) {
+				RobotAssignment assignment = m_allocations.get(myRobotID).get(i);
+				robotAssign += assignment.getRoomId();
+				if (i < rooms-1)
+					robotAssign += ",";
+				
+				if (assignment.getRoomType().equals("1"))
+					myRoomsT1++;
+				else
+					myRoomsT2++;
+			}
+
+			//update the robot's knowledge
+			RobotKnowledge.setRoomAllocations(roomAllocations);
+
+			//update my rooms
+			RobotKnowledge.setMyRooms(myRoomsT1, myRoomsT2);
+
 			
+			this.receiver.setReplyMessage(robotAssign, true, 2);
+						
 			return true;
 		}
 		else {//no feasible solution exists

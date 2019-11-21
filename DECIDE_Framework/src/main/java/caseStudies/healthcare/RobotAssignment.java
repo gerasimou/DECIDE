@@ -50,4 +50,13 @@ public class RobotAssignment {
 		return "RobotAssignment [roomId=" + roomId + ", capabilityId=" + capabilityId + ", roomType=" + roomType + "]";
 	}
 	
+	
+	public boolean isServiced () {
+		return serviced;
+	}
+	
+	public void serviced() {
+		serviced = true;
+	}
+	
 }

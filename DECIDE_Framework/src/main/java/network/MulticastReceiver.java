@@ -8,6 +8,8 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import caseStudies.healthcare.RobotKnowledge;
 import decide.StatusComponent;
 import decide.receipt.CLAReceipt;
 
@@ -81,8 +83,13 @@ public class MulticastReceiver extends ReceiverDECIDE{
 //	            	processReceivedData(csArray);
 	            	Object receivedObject = ois.readObject();
 	            	
-	            	if (receivedObject.equals(HR))
-	            		processReceivedHeartBeat();
+	            	
+	            	//if the received object's length is <2, 
+	            	//then it is the heartbeat that includes the last serviced room by this robo  
+//	            	if (receivedObject.equals(HR))
+	    			logger.info("Received from:"+serverAddress+", " + receivedObject);
+	            	if (receivedObject.toString().length() < 5)
+	            		processReceivedHeartBeat(receivedObject);
 	            	else
 	            		processReceivedDataCLA(receivedObject);
 	            	
@@ -112,9 +119,12 @@ public class MulticastReceiver extends ReceiverDECIDE{
 	}
 	
 	
-	private void processReceivedHeartBeat() {
+	private void processReceivedHeartBeat(Object receivedObject) {
 
-		logger.info("Heartbeat received from " + getServerAddress());
+		logger.info("Heartbeat received from " + serverAddress +","+ receivedObject);
+		
+		//update the robot knowledge for this peer
+		RobotKnowledge.updateRoomServiced(serverAddress, receivedObject+"");
 
 		//update received timestamp from peer
 		setTimeStamp(System.currentTimeMillis());

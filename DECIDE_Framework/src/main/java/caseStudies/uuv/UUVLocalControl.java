@@ -103,7 +103,7 @@ public class UUVLocalControl extends LocalControl {
 		   double speed	= bestConfig.getSpeed();
 		   
 		   String configMessage = csc +"," + speed;
-		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated);
+		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated, 2);
 		   
 		   receivedEnvironmentMapUpdated = false;
 		   

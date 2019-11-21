@@ -48,7 +48,7 @@ public class RobotConfiguration extends Configuration {
 	
 	
 	public double getUtility() {
-		return (double) localRequirementsResults.get("utility");//FIXME: Hardcoded for now
+		return (double) localRequirementsResults.get("local-utility");//FIXME: Hardcoded for now
 	}
 	
 	

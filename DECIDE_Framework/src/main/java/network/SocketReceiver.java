@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +40,7 @@ public class SocketReceiver extends ReceiverDECIDE{
 		
 		try {
 	        // Create a new Server socket (that will allow other sockets/programs to join it as well.
-	        this.serverSocket = new ServerSocket(port, 1, InetAddress.getByName(ipAddress));      
+	        this.serverSocket = new ServerSocket(port);//, 1, InetAddress.getByName(ipAddress));      
         }
         catch (IOException e) {
 			logger.error(e.getStackTrace().toString());
@@ -89,23 +89,23 @@ public class SocketReceiver extends ReceiverDECIDE{
 			long timestamp		= Long.MIN_VALUE;
 
 			do {
-				if ( (this.getTimeStamp() != timestamp) && (this.getReplyMessage() != "") && (getStatus()==1) ) {
-					logger.info("Sending to UUV: " + this.getReplyMessage() + "]");
+				if ( (this.getTimeStamp() != timestamp) && (this.getReplyMessage() != "") && (getStatus()>=1) ) {
+					logger.info("Sending to robot: " + this.getReplyMessage() + "]");
 
 					timestamp = this.getTimeStamp();
 					writer.println(this.getReplyMessage());
 					writer.flush();
+	        		setStatus(-1);
 				}
 				
 		        if(inFromClient.ready()) {
 		        	if((message = inFromClient.readLine()) != null) {
-		        		logger.info("Received from UUV"+ message+",[Status: " + getAtomicPeerStatus() + "]");
+		        		logger.info("Received from robot"+ message+",[Status: " + getAtomicPeerStatus() + "]");
 					
 		        		setTimeStamp(System.currentTimeMillis());
 			
 		        		String serverAddress = serverSocket.getInetAddress().getHostAddress();
 		        		networkUser.receive(serverAddress, message);
-		        		setStatus(-1);
 		        	} 
 		        }
 				

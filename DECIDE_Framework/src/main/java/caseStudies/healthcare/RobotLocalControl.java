@@ -1,13 +1,11 @@
 package caseStudies.healthcare;
 
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import auxiliary.Utility;
-import caseStudies.uuv.UUVConfiguration;
-import decide.Knowledge;
 import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollection;
 import decide.configuration.Mode;
@@ -44,34 +42,48 @@ public class RobotLocalControl extends LocalControl {
 	public void receive(String serverAddress, Object message) {
 		//1) extract data from message, e.g.,
 		// robot_name, [positionX, positionY], [speed], [Trapped], [piretry], ['room index, X coordinates, Y_coordinates, room type', status], distance
-		String [] receivedMsg = ((String)message).split(",");
-		String robotName 	= receivedMsg[0];
-		String position[]	= new String[] {receivedMsg[1]};
-		String speed		= receivedMsg[2];
-		String trapped		= receivedMsg[3];
-		String piRetry		= receivedMsg[4];
-		String roomStatus[]	= new String[] {receivedMsg[5]};
-		String distance		= receivedMsg[6];
+		String msg 	= ((String)message).replace("[", "");
+		msg	 		= ((String)msg).replace("]", "");
+		String [] receivedMsg =  msg.split(",");
+		String robotName 		= receivedMsg[0];
+		String position[]		= new String[] {receivedMsg[1], receivedMsg[2]};
+		String speed			= receivedMsg[3];
+		String trapped			= receivedMsg[4];
+		String piRetry			= receivedMsg[5];
+		String roomDetails[]	= receivedMsg[6].split(",");
+		String roomServiced		= receivedMsg[7];
+		String distance			= receivedMsg[8];
 		
-		logger.info("Received from robot: " + message + "");
+		logger.info("Received from robot: " + message + "\t"+ receivedMsg.length);
+		logger.info("Received from robot: " + robotName + "\t"+ Arrays.toString(position) + "\t"+ speed + "\t"+ trapped + "\t"+ piRetry + "\t"+ roomServiced + "\t"+ distance);
 
+		//if the room has been serviced
+		if (Boolean.parseBoolean(roomServiced)) {
+			RobotKnowledge.updateRoomServiced(null, roomDetails[0]);
+		}
 		
 		//2) do some processing/analysis
-		if(receivedMsg.length !=7) {
-			logger.error("Format error UUV sensor reading");
-			return;
-		}
+//		if(receivedMsg.length !=7) {
+//			logger.error("Format error message from robot");
+//			return;
+//		}
 
 		
 		//3) update environment map
 //		e.g., receivedEnvironmentMap.put("r"+i, Double.parseDouble(receivedReadings[i-1].replaceAll("\\s+","")));
 		receivedEnvironmentMap.put ("p2iretry", Double.parseDouble(piRetry));
-		receivedEnvironmentMap.put ("v_i", 		Double.parseDouble(speed));
+		receivedEnvironmentMap.put ("v_i", 		Double.parseDouble(speed) == 0.0 ? 0.001 :Double.parseDouble(speed));
 		receivedEnvironmentMap.put ("d_i", 		Double.parseDouble(distance));
 		receivedEnvironmentMap.put ("trapped", 	Boolean.parseBoolean(trapped));
 		//not used
 //		receivedEnvironmentMap.put("avTasks",  Utility.getProperty("avTasks").split(","));
 		
+		//update the robot's knowledge about the currently executed room
+//		if 
+//		int roomIndex 		= Integer.parseInt(roomStatus[0]);
+//		boolean roomDone	= Boolean.parseBoolean()
+		
+		//flag that a new set of environment variables has been received
 		receivedEnvironmentMapUpdated = true;
 	}
 
@@ -96,7 +108,7 @@ public class RobotLocalControl extends LocalControl {
 		RobotConfiguration bestConfig	= null;
 		
 	   //If the robot DOES NOT HAVE responsibilities --> IDLE
-	   if (Knowledge.hasNullResponsibilities()) {
+	   if (RobotKnowledge.hasNullResponsibilities()) {
 		   bestConfig = idleConfig; 
 	   }
 	   else {
@@ -124,7 +136,7 @@ public class RobotLocalControl extends LocalControl {
 		   double p3full = bestConfig.getP3Full();
 		   
 		   String configMessage = "p3," + p3full +"";
-		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated);
+		   this.receiver.setReplyMessage(configMessage, receivedEnvironmentMapUpdated, 1);
 		   
 		   receivedEnvironmentMapUpdated = false;
 			logger.info("Robot meets its requirements and responsibilities");

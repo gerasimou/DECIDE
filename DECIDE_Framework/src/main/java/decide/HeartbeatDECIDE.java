@@ -1,5 +1,6 @@
 package decide;
 
+import caseStudies.healthcare.RobotKnowledge;
 import network.TransmitterDECIDE;
 
 public class HeartbeatDECIDE implements Runnable{
@@ -40,7 +41,11 @@ public class HeartbeatDECIDE implements Runnable{
 			try {
 				//wait for some time for before sending the heartbeat
 				Thread.sleep(TIME_WINDOW);
-				heartbeat.send(HEARTBEAT);
+				
+				//get my last serviced room
+				String heartBeat = RobotKnowledge.getMyLastServicedRoom();
+				
+				heartbeat.send(heartBeat);
 			} 
 			catch (InterruptedException e) {
 				e.printStackTrace();
