@@ -77,7 +77,7 @@ public class RobotMode extends Mode {
 			double utility = satisfied && satisfiedResponsibilities ? ((RobotConfiguration)config).getUtility() : Double.MIN_VALUE;
 
 			//4) if utility better than current best utility, make the update
-			if (utility < bestUtility) {
+			if (utility > bestUtility) {
 				bestUtility 		 = utility;
 				bestConfigurationKey = entry.getKey();
 			}

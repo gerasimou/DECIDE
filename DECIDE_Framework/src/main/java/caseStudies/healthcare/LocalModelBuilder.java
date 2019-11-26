@@ -141,8 +141,6 @@ public class LocalModelBuilder {
 		LocalModelBuilder lmb = new LocalModelBuilder(ppArgs,modelFile);
 		lmb.exportModel(lmb.preprocess(), lmb.getM_out_model_file());
 		lmb.shutDown(); 
-		
-		
 	}
 	
 }

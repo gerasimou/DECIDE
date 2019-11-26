@@ -120,6 +120,7 @@ public class RobotAttributeCollection extends DECIDEAttributeCollection {
 				String[] ppArgs 		= {roomsPPTemplate, MYROOMST1 +"", MYROOMST2 +""};
 				String model			= lmb.preprocess(ppArgs);
 				
+				model +=  "\n"+ paramsRoomT1 +"\n"+ paramsRoomT2;
 				return model;
 			}
 		});
@@ -137,6 +138,8 @@ public class RobotAttributeCollection extends DECIDEAttributeCollection {
 				String[] ppArgs 		= {roomsPPTemplate, MYROOMST1 +"", MYROOMST2 +""};
 				String model			= lmb.preprocess(ppArgs);
 				
+				model +=  "\n"+ paramsRoomT1 +"\n"+ paramsRoomT2;
+
 				return model;
 			}
 		}); 
@@ -155,7 +158,7 @@ abstract class RobotPPModelTemplateDelegate extends ModelTemplateDelegate{
 	protected RobotPPModelTemplateDelegate  (String name, String modelTemplate) {
 		super(modelTemplate);
 		try {
-			lmb 	= new LocalModelBuilder();
+			lmb 	= new LocalModelBuilderCustom();
 			
 			roomsPPTemplate = "models/healthcare/local/rooms_" + name +".pp";
 			new File(roomsPPTemplate).createNewFile();

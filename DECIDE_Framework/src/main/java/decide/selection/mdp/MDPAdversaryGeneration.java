@@ -128,8 +128,7 @@ public class MDPAdversaryGeneration {
 	
 	public void run()
 	{
-		try {
-			
+		try {		
 		// Parse and load a PRISM model from a file
 		ModulesFile modulesFile = m_prism.parseModelFile(new File(m_out_model_file));
 		m_prism.loadPRISMModel(modulesFile);

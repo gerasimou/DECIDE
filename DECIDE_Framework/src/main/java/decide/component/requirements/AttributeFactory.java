@@ -56,7 +56,7 @@ public class AttributeFactory {
 					
 					
 					String attrName		= commentElementsList.get(0).trim().toUpperCase();
-					String modelName	= commentElementsList.get(1).trim().toUpperCase();
+					String modelName	= commentElementsList.get(1).trim().toLowerCase();
 					String attrType		= commentElementsList.get(2).trim().toUpperCase();
 
 					DECIDEAttributeType attributeType = null;

@@ -9,7 +9,7 @@ public class mainHealthcareRobot2 {
 		System.out.println("Starting DECIDE Socket Client");
 
 		String address 	= "127.0.0.1";
-		int port		= 9202;
+		int port		= 8881;
 
 		HealthcareRobotTransmitter client = new HealthcareRobotTransmitter(address, port, ComponentTypeDECIDE.ROBOT);
 		Thread t = new Thread(client, "Robot Client");

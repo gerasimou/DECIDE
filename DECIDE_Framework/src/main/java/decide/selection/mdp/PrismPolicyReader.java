@@ -29,6 +29,8 @@ public class PrismPolicyReader {
      */
     private void extractPolicy(Map<String, LinkedList<String>> stateActionMap, Map<String, LinkedList<String>> startEndStateMap) {
 
+    	m_plan.clear();
+    	
         String state = "0";
         String action = "";
         while (startEndStateMap.containsKey(state)) { // While current state is mapped to something
@@ -142,6 +144,11 @@ public class PrismPolicyReader {
      */
     public ArrayList<String> getPlan() {
         return m_plan;
+    }
+    
+    
+    public void resetPolicy () {
+    	m_plan.clear();
     }
     
 
