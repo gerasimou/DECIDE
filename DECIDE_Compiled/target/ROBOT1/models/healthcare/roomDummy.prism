@@ -1,0 +1,74 @@
+// Type 2 room CTMC model
+// ------------------------------------------------------------
+
+ctmc 
+
+// Model parameters
+//const double t;
+//const double l1i; const double l2i; const double l3i; const double l3ip;
+//const double p2req; const double p2retry; 
+//const double p3poss; const double p3ibasic; const double p3ifull; 
+//const double c1i; const double c2i; const double c3i; const double c3ip;
+//const double u3; const double u3p;
+
+
+const double p3ibasic = 1 - p3ifull; 
+
+// State constants
+const T1=0; const T2=1; const T3=2; const T3P=3; const END=4;
+
+label "end" = s=END;
+
+module room
+  s:[T1..END] init T1;
+
+  [T1done] (s=T1) -> l1i*(1-p2req)*(1-p3poss): (s'=END) +
+                     l1i*(1-p2req)*p3poss*p3ifull: (s'=T3) +
+                     l1i*p2req: (s'=T2) +
+                     l1i*(1-p2req)*p3poss*p3ibasic: (s'=T3P);
+
+  [T2done] (s=T2) -> l2i*(1-p2retry)*p3poss*p3ifull: (s'=T3) +
+                     l2i*(1-p2retry)*(1-p3poss): (s'=END) +
+                     l2i*(1-p2retry)*p3poss*(1-p3ifull): (s'=T3P) +
+                     l2i*p2retry: (s'=T2);  
+
+  [T3done] (s=T3) -> l3i: (s'=END);
+
+  [T3Pdone] (s=T3P) -> l3ip: (s'=END);
+endmodule
+
+// Cost reward
+rewards "c"
+  [T1done] true: c1i;
+  [T2done] true: c2i;
+  [T3done] true: c3i;
+  [T3Pdone] true: c3ip;
+endrewards
+
+// Utility reward
+rewards "u"
+  [T3done] true: u3;
+  [T3Pdone] true: u3p;
+endrewards
+
+// Time reward
+rewards "t"
+   true: 1;
+endrewards
+
+
+const double l1i		= 10; 
+const double l2i		= 10;
+const double l3i		= 5; 
+const double l3ip		= 8;
+const double p2req		= 0.7; 
+const double p2retry	= 0.5; 
+const double p3poss		= 1; 
+const double c1i		= 8; 
+const double c2i		= 5; 
+const double c3i		= 13; 
+const double c3ip		= 10;
+const double u3			= 20; 
+const double u3p		= 10;
+
+const double p3ifull;

@@ -1,0 +1,22 @@
+// Travel room CTMC model
+// ------------------------------------------------------------
+
+ctmc 
+
+// Model parameters
+//const double v_i;
+//const double d_i;
+
+module room
+  s:[0..1] init 0;
+  
+  [] (s=0) -> v_i/d_i: (s'=1);
+  [] (s=1) -> 1.0    : (s'=1);
+endmodule
+
+// Cost reward
+rewards "time"
+  true: 1;
+endrewards
+
+label "end" = s=1;

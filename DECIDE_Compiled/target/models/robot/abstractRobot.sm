@@ -1,0 +1,72 @@
+ // RQVROBOT CTMC model
+ctmc
+
+//--------------------------------------------------------------
+
+
+//Constant parameters (Robot)
+//const double r1 = 1/180; 	 	// rate of task1 in seconds
+//const double r2 = 1/600;	 		// rate of task2 in seconds
+//const double r3 = 1/1000; 	 	// rate of task3 in seconds
+
+const double p_i1 =1;			// task1 achievement probability
+const double distance = 1100;	// distance between rooms in millimeter
+
+//-----------------------------------------------------------------
+// JAVA FEED
+//const double p_i2 =0.9;				// task2 achievement probability (measurable)
+//const double p_i3 =0.25;				// task3 achievement probability (measurable)
+
+//const double x;	//= 0.25;			// Control variable for Task3 (adjustable)
+
+//const double s;	//= 208;				// robot speed in millimeter per seconds (adjustable)
+//const double ENERGY_COST = 0.31;		// energy cost per second  
+
+// END JAVA FEED
+//-----------------------------------------------------------------
+
+const double arrivalRate = s/distance;	// distance between rooms
+
+formula arrivingRoomCost = arrivalCost;
+
+formula arrivalCost = ENERGY_COST * (distance/s);
+
+
+
+
+
+module room
+	// system states
+	stateR1 : [0..3] init 0; // 0:move - 1:DoTask1 - 2:DoTask2 - 3:DoTask3 ;
+
+	[enter] 	(stateR1=0) -> arrivalRate		  :(stateR1'=1);
+	[]	 	(stateR1=1) -> r1 * p_i2                  : (stateR1'=2);
+	[] 		(stateR1=1) -> r1 * (1-p_i2) * x * p_i3   : (stateR1'=3);
+	[exit] 		(stateR1=1) -> r1 * (1-p_i2) * (1-x*p_i3) : (stateR1'=0);
+	[] 	 	(stateR1=2) -> r2 * x * p_i3		  : (stateR1'=3);
+	[exit]	 	(stateR1=2) -> r2 * (1-x * p_i3) 	  : (stateR1'=0);
+	[exit] 		(stateR1=3) -> r3 : (stateR1'=0);
+endmodule
+
+
+rewards "startRoom"
+	[enter] true: 1;	
+endrewards
+
+rewards "coveredRooms"
+	[exit] true: 1;	
+endrewards
+
+
+rewards "achievedTasks"
+	 stateR1=1 : 1;
+	 stateR1=2 : 1;
+	 stateR1=3 : 1;
+endrewards
+	
+rewards "energyConsumed"
+	stateR1=1 : 50;
+	stateR1=3 : 300;
+	stateR1=5 : 120;
+	[exit] true : arrivalCost;
+endrewards
