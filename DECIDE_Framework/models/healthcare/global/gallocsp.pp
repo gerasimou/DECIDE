@@ -16,8 +16,8 @@ mdp
 //#const NROOMST1=4;
 //#const NROOMST2=4;
 
-const Max_cost=300;
-const Max_time=300;
+const Max_cost=2000;
+const Max_time=2000;
 
 const double Wr = 1;
 const double Zr = 1;
@@ -36,7 +36,7 @@ module rooms
  end: bool init false;
 
  #for i=1:NROOMTYPES#
-  allocatedt#i#: [0..NROOMST#i#] init NROOMST#i#;
+  allocatedt#i#: [0..NROOMST#i#+1] init NROOMST#i#;
  #end#
 
 #for k=1:NROOMTYPES#

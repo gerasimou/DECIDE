@@ -1,6 +1,5 @@
 package caseStudies.healthcare;
 
-import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -50,16 +49,34 @@ public class RobotLocalControl extends LocalControl {
 		String speed			= receivedMsg[3];
 		String trapped			= receivedMsg[4];
 		String piRetry			= receivedMsg[5];
-		String roomDetails[]	= receivedMsg[6].split(",");
-		String roomServiced		= receivedMsg[7];
-		String distance			= receivedMsg[8];
+		
+		String roomId			;
+		String roomX			;
+		String roomY			;
+		String roomType			;
+		String roomServiced		;
+		String distance			;
+		if (receivedMsg.length > 10) {
+			roomId			= receivedMsg[6].replaceFirst("'", "").strip();;
+			roomX			= receivedMsg[7].strip();
+			roomY			= receivedMsg[8].strip();
+			roomType		= receivedMsg[9].replaceFirst("'", "");
+			roomServiced	= receivedMsg[10].strip();
+			distance		= receivedMsg[11].strip();
+		}
+		else {
+			roomId			= receivedMsg[6].strip();
+			roomServiced	= receivedMsg[7].strip();
+			distance		= receivedMsg[8].strip();
+		}
+
 		
 		logger.info("Received from robot: " + message + "\t"+ receivedMsg.length);
-		logger.info("Received from robot: " + robotName + "\t"+ Arrays.toString(position) + "\t"+ speed + "\t"+ trapped + "\t"+ piRetry + "\t"+ roomServiced + "\t"+ distance);
+//		logger.info("Received from robot: " + robotName + "\t"+ Arrays.toString(position) + "\t"+ speed + "\t"+ trapped + "\t"+ piRetry + "\t"+ roomServiced + "\t"+ distance);
 
 		//if the room has been serviced
 		if (Boolean.parseBoolean(roomServiced)) {
-			RobotKnowledge.updateRoomServiced(null, roomDetails[0]);
+			RobotKnowledge.updateRoomServiced(null, roomId);
 		}
 		
 		//2) do some processing/analysis

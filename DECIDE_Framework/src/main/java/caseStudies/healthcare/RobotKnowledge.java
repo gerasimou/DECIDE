@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import auxiliary.Utility;
 import decide.Knowledge;
 
@@ -22,6 +25,9 @@ public class RobotKnowledge extends Knowledge{
 	private static Map<String, LinkedList<RobotAssignment>> roomAllocations;
 	private static String myAddress;
 	private static String myLastServicedRoom;
+	
+	/** Logging system events*/
+    final static Logger logger = LogManager.getLogger(RobotKnowledge.class);
 
 	
 	
@@ -114,7 +120,8 @@ public class RobotKnowledge extends Knowledge{
 		
 		LinkedList<RobotAssignment> robotRooms = roomAllocations.get(address);
 		for (RobotAssignment room : robotRooms) {
-			if ( (room.getRoomId() == roomID) && (!room.isServiced()) ){
+			if ( (room.getRoomId().equals(roomID)) && 
+					(!room.isServiced()) ){
 				room.serviced();
 				if (room.getRoomType() == "1")
 					REMAININGROOMST1--;
@@ -129,6 +136,9 @@ public class RobotKnowledge extends Knowledge{
 					
 					myLastServicedRoom = roomID;
 				}
+				
+				logger.info("Robot completed room: " + roomID +"; T1:" + MYROOMST1 +", T2:"+ MYROOMST2 +" left!");
+				logger.info("Remaining roooms:\tT1:" + REMAININGROOMST1+", T2:"+ REMAININGROOMST2);
 			}
 		}
 	}
