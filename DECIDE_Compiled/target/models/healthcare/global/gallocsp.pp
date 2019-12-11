@@ -16,8 +16,8 @@ mdp
 //#const NROOMST1=4;
 //#const NROOMST2=4;
 
-const Max_cost=300;
-const Max_time=300;
+const Max_cost=2000;
+const Max_time=2000;
 
 const double Wr = 1;
 const double Zr = 1;
@@ -36,7 +36,7 @@ module rooms
  end: bool init false;
 
  #for i=1:NROOMTYPES#
-  allocatedt#i#: [0..NROOMST#i#] init NROOMST#i#;
+  allocatedt#i#: [0..NROOMST#i#+1] init NROOMST#i#;
  #end#
 
 #for k=1:NROOMTYPES#
@@ -56,7 +56,7 @@ endmodule
 #for i=1:NROBOTS#
 
 module r#i#
- r#i#counter: [0..NROOMS] init 0;
+ r#i#counter: [0..NROOMS+1] init 0;
  #for j=1:CAPABILITIES#
    #for k=1:NROOMTYPES#
  [r#i#c#j#t#k#] (r#i#counter<NROOMS) -> (r#i#counter'=r#i#counter+1);
@@ -73,7 +73,7 @@ endmodule
  formula diffs#i# = #for j=1:NROBOTS# (max(r#i#counter, r#j#counter) - min(r#i#counter, r#j#counter)) + #end# 0;
 #end#
 
-formula diffs = (NROOMS * NROOMS) - (#for i=1:NROBOTS# diffs#i# + #end# 0);
+formula diffs = 10 + (NROOMS * NROOMS) - (#for i=1:NROBOTS# diffs#i# + #end# 0);
 
 rewards "utility"
 #for i=1:NROBOTS#
