@@ -203,31 +203,31 @@ public class RobotSelectionMDP extends Selection {
 			}
 			
 				
-			//construct the command for the rooms that will be send to the robot
-			int myRoomsT1 = 0;
-			int myRoomsT2 = 0;
-			String robotAssign = "";
-			int rooms = m_allocations.get(myRobotID).size();
-			for (int i=0; i<rooms; i++) {
-				RobotAssignment assignment = m_allocations.get(myRobotID).get(i);
-				robotAssign += assignment.getRoomId();
-				if (i < rooms-1)
-					robotAssign += ",";
-				
-				if (assignment.getRoomType().equals("1"))
-					myRoomsT1++;
-				else
-					myRoomsT2++;
-			}
+//			//construct the command for the rooms that will be send to the robot
+//			int myRoomsT1 = 0;
+//			int myRoomsT2 = 0;
+//			String robotAssign = "";
+//			int rooms = m_allocations.get(myRobotID).size();
+//			for (int i=0; i<rooms; i++) {
+//				RobotAssignment assignment = m_allocations.get(myRobotID).get(i);
+//				robotAssign += assignment.getRoomId();
+//				if (i < rooms-1)
+//					robotAssign += ",";
+//				
+//				if (assignment.getRoomType().equals("1"))
+//					myRoomsT1++;
+//				else
+//					myRoomsT2++;
+//			}
 
 			//update the robot's knowledge
 			RobotKnowledge.setRoomAllocations(roomAllocations);
 
-			//update my rooms
-			RobotKnowledge.setMyRooms(myRoomsT1, myRoomsT2);
+//			//update my rooms
+//			RobotKnowledge.setMyRooms(myRoomsT1, myRoomsT2);
 
 			
-			this.receiver.setReplyMessage(robotAssign, true, 2);
+			this.receiver.setReplyMessage(RobotKnowledge.getMyAllocatedRoomsString(), true, 2);
 						
 			return true;
 		}

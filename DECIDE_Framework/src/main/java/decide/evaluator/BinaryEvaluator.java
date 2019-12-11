@@ -1,7 +1,5 @@
 package decide.evaluator;
 
-import auxiliary.Utility;
-import decide.DECIDEConstants;
 import decide.qv.prism.PrismAPINew;
 
 /**
@@ -24,7 +22,7 @@ public class BinaryEvaluator implements AttributeEvaluatorNew{
 	
 	
 	public BinaryEvaluator (String parameterName, double ub, double maxSteps) {
-		this.ub 			= ub;
+		this.ub 			= ub; 
 		this.maxSteps 		= maxSteps;
 		this. parameterName = parameterName;
 		
@@ -41,7 +39,7 @@ public class BinaryEvaluator implements AttributeEvaluatorNew{
 	 */
 	public double runBinaryEvaluation(String model, String property){
 		int c=0;
-		double l=Double.MIN_VALUE, h=ub, m=0;
+		double l=5, h=ub, m=0;
 		while (c<maxSteps){
 			m=(h+l)/2.0;
 			//System.out.println("L:"+l+" H:"+h +"   - M:"+m);

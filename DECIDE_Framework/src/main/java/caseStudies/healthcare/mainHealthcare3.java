@@ -22,15 +22,15 @@ import decide.receipt.CLAReceipt;
 import decide.selection.Selection;
 
 
-public class mainHealthcare2 {
+public class mainHealthcare3 {
 
-	static Logger logger = LogManager.getLogger(mainHealthcare2.class);
+	static Logger logger = LogManager.getLogger(mainHealthcare3.class);
 	
 	
 	public static void main(String[] args) throws DecideException {	
 			
 		//setup configuration file, it can also be provided as an argument
-		String configurationFile = "resources" + File.separator + "healthcare" +File.separator +"config2.properties";
+		String configurationFile = "resources" + File.separator + "healthcare" +File.separator +"config3.properties";
 		Utility.setConfigurationFile(configurationFile);
 		
 		//create the set of robot attributes

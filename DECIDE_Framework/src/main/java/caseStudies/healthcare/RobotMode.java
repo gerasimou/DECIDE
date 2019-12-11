@@ -58,8 +58,8 @@ public class RobotMode extends Mode {
 	 */
 	@Override
 	public void findBestConfigurationforLocalControl() {
-		double bestUtility 		= Double.MIN_VALUE;
-		bestConfigurationKey		= null;
+		double bestUtility 		= -100;//Double.MIN_VALUE;
+		bestConfigurationKey	= null;
 
 		for (Map.Entry<String, Configuration> entry : configurationsMap.entrySet()){
 			Configuration config = entry.getValue();
@@ -81,5 +81,7 @@ public class RobotMode extends Mode {
 				bestUtility 		 = utility;
 				bestConfigurationKey = entry.getKey();
 			}
-		}	}
+		
+		}		
+	}
 }

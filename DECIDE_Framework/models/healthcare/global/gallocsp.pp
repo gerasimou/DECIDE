@@ -56,7 +56,7 @@ endmodule
 #for i=1:NROBOTS#
 
 module r#i#
- r#i#counter: [0..NROOMS] init 0;
+ r#i#counter: [0..NROOMS+1] init 0;
  #for j=1:CAPABILITIES#
    #for k=1:NROOMTYPES#
  [r#i#c#j#t#k#] (r#i#counter<NROOMS) -> (r#i#counter'=r#i#counter+1);
@@ -73,7 +73,7 @@ endmodule
  formula diffs#i# = #for j=1:NROBOTS# (max(r#i#counter, r#j#counter) - min(r#i#counter, r#j#counter)) + #end# 0;
 #end#
 
-formula diffs = (NROOMS * NROOMS) - (#for i=1:NROBOTS# diffs#i# + #end# 0);
+formula diffs = 10 + (NROOMS * NROOMS) - (#for i=1:NROBOTS# diffs#i# + #end# 0);
 
 rewards "utility"
 #for i=1:NROBOTS#

@@ -8,11 +8,15 @@ public abstract class ReceiverDECIDE extends NetworkComponent implements Runnabl
 	protected volatile String replyMessage = "";
 	
 	protected  int status;
+	
+	protected boolean shouldStop;
 
 	
 	
 	public ReceiverDECIDE (String serverAddress, int serverPort, ComponentTypeDECIDE networkType) {
     	super(serverAddress, serverPort, networkType);
+    	
+    	shouldStop = false;
 	}
 	
 	
@@ -53,4 +57,7 @@ public abstract class ReceiverDECIDE extends NetworkComponent implements Runnabl
 	}
 	
 	public abstract void  run();
+
+	public abstract void  restart();
+
 }

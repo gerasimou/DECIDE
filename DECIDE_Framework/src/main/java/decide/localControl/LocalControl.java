@@ -3,17 +3,18 @@ package decide.localControl;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import auxiliary.Utility;
 import decide.DECIDEConstants;
 import decide.StatusRobot;
 import decide.configuration.ConfigurationsCollection;
 import decide.environment.Environment;
-import decide.evaluator.AttributeEvaluatorNew;
-import network.TransmitterDECIDE;
 import network.NetworkUser;
 import network.ReceiverDECIDE;
+import network.TransmitterDECIDE;
 
 
 public abstract class LocalControl implements Serializable, NetworkUser{
@@ -23,6 +24,8 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	
 	/** peers list */	
 	protected ReceiverDECIDE  receiver;
+	
+	protected Thread receiverThread;
 	
 //	/** monitor heartbeat frequency*/
 //	protected TimeWindow timeWindow = null;
@@ -111,12 +114,8 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 		this.receiver.setNetworkUser(this, 0);
 
 		//start the receiver
-		new Thread(receiver, receiver.toString()).start();
-
-//		//start the receivers
-//		this.serverThread = new Thread(this.receiver, this.receiver.toString());
-//		this.serverThread.setDaemon(true);
-//		this.serverThread.start();
+		receiverThread = new Thread(receiver, receiver.toString());
+		receiverThread.start();
 	}
 	
 	
@@ -155,6 +154,11 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	}
 	
 	
+	public void resetReceiverThread () {
+		
+	}
+	
+	
 	/**
 	 * <b>Abstact</b> execute action
 	 * @param args
@@ -164,81 +168,3 @@ public abstract class LocalControl implements Serializable, NetworkUser{
 	
 	public abstract void robotIsStale(); 
 }
-
-
-
-
-
-///**
-// * Monitor component status & heartbeat
-// */
-//public abstract void receive(String serverAddress);
-
-
-///**
-// * Check if new command has been received
-// */
-//public boolean isReceivedNewCommand() {
-//	return receivedNewCommand;
-//}
-//
-//
-///**
-// * Terminate component heartbeat thread
-// */
-//public void interruptTimeWindow(){
-//	timeWindow.interrupt();
-//}
-//
-//
-///**
-// * Start component heartbeat thread
-// */
-//public void initiateTimeWindowThread() {
-//	timeWindow.start();
-//}
-//
-//
-/////**
-// * Create new heartbeat thread
-// */
-//public TimeWindow createNewTimeWindowInstance() {
-//	return new TimeWindow();
-//}
-//
-//
-///**
-// * Set new command flag to new boolean value
-// * @param boolean
-// */
-//public void setReceivedNewCommand(boolean receivedNewCommand) {
-//	this.receivedNewCommand = receivedNewCommand;
-//}
-//class TimeWindow extends Thread{
-//protected TimeWindow() {	
-//}
-//
-//@Override
-//public void run(){
-//	
-//	try {
-//		boolean result = false;
-//		while(!this.isInterrupted()) {
-//			Thread.sleep(TIME_WINDOW+15000);
-//	
-//			result = executeListeningThread();
-//			if(result)
-//				this.interrupt();	
-//		}
-//	} 
-//	catch (InterruptedException e) {
-//		logger.error(e.getStackTrace());
-//		logger.error("[LocalControl listening thread interrupted!]");
-//	}
-//}
-//}
-//
-//public abstract LocalControlNew deepClone(Object ... args);
-//
-//
-//public abstract boolean executeListeningThread();

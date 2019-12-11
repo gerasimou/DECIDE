@@ -1,5 +1,6 @@
 package decide.configuration;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -219,18 +220,22 @@ public abstract class ConfigurationsCollection {
 					 (adjustEnvironment && (attributeType  == DECIDEAttributeType.LCA)) ||
 					 (!adjustEnvironment && (attributeType == DECIDEAttributeType.LOCAL_CONTROL)) ){
 
+					long timeStart = System.currentTimeMillis();
+					
 					//1) Construct the full model using configuration information and environment information
 					String model = attribute.getModelTemplate(config) + config.getConfigurationModel() + environment.getModel(adjustEnvironment, config, attribute);
 				
 					//2) Get the evaluator for this attribute
 					AttributeEvaluatorNew evaluator = attribute.getAttributeEvaluator();
-				
+									
 					//3) Run the analysis (e.g., by invoking Prism)
 					Object verResult = evaluator.run(model, attribute.getProperty());
 					
 					//4) Assign the verification result to this configuration's attribute
 					config.setVerificationResult(attribute, verResult);
 	//				attribute.setVerificationResult(verResult);
+					
+					logger.info("Evaluated attribute " + attribute.getProperty() +" for config " + Arrays.toString(config.getConfigurationElements().toArray()) +"\t Time spend:" + ((System.currentTimeMillis()-timeStart)/1000.0) );
 				}
 			}
 		}

@@ -87,7 +87,7 @@ public class MulticastReceiver extends ReceiverDECIDE{
 	            	//if the received object's length is <2, 
 	            	//then it is the heartbeat that includes the last serviced room by this robo  
 //	            	if (receivedObject.equals(HR))
-	    			logger.info("Received from:"+serverAddress+", " + receivedObject);
+//	    			logger.info("Received from:"+serverAddress+", " + receivedObject);
 	            	if (receivedObject.toString().length() < 5)
 	            		processReceivedHeartBeat(receivedObject);
 	            	else
@@ -108,7 +108,7 @@ public class MulticastReceiver extends ReceiverDECIDE{
 	private void processReceivedDataCLA(Object receivedObject) {
 
 //		if(logger.isDebugEnabled())
-			logger.info("Received from:"+serverAddress+", " + receivedObject+",[Status: "+getAtomicPeerStatus()+"]");
+//			logger.info("Received from:"+serverAddress+", " + receivedObject+",[Status: "+getAtomicPeerStatus()+"]");
 	
 		//this DECIDE peer is known to use
 		if ( (networkUser instanceof CLAReceipt)) {// && ( ((CLAReceiptNew)networkUser).isKnownReceiver(serverAddress)) ) {
@@ -124,7 +124,7 @@ public class MulticastReceiver extends ReceiverDECIDE{
 		logger.info("Heartbeat received from " + serverAddress +","+ receivedObject);
 		
 		//update the robot knowledge for this peer
-		RobotKnowledge.updateRoomServiced(serverAddress, receivedObject+"");
+		RobotKnowledge.updateRoomServiced(serverAddress, (receivedObject+"").strip());
 
 		//update received timestamp from peer
 		setTimeStamp(System.currentTimeMillis());
@@ -135,6 +135,14 @@ public class MulticastReceiver extends ReceiverDECIDE{
 		else if (getAtomicPeerStatus() == StatusComponent.CHANGE)
 			setAtomicPeerStatus(StatusComponent.ALIVE);		
 	}
+	
+	
+	@Override
+	public void restart() {
+		// TODO Auto-generated method stub
+		
+	}	
+
 	
 	
 //	private void processReceivedDataCLA2(Object receivedObject) {

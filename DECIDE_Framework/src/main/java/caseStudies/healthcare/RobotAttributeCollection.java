@@ -29,7 +29,7 @@ public class RobotAttributeCollection extends DECIDEAttributeCollection {
 	public void setEvaluatorPerAttribute() {
 		//1) create new attribute evaluator
 		AttributeEvaluatorNew prismEvaluator 	= new PrismQVNew();
-		AttributeEvaluatorNew binaryEvaluator 	= new RobotBinaryEvaluator("t", 100, 20);
+		AttributeEvaluatorNew binaryEvaluator 	= new RobotBinaryEvaluator("t", 100, 5);
 				
 
 		//Assign evaluator for property Room Type 1 Cost :R{"c"}=? [ F "end" ] --> Normal Prism

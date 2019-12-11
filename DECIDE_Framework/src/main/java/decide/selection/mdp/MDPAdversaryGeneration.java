@@ -89,6 +89,9 @@ public class MDPAdversaryGeneration {
 			// Init Prism 
 			m_prism = new Prism(mainLog);
 			m_prism.initialise();
+			
+			m_prism.setEngine(Prism.EXPLICIT);
+
 		} catch (PrismException e) {
 			System.out.println("Error: " + e.getMessage());
 			System.exit(1);

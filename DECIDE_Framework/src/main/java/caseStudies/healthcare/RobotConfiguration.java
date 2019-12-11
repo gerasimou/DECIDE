@@ -1,5 +1,6 @@
 package caseStudies.healthcare;
 
+import java.util.Arrays;
 import java.util.List;
 
 import decide.component.requirements.DECIDEAttributeCollection;
@@ -43,7 +44,7 @@ public class RobotConfiguration extends Configuration {
 	 */
 	@Override
 	public List<Object> getConfigurationElements() {
-		return null;//not needed for the healthcare case study
+		return Arrays.asList(new Object[]{pfull});
 	}
 	
 	

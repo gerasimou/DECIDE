@@ -76,7 +76,7 @@ public class RobotLocalControl extends LocalControl {
 
 		//if the room has been serviced
 		if (Boolean.parseBoolean(roomServiced)) {
-			RobotKnowledge.updateRoomServiced(null, roomId);
+			RobotKnowledge.updateRoomServiced(null, roomId.strip());
 		}
 		
 		//2) do some processing/analysis
@@ -135,7 +135,7 @@ public class RobotLocalControl extends LocalControl {
 
 		   configurationsCollection.findBestPerModeforLocalControl();
 		   Mode mode 					= null;
-		   double bestUtility			= Double.MIN_VALUE;
+		   double bestUtility			= -100;
 		   while ( (mode = configurationsCollection.getNextMode()) != null) {
 			   RobotConfiguration bestConfigForMode = (RobotConfiguration)mode.getBestConfiguration();
 			   if (bestConfigForMode != null) {

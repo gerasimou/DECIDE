@@ -16,8 +16,8 @@ mdp
 //#const NROOMST1=4;
 //#const NROOMST2=4;
 
-const Max_cost=300;
-const Max_time=300;
+const Max_cost=2000;
+const Max_time=2000;
 
 const double Wr = 1;
 const double Zr = 1;
@@ -35,17 +35,13 @@ module rooms
  cost: [0..Max_cost] init 0;
  end: bool init false;
 
-  allocatedt1: [0..NROOMST1] init NROOMST1;
-  allocatedt2: [0..NROOMST2] init NROOMST2;
+  allocatedt1: [0..NROOMST1+1] init NROOMST1;
+  allocatedt2: [0..NROOMST2+1] init NROOMST2;
 
   [r1c1t1] (allocatedt1>0) & (cost+costr1c1t1<=Max_cost) & (time+timer1c1t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr1c1t1) & (time'=time+timer1c1t1);
   [r1c2t1] (allocatedt1>0) & (cost+costr1c2t1<=Max_cost) & (time+timer1c2t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr1c2t1) & (time'=time+timer1c2t1);
-  [r2c1t1] (allocatedt1>0) & (cost+costr2c1t1<=Max_cost) & (time+timer2c1t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr2c1t1) & (time'=time+timer2c1t1);
-  [r2c2t1] (allocatedt1>0) & (cost+costr2c2t1<=Max_cost) & (time+timer2c2t1<=Max_time)  -> (allocatedt1'=allocatedt1-1) & (cost'=cost+costr2c2t1) & (time'=time+timer2c2t1);
   [r1c1t2] (allocatedt2>0) & (cost+costr1c1t2<=Max_cost) & (time+timer1c1t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr1c1t2) & (time'=time+timer1c1t2);
   [r1c2t2] (allocatedt2>0) & (cost+costr1c2t2<=Max_cost) & (time+timer1c2t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr1c2t2) & (time'=time+timer1c2t2);
-  [r2c1t2] (allocatedt2>0) & (cost+costr2c1t2<=Max_cost) & (time+timer2c1t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr2c1t2) & (time'=time+timer2c1t2);
-  [r2c2t2] (allocatedt2>0) & (cost+costr2c2t2<=Max_cost) & (time+timer2c2t2<=Max_time)  -> (allocatedt2'=allocatedt2-1) & (cost'=cost+costr2c2t2) & (time'=time+timer2c2t2);
   [] done -> (end'=true);
 endmodule
 
@@ -55,29 +51,20 @@ endmodule
 
 
 module r1
- r1counter: [0..NROOMS] init 0;
+ r1counter: [0..NROOMS+1] init 0;
  [r1c1t1] (r1counter<NROOMS) -> (r1counter'=r1counter+1);
  [r1c1t2] (r1counter<NROOMS) -> (r1counter'=r1counter+1);
  [r1c2t1] (r1counter<NROOMS) -> (r1counter'=r1counter+1);
  [r1c2t2] (r1counter<NROOMS) -> (r1counter'=r1counter+1);
 endmodule
 
-module r2
- r2counter: [0..NROOMS] init 0;
- [r2c1t1] (r2counter<NROOMS) -> (r2counter'=r2counter+1);
- [r2c1t2] (r2counter<NROOMS) -> (r2counter'=r2counter+1);
- [r2c2t1] (r2counter<NROOMS) -> (r2counter'=r2counter+1);
- [r2c2t2] (r2counter<NROOMS) -> (r2counter'=r2counter+1);
-endmodule
-
 //---------------------------------------
 // Global utility
 //---------------------------------------
 
- formula diffs1 =  (max(r1counter, r1counter) - min(r1counter, r1counter)) +  (max(r1counter, r2counter) - min(r1counter, r2counter)) +  0;
- formula diffs2 =  (max(r2counter, r1counter) - min(r2counter, r1counter)) +  (max(r2counter, r2counter) - min(r2counter, r2counter)) +  0;
+ formula diffs1 =  (max(r1counter, r1counter) - min(r1counter, r1counter)) +  0;
 
-formula diffs = (NROOMS * NROOMS) - ( diffs1 +  diffs2 +  0);
+formula diffs = 10 + (NROOMS * NROOMS) - ( diffs1 +  0);
 
 rewards "utility"
   [r1c1t1] true: Wr;
@@ -85,18 +72,11 @@ rewards "utility"
   [r1c2t1] true: Wr;
   [r1c2t2] true: Wr;
   done : Zr * diffs;
-  [r2c1t1] true: Wr;
-  [r2c1t2] true: Wr;
-  [r2c2t1] true: Wr;
-  [r2c2t2] true: Wr;
-  done : Zr * diffs;
 endrewards
 // Start of capability summary collection -------------- 
-const timer2c1t1=18; 	const costr2c1t1=0; 	const timer2c1t2=26; 	const costr2c1t2=0; 	const delayr2c1=2; 
-const timer2c2t1=18; 	const costr2c2t1=0; 	const timer2c2t2=28; 	const costr2c2t2=1; 	const delayr2c2=2; 
-const timer1c1t1=18; 	const costr1c1t1=0; 	const timer1c1t2=26; 	const costr1c1t2=0; 	const delayr1c1=2; 
-const timer1c2t1=18; 	const costr1c2t1=0; 	const timer1c2t2=28; 	const costr1c2t2=1; 	const delayr1c2=2; 
+const timer1c1t1=15; 	const costr1c1t1=-1; 	const timer1c1t2=36; 	const costr1c1t2=-1; 	const delayr1c1=7; 
+const timer1c2t1=15; 	const costr1c2t1=-1; 	const timer1c2t2=36; 	const costr1c2t2=-1; 	const delayr1c2=7; 
 // End of capability summary collection -------------- 
 // Start of number of rooms -------------- 
-const int NROOMST1 = 2;
-const int NROOMST2 = 2;
+const int NROOMST1 = 0;
+const int NROOMST2 = 1;

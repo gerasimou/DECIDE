@@ -224,7 +224,8 @@ public class DECIDE implements Cloneable, Serializable{
 					(claReceipt.checkStatus(StatusRobot.MAJOR_LOCAL_CHANGE))){
 				
 					logger.info("CLAMode "+claReceipt.getStatus()+"]");
-										
+					logger.info("Running task distribution algorithm");
+					
 					//Run selection algorithm to partition mission goals among peers					
 					solutionFound = selection.execute(capabilitySummaryCollection);
 					
@@ -259,6 +260,10 @@ public class DECIDE implements Cloneable, Serializable{
 					
 					//2) flag the problem to trigger a new CLA selection
 					localControl.setStatus(StatusRobot.MAJOR_LOCAL_CHANGE);
+					
+					//3 reset the receiver so that the robot can connect again upon recovering
+//					robotReceiver.restart();
+//					setReceiverFromRobot (robotReceiver);
 				}
 			}
 		}
